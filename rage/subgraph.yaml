@@ -5,7 +5,7 @@ schema:
   file: ./schema.graphql
 dataSources:
   - kind: ethereum/contract
-    name: Rage
+    name: AccountLibrary
     network: arbitrum-rinkeby
     source:
       address: '0x0D0DF62aA9f3D950e6B8a2aECb70E3Fff03E217A'
@@ -19,6 +19,7 @@ dataSources:
       abis:
         - name: AccountLibrary
           file: ./abis/AccountLibrary.json
+      file: ./src/account.ts
       eventHandlers:
         - event: AccountCreated(address,uint256)
           handler: handleAccountCreated
@@ -44,4 +45,71 @@ dataSources:
           handler: handleWithdrawMargin
         - event: WithdrawProfit(uint256,uint256)
           handler: handleWithdrawProfit
-      file: ./src/mapping.ts
+  - kind: ethereum/contract
+    name: ClearingHouse
+    network: arbitrum-rinkeby
+    source:
+      address: '0x1075fD230b451EB38298dec0C7c4B8d808e46c64'
+      abi: ClearingHouse
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.5
+      language: wasm/assemblyscript
+      entities:
+        - LiquidationParams
+      abis:
+        - name: ClearingHouse
+          file: ./abis/ClearingHouse.json
+      file: ./src/clearing_house.ts
+      eventHandlers:
+         - event: GovernanceTransferred(indexed address,indexed address)
+           handler: handleGovernanceTransferred
+         - event: TeamMultisigTransferred(indexed address,indexed address)
+           handler: handleTeamMultisigTransferred
+      callHandlers:
+         - function: addCollateralSupport(address,address,uint32)
+           handler: handleAddCollateralSupport
+         - function: addMargin(uint256,uint32,uint256)
+           handler: handLeaddMargin
+         - function: createAccount()
+           handler: handleCreateAccount
+         - function: initRealToken(address)
+           handler: handleInitRealToken
+         - function: liquidateLiquidityPositions(uint256)
+           handler: handleLiquidateLiquidityPositions
+         - function: liquidateLiquidityPositionsWithGasClaim(uint256,uint256)
+           handler: handleLiquidateLiquidityPositionsWithGasClaim
+         - function: liquidateTokenPosition(uint256,uint256,uint32,uint16)
+           handler: handleLiquidateTokenPosition
+         - function: liquidateTokenPositionWithGasClaim(uint256,uint256,uint32,uint16,uint256)
+           handler: handleLiquidateTokenPositionWithGasClaim
+         - function: registerPool(address,(address,address,(uint16,uint16,uint32,bool,address)))
+           handler: handleRegisterPool
+         - function: removeLimitOrder(uint256,uint32,int24,int24)
+           handler: handleRemoveLimitOrder
+         - function: removeLimitOrderWithGasClaim(uint256,uint32,int24,int24,uint256)
+           handler: handleRemoveLimitOrderWithGasClaim
+         - function: removeMargin(uint256,uint32,uint256)
+           handler: handleRemoveMargin
+         - function: removeProfit(uint256,uint256)
+           handler: handleRemoveProfit
+         - function: setPaused(bool)
+           handler: handleSetPaused
+         - function: setPlatformParameters((uint16,uint16,uint16),uint256,uint256,uint256)
+           handler: handleSetPlatformParameters
+         - function: swapToken(uint256,uint32,(int256,uint160,bool,bool))
+           handler: handleSwapToken
+         - function: transferGovernance(address)
+           handler: handleTransferGovernance
+         - function: transferTeamMultisig(address)
+           handler: handleTransferTeamMultisig
+         - function: updateRageTradePoolSettings(address,(uint16,uint16,uint32,bool,address))
+           handler: handleUpdateRageTradePoolSettings
+         - function: updateRangeOrder(uint256,uint32,(int24,int24,int128,uint160,uint16,bool,uint8))
+           handler: handleUpdateRangeOrder
+         - function: updateSupportedDeposits(address,bool)
+           handler: handleUpdateSupportedDeposits
+         - function: updateSupportedVTokens(address,bool)
+           handler: handleUpdateSupportedVTokens
+         - function: withdrawProtocolFee(address[])
+           handler: handleWithdrawProtocolFee
