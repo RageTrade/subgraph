@@ -1,5 +1,5 @@
 specVersion: 0.0.2
-description: Gravatar for Ethereum
+description: Rage Perpswap Contracts
 repository: https://github.com/rage-trade/perpswap-contracts
 schema:
   file: ./schema.graphql
@@ -15,11 +15,33 @@ dataSources:
       apiVersion: 0.0.5
       language: wasm/assemblyscript
       entities:
-        - Gravatar
+        - LiquidationParams
       abis:
         - name: AccountLibrary
           file: ./abis/AccountLibrary.json
       eventHandlers:
-        - event: ProtocolFeeWithdrawm(address, uint256)
-          handler: handleProtocolFeeWithdrawn
+        - event: AccountCreated(address,uint256)
+          handler: handleAccountCreated
+        - event: DepositMargin(uint256,address,uint256)
+          handler: handleDepositMargin
+        - event: FundingPayment(uint256,address,int24,int24,int256)
+          handler: handleFundingPayment
+        - event: LiquidateRanges(uint256,address,int256,int256,int256)
+          handler: handleLiquidateRanges
+        - event: LiquidateTokenPosition(uint256,uint256,address,uint16,uint256,uint256,int256)
+          handler: hadleLiquidateTokenPositions
+        - event: LiquidityChange(uint256,address,int24,int24,int128,uint8,int256,int256)
+          handler: handleLiquidityChange
+        - event: LiquidityFee(uint256,address,int24,int24,int256)
+          handler: handleLiquidityFee
+        - event: LiquidityTokenPositionChange(uint256,address,int24,int24,int256)
+          handler: handleLiquidityTokenPositionChange
+        - event: ProtocolFeeWithdrawm(address,uint256)
+          handler: handleProtocolFeeWithdrawm
+        - event: TokenPositionChange(uint256,address,int256,int256)
+          handler: handleTokenPositionChange
+        - event: WithdrawMargin(uint256,address,uint256)
+          handler: handleWithdrawMargin
+        - event: WithdrawProfit(uint256,uint256)
+          handler: handleWithdrawProfit
       file: ./src/mapping.ts
