@@ -1,0 +1,20 @@
+type UserInfo @entity {
+    address: ID! # vault contract address
+    tokenPositions: //
+    tokenDeposits: //
+}
+
+type ProtocolInfo @entity {
+    pools: //
+    rTokens: //
+    vTokens //
+    minRequiredMargin: Int
+    removeLimitOrderFee: Int
+    minimumOrderNotional: Int
+}
+
+type LiquidationParams @entity {
+  liquidationFeeFraction: Int
+  tokenLiquidationPriceDeltaBps: Int
+  insuranceFundFeeShareBps: Int
+}

@@ -1,0 +1,4 @@
+data
+yarn.lock
+node_modules
+ganache_data
