@@ -1,16 +1,6 @@
 # Perpswap Contract Subgraph
 
-## Specification
-A Mapping of all events from `Account.sol`
-
-Schema
-```
-type Account @entity {
-  id: ID!
-  owner: Bytes
-  accountNumber: BigInt
-}
-```
+see `/docs` for the schema definitions
 
 ## Local Development
 To develop locally you need
