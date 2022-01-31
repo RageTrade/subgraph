@@ -17,7 +17,7 @@ docker-compose -f docker-compose-rinnkeby-arbitrum up -d
 Note: You will have to wait a little bit for the blocks to be indexed and ingested. You can check current indexed block with
 ```
 {
-	_meta {
+  _meta {
     block {
       hash
       number
