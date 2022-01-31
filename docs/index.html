@@ -1,0 +1,123 @@
+
+  <html>
+      <head>
+        <style>
+            body{
+              margin: 0;
+            }
+        </style>
+        <link rel="stylesheet" href="styles.css" />
+        <script>
+            window.scrollDocs = (name) => {
+                const element = document.getElementById(name);
+                document.getElementById('__Type').scrollTo({
+                behavior: 'smooth',
+                top: element.offsetTop,
+                });
+            };
+            window.toggleMenu = () => {
+              const menuElement = document.getElementById('Menu');
+              const nextToggle = menuElement.classList.contains('ShowToggle');
+              if (nextToggle) {
+                menuElement.classList.remove('ShowToggle');
+              } else {
+                menuElement.classList.add('ShowToggle');
+              }
+            };
+            
+        </script>  
+      </head>
+      <body>
+          <div class="EditorDocumentationContainer">
+            <div class="Menu" id="Menu">
+                <a class="MenuHeader" href="index.html">
+                    Docs
+                </a>
+                <div class="MenuSection">
+                    
+  <div class="MenuTypes">
+      <h4 class="Docs-h4">Schema</h4>
+      
+  </div>
+  
+                </div>
+                
+  <div class="MenuSection">
+    
+  <div class="MenuTypes">
+      <h4 class="Docs-h4">Types</h4>
+      <a id="Docs-Account" href="Account.html" class="Link " >Account</a><a id="Docs-Margin" href="Margin.html" class="Link " >Margin</a><a id="Docs-TokenPosition" href="TokenPosition.html" class="Link " >TokenPosition</a><a id="Docs-RangePosition" href="RangePosition.html" class="Link " >RangePosition</a><a id="Docs-RangeLiquidation" href="RangeLiquidation.html" class="Link " >RangeLiquidation</a><a id="Docs-TokenLiquidation" href="TokenLiquidation.html" class="Link " >TokenLiquidation</a><a id="Docs-Protocol" href="Protocol.html" class="Link " >Protocol</a>
+  </div>
+  
+  </div>
+  
+                
+  <div class="MenuSection">
+    
+  <div class="MenuTypes">
+      <h4 class="Docs-h4">Interfaces</h4>
+      
+  </div>
+  
+  </div>
+  
+                
+  <div class="MenuSection">
+    
+  <div class="MenuTypes">
+      <h4 class="Docs-h4">Unions</h4>
+      
+  </div>
+  
+  </div>
+  
+                
+  <div class="MenuSection">
+    
+  <div class="MenuTypes">
+      <h4 class="Docs-h4">Inputs</h4>
+      
+  </div>
+  
+  </div>
+  
+                
+  <div class="MenuSection">
+    
+  <div class="MenuTypes">
+      <h4 class="Docs-h4">Enums</h4>
+      
+  </div>
+  
+  </div>
+  
+                
+  <div class="MenuSection">
+    
+  <div class="MenuTypes">
+      <h4 class="Docs-h4">Scalars</h4>
+      <a id="Docs-Boolean" href="Boolean.html" class="Link " >Boolean</a><a id="Docs-Float" href="Float.html" class="Link " >Float</a><a id="Docs-ID" href="ID.html" class="Link " >ID</a><a id="Docs-Int" href="Int.html" class="Link " >Int</a><a id="Docs-String" href="String.html" class="Link " >String</a>
+  </div>
+  
+  </div>
+  
+                
+  <div class="MenuSection">
+    
+  <div class="MenuTypes">
+      <h4 class="Docs-h4">Directives</h4>
+      
+  </div>
+  
+  </div>
+  
+            </div>
+            <burger-menu id="BurgerMenu" onClick="toggleMenu()">
+              <burger-bar></burger-bar>
+              <burger-bar></burger-bar>
+              <burger-bar></burger-bar>
+            </burger-menu>
+            </div>
+      </body>
+  </html>
+  
