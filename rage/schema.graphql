@@ -1,6 +1,66 @@
-type LiquidationParams @entity {
+type Account @entity {
+  id: ID! # id is the accountNo
+  owner: Bytes
+  amount: BigInt # amount in usdc deposited and withdrawn
+  margin: [Margin!]!
+  tokenPositions: [TokenPosition!]!
+  rangePositions: [RangePosition!]!
+  tokenLiquidations: [TokenLiquidation!]!
+  rangeLiquidations: [RangeLiquidation!]!
+}
+
+type Margin @entity {
+  id: ID! # id is the accountNo
+  account: [Account!]! @derivedFrom(field: "margin")
+  amount: BigInt
+  token: Bytes
+}
+
+type TokenPosition @entity {
+  id: ID! # id is the token
+  account: [Account!]! @derivedFrom(field: "tokenPositions")
+  amount: BigInt!
+  token: Bytes
+  tickLower: BigInt
+  tickUpper: BigInt
+  tokenAmountOut: BigInt
+  baseAmountOut: BigInt
+}
+
+type RangePosition @entity {
+  id: ID! # id is the accountNo
+  account: [Account!]! @derivedFrom(field: "rangePositions")
+  amount: BigInt!
+  token: Bytes
+  tickLower: BigInt
+  tickUpper: BigInt
+  liquidityDelta: BigInt
+  limitOrderType: String
+  tokenAmountOut: BigInt
+  baseAmountOut: BigInt
+}
+
+type RangeLiquidation @entity {
+  id: ID! # id is the accountNo
+  account: [Account!]! @derivedFrom(field: "rangeLiquidations")
+  keeperAddress: Bytes
+  liquidationFee: BigInt
+  keeperFee: BigInt
+  insuranceFundFee: BigInt
+}
+
+type TokenLiquidation @entity {
+  id: ID! # id is the accountNo
+  account: [Account!]! @derivedFrom(field: "tokenLiquidations")
+  token: Bytes
+  liquidationBps: BigInt
+  liquidationPriceX128: BigInt
+  liquidatorPriceX128: BigInt
+  insuranceFundFee: BigInt
+}
+
+type Protocol @entity {
   id: ID!
-  liquidationFeeFraction: Int
-  tokenLiquidationPriceDeltaBps: Int
-  insuranceFundFeeShareBps: Int
+  wrapperAddress: String
+  feeAmount: BigInt
 }
