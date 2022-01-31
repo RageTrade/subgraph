@@ -32,7 +32,7 @@ Open http://localhost:8000/ and view deployments following
   
 ## Schema 
   
-GraphQl Query with all the entities
+GraphQL Query with all the entities
 ```
   {
   accounts {
