@@ -1,16 +1,34 @@
 # Perpswap Contract Subgraph
 
 ## Specification
-A Mapping of all events from `Account.sol`
+A Mapping of all events from `Account.sol` see [schema.md](https://github.com/rage-trade/perpswap-subgraph/blob/main/schema.md) for the specifications
 
-Schema
-```
-type Account @entity {
-  id: ID!
-  owner: Bytes
-  accountNumber: BigInt
-}
-```
+## TODO
+Account
+- [ ] Equity
+- [x] Profit
+- [ ] Available Margin
+- [ ] Margin Ratio
+
+Position
+- [ ] Liquidation Price
+- [x] Amount
+
+Trades
+- [x] Amount
+- [x] Timestamp
+- [ ] PnL
+
+Liquidation
+- [x] Fees
+- [x] Timestamp
+- [ ] Notational Amount Closed
+
+Funding
+- [x] Side
+- [x] Token Amount
+- [x] Timestamp
+- [] Funding Rate
 
 ## Local Development
 To develop locally you need

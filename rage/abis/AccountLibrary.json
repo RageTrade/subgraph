@@ -3,7 +3,7 @@
       "anonymous": false,
       "inputs": [
         {
-          "indexed": false,
+          "indexed": true,
           "internalType": "address",
           "name": "ownerAddress",
           "type": "address"
@@ -356,18 +356,12 @@
         },
         {
           "indexed": false,
-          "internalType": "address",
-          "name": "rTokenAddress",
-          "type": "address"
-        },
-        {
-          "indexed": false,
-          "internalType": "uint256",
+          "internalType": "int256",
           "name": "amount",
-          "type": "uint256"
+          "type": "int256"
         }
       ],
-      "name": "WithdrawMargin",
+      "name": "UpdateProfit",
       "type": "event"
     },
     {
@@ -381,12 +375,18 @@
         },
         {
           "indexed": false,
+          "internalType": "address",
+          "name": "rTokenAddress",
+          "type": "address"
+        },
+        {
+          "indexed": false,
           "internalType": "uint256",
           "name": "amount",
           "type": "uint256"
         }
       ],
-      "name": "WithdrawProfit",
+      "name": "WithdrawMargin",
       "type": "event"
     }
   ]

@@ -334,6 +334,28 @@ export class TokenPositionChange__Params {
   }
 }
 
+export class UpdateProfit extends ethereum.Event {
+  get params(): UpdateProfit__Params {
+    return new UpdateProfit__Params(this);
+  }
+}
+
+export class UpdateProfit__Params {
+  _event: UpdateProfit;
+
+  constructor(event: UpdateProfit) {
+    this._event = event;
+  }
+
+  get accountNo(): BigInt {
+    return this._event.parameters[0].value.toBigInt();
+  }
+
+  get amount(): BigInt {
+    return this._event.parameters[1].value.toBigInt();
+  }
+}
+
 export class WithdrawMargin extends ethereum.Event {
   get params(): WithdrawMargin__Params {
     return new WithdrawMargin__Params(this);
@@ -357,28 +379,6 @@ export class WithdrawMargin__Params {
 
   get amount(): BigInt {
     return this._event.parameters[2].value.toBigInt();
-  }
-}
-
-export class WithdrawProfit extends ethereum.Event {
-  get params(): WithdrawProfit__Params {
-    return new WithdrawProfit__Params(this);
-  }
-}
-
-export class WithdrawProfit__Params {
-  _event: WithdrawProfit;
-
-  constructor(event: WithdrawProfit) {
-    this._event = event;
-  }
-
-  get accountNo(): BigInt {
-    return this._event.parameters[0].value.toBigInt();
-  }
-
-  get amount(): BigInt {
-    return this._event.parameters[1].value.toBigInt();
   }
 }
 
