@@ -1,7 +1,7 @@
 # Perpswap Contract Subgraph
 
 ## Specification
-A Mapping of all events from `Account.sol` see [schema.md](https://github.com/rage-trade/perpswap-subgraph/blob/main/schema.md) for the specifications
+A Mapping of all events from `Account.sol` see [schema.md](https://github.com/rage-trade/perpswap-subgraph/blob/main/schema.md) for the specifications also see `/docs` for the schema definitions
 
 ## TODO
 Account
@@ -29,6 +29,7 @@ Funding
 - [x] Token Amount
 - [x] Timestamp
 - [] Funding Rate
+=======
 
 ## Local Development
 To develop locally you need
@@ -45,7 +46,7 @@ docker-compose -f docker-compose-rinnkeby-arbitrum up -d
 Note: You will have to wait a little bit for the blocks to be indexed and ingested. You can check current indexed block with
 ```
 {
-	_meta {
+  _meta {
     block {
       hash
       number
