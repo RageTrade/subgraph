@@ -1,66 +1,143 @@
+""" new account creation
+event AccountCreated(address indexed ownerAddress, uint256 accountNo)"""
 type Account @entity {
-  id: ID! # id is the accountNo
-  owner: Bytes
-  amount: BigInt # amount in usdc deposited and withdrawn
-  margin: [Margin!]!
-  tokenPositions: [TokenPosition!]!
-  rangePositions: [RangePosition!]!
-  tokenLiquidations: [TokenLiquidation!]!
-  rangeLiquidations: [RangeLiquidation!]!
+    id: ID! # the accountNo - timestamp
+    "timestamp of the token position change"
+    timestamp: BigInt!
+    "ownerAddress wallet address of account owner"
+    ownerAddress: Bytes!
+    "accountNo serial number of the account"
+    accountNo: BigInt!
 }
 
+""" deposit/withdraw of margin
+event DepositMargin(uint256 accountNo, address rTokenAddress, uint256 amount)
+event WithdrawMargin(uint256 accountNo, address rTokenAddress, uint256 amount)
+event UpdateProfit(uint256 accountNo, int256 amount) """
 type Margin @entity {
-  id: ID! # id is the accountNo
-  account: [Account!]! @derivedFrom(field: "margin")
-  amount: BigInt
-  token: Bytes
+  id: ID! # accountNo - rTokenAddress
+  "timestamp of the token position change"
+  timestamp: BigInt!
+  " accountNo serial number of the account"
+  accountNo: BigInt!
+  " rTokenAddress token in which margin is deposited"
+  rTokenAddress: Bytes!
+  " amount amount of tokens deposited"
+  marginAmount: BigInt!
+  "total realized profit of the account"
+  totalProfit: BigInt
 }
 
+""" token position change
+event TokenPositionChange(uint256 accountNo, IVToken vToken, int256 tokenAmountOut, int256 baseAmountOut) """
 type TokenPosition @entity {
-  id: ID! # id is the token
-  account: [Account!]! @derivedFrom(field: "tokenPositions")
-  amount: BigInt!
-  token: Bytes
-  tickLower: BigInt
-  tickUpper: BigInt
-  tokenAmountOut: BigInt
-  baseAmountOut: BigInt
+  id: ID! # accountNo - vToken - timestamp
+  "timestamp of the token position change"
+  timestamp: BigInt!
+  "accountNo serial number of the account"
+  accountNo: BigInt!
+  "vToken address of token whose position was taken"
+  vToken: Bytes!
+  "tokenAmountOut amount of tokens that account received (positive) or paid (negative)"
+  tokenAmountOut: BigInt!
+  "baseAmountOut amount of base tokens that account received (positive) or paid (negative)"
+  baseAmountOut: BigInt!
 }
 
-type RangePosition @entity {
-  id: ID! # id is the accountNo
-  account: [Account!]! @derivedFrom(field: "rangePositions")
-  amount: BigInt!
-  token: Bytes
-  tickLower: BigInt
-  tickUpper: BigInt
+""" token liquidation
+event LiquidateTokenPosition(uint256 accountNo,uint256 liquidatorAccountNo,IVToken vToken,uint16 liquidationBps,uint256 liquidationPriceX128,uint256 liquidatorPriceX128,int256 insuranceFundFee) """
+type LiquidateToken @entity {
+  id: ID! # accountNo - vToken - timestamp
+  "timestamp of the token position change"
+  timestamp: BigInt!
+  "accountNo serial number of the account"
+  accountNo: BigInt!
+  "liquidatorAccountNo  account which performed the liquidation"
+  liquidatorAccountNo: BigInt!
+  "vToken address of token for whose position was liquidated"
+  vToken: Bytes!
+  "liquidationBps the fraction of current position which was liquidated in bps"
+  liquidationBps: BigInt!
+  "liquidationPriceX128 price at which liquidation was performed"
+  liquidationPriceX128: BigInt!
+  "liquidatorPriceX128 discounted price at which tokens were transferred to the liquidator account"
+  liquidatorPriceX128: BigInt!
+  "insuranceFundFee total liquidaiton fee paid to the insurance fund (can be negative in case the account is not enough to cover the fee)"
+  insuranceFundFee: BigInt!
+}
+
+""" range liquidation
+event LiquidateRanges(uint256 accountNo,address keeperAddress,int256 liquidationFee,int256 keeperFee,int256 insuranceFundFee)"""
+type LiquidateRangePosition @entity {
+  id: ID! # accountNo - keeperAddress - timestamp
+  "timestamp of the token position change"
+  timestamp: BigInt!
+  "accountNo serial number of the account"
+  accountNo: BigInt!
+  "keeperAddress address of keeper who performed the liquidation"
+  keeperAddress: Bytes!
+  "liquidationFee total liquidation fee charged to the account"
+  liquidationFee: BigInt!
+  "keeperFee total liquidaiton fee paid to the keeper (positive only)"
+  keeperFee: BigInt!
+  "insuranceFundFee total liquidaiton fee paid to the insurance fund (can be negative in case the account is not enought to cover the fee)"
+  insuranceFundFee: BigInt!
+}
+
+""" limit order types """
+enum TokenStatus {
+  NONE,
+  LOWER_LIMIT,
+  UPPER_LIMIT
+}
+
+""" denotes token position change due to liquidity add/remove, funding
+event LiquidityTokenPositionChange(uint256 accountNo, IVToken vToken, int24 tickLower, int24 tickUpper, int256 tokenAmountOut)
+event LiquidityChange(uint256 accountNo,IVToken vToken,int24 tickLower,int24 tickUpper,int128 liquidityDelta,IClearingHouse.LimitOrderType limitOrderType,int256 tokenAmountOut,int256 baseAmountOut)
+event FundingPayment(uint256 accountNo, IVToken vToken, int24 tickLower, int24 tickUpper, int256 amount)
+event LiquidityFee(uint256 accountNo, IVToken vToken, int24 tickLower, int24 tickUpper, int256 amount) """
+type LiquidityPosition @entity {
+  id: ID! # accountNo - vToken - timestamp
+  "timestamp of the token position change"
+  timestamp: BigInt!
+  "accountNo serial number of the account"
+  accountNo: BigInt!
+  "vToken address of token whose position was taken"
+  vToken: Bytes!
+  "tickLower lower tick of the range updated"
+  tickLower: BigInt!
+  "tickUpper upper tick of the range updated"
+  tickUpper: BigInt!
+  "tokenAmountOut amount of tokens that account received (positive) or paid (negative)"
+  tokenAmountOut: BigInt!
+  "liquidityDelta change in liquidity value"
   liquidityDelta: BigInt
-  limitOrderType: String
-  tokenAmountOut: BigInt
+  "limitOrderType the type of range position"
+  limitOrderType: TokenStatus
+  "baseAmountOut amount of base tokens that account received (positive) or paid (negative)"
   baseAmountOut: BigInt
-}
-
-type RangeLiquidation @entity {
-  id: ID! # id is the accountNo
-  account: [Account!]! @derivedFrom(field: "rangeLiquidations")
+  "funding payment for a range / token position received"
+  fundingPayment: BigInt
+  "fee payment for a range / token position"
+  feePayment: BigInt
+  "keeperAddress address of keeper who performed the liquidation"
   keeperAddress: Bytes
-  liquidationFee: BigInt
+  "liquidationFee Bytes liquidation fee charged to the account"
+  liquidationFee: Bytes
+  "keeperFee total liquidaiton fee paid to the keeper (positive only)"
   keeperFee: BigInt
+  "insuranceFundFee total liquidaiton fee paid to the insurance fund (can be negative in case the account is not enought to cover the fee)"
   insuranceFundFee: BigInt
 }
 
-type TokenLiquidation @entity {
-  id: ID! # id is the accountNo
-  account: [Account!]! @derivedFrom(field: "tokenLiquidations")
-  token: Bytes
-  liquidationBps: BigInt
-  liquidationPriceX128: BigInt
-  liquidatorPriceX128: BigInt
-  insuranceFundFee: BigInt
-}
-
+""" denotes protocol fee withdrawal from a pool wrapper
+event ProtocolFeeWithdrawm(address wrapperAddress, uint256 feeAmount) """
 type Protocol @entity {
-  id: ID!
-  wrapperAddress: String
-  feeAmount: BigInt
+  id: ID! # wrapperAddress
+  "timestamp of the token position change"
+  timestamp: BigInt!
+  "wrapperAddress address of token for which fee was paid"
+  wrapperAddress: Bytes!
+  "feeAmount amount of protocol fee which was withdrawn"
+  feeAmount: BigInt!
 }

@@ -11,6 +11,7 @@ services:
       - /app/ganache-core.docker.cli.js
       - --deterministic
       - --db=/ganache_data
+      - --fork=https://arb-rinkeby.g.alchemy.com/v2/6MR6NfcycadwIc_hYdFfc1HTTkmi5pFE
       - --mnemonic
       - 'minimum symptom minute gloom tragic situate silver mechanic salad amused elite beef'
       - --networkId
@@ -19,7 +20,7 @@ services:
       - '0.0.0.0'
       - --debug
     networks:
-      - local_graph_network
+      - local_graph_network_fork
   graph-node:
     image: graphprotocol/graph-node:v0.24.2
     ports:
@@ -40,7 +41,7 @@ services:
       ethereum: 'mainnet:http://host.docker.internal:8545'
       GRAPH_LOG: info
     networks:
-      - local_graph_network
+      - local_graph_network_fork
   ipfs:
     image: ipfs/go-ipfs:v0.4.23
     ports:
@@ -48,7 +49,7 @@ services:
     volumes:
       - ./data/ipfs:/data/ipfs
     networks:
-      - local_graph_network
+      - local_graph_network_fork
   postgres:
     image: postgres
     ports:
@@ -61,7 +62,7 @@ services:
     volumes:
       - ./data/postgres:/var/lib/postgresql/data
     networks:
-      - local_graph_network
+      - local_graph_network_fork
 networks:
-   local_graph_network:
+   local_graph_network_fork:
      driver: bridge
