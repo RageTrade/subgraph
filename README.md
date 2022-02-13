@@ -28,8 +28,7 @@ Funding
 - [x] Side
 - [x] Token Amount
 - [x] Timestamp
-- [] Funding Rate
-=======
+- [ ] Funding Rate
 
 ## Local Development
 To develop locally you need
