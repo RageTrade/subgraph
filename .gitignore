@@ -1,5 +1,6 @@
 data
 yarn.lock
+deployments
 node_modules
 ganache_data
 .env
