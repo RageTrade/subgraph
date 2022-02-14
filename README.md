@@ -22,7 +22,7 @@ Trades
 Liquidation
 - [x] Fees
 - [x] Timestamp
-- [ ] Notational Amount Closed
+- [x] Notational Amount Closed
 
 Funding
 - [x] Side
