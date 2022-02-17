@@ -11,7 +11,7 @@ import {
   TokenPositionChange,
   WithdrawMargin,
   UpdateProfit
-} from '../generated/AccountLibrary/AccountLibrary'
+} from '../../generated/AccountLibrary/AccountLibrary'
 import {
   Account,
   Margin,
@@ -20,7 +20,7 @@ import {
   LiquidateRangePosition,
   LiquidityPosition,
   Protocol
-} from '../generated/schema'
+} from '../../generated/schema'
 import { BigInt } from '@graphprotocol/graph-ts'
 
 // @entity Account
@@ -126,6 +126,8 @@ export function handleLiquidateRanges(event: LiquidateRanges): void {
     time.toString()
   )
 
+  // @TODO also update liquidityPosition's amounts so that liquidated amount can be calculated
+
   // nullable check
   if (liquidateRanges) {
     liquidateRanges.timestamp = time
@@ -146,6 +148,8 @@ export function handleLiquidateTokenPosition(event: LiquidateTokenPosition): voi
     event.params.vToken.toHexString() + "-" +
     time.toString()
   )
+
+  // @TODO also update liquidityPosition's amounts so that liquidated amount can be calculated
 
   // nullable check
   if (liquidateTokenPosition) {
