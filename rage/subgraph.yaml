@@ -10,7 +10,7 @@ dataSources:
     source:
       address: '0x537c63350D6C59d9DA4E065Ba1051c5D544d19ab' # ClearingHouse Address since AccountLibrary events are emitted there
       abi: AccountLibrary
-      startBlock: 9455996
+      startBlock: 175
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.5
