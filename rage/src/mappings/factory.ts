@@ -15,7 +15,8 @@ export function handlePoolCreated(event: PoolCreated): void {
   }
 
   // load factory
-  let factory = Factory.load(FACTORY_ADDRESS)
+  let factory: Factory | null;
+  factory = Factory.load(FACTORY_ADDRESS)
   if (factory === null) {
     factory = new Factory(FACTORY_ADDRESS)
     factory.poolCount = ZERO_BI
