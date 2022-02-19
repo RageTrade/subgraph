@@ -11,7 +11,7 @@ import {
   TokenPositionChange,
   WithdrawMargin,
   UpdateProfit
-} from '../generated/AccountLibrary/AccountLibrary'
+} from '../../generated/AccountLibrary/AccountLibrary'
 import {
   Account,
   Margin,
@@ -20,7 +20,7 @@ import {
   LiquidateRangePosition,
   LiquidityPosition,
   Protocol
-} from '../generated/schema'
+} from '../../generated/schema'
 import { BigInt } from '@graphprotocol/graph-ts'
 
 // @entity Account
@@ -38,20 +38,6 @@ export function handleAccountCreated(event: AccountCreated): void {
   // unless `new` is certain default to `load` see https://thegraph.com/docs/en/developer/create-subgraph-hosted/#writing-mappings
   account.save()
 }
-
-// @entity Margin
-// export function handleWithdrawProfit(event: UpdateProfit): void {
-//   let time = event.block.timestamp
-//   let margin = new Margin(event.params.accountNo.toString() + "-" + time)
-//
-//   // nullable check
-//   if (account) {
-//       margin.timestamp = time
-//       margin.accountNo = event.params.accountNo
-//       margin.totalProfit += event.params.amount
-//       margin.save()
-//   }
-// }
 
 export function handleUpdateProfit(event: UpdateProfit): void {
   let time = event.block.timestamp
@@ -71,12 +57,21 @@ export function handleDepositMargin(event: DepositMargin): void {
   let time = event.block.timestamp
   let margin = new Margin(event.params.accountNo.toString() + "-" + time.toString())
 
+  let account = Account.load(event.params.accountNo.toString())
+  if (account) {
+    let len = account.tokenPositions.length
+  }
+
   // nullable check
   if (margin) {
     margin.timestamp = time
     margin.accountNo = event.params.accountNo
     margin.rTokenAddress = event.params.rTokenAddress
     margin.marginAmount = event.params.amount
+
+    // calculate margin ratio
+    // margin.marginRatio = (margin.marginAmount) /
+
     margin.save()
   }
 }
@@ -126,6 +121,8 @@ export function handleLiquidateRanges(event: LiquidateRanges): void {
     time.toString()
   )
 
+  // @TODO also update liquidityPosition's amounts so that liquidated amount can be calculated
+
   // nullable check
   if (liquidateRanges) {
     liquidateRanges.timestamp = time
@@ -146,6 +143,8 @@ export function handleLiquidateTokenPosition(event: LiquidateTokenPosition): voi
     event.params.vToken.toHexString() + "-" +
     time.toString()
   )
+
+  // @TODO also update liquidityPosition's amounts so that liquidated amount can be calculated
 
   // nullable check
   if (liquidateTokenPosition) {
@@ -178,7 +177,7 @@ export function handleLiquidityChange(event: LiquidityChange): void {
     liquidityPosition.tickLower = BigInt.fromI32(event.params.tickLower)
     liquidityPosition.tickUpper = BigInt.fromI32(event.params.tickUpper)
     liquidityPosition.liquidityDelta = event.params.liquidityDelta
-    liquidityPosition.limitOrderType = event.params.limitOrderType.toString()
+    liquidityPosition.limitOrderType = BigInt.fromI32(event.params.limitOrderType).toString()
     liquidityPosition.tokenAmountOut = event.params.tokenAmountOut
     liquidityPosition.baseAmountOut = event.params.baseAmountOut
     liquidityPosition.save()
