@@ -11,6 +11,11 @@ type Account @entity {
     ownerAddress: Bytes!
     "accountNo serial number of the account"
     accountNo: BigInt!
+    margin: [Margin!]! @derivedFrom(field: "accountNo")
+    tokenPositions: [Margin!]! @derivedFrom(field: "accountNo")
+    liquidateToken: [Margin!]! @derivedFrom(field: "accountNo")
+    liquidateRangePosition: [Margin!]! @derivedFrom(field: "accountNo")
+    liquidityPosition: [Margin!]! @derivedFrom(field: "accountNo")
 }
 
 """ deposit/withdraw of margin """
@@ -22,10 +27,12 @@ type Margin @entity {
   accountNo: BigInt!
   " rTokenAddress token in which margin is deposited"
   rTokenAddress: Bytes!
-  " amount amount of tokens deposited"
+  " amount of tokens deposited"
   marginAmount: BigInt!
   "total realized profit of the account"
   totalProfit: BigInt
+  "margin ratio (total collateral) / SUM(all positions)"
+  marginRatio: BigInt
 }
 
 """ token position change """
@@ -331,11 +338,11 @@ type Transaction @entity {
   gasUsed: BigInt!
   gasPrice: BigInt!
   # derived values
-  mints: [Mint!] @derivedFrom(field: "transaction")
-  burns: [Burn!] @derivedFrom(field: "transaction")
-  swaps: [Swap!] @derivedFrom(field: "transaction")
-  flashed: [Flash!] @derivedFrom(field: "transaction")
-  collects: [Collect!] @derivedFrom(field: "transaction")
+  mints: [Mint]! @derivedFrom(field: "transaction")
+  burns: [Burn]! @derivedFrom(field: "transaction")
+  swaps: [Swap]! @derivedFrom(field: "transaction")
+  flashed: [Flash]! @derivedFrom(field: "transaction")
+  collects: [Collect]! @derivedFrom(field: "transaction")
 }
 
 type Mint @entity {

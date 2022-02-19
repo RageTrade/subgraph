@@ -39,20 +39,6 @@ export function handleAccountCreated(event: AccountCreated): void {
   account.save()
 }
 
-// @entity Margin
-// export function handleWithdrawProfit(event: UpdateProfit): void {
-//   let time = event.block.timestamp
-//   let margin = new Margin(event.params.accountNo.toString() + "-" + time)
-//
-//   // nullable check
-//   if (account) {
-//       margin.timestamp = time
-//       margin.accountNo = event.params.accountNo
-//       margin.totalProfit += event.params.amount
-//       margin.save()
-//   }
-// }
-
 export function handleUpdateProfit(event: UpdateProfit): void {
   let time = event.block.timestamp
   let margin = new Margin(event.params.accountNo.toString() + "-" + time.toString())
@@ -71,12 +57,21 @@ export function handleDepositMargin(event: DepositMargin): void {
   let time = event.block.timestamp
   let margin = new Margin(event.params.accountNo.toString() + "-" + time.toString())
 
+  let account = Account.load(event.params.accountNo.toString())
+  if (account) {
+    let len = account.tokenPositions.length
+  }
+
   // nullable check
   if (margin) {
     margin.timestamp = time
     margin.accountNo = event.params.accountNo
     margin.rTokenAddress = event.params.rTokenAddress
     margin.marginAmount = event.params.amount
+
+    // calculate margin ratio
+    // margin.marginRatio = (margin.marginAmount) /
+
     margin.save()
   }
 }
@@ -182,7 +177,7 @@ export function handleLiquidityChange(event: LiquidityChange): void {
     liquidityPosition.tickLower = BigInt.fromI32(event.params.tickLower)
     liquidityPosition.tickUpper = BigInt.fromI32(event.params.tickUpper)
     liquidityPosition.liquidityDelta = event.params.liquidityDelta
-    liquidityPosition.limitOrderType = event.params.limitOrderType.toString()
+    liquidityPosition.limitOrderType = BigInt.fromI32(event.params.limitOrderType).toString()
     liquidityPosition.tokenAmountOut = event.params.tokenAmountOut
     liquidityPosition.baseAmountOut = event.params.baseAmountOut
     liquidityPosition.save()
