@@ -46,7 +46,7 @@ export function handleUpdateProfit(event: UpdateProfit): void {
   // nullable check
   if (margin) {
       margin.timestamp = time
-      margin.accountNo = event.params.accountNo
+      margin.accountNo = event.params.accountNo.toString()
       margin.totalProfit += event.params.amount
       margin.save()
   }
@@ -58,19 +58,22 @@ export function handleDepositMargin(event: DepositMargin): void {
   let margin = new Margin(event.params.accountNo.toString() + "-" + time.toString())
 
   let account = Account.load(event.params.accountNo.toString())
+  let openPositionAmount = 0
   if (account) {
-    let len = account.tokenPositions.length
+    account.tokenPositions.map(
+      openPositionAmount += p.baseAmountOut
+    }, p)
   }
 
   // nullable check
   if (margin) {
     margin.timestamp = time
-    margin.accountNo = event.params.accountNo
+    margin.accountNo = event.params.accountNo.toString()
     margin.rTokenAddress = event.params.rTokenAddress
     margin.marginAmount = event.params.amount
 
     // calculate margin ratio
-    // margin.marginRatio = (margin.marginAmount) /
+    margin.marginRatio = (margin.marginAmount) / openPositionAmount
 
     margin.save()
   }
@@ -84,7 +87,7 @@ export function handleWithdrawMargin(event: WithdrawMargin): void {
   // nullable check
   if (margin) {
     margin.timestamp = time
-    margin.accountNo = event.params.accountNo
+    margin.accountNo = event.params.accountNo.toString()
     margin.rTokenAddress = event.params.rTokenAddress
     margin.marginAmount = event.params.amount
     margin.save()
@@ -103,7 +106,7 @@ export function handleFundingPayment(event: FundingPayment): void {
   // nullable check
   if (liquidityPosition) {
     liquidityPosition.timestamp = time
-    liquidityPosition.accountNo = event.params.accountNo
+    liquidityPosition.accountNo = event.params.accountNo.toString()
     liquidityPosition.vToken = event.params.vToken
     liquidityPosition.tickLower = BigInt.fromI32(event.params.tickLower)
     liquidityPosition.tickUpper = BigInt.fromI32(event.params.tickUpper)
@@ -126,7 +129,7 @@ export function handleLiquidateRanges(event: LiquidateRanges): void {
   // nullable check
   if (liquidateRanges) {
     liquidateRanges.timestamp = time
-    liquidateRanges.accountNo = event.params.accountNo
+    liquidateRanges.accountNo = event.params.accountNo.toString()
     liquidateRanges.keeperAddress = event.params.keeperAddress
     liquidateRanges.liquidationFee = event.params.liquidationFee
     liquidateRanges.keeperFee = event.params.keeperFee
@@ -149,7 +152,7 @@ export function handleLiquidateTokenPosition(event: LiquidateTokenPosition): voi
   // nullable check
   if (liquidateTokenPosition) {
     liquidateTokenPosition.timestamp = time
-    liquidateTokenPosition.accountNo = event.params.accountNo
+    liquidateTokenPosition.accountNo = event.params.accountNo.toString()
     liquidateTokenPosition.liquidatorAccountNo = event.params.liquidatorAccountNo
     liquidateTokenPosition.vToken = event.params.vToken
     liquidateTokenPosition.liquidationBps = BigInt.fromI32(event.params.liquidationBps)
@@ -172,7 +175,7 @@ export function handleLiquidityChange(event: LiquidityChange): void {
   // nullable check
   if (liquidityPosition) {
     liquidityPosition.timestamp = time
-    liquidityPosition.accountNo = event.params.accountNo
+    liquidityPosition.accountNo = event.params.accountNo.toString()
     liquidityPosition.vToken = event.params.vToken
     liquidityPosition.tickLower = BigInt.fromI32(event.params.tickLower)
     liquidityPosition.tickUpper = BigInt.fromI32(event.params.tickUpper)
@@ -196,7 +199,7 @@ export function handleLiquidityFee(event: LiquidityFee): void {
   // nullable check
   if (liquidityPosition) {
     liquidityPosition.timestamp = time
-    liquidityPosition.accountNo = event.params.accountNo
+    liquidityPosition.accountNo = event.params.accountNo.toString()
     liquidityPosition.vToken = event.params.vToken
     liquidityPosition.tickLower = BigInt.fromI32(event.params.tickLower)
     liquidityPosition.tickUpper = BigInt.fromI32(event.params.tickUpper)
@@ -217,7 +220,7 @@ export function handleLiquidityTokenPositionChange(event: LiquidityTokenPosition
   // nullable check
   if (liquidityPosition) {
     liquidityPosition.timestamp = time
-    liquidityPosition.accountNo = event.params.accountNo
+    liquidityPosition.accountNo = event.params.accountNo.toString()
     liquidityPosition.vToken = event.params.vToken
     liquidityPosition.tickLower = BigInt.fromI32(event.params.tickLower)
     liquidityPosition.tickUpper = BigInt.fromI32(event.params.tickUpper)
@@ -254,7 +257,7 @@ export function handleTokenPositionChange(event: TokenPositionChange): void {
   // nullable check
   if (tokenPosition) {
     tokenPosition.timestamp = time
-    tokenPosition.accountNo = event.params.accountNo
+    tokenPosition.accountNo = event.params.accountNo.toString()
     tokenPosition.vToken = event.params.vToken
     tokenPosition.tokenAmountOut = event.params.tokenAmountOut
     tokenPosition.baseAmountOut = event.params.baseAmountOut

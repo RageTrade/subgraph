@@ -68,6 +68,51 @@ export class Account extends Entity {
   set accountNo(value: BigInt) {
     this.set("accountNo", Value.fromBigInt(value));
   }
+
+  get margin(): Array<string> {
+    let value = this.get("margin");
+    return value.toStringArray();
+  }
+
+  set margin(value: Array<string>) {
+    this.set("margin", Value.fromStringArray(value));
+  }
+
+  get tokenPositions(): Array<string> {
+    let value = this.get("tokenPositions");
+    return value.toStringArray();
+  }
+
+  set tokenPositions(value: Array<string>) {
+    this.set("tokenPositions", Value.fromStringArray(value));
+  }
+
+  get liquidateToken(): Array<string> {
+    let value = this.get("liquidateToken");
+    return value.toStringArray();
+  }
+
+  set liquidateToken(value: Array<string>) {
+    this.set("liquidateToken", Value.fromStringArray(value));
+  }
+
+  get liquidateRangePosition(): Array<string> {
+    let value = this.get("liquidateRangePosition");
+    return value.toStringArray();
+  }
+
+  set liquidateRangePosition(value: Array<string>) {
+    this.set("liquidateRangePosition", Value.fromStringArray(value));
+  }
+
+  get liquidityPosition(): Array<string> {
+    let value = this.get("liquidityPosition");
+    return value.toStringArray();
+  }
+
+  set liquidityPosition(value: Array<string>) {
+    this.set("liquidityPosition", Value.fromStringArray(value));
+  }
 }
 
 export class Margin extends Entity {
@@ -109,13 +154,13 @@ export class Margin extends Entity {
     this.set("timestamp", Value.fromBigInt(value));
   }
 
-  get accountNo(): BigInt {
+  get accountNo(): string {
     let value = this.get("accountNo");
-    return value.toBigInt();
+    return value.toString();
   }
 
-  set accountNo(value: BigInt) {
-    this.set("accountNo", Value.fromBigInt(value));
+  set accountNo(value: string) {
+    this.set("accountNo", Value.fromString(value));
   }
 
   get rTokenAddress(): Bytes {
@@ -152,6 +197,23 @@ export class Margin extends Entity {
       this.set("totalProfit", Value.fromBigInt(value as BigInt));
     }
   }
+
+  get marginRatio(): BigInt | null {
+    let value = this.get("marginRatio");
+    if (value === null || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBigInt();
+    }
+  }
+
+  set marginRatio(value: BigInt | null) {
+    if (value === null) {
+      this.unset("marginRatio");
+    } else {
+      this.set("marginRatio", Value.fromBigInt(value as BigInt));
+    }
+  }
 }
 
 export class TokenPosition extends Entity {
@@ -184,22 +246,30 @@ export class TokenPosition extends Entity {
     this.set("id", Value.fromString(value));
   }
 
-  get timestamp(): BigInt {
+  get timestamp(): BigInt | null {
     let value = this.get("timestamp");
-    return value.toBigInt();
+    if (value === null || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBigInt();
+    }
   }
 
-  set timestamp(value: BigInt) {
-    this.set("timestamp", Value.fromBigInt(value));
+  set timestamp(value: BigInt | null) {
+    if (value === null) {
+      this.unset("timestamp");
+    } else {
+      this.set("timestamp", Value.fromBigInt(value as BigInt));
+    }
   }
 
-  get accountNo(): BigInt {
+  get accountNo(): string {
     let value = this.get("accountNo");
-    return value.toBigInt();
+    return value.toString();
   }
 
-  set accountNo(value: BigInt) {
-    this.set("accountNo", Value.fromBigInt(value));
+  set accountNo(value: string) {
+    this.set("accountNo", Value.fromString(value));
   }
 
   get vToken(): Bytes {
@@ -269,13 +339,13 @@ export class LiquidateToken extends Entity {
     this.set("timestamp", Value.fromBigInt(value));
   }
 
-  get accountNo(): BigInt {
+  get accountNo(): string {
     let value = this.get("accountNo");
-    return value.toBigInt();
+    return value.toString();
   }
 
-  set accountNo(value: BigInt) {
-    this.set("accountNo", Value.fromBigInt(value));
+  set accountNo(value: string) {
+    this.set("accountNo", Value.fromString(value));
   }
 
   get liquidatorAccountNo(): BigInt {
@@ -378,13 +448,13 @@ export class LiquidateRangePosition extends Entity {
     this.set("timestamp", Value.fromBigInt(value));
   }
 
-  get accountNo(): BigInt {
+  get accountNo(): string {
     let value = this.get("accountNo");
-    return value.toBigInt();
+    return value.toString();
   }
 
-  set accountNo(value: BigInt) {
-    this.set("accountNo", Value.fromBigInt(value));
+  set accountNo(value: string) {
+    this.set("accountNo", Value.fromString(value));
   }
 
   get keeperAddress(): Bytes {
@@ -463,13 +533,13 @@ export class LiquidityPosition extends Entity {
     this.set("timestamp", Value.fromBigInt(value));
   }
 
-  get accountNo(): BigInt {
+  get accountNo(): string {
     let value = this.get("accountNo");
-    return value.toBigInt();
+    return value.toString();
   }
 
-  set accountNo(value: BigInt) {
-    this.set("accountNo", Value.fromBigInt(value));
+  set accountNo(value: string) {
+    this.set("accountNo", Value.fromString(value));
   }
 
   get vToken(): Bytes {

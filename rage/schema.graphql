@@ -12,10 +12,10 @@ type Account @entity {
     "accountNo serial number of the account"
     accountNo: BigInt!
     margin: [Margin!]! @derivedFrom(field: "accountNo")
-    tokenPositions: [Margin!]! @derivedFrom(field: "accountNo")
-    liquidateToken: [Margin!]! @derivedFrom(field: "accountNo")
-    liquidateRangePosition: [Margin!]! @derivedFrom(field: "accountNo")
-    liquidityPosition: [Margin!]! @derivedFrom(field: "accountNo")
+    tokenPositions: [TokenPosition!]! @derivedFrom(field: "accountNo")
+    liquidateToken: [LiquidateToken!]! @derivedFrom(field: "accountNo")
+    liquidateRangePosition: [LiquidateRangePosition!]! @derivedFrom(field: "accountNo")
+    liquidityPosition: [LiquidityPosition!]! @derivedFrom(field: "accountNo")
 }
 
 """ deposit/withdraw of margin """
@@ -24,7 +24,7 @@ type Margin @entity {
   "timestamp of the token position change"
   timestamp: BigInt!
   " accountNo serial number of the account"
-  accountNo: BigInt!
+  accountNo: Account!
   " rTokenAddress token in which margin is deposited"
   rTokenAddress: Bytes!
   " amount of tokens deposited"
@@ -39,9 +39,9 @@ type Margin @entity {
 type TokenPosition @entity {
   id: ID! # accountNo - vToken - timestamp
   "timestamp of the token position change"
-  timestamp: BigInt!
+  timestamp: BigInt
   "accountNo serial number of the account"
-  accountNo: BigInt!
+  accountNo: Account!
   "vToken address of token whose position was taken"
   vToken: Bytes!
   "tokenAmountOut amount of tokens that account received (positive) or paid (negative)"
@@ -56,7 +56,7 @@ type LiquidateToken @entity {
   "timestamp of the token position change"
   timestamp: BigInt!
   "accountNo serial number of the account"
-  accountNo: BigInt!
+  accountNo: Account!
   "liquidatorAccountNo  account which performed the liquidation"
   liquidatorAccountNo: BigInt!
   "vToken address of token for whose position was liquidated"
@@ -77,7 +77,7 @@ type LiquidateRangePosition @entity {
   "timestamp of the token position change"
   timestamp: BigInt!
   "accountNo serial number of the account"
-  accountNo: BigInt!
+  accountNo: Account!
   "keeperAddress address of keeper who performed the liquidation"
   keeperAddress: Bytes!
   "liquidationFee total liquidation fee charged to the account"
@@ -101,7 +101,7 @@ type LiquidityPosition @entity {
   "timestamp of the token position change"
   timestamp: BigInt!
   "accountNo serial number of the account"
-  accountNo: BigInt!
+  accountNo: Account!
   "vToken address of token whose position was taken"
   vToken: Bytes!
   "tickLower lower tick of the range updated"
