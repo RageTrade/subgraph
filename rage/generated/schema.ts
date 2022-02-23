@@ -146,7 +146,7 @@ export class Account extends Entity {
   }
 }
 
-export class Margin extends Entity {
+export class Collateral extends Entity {
   constructor(id: string) {
     super();
     this.set("id", Value.fromString(id));
@@ -154,17 +154,17 @@ export class Margin extends Entity {
 
   save(): void {
     let id = this.get("id");
-    assert(id !== null, "Cannot save Margin entity without an ID");
+    assert(id !== null, "Cannot save Collateral entity without an ID");
     assert(
       id.kind == ValueKind.STRING,
-      "Cannot save Margin entity with non-string ID. " +
+      "Cannot save Collateral entity with non-string ID. " +
         'Considering using .toHex() to convert the "id" to a string.'
     );
-    store.set("Margin", id.toString(), this);
+    store.set("Collateral", id.toString(), this);
   }
 
-  static load(id: string): Margin | null {
-    return store.get("Margin", id) as Margin | null;
+  static load(id: string): Collateral | null {
+    return store.get("Collateral", id) as Collateral | null;
   }
 
   get id(): string {

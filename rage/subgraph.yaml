@@ -8,9 +8,9 @@ dataSources:
     name: AccountLibrary
     network: arbitrum-rinkeby
     source:
-      address: '0x537c63350D6C59d9DA4E065Ba1051c5D544d19ab' # ClearingHouse Address since AccountLibrary events are emitted there
+      address: '0xF62CCc9425E9db745429B96374e5702F7Ed9B75C' # ClearingHouse Address since AccountLibrary events are emitted there
       abi: AccountLibrary
-      startBlock: 9455996
+      startBlock: 9523809
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.4
@@ -58,7 +58,7 @@ dataSources:
     source:
       address: '0x1F98431c8aD98523631AE4a59f267346ea31F984'
       abi: Factory
-      startBlock: 175
+      startBlock: 9523809
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.4
@@ -105,11 +105,7 @@ templates:
       eventHandlers:
         - event: Initialize(uint160,int24)
           handler: handleInitialize
-        - event: Swap(indexed address,indexed address,int256,int256,uint160,uint128,int24)
-          handler: handleSwap
         - event: Mint(address,indexed address,indexed int24,indexed int24,uint128,uint256,uint256)
           handler: handleMint
         - event: Burn(indexed address,indexed int24,indexed int24,uint128,uint256,uint256)
           handler: handleBurn
-        - event: Flash(indexed address,indexed address,uint256,uint256,uint256,uint256)
-          handler: handleFlash
