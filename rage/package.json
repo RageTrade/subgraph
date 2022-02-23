@@ -7,7 +7,9 @@
     "codegen": "graph codegen",
     "build": "graph build",
     "deploy": "graph deploy rage/perpswap-contracts-subgraph --ipfs https://api.thegraph.com/ipfs/ --node https://api.thegraph.com/deploy/",
-    "deploy-local": "graph deploy rage/perpswap-contracts-subgraph --ipfs http://localhost:5001 --node http://127.0.0.1:8020"
+    "deploy-local": "graph deploy rage/perpswap-contracts-subgraph --ipfs http://localhost:5001 --node http://127.0.0.1:8020",
+    "format": "prettier --check '**/*'",
+    "format:fix": "prettier --write '**/*'"
   },
   "devDependencies": {
     "@graphprotocol/graph-cli": "^0.20.0",
