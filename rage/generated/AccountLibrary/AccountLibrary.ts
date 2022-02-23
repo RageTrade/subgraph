@@ -7,8 +7,8 @@ import {
   Entity,
   Bytes,
   Address,
-  BigInt
-} from "@graphprotocol/graph-ts";
+  BigInt,
+} from '@graphprotocol/graph-ts';
 
 export class AccountCreated extends ethereum.Event {
   get params(): AccountCreated__Params {
@@ -384,6 +384,6 @@ export class WithdrawMargin__Params {
 
 export class AccountLibrary extends ethereum.SmartContract {
   static bind(address: Address): AccountLibrary {
-    return new AccountLibrary("AccountLibrary", address);
+    return new AccountLibrary('AccountLibrary', address);
   }
 }

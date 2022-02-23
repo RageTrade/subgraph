@@ -2,23 +2,27 @@
 # Rage Perpswap Subgraph
 #-----------------------
 
-""" new account creation """
+"""
+new account creation
+"""
 type Account @entity {
-    id: ID! # the accountNo - timestamp
-    "timestamp of the token position change"
-    timestamp: BigInt!
-    "ownerAddress wallet address of account owner"
-    ownerAddress: Bytes!
-    "accountNo serial number of the account"
-    accountNo: BigInt!
-    margin: [Margin!]! @derivedFrom(field: "accountNo")
-    tokenPositions: [Margin!]! @derivedFrom(field: "accountNo")
-    liquidateToken: [Margin!]! @derivedFrom(field: "accountNo")
-    liquidateRangePosition: [Margin!]! @derivedFrom(field: "accountNo")
-    liquidityPosition: [Margin!]! @derivedFrom(field: "accountNo")
+  id: ID! # the accountNo - timestamp
+  "timestamp of the token position change"
+  timestamp: BigInt!
+  "ownerAddress wallet address of account owner"
+  ownerAddress: Bytes!
+  "accountNo serial number of the account"
+  accountNo: BigInt!
+  margin: [Margin!]! @derivedFrom(field: "accountNo")
+  tokenPositions: [Margin!]! @derivedFrom(field: "accountNo")
+  liquidateToken: [Margin!]! @derivedFrom(field: "accountNo")
+  liquidateRangePosition: [Margin!]! @derivedFrom(field: "accountNo")
+  liquidityPosition: [Margin!]! @derivedFrom(field: "accountNo")
 }
 
-""" deposit/withdraw of margin """
+"""
+deposit/withdraw of margin
+"""
 type Margin @entity {
   id: ID! # accountNo - rTokenAddress
   "timestamp of the token position change"
@@ -35,7 +39,9 @@ type Margin @entity {
   marginRatio: BigInt
 }
 
-""" token position change """
+"""
+token position change
+"""
 type TokenPosition @entity {
   id: ID! # accountNo - vToken - timestamp
   "timestamp of the token position change"
@@ -50,7 +56,9 @@ type TokenPosition @entity {
   baseAmountOut: BigInt!
 }
 
-""" token liquidation """
+"""
+token liquidation
+"""
 type LiquidateToken @entity {
   id: ID! # accountNo - vToken - timestamp
   "timestamp of the token position change"
@@ -71,7 +79,9 @@ type LiquidateToken @entity {
   insuranceFundFee: BigInt!
 }
 
-""" range liquidation """
+"""
+range liquidation
+"""
 type LiquidateRangePosition @entity {
   id: ID! # accountNo - keeperAddress - timestamp
   "timestamp of the token position change"
@@ -88,14 +98,18 @@ type LiquidateRangePosition @entity {
   insuranceFundFee: BigInt!
 }
 
-""" limit order types """
+"""
+limit order types
+"""
 enum TokenStatus {
-  NONE,
-  LOWER_LIMIT,
+  NONE
+  LOWER_LIMIT
   UPPER_LIMIT
 }
 
-""" denotes token position change due to liquidity add/remove, funding """
+"""
+denotes token position change due to liquidity add/remove, funding
+"""
 type LiquidityPosition @entity {
   id: ID! # accountNo - vToken - timestamp
   "timestamp of the token position change"
@@ -130,7 +144,9 @@ type LiquidityPosition @entity {
   insuranceFundFee: BigInt
 }
 
-""" denotes protocol fee withdrawal from a pool wrapper """
+"""
+denotes protocol fee withdrawal from a pool wrapper
+"""
 type Protocol @entity {
   id: ID! # wrapperAddress
   "timestamp of the token position change"
