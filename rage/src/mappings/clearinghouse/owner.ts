@@ -1,7 +1,7 @@
 import { Address } from '@graphprotocol/graph-ts';
-import { Owner } from '../../generated/schema';
+import { Owner } from '../../../generated/schema';
 
-export function getOwnerIdFromOwnerAddress(ownerAddress: Address): string {
+export function generateOwnerId(ownerAddress: Address): string {
   return ownerAddress.toHexString();
 }
 
@@ -11,7 +11,7 @@ export function getOwnerIdFromOwnerAddress(ownerAddress: Address): string {
  * @returns Account object
  */
 export function getOwner(ownerAddress: Address): Owner {
-  let ownerId = getOwnerIdFromOwnerAddress(ownerAddress);
+  let ownerId = generateOwnerId(ownerAddress);
   let owner = Owner.load(ownerId);
   if (owner === null) {
     // creating empty account for other code to work

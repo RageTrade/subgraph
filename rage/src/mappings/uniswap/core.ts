@@ -7,7 +7,7 @@ import {
   Pool,
   Swap,
   Token,
-} from '../../generated/schema';
+} from '../../../generated/schema';
 import { BigDecimal, BigInt } from '@graphprotocol/graph-ts';
 import {
   Burn as BurnEvent,
@@ -15,22 +15,22 @@ import {
   Initialize,
   Mint as MintEvent,
   Swap as SwapEvent,
-} from '../../generated/templates/Pool/Pool';
-import { convertTokenToDecimal, loadTransaction, safeDiv } from '../utils';
-import { FACTORY_ADDRESS, ONE_BI, ZERO_BD } from '../utils/constants';
+} from '../../../generated/templates/Pool/Pool';
+import { convertTokenToDecimal, loadTransaction, safeDiv } from '../../utils';
+import { FACTORY_ADDRESS, ONE_BI, ZERO_BD } from '../../utils/constants';
 import {
   findEthPerToken,
   getEthPriceInUSD,
   getTrackedAmountUSD,
   sqrtPriceX96ToTokenPrices,
-} from '../utils/pricing';
+} from '../../utils/pricing';
 import {
   updatePoolDayData,
   updatePoolHourData,
   updateTokenDayData,
   updateTokenHourData,
   updateUniswapDayData,
-} from '../utils/intervalUpdates';
+} from '../../utils/intervalUpdates';
 
 export function handleInitialize(event: Initialize): void {
   let pool = Pool.load(event.address.toHexString());
@@ -44,6 +44,7 @@ export function handleInitialize(event: Initialize): void {
 
 export function handleMint(event: MintEvent): void {
   let bundle = Bundle.load('1');
+
   let poolAddress = event.address.toHexString();
   let pool = Pool.load(poolAddress);
   let factory = Factory.load(FACTORY_ADDRESS);
