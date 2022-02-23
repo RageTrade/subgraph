@@ -11,7 +11,7 @@ import {
   TokenPositionChange,
   WithdrawMargin,
   UpdateProfit,
-} from '../../generated/AccountLibrary/AccountLibrary';
+} from '../../../generated/AccountLibrary/AccountLibrary';
 import {
   Account,
   Margin,
@@ -20,12 +20,12 @@ import {
   LiquidateRangePosition,
   LiquidityPosition,
   Protocol,
-} from '../../generated/schema';
+} from '../../../generated/schema';
 import { Address, BigInt, log } from '@graphprotocol/graph-ts';
 
 import { getOwner } from './owner';
 
-export function getAccountIdFromAccountNo(accountNo: BigInt): string {
+export function generateAccountId(accountNo: BigInt): string {
   return accountNo.toString();
 }
 
@@ -35,7 +35,7 @@ export function getAccountIdFromAccountNo(accountNo: BigInt): string {
  * @returns Account object
  */
 export function getAccount(accountNo: BigInt): Account {
-  let accountId = getAccountIdFromAccountNo(accountNo);
+  let accountId = generateAccountId(accountNo);
 
   let account = Account.load(accountId);
   if (account === null) {
@@ -55,7 +55,7 @@ export function getAccount(accountNo: BigInt): Account {
 
 // @entity Account
 export function handleAccountCreated(event: AccountCreated): void {
-  let accountId = getAccountIdFromAccountNo(event.params.accountNo);
+  let accountId = generateAccountId(event.params.accountNo);
 
   let account = Account.load(accountId);
 
@@ -300,27 +300,5 @@ export function handleProtocolFeeWithdrawm(event: ProtocolFeeWithdrawm): void {
     protocol.wrapperAddress = event.params.wrapperAddress;
     protocol.feeAmount = event.params.feeAmount;
     protocol.save();
-  }
-}
-
-// @entity TokenPosition
-export function handleTokenPositionChange(event: TokenPositionChange): void {
-  let time = event.block.timestamp;
-  let tokenPosition = new TokenPosition(
-    event.params.accountNo.toString() +
-      '-' +
-      event.params.vToken.toHexString() +
-      '-' +
-      time.toString()
-  );
-
-  // nullable check
-  if (tokenPosition) {
-    tokenPosition.timestamp = time;
-    tokenPosition.account = getAccount(event.params.accountNo).id;
-    tokenPosition.vToken = event.params.vToken;
-    tokenPosition.tokenAmountOut = event.params.tokenAmountOut;
-    tokenPosition.baseAmountOut = event.params.baseAmountOut;
-    tokenPosition.save();
   }
 }
