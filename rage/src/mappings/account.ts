@@ -21,21 +21,55 @@ import {
   LiquidityPosition,
   Protocol,
 } from '../../generated/schema';
-import { BigInt } from '@graphprotocol/graph-ts';
+import { Address, BigInt, log } from '@graphprotocol/graph-ts';
+
+import { getOwner } from './owner';
+
+export function getAccountIdFromAccountNo(accountNo: BigInt): string {
+  return accountNo.toString();
+}
+
+/**
+ * Gives the account object, creates one if it doesn't exist on the graph
+ * @param accountNo Accoount number
+ * @returns Account object
+ */
+export function getAccount(accountNo: BigInt): Account {
+  let accountId = getAccountIdFromAccountNo(accountNo);
+
+  let account = Account.load(accountId);
+  if (account === null) {
+    // this should ideally not happen
+    log.critical('customlogs: account {} did not exist in getAccount', [
+      accountId,
+    ]);
+    // creating empty account for other code to work
+    account = new Account(accountId);
+    account.timestamp = BigInt.fromI32(0);
+    account.owner = getOwner(Address.fromI32(0) as Address).id;
+    account.save();
+  }
+
+  return account as Account;
+}
 
 // @entity Account
 export function handleAccountCreated(event: AccountCreated): void {
-  let account = new Account(event.params.accountNo.toString());
+  let accountId = getAccountIdFromAccountNo(event.params.accountNo);
 
-  // nullable check see https://thegraph.com/docs/en/developer/assemblyscript-migration-guide/#nullability
-  if (account) {
-    account.timestamp = event.block.timestamp;
-    account.ownerAddress = event.params.ownerAddress;
-    account.accountNo = event.params.accountNo;
+  let account = Account.load(accountId);
+
+  if (account !== null) {
+    // this should ideally not happen
+    log.critical(
+      'customlogs: account {} already exists in handleAccountCreated',
+      [accountId]
+    );
   }
 
-  // no need to include in nullable check since a new Account is being created
-  // unless `new` is certain default to `load` see https://thegraph.com/docs/en/developer/create-subgraph-hosted/#writing-mappings
+  account.timestamp = event.block.timestamp;
+  account.owner = getOwner(event.params.ownerAddress).id;
+
   account.save();
 }
 
@@ -48,8 +82,8 @@ export function handleUpdateProfit(event: UpdateProfit): void {
   // nullable check
   if (margin) {
     margin.timestamp = time;
-    margin.accountNo = event.params.accountNo;
-    margin.totalProfit += event.params.amount;
+    margin.account = getAccount(event.params.accountNo).id;
+    margin.totalProfit = margin.totalProfit.plus(event.params.amount);
     margin.save();
   }
 }
@@ -69,7 +103,7 @@ export function handleDepositMargin(event: DepositMargin): void {
   // nullable check
   if (margin) {
     margin.timestamp = time;
-    margin.accountNo = event.params.accountNo;
+    margin.account = getAccount(event.params.accountNo).id;
     margin.rTokenAddress = event.params.rTokenAddress;
     margin.marginAmount = event.params.amount;
 
@@ -90,7 +124,7 @@ export function handleWithdrawMargin(event: WithdrawMargin): void {
   // nullable check
   if (margin) {
     margin.timestamp = time;
-    margin.accountNo = event.params.accountNo;
+    margin.account = getAccount(event.params.accountNo).id;
     margin.rTokenAddress = event.params.rTokenAddress;
     margin.marginAmount = event.params.amount;
     margin.save();
@@ -111,7 +145,7 @@ export function handleFundingPayment(event: FundingPayment): void {
   // nullable check
   if (liquidityPosition) {
     liquidityPosition.timestamp = time;
-    liquidityPosition.accountNo = event.params.accountNo;
+    liquidityPosition.account = getAccount(event.params.accountNo).id;
     liquidityPosition.vToken = event.params.vToken;
     liquidityPosition.tickLower = BigInt.fromI32(event.params.tickLower);
     liquidityPosition.tickUpper = BigInt.fromI32(event.params.tickUpper);
@@ -136,7 +170,7 @@ export function handleLiquidateRanges(event: LiquidateRanges): void {
   // nullable check
   if (liquidateRanges) {
     liquidateRanges.timestamp = time;
-    liquidateRanges.accountNo = event.params.accountNo;
+    liquidateRanges.account = getAccount(event.params.accountNo).id;
     liquidateRanges.keeperAddress = event.params.keeperAddress;
     liquidateRanges.liquidationFee = event.params.liquidationFee;
     liquidateRanges.keeperFee = event.params.keeperFee;
@@ -163,7 +197,7 @@ export function handleLiquidateTokenPosition(
   // nullable check
   if (liquidateTokenPosition) {
     liquidateTokenPosition.timestamp = time;
-    liquidateTokenPosition.accountNo = event.params.accountNo;
+    liquidateTokenPosition.account = getAccount(event.params.accountNo).id;
     liquidateTokenPosition.liquidatorAccountNo =
       event.params.liquidatorAccountNo;
     liquidateTokenPosition.vToken = event.params.vToken;
@@ -193,7 +227,7 @@ export function handleLiquidityChange(event: LiquidityChange): void {
   // nullable check
   if (liquidityPosition) {
     liquidityPosition.timestamp = time;
-    liquidityPosition.accountNo = event.params.accountNo;
+    liquidityPosition.account = getAccount(event.params.accountNo).id;
     liquidityPosition.vToken = event.params.vToken;
     liquidityPosition.tickLower = BigInt.fromI32(event.params.tickLower);
     liquidityPosition.tickUpper = BigInt.fromI32(event.params.tickUpper);
@@ -221,7 +255,7 @@ export function handleLiquidityFee(event: LiquidityFee): void {
   // nullable check
   if (liquidityPosition) {
     liquidityPosition.timestamp = time;
-    liquidityPosition.accountNo = event.params.accountNo;
+    liquidityPosition.account = getAccount(event.params.accountNo).id;
     liquidityPosition.vToken = event.params.vToken;
     liquidityPosition.tickLower = BigInt.fromI32(event.params.tickLower);
     liquidityPosition.tickUpper = BigInt.fromI32(event.params.tickUpper);
@@ -246,7 +280,7 @@ export function handleLiquidityTokenPositionChange(
   // nullable check
   if (liquidityPosition) {
     liquidityPosition.timestamp = time;
-    liquidityPosition.accountNo = event.params.accountNo;
+    liquidityPosition.account = getAccount(event.params.accountNo).id;
     liquidityPosition.vToken = event.params.vToken;
     liquidityPosition.tickLower = BigInt.fromI32(event.params.tickLower);
     liquidityPosition.tickUpper = BigInt.fromI32(event.params.tickUpper);
@@ -283,7 +317,7 @@ export function handleTokenPositionChange(event: TokenPositionChange): void {
   // nullable check
   if (tokenPosition) {
     tokenPosition.timestamp = time;
-    tokenPosition.accountNo = event.params.accountNo;
+    tokenPosition.account = getAccount(event.params.accountNo).id;
     tokenPosition.vToken = event.params.vToken;
     tokenPosition.tokenAmountOut = event.params.tokenAmountOut;
     tokenPosition.baseAmountOut = event.params.baseAmountOut;
