@@ -3,15 +3,15 @@
 import {
   Address,
   DataSourceTemplate,
-  DataSourceContext,
-} from '@graphprotocol/graph-ts';
+  DataSourceContext
+} from "@graphprotocol/graph-ts";
 
 export class Pool extends DataSourceTemplate {
   static create(address: Address): void {
-    DataSourceTemplate.create('Pool', [address.toHex()]);
+    DataSourceTemplate.create("Pool", [address.toHex()]);
   }
 
   static createWithContext(address: Address, context: DataSourceContext): void {
-    DataSourceTemplate.createWithContext('Pool', [address.toHex()], context);
+    DataSourceTemplate.createWithContext("Pool", [address.toHex()], context);
   }
 }
