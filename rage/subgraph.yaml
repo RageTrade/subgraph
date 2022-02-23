@@ -26,7 +26,7 @@ dataSources:
       abis:
         - name: AccountLibrary
           file: ./abis/AccountLibrary.json
-      file: ./src/mappings/account.ts
+      file: ./src/mappings/clearinghouse/index.ts
       eventHandlers:
         - event: AccountCreated(indexed address,uint256)
           handler: handleAccountCreated
@@ -63,7 +63,7 @@ dataSources:
       kind: ethereum/events
       apiVersion: 0.0.4
       language: wasm/assemblyscript
-      file: ./src/mappings/factory.ts
+      file: ./src/mappings/uniswap/factory.ts
       entities:
         - Pool
         - Token
@@ -91,7 +91,7 @@ templates:
       kind: ethereum/events
       apiVersion: 0.0.4
       language: wasm/assemblyscript
-      file: ./src/mappings/core.ts
+      file: ./src/mappings/uniswap/core.ts
       entities:
         - Pool
         - Token

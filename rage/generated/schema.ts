@@ -12,6 +12,46 @@ import {
   BigDecimal
 } from "@graphprotocol/graph-ts";
 
+export class Owner extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id !== null, "Cannot save Owner entity without an ID");
+    assert(
+      id.kind == ValueKind.STRING,
+      "Cannot save Owner entity with non-string ID. " +
+        'Considering using .toHex() to convert the "id" to a string.'
+    );
+    store.set("Owner", id.toString(), this);
+  }
+
+  static load(id: string): Owner | null {
+    return store.get("Owner", id) as Owner | null;
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    return value.toString();
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get accounts(): Array<string> {
+    let value = this.get("accounts");
+    return value.toStringArray();
+  }
+
+  set accounts(value: Array<string>) {
+    this.set("accounts", Value.fromStringArray(value));
+  }
+}
+
 export class Account extends Entity {
   constructor(id: string) {
     super();
@@ -51,22 +91,58 @@ export class Account extends Entity {
     this.set("timestamp", Value.fromBigInt(value));
   }
 
-  get ownerAddress(): Bytes {
-    let value = this.get("ownerAddress");
-    return value.toBytes();
+  get owner(): string {
+    let value = this.get("owner");
+    return value.toString();
   }
 
-  set ownerAddress(value: Bytes) {
-    this.set("ownerAddress", Value.fromBytes(value));
+  set owner(value: string) {
+    this.set("owner", Value.fromString(value));
   }
 
-  get accountNo(): BigInt {
-    let value = this.get("accountNo");
-    return value.toBigInt();
+  get margin(): Array<string> {
+    let value = this.get("margin");
+    return value.toStringArray();
   }
 
-  set accountNo(value: BigInt) {
-    this.set("accountNo", Value.fromBigInt(value));
+  set margin(value: Array<string>) {
+    this.set("margin", Value.fromStringArray(value));
+  }
+
+  get tokenPositions(): Array<string> {
+    let value = this.get("tokenPositions");
+    return value.toStringArray();
+  }
+
+  set tokenPositions(value: Array<string>) {
+    this.set("tokenPositions", Value.fromStringArray(value));
+  }
+
+  get liquidateToken(): Array<string> {
+    let value = this.get("liquidateToken");
+    return value.toStringArray();
+  }
+
+  set liquidateToken(value: Array<string>) {
+    this.set("liquidateToken", Value.fromStringArray(value));
+  }
+
+  get liquidateRangePosition(): Array<string> {
+    let value = this.get("liquidateRangePosition");
+    return value.toStringArray();
+  }
+
+  set liquidateRangePosition(value: Array<string>) {
+    this.set("liquidateRangePosition", Value.fromStringArray(value));
+  }
+
+  get liquidityPosition(): Array<string> {
+    let value = this.get("liquidityPosition");
+    return value.toStringArray();
+  }
+
+  set liquidityPosition(value: Array<string>) {
+    this.set("liquidityPosition", Value.fromStringArray(value));
   }
 }
 
@@ -109,13 +185,13 @@ export class Margin extends Entity {
     this.set("timestamp", Value.fromBigInt(value));
   }
 
-  get accountNo(): BigInt {
-    let value = this.get("accountNo");
-    return value.toBigInt();
+  get account(): string {
+    let value = this.get("account");
+    return value.toString();
   }
 
-  set accountNo(value: BigInt) {
-    this.set("accountNo", Value.fromBigInt(value));
+  set account(value: string) {
+    this.set("account", Value.fromString(value));
   }
 
   get rTokenAddress(): Bytes {
@@ -150,6 +226,23 @@ export class Margin extends Entity {
       this.unset("totalProfit");
     } else {
       this.set("totalProfit", Value.fromBigInt(value as BigInt));
+    }
+  }
+
+  get marginRatio(): BigInt | null {
+    let value = this.get("marginRatio");
+    if (value === null || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBigInt();
+    }
+  }
+
+  set marginRatio(value: BigInt | null) {
+    if (value === null) {
+      this.unset("marginRatio");
+    } else {
+      this.set("marginRatio", Value.fromBigInt(value as BigInt));
     }
   }
 }
@@ -193,13 +286,13 @@ export class TokenPosition extends Entity {
     this.set("timestamp", Value.fromBigInt(value));
   }
 
-  get accountNo(): BigInt {
-    let value = this.get("accountNo");
-    return value.toBigInt();
+  get account(): string {
+    let value = this.get("account");
+    return value.toString();
   }
 
-  set accountNo(value: BigInt) {
-    this.set("accountNo", Value.fromBigInt(value));
+  set account(value: string) {
+    this.set("account", Value.fromString(value));
   }
 
   get vToken(): Bytes {
@@ -269,13 +362,13 @@ export class LiquidateToken extends Entity {
     this.set("timestamp", Value.fromBigInt(value));
   }
 
-  get accountNo(): BigInt {
-    let value = this.get("accountNo");
-    return value.toBigInt();
+  get account(): string {
+    let value = this.get("account");
+    return value.toString();
   }
 
-  set accountNo(value: BigInt) {
-    this.set("accountNo", Value.fromBigInt(value));
+  set account(value: string) {
+    this.set("account", Value.fromString(value));
   }
 
   get liquidatorAccountNo(): BigInt {
@@ -378,13 +471,13 @@ export class LiquidateRangePosition extends Entity {
     this.set("timestamp", Value.fromBigInt(value));
   }
 
-  get accountNo(): BigInt {
-    let value = this.get("accountNo");
-    return value.toBigInt();
+  get account(): string {
+    let value = this.get("account");
+    return value.toString();
   }
 
-  set accountNo(value: BigInt) {
-    this.set("accountNo", Value.fromBigInt(value));
+  set account(value: string) {
+    this.set("account", Value.fromString(value));
   }
 
   get keeperAddress(): Bytes {
@@ -463,13 +556,13 @@ export class LiquidityPosition extends Entity {
     this.set("timestamp", Value.fromBigInt(value));
   }
 
-  get accountNo(): BigInt {
-    let value = this.get("accountNo");
-    return value.toBigInt();
+  get account(): string {
+    let value = this.get("account");
+    return value.toString();
   }
 
-  set accountNo(value: BigInt) {
-    this.set("accountNo", Value.fromBigInt(value));
+  set account(value: string) {
+    this.set("account", Value.fromString(value));
   }
 
   get vToken(): Bytes {
