@@ -7,8 +7,8 @@ import {
   Entity,
   Bytes,
   Address,
-  BigInt
-} from "@graphprotocol/graph-ts";
+  BigInt,
+} from '@graphprotocol/graph-ts';
 
 export class FeeAmountEnabled extends ethereum.Event {
   get params(): FeeAmountEnabled__Params {
@@ -90,17 +90,17 @@ export class PoolCreated__Params {
 
 export class Factory extends ethereum.SmartContract {
   static bind(address: Address): Factory {
-    return new Factory("Factory", address);
+    return new Factory('Factory', address);
   }
 
   createPool(tokenA: Address, tokenB: Address, fee: i32): Address {
     let result = super.call(
-      "createPool",
-      "createPool(address,address,uint24):(address)",
+      'createPool',
+      'createPool(address,address,uint24):(address)',
       [
         ethereum.Value.fromAddress(tokenA),
         ethereum.Value.fromAddress(tokenB),
-        ethereum.Value.fromUnsignedBigInt(BigInt.fromI32(fee))
+        ethereum.Value.fromUnsignedBigInt(BigInt.fromI32(fee)),
       ]
     );
 
@@ -113,12 +113,12 @@ export class Factory extends ethereum.SmartContract {
     fee: i32
   ): ethereum.CallResult<Address> {
     let result = super.tryCall(
-      "createPool",
-      "createPool(address,address,uint24):(address)",
+      'createPool',
+      'createPool(address,address,uint24):(address)',
       [
         ethereum.Value.fromAddress(tokenA),
         ethereum.Value.fromAddress(tokenB),
-        ethereum.Value.fromUnsignedBigInt(BigInt.fromI32(fee))
+        ethereum.Value.fromUnsignedBigInt(BigInt.fromI32(fee)),
       ]
     );
     if (result.reverted) {
@@ -130,8 +130,8 @@ export class Factory extends ethereum.SmartContract {
 
   feeAmountTickSpacing(fee: i32): i32 {
     let result = super.call(
-      "feeAmountTickSpacing",
-      "feeAmountTickSpacing(uint24):(int24)",
+      'feeAmountTickSpacing',
+      'feeAmountTickSpacing(uint24):(int24)',
       [ethereum.Value.fromUnsignedBigInt(BigInt.fromI32(fee))]
     );
 
@@ -140,8 +140,8 @@ export class Factory extends ethereum.SmartContract {
 
   try_feeAmountTickSpacing(fee: i32): ethereum.CallResult<i32> {
     let result = super.tryCall(
-      "feeAmountTickSpacing",
-      "feeAmountTickSpacing(uint24):(int24)",
+      'feeAmountTickSpacing',
+      'feeAmountTickSpacing(uint24):(int24)',
       [ethereum.Value.fromUnsignedBigInt(BigInt.fromI32(fee))]
     );
     if (result.reverted) {
@@ -153,12 +153,12 @@ export class Factory extends ethereum.SmartContract {
 
   getPool(tokenA: Address, tokenB: Address, fee: i32): Address {
     let result = super.call(
-      "getPool",
-      "getPool(address,address,uint24):(address)",
+      'getPool',
+      'getPool(address,address,uint24):(address)',
       [
         ethereum.Value.fromAddress(tokenA),
         ethereum.Value.fromAddress(tokenB),
-        ethereum.Value.fromUnsignedBigInt(BigInt.fromI32(fee))
+        ethereum.Value.fromUnsignedBigInt(BigInt.fromI32(fee)),
       ]
     );
 
@@ -171,12 +171,12 @@ export class Factory extends ethereum.SmartContract {
     fee: i32
   ): ethereum.CallResult<Address> {
     let result = super.tryCall(
-      "getPool",
-      "getPool(address,address,uint24):(address)",
+      'getPool',
+      'getPool(address,address,uint24):(address)',
       [
         ethereum.Value.fromAddress(tokenA),
         ethereum.Value.fromAddress(tokenB),
-        ethereum.Value.fromUnsignedBigInt(BigInt.fromI32(fee))
+        ethereum.Value.fromUnsignedBigInt(BigInt.fromI32(fee)),
       ]
     );
     if (result.reverted) {
@@ -187,13 +187,13 @@ export class Factory extends ethereum.SmartContract {
   }
 
   owner(): Address {
-    let result = super.call("owner", "owner():(address)", []);
+    let result = super.call('owner', 'owner():(address)', []);
 
     return result[0].toAddress();
   }
 
   try_owner(): ethereum.CallResult<Address> {
-    let result = super.tryCall("owner", "owner():(address)", []);
+    let result = super.tryCall('owner', 'owner():(address)', []);
     if (result.reverted) {
       return new ethereum.CallResult();
     }
