@@ -14,7 +14,7 @@ import {
 } from '../../../generated/AccountLibrary/AccountLibrary';
 import {
   Account,
-  Margin,
+  Collateral,
   TokenPosition,
   LiquidateToken,
   LiquidateRangePosition,
@@ -75,23 +75,23 @@ export function handleAccountCreated(event: AccountCreated): void {
 
 export function handleUpdateProfit(event: UpdateProfit): void {
   let time = event.block.timestamp;
-  let margin = new Margin(
+  let collateral = new Collateral(
     event.params.accountNo.toString() + '-' + time.toString()
   );
 
   // nullable check
-  if (margin) {
-    margin.timestamp = time;
-    margin.account = getAccount(event.params.accountNo).id;
-    margin.totalProfit = margin.totalProfit.plus(event.params.amount);
-    margin.save();
+  if (collateral) {
+    collateral.timestamp = time;
+    collateral.account = getAccount(event.params.accountNo).id;
+    collateral.totalProfit = collateral.totalProfit.plus(event.params.amount);
+    collateral.save();
   }
 }
 
-// @entity Margin
+// @entity Collateral
 export function handleDepositMargin(event: DepositMargin): void {
   let time = event.block.timestamp;
-  let margin = new Margin(
+  let collateral = new Collateral(
     event.params.accountNo.toString() + '-' + time.toString()
   );
 
@@ -101,33 +101,33 @@ export function handleDepositMargin(event: DepositMargin): void {
   }
 
   // nullable check
-  if (margin) {
-    margin.timestamp = time;
-    margin.account = getAccount(event.params.accountNo).id;
-    margin.rTokenAddress = event.params.rTokenAddress;
-    margin.marginAmount = event.params.amount;
+  if (collateral) {
+    collateral.timestamp = time;
+    collateral.account = getAccount(event.params.accountNo).id;
+    collateral.rTokenAddress = event.params.rTokenAddress;
+    collateral.marginAmount = event.params.amount;
 
     // calculate margin ratio
-    // margin.marginRatio = (margin.marginAmount) /
+    // collateral.marginRatio = (margin.marginAmount) /
 
-    margin.save();
+    collateral.save();
   }
 }
 
 // @entity Margin
 export function handleWithdrawMargin(event: WithdrawMargin): void {
   let time = event.block.timestamp;
-  let margin = new Margin(
+  let collateral = new Collateral(
     event.params.accountNo.toString() + '-' + time.toString()
   );
 
   // nullable check
-  if (margin) {
-    margin.timestamp = time;
-    margin.account = getAccount(event.params.accountNo).id;
-    margin.rTokenAddress = event.params.rTokenAddress;
-    margin.marginAmount = event.params.amount;
-    margin.save();
+  if (collateral) {
+    collateral.timestamp = time;
+    collateral.account = getAccount(event.params.accountNo).id;
+    collateral.rTokenAddress = event.params.rTokenAddress;
+    collateral.marginAmount = event.params.amount;
+    collateral.save();
   }
 }
 

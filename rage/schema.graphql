@@ -18,17 +18,17 @@ type Account @entity {
   timestamp: BigInt!
   "ownerAddress wallet address of account owner"
   owner: Owner!
-  margin: [Margin!]! @derivedFrom(field: "account")
-  tokenPositions: [Margin!]! @derivedFrom(field: "account")
-  liquidateToken: [Margin!]! @derivedFrom(field: "account")
-  liquidateRangePosition: [Margin!]! @derivedFrom(field: "account")
-  liquidityPosition: [Margin!]! @derivedFrom(field: "account")
+  margin: [Collateral!]! @derivedFrom(field: "account")
+  tokenPositions: [Collateral!]! @derivedFrom(field: "account")
+  liquidateToken: [Collateral!]! @derivedFrom(field: "account")
+  liquidateRangePosition: [Collateral!]! @derivedFrom(field: "account")
+  liquidityPosition: [Collateral!]! @derivedFrom(field: "account")
 }
 
 """
 deposit/withdraw of margin
 """
-type Margin @entity {
+type Collateral @entity {
   id: ID! # accountNo - rTokenAddress
   "timestamp of the token position change"
   timestamp: BigInt!
