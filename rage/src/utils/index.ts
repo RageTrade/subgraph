@@ -1,6 +1,6 @@
 /* eslint-disable prefer-const */
 import { BigInt, BigDecimal, ethereum } from '@graphprotocol/graph-ts';
-import { Transaction } from '../../generated/schema';
+import { UniswapV3Transaction } from '../../generated/schema';
 import { ONE_BI, ZERO_BI, ZERO_BD, ONE_BD } from '../utils/constants';
 
 export function exponentToBigDecimal(decimals: BigInt): BigDecimal {
@@ -95,15 +95,15 @@ export function convertEthToDecimal(eth: BigInt): BigDecimal {
   return eth.toBigDecimal().div(exponentToBigDecimal(18));
 }
 
-export function loadTransaction(event: ethereum.Event): Transaction {
-  let transaction = Transaction.load(event.transaction.hash.toHexString());
+export function loadTransaction(event: ethereum.Event): UniswapV3Transaction {
+  let transaction = UniswapV3Transaction.load(event.transaction.hash.toHexString());
   if (transaction === null) {
-    transaction = new Transaction(event.transaction.hash.toHexString());
+    transaction = new UniswapV3Transaction(event.transaction.hash.toHexString());
   }
   transaction.blockNumber = event.block.number;
   transaction.timestamp = event.block.timestamp;
   transaction.gasUsed = event.transaction.gasUsed;
   transaction.gasPrice = event.transaction.gasPrice;
   transaction.save();
-  return transaction as Transaction;
+  return transaction as UniswapV3Transaction;
 }
