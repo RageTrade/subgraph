@@ -19,7 +19,8 @@ type Account @entity {
   "ownerAddress wallet address of account owner"
   owner: Owner!
   margin: [Collateral!]! @derivedFrom(field: "account")
-  tokenPositions: [Collateral!]! @derivedFrom(field: "account")
+  tokenPositions: [TokenPosition!]! @derivedFrom(field: "account")
+  tokenPositionChangeEntries: [TokenPositionChangeEntry!]! @derivedFrom(field: "account")
   liquidateToken: [Collateral!]! @derivedFrom(field: "account")
   liquidateRangePosition: [Collateral!]! @derivedFrom(field: "account")
   liquidityPosition: [Collateral!]! @derivedFrom(field: "account")
@@ -48,6 +49,19 @@ type Collateral @entity {
 token position change
 """
 type TokenPosition @entity {
+  id: ID! # accountNo - vToken - timestamp
+  "accountNo serial number of the account"
+  account: Account!
+  "vToken address of token whose position was taken"
+  vToken: Bytes! # TODO change to entity
+  "tokenAmountOut amount of tokens that account received (positive) or paid (negative)"
+  netPosition: BigInt!
+}
+
+"""
+token position change
+"""
+type TokenPositionChangeEntry @entity {
   id: ID! # accountNo - vToken - timestamp
   "timestamp of the token position change"
   timestamp: BigInt!

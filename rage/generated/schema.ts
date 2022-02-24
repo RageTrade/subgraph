@@ -118,6 +118,15 @@ export class Account extends Entity {
     this.set("tokenPositions", Value.fromStringArray(value));
   }
 
+  get tokenPositionChangeEntries(): Array<string> {
+    let value = this.get("tokenPositionChangeEntries");
+    return value.toStringArray();
+  }
+
+  set tokenPositionChangeEntries(value: Array<string>) {
+    this.set("tokenPositionChangeEntries", Value.fromStringArray(value));
+  }
+
   get liquidateToken(): Array<string> {
     let value = this.get("liquidateToken");
     return value.toStringArray();
@@ -266,6 +275,70 @@ export class TokenPosition extends Entity {
 
   static load(id: string): TokenPosition | null {
     return store.get("TokenPosition", id) as TokenPosition | null;
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    return value.toString();
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get account(): string {
+    let value = this.get("account");
+    return value.toString();
+  }
+
+  set account(value: string) {
+    this.set("account", Value.fromString(value));
+  }
+
+  get vToken(): Bytes {
+    let value = this.get("vToken");
+    return value.toBytes();
+  }
+
+  set vToken(value: Bytes) {
+    this.set("vToken", Value.fromBytes(value));
+  }
+
+  get netPosition(): BigInt {
+    let value = this.get("netPosition");
+    return value.toBigInt();
+  }
+
+  set netPosition(value: BigInt) {
+    this.set("netPosition", Value.fromBigInt(value));
+  }
+}
+
+export class TokenPositionChangeEntry extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(
+      id !== null,
+      "Cannot save TokenPositionChangeEntry entity without an ID"
+    );
+    assert(
+      id.kind == ValueKind.STRING,
+      "Cannot save TokenPositionChangeEntry entity with non-string ID. " +
+        'Considering using .toHex() to convert the "id" to a string.'
+    );
+    store.set("TokenPositionChangeEntry", id.toString(), this);
+  }
+
+  static load(id: string): TokenPositionChangeEntry | null {
+    return store.get(
+      "TokenPositionChangeEntry",
+      id
+    ) as TokenPositionChangeEntry | null;
   }
 
   get id(): string {
