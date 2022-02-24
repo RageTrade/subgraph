@@ -176,6 +176,42 @@ type Protocol @entity {
   feeAmount: BigInt!
 }
 
+type RageTradeFactory @entity {
+  id: ID! # factory address
+  vBase: VBase!
+  pools: [RageTradePool!]! @derivedFrom(field: "factory")
+}
+
+type VBase @entity {
+  id: ID! # address
+}
+
+type RageTradePool @entity {
+  id: ID! # vToken address
+  vToken: VToken!
+  vPool: UniswapV3Pool!
+  vPoolWrapper: VPoolWrapper!
+  factory: RageTradeFactory! # links to the factory
+  price: BigInt!
+  liquidity: BigInt!
+  funding: BigInt!
+  volume24H: BigInt!
+  priceChange24H: BigInt!
+  funding1H: BigInt!
+}
+
+type VToken @entity {
+  id: ID! # address
+  pool: RageTradePool!
+}
+
+type VPoolWrapper @entity {
+  id: ID! # wrapper address
+  pool: RageTradePool!
+}
+
+
+
 # -------------------
 # Uniswap V3 Subgraph
 #--------------------
