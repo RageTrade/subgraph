@@ -7,9 +7,9 @@ import {
   ZERO_BD,
   ADDRESS_ZERO,
 } from '../../utils/constants';
-import { Factory } from '../../../generated/schema';
+import { UniswapV3Factory } from '../../../generated/schema';
 import { PoolCreated } from '../../../generated/Factory/Factory';
-import { Pool, Token, Bundle } from '../../../generated/schema';
+import { UniswapV3Pool, UniswapV3Token, Bundle } from '../../../generated/schema';
 import { Pool as PoolTemplate } from '../../../generated/templates';
 import {
   fetchTokenSymbol,
@@ -29,9 +29,9 @@ export function handlePoolCreated(event: PoolCreated): void {
   }
 
   // load factory
-  let factory = Factory.load(FACTORY_ADDRESS);
+  let factory =UniswapV3Factory.load(FACTORY_ADDRESS);
   if (factory === null) {
-    factory = new Factory(FACTORY_ADDRESS);
+    factory = new UniswapV3Factory(FACTORY_ADDRESS);
     factory.poolCount = ZERO_BI;
     factory.totalVolumeETH = ZERO_BD;
     factory.totalVolumeUSD = ZERO_BD;
@@ -53,13 +53,13 @@ export function handlePoolCreated(event: PoolCreated): void {
 
   factory.poolCount = factory.poolCount.plus(ONE_BI);
 
-  let pool = new Pool(event.params.pool.toHexString()) as Pool;
-  let token0 = Token.load(event.params.token0.toHexString());
-  let token1 = Token.load(event.params.token1.toHexString());
+  let pool = new UniswapV3Pool(event.params.pool.toHexString()) as UniswapV3Pool;
+  let token0 = UniswapV3Token.load(event.params.token0.toHexString());
+  let token1 = UniswapV3Token.load(event.params.token1.toHexString());
 
   // fetch info if null
   if (token0 === null) {
-    token0 = new Token(event.params.token0.toHexString());
+    token0 = new UniswapV3Token(event.params.token0.toHexString());
     token0.symbol = fetchTokenSymbol(event.params.token0);
     token0.name = fetchTokenName(event.params.token0);
     token0.totalSupply = fetchTokenTotalSupply(event.params.token0);
@@ -86,7 +86,7 @@ export function handlePoolCreated(event: PoolCreated): void {
   }
 
   if (token1 === null) {
-    token1 = new Token(event.params.token1.toHexString());
+    token1 = new UniswapV3Token(event.params.token1.toHexString());
     token1.symbol = fetchTokenSymbol(event.params.token1);
     token1.name = fetchTokenName(event.params.token1);
     token1.totalSupply = fetchTokenTotalSupply(event.params.token1);
