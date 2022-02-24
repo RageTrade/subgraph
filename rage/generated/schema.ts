@@ -212,13 +212,13 @@ export class Collateral extends Entity {
     this.set("rTokenAddress", Value.fromBytes(value));
   }
 
-  get marginAmount(): BigInt {
-    let value = this.get("marginAmount");
+  get amount(): BigInt {
+    let value = this.get("amount");
     return value.toBigInt();
   }
 
-  set marginAmount(value: BigInt) {
-    this.set("marginAmount", Value.fromBigInt(value));
+  set amount(value: BigInt) {
+    this.set("amount", Value.fromBigInt(value));
   }
 
   get totalProfit(): BigInt | null {

@@ -38,7 +38,7 @@ type Collateral @entity {
   " rTokenAddress token in which margin is deposited"
   rTokenAddress: Bytes!
   " amount of tokens deposited"
-  marginAmount: BigInt!
+  amount: BigInt!
   "total realized profit of the account"
   totalProfit: BigInt
   "margin ratio (total collateral) / SUM(all positions)"
