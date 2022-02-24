@@ -90,6 +90,12 @@ export function handleTokenPositionChange(event: TokenPositionChange): void {
 
 // @entity Margin
 export function handleDepositMargin(event: DepositMargin): void {
+  log.warning('customlogs: handleDepositMargin triggered {} {} {}', [
+    event.params.accountNo.toHexString(),
+    event.params.rTokenAddress.toString(),
+    event.params.amount.toString(),
+  ]);
+
   let account = getAccount(event.params.accountNo);
   let collateral = getCollateral(account, event.params.rTokenAddress);
 
@@ -135,6 +141,13 @@ export function handleUpdateProfit(event: UpdateProfit): void {
 
 // @entity Margin
 export function handleWithdrawMargin(event: WithdrawMargin): void {
+  log.warning('customlogs: handleDepositMargin triggered {} {} {}', [
+    event.params.accountNo.toHexString(),
+    event.params.rTokenAddress.toString(),
+    event.params.amount.toString(),
+  ]);
+
+  
   let account = getAccount(event.params.accountNo);
   let collateral = getCollateral(account, event.params.rTokenAddress);
 
