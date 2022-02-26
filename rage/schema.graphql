@@ -19,7 +19,8 @@ type Account @entity {
   "ownerAddress wallet address of account owner"
   owner: Owner!
   margin: [Collateral!]! @derivedFrom(field: "account")
-  tokenPositions: [Collateral!]! @derivedFrom(field: "account")
+  tokenPositions: [TokenPosition!]! @derivedFrom(field: "account")
+  tokenPositionChangeEntries: [TokenPositionChangeEntry!]! @derivedFrom(field: "account")
   liquidateToken: [Collateral!]! @derivedFrom(field: "account")
   liquidateRangePosition: [Collateral!]! @derivedFrom(field: "account")
   liquidityPosition: [Collateral!]! @derivedFrom(field: "account")
@@ -37,7 +38,7 @@ type Collateral @entity {
   " rTokenAddress token in which margin is deposited"
   rTokenAddress: Bytes!
   " amount of tokens deposited"
-  marginAmount: BigInt!
+  amount: BigInt!
   "total realized profit of the account"
   totalProfit: BigInt
   "margin ratio (total collateral) / SUM(all positions)"
@@ -48,6 +49,19 @@ type Collateral @entity {
 token position change
 """
 type TokenPosition @entity {
+  id: ID! # accountNo - vToken - timestamp
+  "accountNo serial number of the account"
+  account: Account!
+  "vToken address of token whose position was taken"
+  vToken: Bytes! # TODO change to entity
+  "tokenAmountOut amount of tokens that account received (positive) or paid (negative)"
+  netPosition: BigInt!
+}
+
+"""
+token position change
+"""
+type TokenPositionChangeEntry @entity {
   id: ID! # accountNo - vToken - timestamp
   "timestamp of the token position change"
   timestamp: BigInt!
@@ -162,11 +176,47 @@ type Protocol @entity {
   feeAmount: BigInt!
 }
 
+type RageTradeFactory @entity {
+  id: ID! # factory address
+  vBase: VBase!
+  pools: [RageTradePool!]! @derivedFrom(field: "factory")
+}
+
+type VBase @entity {
+  id: ID! # address
+}
+
+type RageTradePool @entity {
+  id: ID! # vToken address
+  vToken: VToken!
+  vPool: UniswapV3Pool!
+  vPoolWrapper: VPoolWrapper!
+  factory: RageTradeFactory! # links to the factory
+  price: BigInt!
+  liquidity: BigInt!
+  funding: BigInt!
+  volume24H: BigInt!
+  priceChange24H: BigInt!
+  funding1H: BigInt!
+}
+
+type VToken @entity {
+  id: ID! # address
+  pool: RageTradePool!
+}
+
+type VPoolWrapper @entity {
+  id: ID! # wrapper address
+  pool: RageTradePool!
+}
+
+
+
 # -------------------
 # Uniswap V3 Subgraph
 #--------------------
 
-type Factory @entity {
+type UniswapV3Factory @entity {
   # factory address
   id: ID!
   # amount of pools created
@@ -203,7 +253,7 @@ type Bundle @entity {
   ethPriceUSD: BigDecimal!
 }
 
-type Token @entity {
+type UniswapV3Token @entity {
   # token address
   id: ID!
   # token symbol
@@ -235,12 +285,12 @@ type Token @entity {
   # derived price in ETH
   derivedETH: BigDecimal!
   # pools token is in that are white listed for USD pricing
-  whitelistPools: [Pool!]!
+  whitelistPools: [UniswapV3Pool!]!
   # derived fields
   tokenDayData: [TokenDayData!]! @derivedFrom(field: "token")
 }
 
-type Pool @entity {
+type UniswapV3Pool @entity {
   # pool address
   id: ID!
   # creation
@@ -248,9 +298,9 @@ type Pool @entity {
   # block pool was created at
   createdAtBlockNumber: BigInt!
   # token0
-  token0: Token!
+  token0: UniswapV3Token!
   # token1
-  token1: Token!
+  token1: UniswapV3Token!
   # fee amount
   feeTier: BigInt!
   # in range liquidity
@@ -300,13 +350,14 @@ type Pool @entity {
   # daily snapshots of pool data
   poolDayData: [PoolDayData!]! @derivedFrom(field: "pool")
   # derived fields
-  mints: [Mint!]! @derivedFrom(field: "pool")
-  burns: [Burn!]! @derivedFrom(field: "pool")
-  collects: [Collect!]! @derivedFrom(field: "pool")
-  ticks: [Tick!]! @derivedFrom(field: "pool")
+  mints: [UniswapV3Mint!]! @derivedFrom(field: "pool")
+  burns: [UniswapV3Burn!]! @derivedFrom(field: "pool")
+  swaps: [UniswapV3Swap!]! @derivedFrom(field: "pool")
+  collects: [UniswapV3Collect!]! @derivedFrom(field: "pool")
+  ticks: [UniswapV3Tick!]! @derivedFrom(field: "pool")
 }
 
-type Tick @entity {
+type UniswapV3Tick @entity {
   # format: <pool address>#<tick index>
   id: ID!
   # pool address
@@ -314,7 +365,7 @@ type Tick @entity {
   # tick index
   tickIdx: BigInt!
   # pointer to pool
-  pool: Pool!
+  pool: UniswapV3Pool!
   # total liquidity pool has as tick lower or upper
   liquidityGross: BigInt!
   # how much liquidity changes when tick crossed
@@ -347,7 +398,7 @@ type Tick @entity {
   liquidityProviderCount: BigInt! # used to detect new exchanges
 }
 
-type Transaction @entity {
+type UniswapV3Transaction @entity {
   # txn hash
   id: ID!
   # block txn was included in
@@ -358,24 +409,24 @@ type Transaction @entity {
   gasUsed: BigInt!
   gasPrice: BigInt!
   # derived values
-  mints: [Mint]! @derivedFrom(field: "transaction")
-  burns: [Burn]! @derivedFrom(field: "transaction")
-  collects: [Collect]! @derivedFrom(field: "transaction")
+  mints: [UniswapV3Mint]! @derivedFrom(field: "transaction")
+  burns: [UniswapV3Burn]! @derivedFrom(field: "transaction")
+  collects: [UniswapV3Collect]! @derivedFrom(field: "transaction")
 }
 
-type Mint @entity {
+type UniswapV3Mint @entity {
   # transaction hash + "#" + index in mints Transaction array
   id: ID!
   # which txn the mint was included in
-  transaction: Transaction!
+  transaction: UniswapV3Transaction!
   # time of txn
   timestamp: BigInt!
   # pool position is within
-  pool: Pool!
+  pool: UniswapV3Pool!
   # allow indexing by tokens
-  token0: Token!
+  token0: UniswapV3Token!
   # allow indexing by tokens
-  token1: Token!
+  token1: UniswapV3Token!
   # owner of position where liquidity minted to
   owner: Bytes!
   # the address that minted the liquidity
@@ -398,17 +449,17 @@ type Mint @entity {
   logIndex: BigInt
 }
 
-type Burn @entity {
+type UniswapV3Burn @entity {
   # transaction hash + "#" + index in mints Transaction array
   id: ID!
   # txn burn was included in
-  transaction: Transaction!
+  transaction: UniswapV3Transaction!
   # pool position is within
-  pool: Pool!
+  pool: UniswapV3Pool!
   # allow indexing by tokens
-  token0: Token!
+  token0: UniswapV3Token!
   # allow indexing by tokens
-  token1: Token!
+  token1: UniswapV3Token!
   # need this to pull recent txns for specific token or pool
   timestamp: BigInt!
   # owner of position where liquidity was burned
@@ -431,15 +482,48 @@ type Burn @entity {
   logIndex: BigInt
 }
 
-type Collect @entity {
+type UniswapV3Swap @entity {
+  # transaction hash + "#" + index in swaps Transaction array
+  id: ID!
+  # pointer to transaction
+  transaction: UniswapV3Transaction!
+  # timestamp of transaction
+  timestamp: BigInt!
+  # pool swap occured within
+  pool: UniswapV3Pool!
+  # allow indexing by tokens
+  token0: UniswapV3Token!
+  # allow indexing by tokens
+  token1: UniswapV3Token!
+  # sender of the swap
+  sender: Bytes!
+  # recipient of the swap
+  recipient: Bytes!
+  # txn origin
+  origin: Bytes! # the EOA that initiated the txn
+  # delta of token0 swapped
+  amount0: BigDecimal!
+  # delta of token1 swapped
+  amount1: BigDecimal!
+  # derived info
+  amountUSD: BigDecimal!
+  # The sqrt(price) of the pool after the swap, as a Q64.96
+  sqrtPriceX96: BigInt!
+  # the tick after the swap
+  tick: BigInt!
+  # index within the txn
+  logIndex: BigInt
+}
+
+type UniswapV3Collect @entity {
   # transaction hash + "#" + index in collect Transaction array
   id: ID!
   # pointer to txn
-  transaction: Transaction!
+  transaction: UniswapV3Transaction!
   # timestamp of event
   timestamp: BigInt!
   # pool collect occured within
-  pool: Pool!
+  pool: UniswapV3Pool!
   # owner of position collect was performed on
   owner: Bytes
   # amount of token0 collected
@@ -452,6 +536,33 @@ type Collect @entity {
   tickLower: BigInt!
   # uppper tick of position
   tickUpper: BigInt!
+  # index within the txn
+  logIndex: BigInt
+}
+
+type UniswapV3Flash @entity {
+  # transaction hash + "-" + index in collect Transaction array
+  id: ID!
+  # pointer to txn
+  transaction: UniswapV3Transaction!
+  # timestamp of event
+  timestamp: BigInt!
+  # pool collect occured within
+  pool: UniswapV3Pool!
+  # sender of the flash
+  sender: Bytes!
+  # recipient of the flash
+  recipient: Bytes!
+  # amount of token0 flashed
+  amount0: BigDecimal!
+  # amount of token1 flashed
+  amount1: BigDecimal!
+  # derived amount based on available prices of tokens
+  amountUSD: BigDecimal!
+  # amount token0 paid for flash
+  amount0Paid: BigDecimal!
+  # amount token1 paid for flash
+  amount1Paid: BigDecimal!
   # index within the txn
   logIndex: BigInt
 }
@@ -483,7 +594,7 @@ type PoolDayData @entity {
   # timestamp rounded to current day by dividing by 86400
   date: Int!
   # pointer to pool
-  pool: Pool!
+  pool: UniswapV3Pool!
   # in range liquidity at end of period
   liquidity: BigInt!
   # current price tracker at end of period
@@ -523,7 +634,7 @@ type PoolHourData @entity {
   # unix timestamp for start of hour
   periodStartUnix: Int!
   # pointer to pool
-  pool: Pool!
+  pool: UniswapV3Pool!
   # in range liquidity at end of period
   liquidity: BigInt!
   # current price tracker at end of period
@@ -562,9 +673,9 @@ type TickHourData @entity {
   # unix timestamp for start of hour
   periodStartUnix: Int!
   # pointer to pool
-  pool: Pool!
+  pool: UniswapV3Pool!
   # pointer to tick
-  tick: Tick!
+  tick: UniswapV3Tick!
   # total liquidity pool has as tick lower or upper at end of period
   liquidityGross: BigInt!
   # how much liquidity changes when tick crossed at end of period
@@ -587,9 +698,9 @@ type TickDayData @entity {
   # timestamp rounded to current day by dividing by 86400
   date: Int!
   # pointer to pool
-  pool: Pool!
+  pool: UniswapV3Pool!
   # pointer to tick
-  tick: Tick!
+  tick: UniswapV3Tick!
   # total liquidity pool has as tick lower or upper at end of period
   liquidityGross: BigInt!
   # how much liquidity changes when tick crossed at end of period
@@ -610,7 +721,7 @@ type TokenDayData @entity {
   # timestamp rounded to current day by dividing by 86400
   date: Int!
   # pointer to token
-  token: Token!
+  token: UniswapV3Token!
   # volume in token units
   volume: BigDecimal!
   # volume in derived USD
@@ -641,7 +752,7 @@ type TokenHourData @entity {
   # unix timestamp for start of hour
   periodStartUnix: Int!
   # pointer to token
-  token: Token!
+  token: UniswapV3Token!
   # volume in token units
   volume: BigDecimal!
   # volume in derived USD
