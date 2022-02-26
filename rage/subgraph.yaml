@@ -5,11 +5,11 @@ schema:
   file: ./schema.graphql
 dataSources:
   - kind: ethereum/contract
-    name: AccountLibrary
+    name: ClearingHouse
     network: arbitrum-rinkeby
     source:
-      address: '0xF62CCc9425E9db745429B96374e5702F7Ed9B75C' # ClearingHouse Address since AccountLibrary events are emitted there
-      abi: AccountLibrary
+      address: "0x76ec3def9a1DA88baC50a694B4F4CDDdB79Df342"
+      abi: ClearingHouse
       startBlock: 9523700
     mapping:
       kind: ethereum/events
@@ -24,9 +24,9 @@ dataSources:
         - LiquidityPosition
         - Protocol
       abis:
-        - name: AccountLibrary
-          file: ./abis/AccountLibrary.json
-      file: ./src/mappings/clearinghouse/index.ts
+        - name: ClearingHouse
+          file: ./abis/ClearingHouse.json
+      file: ./src/mappings/clearinghouse/handlers.ts
       eventHandlers:
         - event: AccountCreated(indexed address,uint256)
           handler: handleAccountCreated
@@ -36,13 +36,16 @@ dataSources:
           handler: handleFundingPayment
         - event: LiquidateRanges(indexed uint256,indexed address,int256,int256,int256)
           handler: handleLiquidateRanges
-        - event: LiquidateTokenPosition(indexed uint256,indexed uint256,indexed address,uint16,uint256,uint256,int256)
+        - event: LiquidateTokenPosition(indexed uint256,indexed uint256,indexed
+            address,uint16,uint256,uint256,int256)
           handler: handleLiquidateTokenPosition
-        - event: LiquidityChange(indexed uint256,indexed address,int24,int24,int128,uint8,int256,int256)
+        - event: LiquidityChange(indexed uint256,indexed
+            address,int24,int24,int128,uint8,int256,int256)
           handler: handleLiquidityChange
         - event: LiquidityFee(indexed uint256,indexed address,int24,int24,int256)
           handler: handleLiquidityFee
-        - event: LiquidityTokenPositionChange(indexed uint256,indexed address,int24,int24,int256)
+        - event: LiquidityTokenPositionChange(indexed uint256,indexed
+            address,int24,int24,int256)
           handler: handleLiquidityTokenPositionChange
         - event: ProtocolFeeWithdrawm(indexed address,uint256)
           handler: handleProtocolFeeWithdrawm
@@ -56,7 +59,7 @@ dataSources:
     name: Factory
     network: arbitrum-rinkeby
     source:
-      address: '0x1F98431c8aD98523631AE4a59f267346ea31F984'
+      address: "0x1F98431c8aD98523631AE4a59f267346ea31F984"
       abi: Factory
       startBlock: 9523700
     mapping:
@@ -105,7 +108,10 @@ templates:
       eventHandlers:
         - event: Initialize(uint160,int24)
           handler: handleInitialize
-        - event: Mint(address,indexed address,indexed int24,indexed int24,uint128,uint256,uint256)
+        - event: Swap(indexed address,indexed address,int256,int256,uint160,uint128,int24)
+          handler: handleSwap
+        - event: Mint(address,indexed address,indexed int24,indexed
+            int24,uint128,uint256,uint256)
           handler: handleMint
         - event: Burn(indexed address,indexed int24,indexed int24,uint128,uint256,uint256)
           handler: handleBurn

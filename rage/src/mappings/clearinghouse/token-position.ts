@@ -1,30 +1,29 @@
-import { Address, BigInt } from '@graphprotocol/graph-ts';
-import { TokenPositionChange } from '../../../generated/AccountLibrary/AccountLibrary';
-import { TokenPosition } from '../../../generated/schema';
-import { getAccount, generateAccountId } from './account';
+import { Address, BigInt, log } from '@graphprotocol/graph-ts';
+import { Account, TokenPosition } from '../../../generated/schema';
+import { generateAccountId } from './account';
 
 export function generateTokenPositionId(
-  accountNo: BigInt,
+  account: Account,
   vTokenAddress: Address
 ): string {
-  return generateAccountId(accountNo) + '-' + vTokenAddress.toHexString();
+  return account.id + '-' + vTokenAddress.toHexString();
 }
 
-// @entity TokenPosition
-export function handleTokenPositionChange(event: TokenPositionChange): void {
-  let tokenPositionId = generateTokenPositionId(
-    event.params.accountNo,
-    event.params.vToken
-  );
-  let tokenPosition = new TokenPosition(tokenPositionId);
+export function getTokenPosition(
+  account: Account,
+  vTokenAddress: Address
+): TokenPosition {
+  let tokenPositionId = generateTokenPositionId(account, vTokenAddress);
 
-  // nullable check
-  if (tokenPosition) {
-    tokenPosition.timestamp = event.block.timestamp;
-    tokenPosition.account = getAccount(event.params.accountNo).id;
-    tokenPosition.vToken = event.params.vToken;
-    tokenPosition.tokenAmountOut = event.params.tokenAmountOut;
-    tokenPosition.baseAmountOut = event.params.baseAmountOut;
+  let tokenPosition = TokenPosition.load(tokenPositionId);
+  if (tokenPosition === null) {
+    // creating empty object
+    tokenPosition = new TokenPosition(tokenPositionId);
+    tokenPosition.account = account.id;
+    tokenPosition.vToken = vTokenAddress;
+    tokenPosition.netPosition = BigInt.fromI32(0);
     tokenPosition.save();
   }
+
+  return tokenPosition as TokenPosition;
 }

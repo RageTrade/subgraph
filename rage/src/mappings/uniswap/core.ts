@@ -1,11 +1,12 @@
 /* eslint-disable prefer-const */
 import {
   Bundle,
-  Burn,
-  Factory,
-  Mint,
-  Pool,
-  Token,
+  UniswapV3Burn,
+  UniswapV3Factory,
+  UniswapV3Mint,
+  UniswapV3Pool,
+  UniswapV3Swap,
+  UniswapV3Token,
 } from '../../../generated/schema';
 import { BigDecimal, BigInt } from '@graphprotocol/graph-ts';
 import {
@@ -30,7 +31,7 @@ import {
 } from '../../utils/intervalUpdates';
 
 export function handleInitialize(event: Initialize): void {
-  let pool = Pool.load(event.address.toHexString());
+  let pool = UniswapV3Pool.load(event.address.toHexString());
   pool.sqrtPrice = event.params.sqrtPriceX96;
   pool.tick = BigInt.fromI32(event.params.tick);
   // update token prices
@@ -43,11 +44,11 @@ export function handleMint(event: MintEvent): void {
   let bundle = Bundle.load('1');
 
   let poolAddress = event.address.toHexString();
-  let pool = Pool.load(poolAddress);
-  let factory = Factory.load(FACTORY_ADDRESS);
+  let pool = UniswapV3Pool.load(poolAddress);
+  let factory = UniswapV3Factory.load(FACTORY_ADDRESS);
 
-  let token0 = Token.load(pool.token0);
-  let token1 = Token.load(pool.token1);
+  let token0 = UniswapV3Token.load(pool.token0);
+  let token1 = UniswapV3Token.load(pool.token1);
   let amount0 = convertTokenToDecimal(event.params.amount0, token0.decimals);
   let amount1 = convertTokenToDecimal(event.params.amount1, token1.decimals);
 
@@ -106,7 +107,7 @@ export function handleMint(event: MintEvent): void {
   );
 
   let transaction = loadTransaction(event);
-  let mint = new Mint(
+  let mint = new UniswapV3Mint(
     transaction.id.toString() + '#' + pool.txCount.toString()
   );
   mint.transaction = transaction.id;
@@ -130,10 +131,10 @@ export function handleMint(event: MintEvent): void {
   updateUniswapDayData(event);
   updatePoolDayData(event);
   updatePoolHourData(event);
-  updateTokenDayData(token0 as Token, event);
-  updateTokenDayData(token1 as Token, event);
-  updateTokenHourData(token0 as Token, event);
-  updateTokenHourData(token1 as Token, event);
+  updateTokenDayData(token0 as UniswapV3Token, event);
+  updateTokenDayData(token1 as UniswapV3Token, event);
+  updateTokenHourData(token0 as UniswapV3Token, event);
+  updateTokenHourData(token1 as UniswapV3Token, event);
 
   token0.save();
   token1.save();
@@ -145,11 +146,11 @@ export function handleMint(event: MintEvent): void {
 export function handleBurn(event: BurnEvent): void {
   let bundle = Bundle.load('1');
   let poolAddress = event.address.toHexString();
-  let pool = Pool.load(poolAddress);
-  let factory = Factory.load(FACTORY_ADDRESS);
+  let pool = UniswapV3Pool.load(poolAddress);
+  let factory = UniswapV3Factory.load(FACTORY_ADDRESS);
 
-  let token0 = Token.load(pool.token0);
-  let token1 = Token.load(pool.token1);
+  let token0 = UniswapV3Token.load(pool.token0);
+  let token1 = UniswapV3Token.load(pool.token1);
   let amount0 = convertTokenToDecimal(event.params.amount0, token0.decimals);
   let amount1 = convertTokenToDecimal(event.params.amount1, token1.decimals);
 
@@ -208,7 +209,7 @@ export function handleBurn(event: BurnEvent): void {
 
   // burn entity
   let transaction = loadTransaction(event);
-  let burn = new Burn(transaction.id + '#' + pool.txCount.toString());
+  let burn = new UniswapV3Burn(transaction.id + '#' + pool.txCount.toString());
   burn.transaction = transaction.id;
   burn.timestamp = transaction.timestamp;
   burn.pool = pool.id;
@@ -227,10 +228,10 @@ export function handleBurn(event: BurnEvent): void {
   updateUniswapDayData(event);
   updatePoolDayData(event);
   updatePoolHourData(event);
-  updateTokenDayData(token0 as Token, event);
-  updateTokenDayData(token1 as Token, event);
-  updateTokenHourData(token0 as Token, event);
-  updateTokenHourData(token1 as Token, event);
+  updateTokenDayData(token0 as UniswapV3Token, event);
+  updateTokenDayData(token1 as UniswapV3Token, event);
+  updateTokenHourData(token0 as UniswapV3Token, event);
+  updateTokenHourData(token1 as UniswapV3Token, event);
 
   token0.save();
   token1.save();

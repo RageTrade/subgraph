@@ -1,6 +1,6 @@
 /* eslint-disable prefer-const */
 import { ONE_BD, ZERO_BD, ZERO_BI } from './constants';
-import { Bundle, Pool, Token } from '../../generated/schema';
+import { Bundle, UniswapV3Pool, UniswapV3Token } from '../../generated/schema';
 import { BigDecimal, BigInt } from '@graphprotocol/graph-ts';
 import { exponentToBigDecimal, safeDiv } from '../utils/index';
 
@@ -18,8 +18,8 @@ let MINIMUM_ETH_LOCKED = BigDecimal.fromString('4');
 let Q192 = 2 ** 192;
 export function sqrtPriceX96ToTokenPrices(
   sqrtPriceX96: BigInt,
-  token0: Token,
-  token1: Token
+  token0: UniswapV3Token,
+  token1: UniswapV3Token
 ): BigDecimal[] {
   let num = sqrtPriceX96.times(sqrtPriceX96).toBigDecimal();
   let denom = BigDecimal.fromString(Q192.toString());
@@ -36,7 +36,7 @@ export function sqrtPriceX96ToTokenPrices(
 
 export function getEthPriceInUSD(): BigDecimal {
   // fetch eth prices for each stablecoin
-  let usdcPool = Pool.load(USDC_WETH_03_POOL); // usdc is token1
+  let usdcPool = UniswapV3Pool.load(USDC_WETH_03_POOL); // usdc is token1
 
   // need to only count ETH as having valid USD price if lots of ETH in pool
   if (
@@ -53,7 +53,7 @@ export function getEthPriceInUSD(): BigDecimal {
  * Search through graph to find derived Eth per token.
  * @todo update to be derived ETH (add stablecoin estimates)
  **/
-export function findEthPerToken(token: Token): BigDecimal {
+export function findEthPerToken(token: UniswapV3Token): BigDecimal {
   if (token.id == WETH_ADDRESS) {
     return ONE_BD;
   }
@@ -64,11 +64,11 @@ export function findEthPerToken(token: Token): BigDecimal {
   let priceSoFar = ZERO_BD;
   for (let i = 0; i < whiteList.length; ++i) {
     let poolAddress = whiteList[i];
-    let pool = Pool.load(poolAddress);
+    let pool = UniswapV3Pool.load(poolAddress);
     if (pool.liquidity.gt(ZERO_BI)) {
       if (pool.token0 == token.id) {
         // whitelist token is token1
-        let token1 = Token.load(pool.token1);
+        let token1 = UniswapV3Token.load(pool.token1);
         // get the derived ETH in pool
         let ethLocked = pool.totalValueLockedToken1.times(token1.derivedETH);
         if (
@@ -81,7 +81,7 @@ export function findEthPerToken(token: Token): BigDecimal {
         }
       }
       if (pool.token1 == token.id) {
-        let token0 = Token.load(pool.token0);
+        let token0 = UniswapV3Token.load(pool.token0);
         // get the derived ETH in pool
         let ethLocked = pool.totalValueLockedToken0.times(token0.derivedETH);
         if (
@@ -106,9 +106,9 @@ export function findEthPerToken(token: Token): BigDecimal {
  */
 export function getTrackedAmountUSD(
   tokenAmount0: BigDecimal,
-  token0: Token,
+  token0: UniswapV3Token,
   tokenAmount1: BigDecimal,
-  token1: Token
+  token1: UniswapV3Token
 ): BigDecimal {
   let bundle = Bundle.load('1');
   let price0USD = token0.derivedETH.times(bundle.ethPriceUSD);

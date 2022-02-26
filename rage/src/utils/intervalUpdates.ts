@@ -2,16 +2,16 @@ import { ZERO_BD, ZERO_BI, ONE_BI } from './constants';
 /* eslint-disable prefer-const */
 import {
   UniswapDayData,
-  Factory,
-  Pool,
+  UniswapV3Factory,
+  UniswapV3Pool,
   PoolDayData,
-  Token,
+  UniswapV3Token,
   TokenDayData,
   TokenHourData,
   Bundle,
   PoolHourData,
   TickDayData,
-  Tick,
+  UniswapV3Tick,
 } from '../../generated/schema';
 import { FACTORY_ADDRESS } from './constants';
 import { ethereum } from '@graphprotocol/graph-ts';
@@ -21,7 +21,7 @@ import { ethereum } from '@graphprotocol/graph-ts';
  * @param event
  */
 export function updateUniswapDayData(event: ethereum.Event): UniswapDayData {
-  let uniswap = Factory.load(FACTORY_ADDRESS);
+  let uniswap = UniswapV3Factory.load(FACTORY_ADDRESS);
   let timestamp = event.block.timestamp.toI32();
   let dayID = timestamp / 86400; // rounded
   let dayStartTimestamp = dayID * 86400;
@@ -48,7 +48,7 @@ export function updatePoolDayData(event: ethereum.Event): PoolDayData {
     .toHexString()
     .concat('-')
     .concat(dayID.toString());
-  let pool = Pool.load(event.address.toHexString());
+  let pool = UniswapV3Pool.load(event.address.toHexString());
   let poolDayData = PoolDayData.load(dayPoolID);
   if (poolDayData === null) {
     poolDayData = new PoolDayData(dayPoolID);
@@ -94,7 +94,7 @@ export function updatePoolHourData(event: ethereum.Event): PoolHourData {
     .toHexString()
     .concat('-')
     .concat(hourIndex.toString());
-  let pool = Pool.load(event.address.toHexString());
+  let pool = UniswapV3Pool.load(event.address.toHexString());
   let poolHourData = PoolHourData.load(hourPoolID);
   if (poolHourData === null) {
     poolHourData = new PoolHourData(hourPoolID);
@@ -134,7 +134,7 @@ export function updatePoolHourData(event: ethereum.Event): PoolHourData {
 }
 
 export function updateTokenDayData(
-  token: Token,
+  token: UniswapV3Token,
   event: ethereum.Event
 ): TokenDayData {
   let bundle = Bundle.load('1');
@@ -180,7 +180,7 @@ export function updateTokenDayData(
 }
 
 export function updateTokenHourData(
-  token: Token,
+  token: UniswapV3Token,
   event: ethereum.Event
 ): TokenHourData {
   let bundle = Bundle.load('1');
@@ -226,7 +226,7 @@ export function updateTokenHourData(
 }
 
 export function updateTickDayData(
-  tick: Tick,
+  tick: UniswapV3Tick,
   event: ethereum.Event
 ): TickDayData {
   let timestamp = event.block.timestamp.toI32();

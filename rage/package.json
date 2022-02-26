@@ -8,8 +8,10 @@
     "build": "graph build",
     "deploy": "graph deploy rage/perpswap-contracts-subgraph --ipfs https://api.thegraph.com/ipfs/ --node https://api.thegraph.com/deploy/",
     "deploy-local": "graph deploy rage/perpswap-contracts-subgraph --ipfs http://localhost:5001 --node http://127.0.0.1:8020",
+    "deploy1": "graph deploy 134dd3v/ragetrade --ipfs https://api.thegraph.com/ipfs/ --node https://api.thegraph.com/deploy/",
     "format": "prettier --check '**/*'",
-    "format:fix": "prettier --write '**/*'"
+    "format:fix": "prettier --write '**/*'",
+    "update": "yarn add @ragetrade/sdk@latest && node update-subgraph.js"
   },
   "devDependencies": {
     "@graphprotocol/graph-cli": "^0.20.0",
@@ -18,10 +20,13 @@
     "@typescript-eslint/parser": "^2.0.0",
     "eslint": "^6.2.2",
     "eslint-config-prettier": "^6.1.0",
+    "fs-extra": "^10.0.1",
     "prettier": "^1.18.2",
-    "typescript": "^3.5.2"
+    "typescript": "^3.5.2",
+    "yaml": "^1.10.2"
   },
   "dependencies": {
+    "@ragetrade/sdk": "^0.2.13",
     "babel-polyfill": "^6.26.0",
     "babel-register": "^6.26.0",
     "truffle": "^5.0.4",
