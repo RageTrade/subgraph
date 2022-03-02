@@ -92,7 +92,7 @@ export function convertTokenToDecimal(
 }
 
 export function convertEthToDecimal(eth: BigInt): BigDecimal {
-  return eth.toBigDecimal().div(exponentToBigDecimal(18));
+  return eth.toBigDecimal().div(exponentToBigDecimal(BigInt.fromI32(18)));
 }
 
 export function loadTransaction(event: ethereum.Event): UniswapV3Transaction {
@@ -106,4 +106,8 @@ export function loadTransaction(event: ethereum.Event): UniswapV3Transaction {
   transaction.gasPrice = event.transaction.gasPrice;
   transaction.save();
   return transaction as UniswapV3Transaction;
+}
+
+export function generateId(strings: string[], separator = "-"): string {
+  return strings.join(separator);
 }
