@@ -1,4 +1,4 @@
-import { BigInt, log } from '@graphprotocol/graph-ts';
+import { BigInt, Bytes, log } from '@graphprotocol/graph-ts';
 import {
   AccountCreated,
   UpdateProfit,
@@ -15,19 +15,14 @@ import {
 } from '../../../generated/AccountLibrary/AccountLibrary';
 import {
   Account,
-  Collateral,
   LiquidityPosition,
-  LiquidateRangePosition,
-  LiquidateToken,
-  Protocol,
-  TokenPosition,
   TokenPositionChangeEntry,
 } from '../../../generated/schema';
 import { generateAccountId, getAccount } from './account';
 import { getOwner } from './owner';
 import { getCollateral } from './collateral';
 import { getTokenPosition } from './token-position';
-import { generateTokenPositionChangeEntryId } from './token-position-change-entry';
+import { generateId } from '../../utils';
 
 // @entity Account
 export function handleAccountCreated(event: AccountCreated): void {
@@ -72,12 +67,13 @@ export function handleTokenPositionChange(event: TokenPositionChange): void {
 
   // create token position change entry
   {
-    let tokenPositionChangeEntryId = generateTokenPositionChangeEntryId(
-      event.params.accountNo,
-      event.block.number,
-      event.params.vToken,
-      event.logIndex
-    );
+    let tokenPositionChangeEntryId = generateId([
+      event.params.accountNo.toString(),
+      event.block.number.toString(),
+      event.params.vToken.toHexString(),
+      event.logIndex.toString(),
+    ]);
+
     let tokenPositionChangeEntry = new TokenPositionChangeEntry(
       tokenPositionChangeEntryId
     );
@@ -87,6 +83,36 @@ export function handleTokenPositionChange(event: TokenPositionChange): void {
     tokenPositionChangeEntry.tokenAmountOut = event.params.tokenAmountOut;
     tokenPositionChangeEntry.baseAmountOut = event.params.baseAmountOut;
     tokenPositionChangeEntry.save();
+  }
+
+  {
+    let liquidityPositionId = generateId([
+      event.params.accountNo.toString(),
+      event.block.number.toString(),
+      event.params.vToken.toHexString(),
+      event.logIndex.toString(),
+    ]);
+
+    let liquidityPosition = new LiquidityPosition(liquidityPositionId);
+
+    liquidityPosition.timestamp = event.block.timestamp;
+    liquidityPosition.account = account.id;
+    liquidityPosition.vToken = event.params.vToken;
+    liquidityPosition.tokenAmountOut = event.params.tokenAmountOut;
+    liquidityPosition.baseAmountOut = event.params.baseAmountOut;
+    // TODO: this is a placeholder, need to get correct liquidity position
+    liquidityPosition.tickLower = BigInt.fromI32(0);
+    liquidityPosition.tickUpper = BigInt.fromI32(0);
+    liquidityPosition.liquidityDelta = BigInt.fromI32(0);
+    liquidityPosition.limitOrderType = 'long';
+    liquidityPosition.fundingPayment = BigInt.fromI32(0);
+    liquidityPosition.feePayment = BigInt.fromI32(0);
+    liquidityPosition.keeperAddress = Bytes.fromI32('empty');
+    liquidityPosition.liquidationFee = Bytes.fromI32(0);
+    liquidityPosition.keeperFee = BigInt.fromI32(0);
+    liquidityPosition.insuranceFundFee = BigInt.fromI32(0);
+
+    liquidityPosition.save();
   }
 }
 
