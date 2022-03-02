@@ -1,19 +1,13 @@
 import { Address, BigInt, log } from '@graphprotocol/graph-ts';
 import { Account, TokenPosition } from '../../../generated/schema';
+import { generateId } from '../../utils';
 import { generateAccountId } from './account';
-
-export function generateTokenPositionId(
-  account: Account,
-  vTokenAddress: Address
-): string {
-  return account.id + '-' + vTokenAddress.toHexString();
-}
 
 export function getTokenPosition(
   account: Account,
   vTokenAddress: Address
 ): TokenPosition {
-  let tokenPositionId = generateTokenPositionId(account, vTokenAddress);
+  let tokenPositionId = generateId([account.id, vTokenAddress.toHexString()]);
 
   let tokenPosition = TokenPosition.load(tokenPositionId);
   if (tokenPosition === null) {
