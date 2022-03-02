@@ -52,7 +52,8 @@ export function handleAccountCreated(event: AccountCreated): void {
 
 // @entity TokenPosition
 export function handleTokenPositionChange(event: TokenPositionChange): void {
-  log.warning('customlogs: handleTokenPositionChange triggered {} {} {}', [
+  log.warning('customlogs: handleTokenPositionChange triggered {} {} {} {}', [
+    event.params.accountNo.toHexString(),
     event.params.vToken.toHexString(),
     event.params.tokenAmountOut.toString(),
     event.params.baseAmountOut.toString(),
@@ -73,6 +74,7 @@ export function handleTokenPositionChange(event: TokenPositionChange): void {
   {
     let tokenPositionChangeEntryId = generateTokenPositionChangeEntryId(
       event.params.accountNo,
+      event.block.number,
       event.params.vToken,
       event.logIndex
     );
@@ -103,7 +105,6 @@ export function handleDepositMargin(event: DepositMargin): void {
   collateral.timestamp = event.block.timestamp;
   collateral.amount = collateral.amount.plus(event.params.amount);
   collateral.save();
-
 
   // let time = event.block.timestamp;
   // let margin = new Margin(
@@ -147,7 +148,6 @@ export function handleWithdrawMargin(event: WithdrawMargin): void {
     event.params.amount.toString(),
   ]);
 
-  
   let account = getAccount(event.params.accountNo);
   let collateral = getCollateral(account, event.params.rTokenAddress);
 
