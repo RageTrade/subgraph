@@ -138,17 +138,15 @@ type LiquidityPosition @entity {
   "vToken address of token whose position was taken"
   vToken: Bytes!
   "tickLower lower tick of the range updated"
-  tickLower: BigInt!
+  tickLower: Int!
   "tickUpper upper tick of the range updated"
-  tickUpper: BigInt!
+  tickUpper: Int!
   "tokenAmountOut amount of tokens that account received (positive) or paid (negative)"
   tokenAmountOut: BigInt!
   "liquidityDelta change in liquidity value"
   liquidityDelta: BigInt
   "limitOrderType the type of range position"
   limitOrderType: TokenStatus
-  "baseAmountOut amount of base tokens that account received (positive) or paid (negative)"
-  baseAmountOut: BigInt
   "funding payment for a range / token position received"
   fundingPayment: BigInt
   "fee payment for a range / token position"
@@ -156,7 +154,7 @@ type LiquidityPosition @entity {
   "keeperAddress address of keeper who performed the liquidation"
   keeperAddress: Bytes
   "liquidationFee Bytes liquidation fee charged to the account"
-  liquidationFee: Bytes
+  liquidationFee: BigDecimal
   "keeperFee total liquidaiton fee paid to the keeper (positive only)"
   keeperFee: BigInt
   "insuranceFundFee total liquidaiton fee paid to the insurance fund (can be negative in case the account is not enought to cover the fee)"
