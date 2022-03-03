@@ -1,4 +1,4 @@
-import { BigInt, Bytes, log } from '@graphprotocol/graph-ts';
+import { Address, BigDecimal, BigInt, Bytes, log } from '@graphprotocol/graph-ts';
 import {
   AccountCreated,
   UpdateProfit,
@@ -16,7 +16,9 @@ import {
 import {
   Account,
   LiquidityPosition,
+  RageTradeFactory,
   TokenPositionChangeEntry,
+  VToken,
 } from '../../../generated/schema';
 import { generateAccountId, getAccount } from './account';
 import { getOwner } from './owner';
@@ -77,42 +79,13 @@ export function handleTokenPositionChange(event: TokenPositionChange): void {
     let tokenPositionChangeEntry = new TokenPositionChangeEntry(
       tokenPositionChangeEntryId
     );
+
     tokenPositionChangeEntry.timestamp = event.block.timestamp;
     tokenPositionChangeEntry.account = account.id;
     tokenPositionChangeEntry.vToken = event.params.vToken;
     tokenPositionChangeEntry.tokenAmountOut = event.params.tokenAmountOut;
     tokenPositionChangeEntry.baseAmountOut = event.params.baseAmountOut;
     tokenPositionChangeEntry.save();
-  }
-
-  {
-    let liquidityPositionId = generateId([
-      event.params.accountNo.toString(),
-      event.block.number.toString(),
-      event.params.vToken.toHexString(),
-      event.logIndex.toString(),
-    ]);
-
-    let liquidityPosition = new LiquidityPosition(liquidityPositionId);
-
-    liquidityPosition.timestamp = event.block.timestamp;
-    liquidityPosition.account = account.id;
-    liquidityPosition.vToken = event.params.vToken;
-    liquidityPosition.tokenAmountOut = event.params.tokenAmountOut;
-    liquidityPosition.baseAmountOut = event.params.baseAmountOut;
-    // TODO: this is a placeholder, need to get correct liquidity position
-    liquidityPosition.tickLower = BigInt.fromI32(0);
-    liquidityPosition.tickUpper = BigInt.fromI32(0);
-    liquidityPosition.liquidityDelta = BigInt.fromI32(0);
-    liquidityPosition.limitOrderType = 'long';
-    liquidityPosition.fundingPayment = BigInt.fromI32(0);
-    liquidityPosition.feePayment = BigInt.fromI32(0);
-    liquidityPosition.keeperAddress = Bytes.fromI32('empty');
-    liquidityPosition.liquidationFee = Bytes.fromI32(0);
-    liquidityPosition.keeperFee = BigInt.fromI32(0);
-    liquidityPosition.insuranceFundFee = BigInt.fromI32(0);
-
-    liquidityPosition.save();
   }
 }
 
@@ -198,24 +171,7 @@ export function handleWithdrawMargin(event: WithdrawMargin): void {
 
 // @entity LiquidityPosition
 export function handleFundingPayment(event: FundingPayment): void {
-  // let time = event.block.timestamp;
-  // let liquidityPosition = new LiquidityPosition(
-  //   event.params.accountNo.toString() +
-  //     '-' +
-  //     event.params.vToken.toHexString() +
-  //     '-' +
-  //     time.toString()
-  // );
-  // // nullable check
-  // if (liquidityPosition) {
-  //   liquidityPosition.timestamp = time;
-  //   liquidityPosition.account = getAccount(event.params.accountNo).id;
-  //   liquidityPosition.vToken = event.params.vToken;
-  //   liquidityPosition.tickLower = BigInt.fromI32(event.params.tickLower);
-  //   liquidityPosition.tickUpper = BigInt.fromI32(event.params.tickUpper);
-  //   liquidityPosition.fundingPayment = event.params.amount;
-  //   liquidityPosition.save();
-  // }
+
 }
 
 // @entity LiquidateRanges
@@ -326,24 +282,35 @@ export function handleLiquidityFee(event: LiquidityFee): void {
 export function handleLiquidityTokenPositionChange(
   event: LiquidityTokenPositionChange
 ): void {
-  // let time = event.block.timestamp;
-  // let liquidityPosition = new LiquidityPosition(
-  //   event.params.accountNo.toString() +
-  //     '-' +
-  //     event.params.vToken.toHexString() +
-  //     '-' +
-  //     time.toString()
-  // );
-  // // nullable check
-  // if (liquidityPosition) {
-  //   liquidityPosition.timestamp = time;
-  //   liquidityPosition.account = getAccount(event.params.accountNo).id;
-  //   liquidityPosition.vToken = event.params.vToken;
-  //   liquidityPosition.tickLower = BigInt.fromI32(event.params.tickLower);
-  //   liquidityPosition.tickUpper = BigInt.fromI32(event.params.tickUpper);
-  //   liquidityPosition.tokenAmountOut = event.params.tokenAmountOut;
-  //   liquidityPosition.save();
-  // }
+  let liquidityPositionId = generateId([
+    event.params.accountNo.toString(),
+    event.block.number.toString(),
+    event.params.vToken.toHexString(),
+    event.logIndex.toString(),
+  ]);
+
+  let account = getAccount(event.params.accountNo);
+
+  let liquidityPosition = new LiquidityPosition(liquidityPositionId);
+
+  liquidityPosition.timestamp = event.block.timestamp;
+  liquidityPosition.account = account.id;
+  liquidityPosition.vToken = event.params.vToken;
+  liquidityPosition.tokenAmountOut = event.params.tokenAmountOut;
+
+  // TODO: this is a placeholder, need to get correct liquidity position
+  liquidityPosition.tickLower = event.params.tickLower;
+  liquidityPosition.tickUpper = event.params.tickUpper;
+  liquidityPosition.liquidityDelta = BigInt.fromI32(0);
+  liquidityPosition.limitOrderType = 'long';
+  liquidityPosition.fundingPayment = BigInt.fromI32(0);
+  liquidityPosition.feePayment = BigInt.fromI32(0);
+  liquidityPosition.keeperAddress = Address.fromString("0");
+  liquidityPosition.liquidationFee = BigDecimal.fromString("0");
+  liquidityPosition.keeperFee = BigInt.fromI32(0);
+  liquidityPosition.insuranceFundFee = BigInt.fromI32(0);
+
+  liquidityPosition.save();
 }
 
 // @entity Protocol
