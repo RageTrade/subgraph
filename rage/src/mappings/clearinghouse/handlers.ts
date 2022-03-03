@@ -1,4 +1,10 @@
-import { Address, BigDecimal, BigInt, Bytes, log } from '@graphprotocol/graph-ts';
+import {
+  Address,
+  BigDecimal,
+  BigInt,
+  Bytes,
+  log,
+} from '@graphprotocol/graph-ts';
 import {
   AccountCreated,
   UpdateProfit,
@@ -170,9 +176,7 @@ export function handleWithdrawMargin(event: WithdrawMargin): void {
 }
 
 // @entity LiquidityPosition
-export function handleFundingPayment(event: FundingPayment): void {
-
-}
+export function handleFundingPayment(event: FundingPayment): void {}
 
 // @entity LiquidateRanges
 export function handleLiquidateRanges(event: LiquidateRanges): void {
@@ -291,7 +295,10 @@ export function handleLiquidityTokenPositionChange(
 
   let account = getAccount(event.params.accountNo);
 
-  let liquidityPosition = new LiquidityPosition(liquidityPositionId);
+  let liquidityPosition = LiquidityPosition.load(liquidityPositionId);
+  if (liquidityPosition === null) {
+    liquidityPosition = new LiquidityPosition(liquidityPositionId);
+  }
 
   liquidityPosition.timestamp = event.block.timestamp;
   liquidityPosition.account = account.id;
@@ -305,8 +312,8 @@ export function handleLiquidityTokenPositionChange(
   liquidityPosition.limitOrderType = 'long';
   liquidityPosition.fundingPayment = BigInt.fromI32(0);
   liquidityPosition.feePayment = BigInt.fromI32(0);
-  liquidityPosition.keeperAddress = Address.fromString("0");
-  liquidityPosition.liquidationFee = BigDecimal.fromString("0");
+  liquidityPosition.keeperAddress = Address.fromString('0');
+  liquidityPosition.liquidationFee = BigDecimal.fromString('0');
   liquidityPosition.keeperFee = BigInt.fromI32(0);
   liquidityPosition.insuranceFundFee = BigInt.fromI32(0);
 
