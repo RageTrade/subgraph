@@ -96,9 +96,13 @@ export function convertEthToDecimal(eth: BigInt): BigDecimal {
 }
 
 export function loadTransaction(event: ethereum.Event): UniswapV3Transaction {
-  let transaction = UniswapV3Transaction.load(event.transaction.hash.toHexString());
+  let transaction = UniswapV3Transaction.load(
+    event.transaction.hash.toHexString()
+  );
   if (transaction === null) {
-    transaction = new UniswapV3Transaction(event.transaction.hash.toHexString());
+    transaction = new UniswapV3Transaction(
+      event.transaction.hash.toHexString()
+    );
   }
   transaction.blockNumber = event.block.number;
   transaction.timestamp = event.block.timestamp;
@@ -108,6 +112,6 @@ export function loadTransaction(event: ethereum.Event): UniswapV3Transaction {
   return transaction as UniswapV3Transaction;
 }
 
-export function generateId(strings: string[], separator = "-"): string {
-  return strings.join(separator);
+export function generateId(strings: string[]): string {
+  return strings.join("-");
 }
