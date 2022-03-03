@@ -23,6 +23,7 @@ import {
   Account,
   LiquidityPosition,
   RageTradeFactory,
+  TokenPosition,
   TokenPositionChangeEntry,
   VToken,
 } from '../../../generated/schema';
@@ -176,7 +177,27 @@ export function handleWithdrawMargin(event: WithdrawMargin): void {
 }
 
 // @entity LiquidityPosition
-export function handleFundingPayment(event: FundingPayment): void {}
+export function handleFundingPayment(event: FundingPayment): void {
+  log.warning('customlogs: handleFundingPayment triggered {} {} {}', [
+    event.params.accountNo.toHexString(),
+    event.params.amount.toString(),
+    event.params.vToken.toString(),
+  ]);
+
+  let account = getAccount(event.params.accountNo);
+  let tokenPositionId = generateId([
+    account.id,
+    event.params.vToken.toHexString(),
+  ]);
+
+  let tokenPosition = TokenPosition.load(tokenPositionId);
+  if (tokenPosition === null) {
+    return;
+  }
+
+  tokenPosition.netPosition = tokenPosition.netPosition.plus(event.params.amount);
+  tokenPosition.save();
+}
 
 // @entity LiquidateRanges
 export function handleLiquidateRanges(event: LiquidateRanges): void {
