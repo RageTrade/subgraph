@@ -647,22 +647,22 @@ export class LiquidityPosition extends Entity {
     this.set("vToken", Value.fromBytes(value));
   }
 
-  get tickLower(): BigInt {
+  get tickLower(): i32 {
     let value = this.get("tickLower");
-    return value.toBigInt();
+    return value.toI32();
   }
 
-  set tickLower(value: BigInt) {
-    this.set("tickLower", Value.fromBigInt(value));
+  set tickLower(value: i32) {
+    this.set("tickLower", Value.fromI32(value));
   }
 
-  get tickUpper(): BigInt {
+  get tickUpper(): i32 {
     let value = this.get("tickUpper");
-    return value.toBigInt();
+    return value.toI32();
   }
 
-  set tickUpper(value: BigInt) {
-    this.set("tickUpper", Value.fromBigInt(value));
+  set tickUpper(value: i32) {
+    this.set("tickUpper", Value.fromI32(value));
   }
 
   get tokenAmountOut(): BigInt {
@@ -705,23 +705,6 @@ export class LiquidityPosition extends Entity {
       this.unset("limitOrderType");
     } else {
       this.set("limitOrderType", Value.fromString(value as string));
-    }
-  }
-
-  get baseAmountOut(): BigInt | null {
-    let value = this.get("baseAmountOut");
-    if (value === null || value.kind == ValueKind.NULL) {
-      return null;
-    } else {
-      return value.toBigInt();
-    }
-  }
-
-  set baseAmountOut(value: BigInt | null) {
-    if (value === null) {
-      this.unset("baseAmountOut");
-    } else {
-      this.set("baseAmountOut", Value.fromBigInt(value as BigInt));
     }
   }
 
@@ -776,20 +759,20 @@ export class LiquidityPosition extends Entity {
     }
   }
 
-  get liquidationFee(): Bytes | null {
+  get liquidationFee(): BigDecimal | null {
     let value = this.get("liquidationFee");
     if (value === null || value.kind == ValueKind.NULL) {
       return null;
     } else {
-      return value.toBytes();
+      return value.toBigDecimal();
     }
   }
 
-  set liquidationFee(value: Bytes | null) {
+  set liquidationFee(value: BigDecimal | null) {
     if (value === null) {
       this.unset("liquidationFee");
     } else {
-      this.set("liquidationFee", Value.fromBytes(value as Bytes));
+      this.set("liquidationFee", Value.fromBigDecimal(value as BigDecimal));
     }
   }
 
