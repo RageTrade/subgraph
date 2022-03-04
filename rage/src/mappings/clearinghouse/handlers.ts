@@ -288,14 +288,13 @@ export function handleLiquidityChange(event: LiquidityChange): void {
     event.params.limitOrderType
   );
 
-  // event.params.baseAmountOut
-  //TODO: calculations
-  // liquidityPosition.fundingPayment =
-  // liquidityPosition.feePayment =
-  // liquidityPosition.keeperAddress =
-  // liquidityPosition.liquidationFee =
-  // liquidityPosition.keeperFee =
-  // liquidityPosition.insuranceFundFee =
+  // TODO: calculations
+  liquidityPosition.fundingPayment = BigInt.fromI32(0);
+  liquidityPosition.feePayment = BigInt.fromI32(0);
+  liquidityPosition.keeperAddress = Bytes.fromUTF8("0x0000");
+  liquidityPosition.liquidationFee = BigDecimal.fromString("0");
+  liquidityPosition.keeperFee = BigInt.fromI32(0);
+  liquidityPosition.insuranceFundFee = BigInt.fromI32(0);
   liquidityPosition.save();
 
   /* ------------------ HISTORICAL DATA ENTRIES --------------------------- */
@@ -325,12 +324,12 @@ export function handleLiquidityChange(event: LiquidityChange): void {
 
   // event.params.baseAmountOut
   //TODO: calculations
-  // liquidityPosition.fundingPayment =
-  // liquidityPosition.feePayment =
-  // liquidityPosition.keeperAddress =
-  // liquidityPosition.liquidationFee =
-  // liquidityPosition.keeperFee =
-  // liquidityPosition.insuranceFundFee =
+  liquidityPosition.fundingPayment = BigInt.fromI32(0);
+  liquidityPosition.feePayment = BigInt.fromI32(0);
+  liquidityPosition.keeperAddress = Bytes.fromUTF8("0x0000");
+  liquidityPosition.liquidationFee = BigDecimal.fromString("0");
+  liquidityPosition.keeperFee = BigInt.fromI32(0);
+  liquidityPosition.insuranceFundFee = BigInt.fromI32(0);
   liquidityPositionEntry.save();
 }
 
