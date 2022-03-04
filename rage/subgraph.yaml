@@ -22,6 +22,7 @@ dataSources:
         - LiquidateToken
         - LiquidateRangePosition
         - LiquidityPosition
+        - LiquidityPositionEntry
         - Protocol
       abis:
         - name: ClearingHouse
