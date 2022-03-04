@@ -23,7 +23,9 @@ type Account @entity {
   tokenPositionChangeEntries: [TokenPositionChangeEntry!]! @derivedFrom(field: "account")
   liquidateToken: [Collateral!]! @derivedFrom(field: "account")
   liquidateRangePosition: [Collateral!]! @derivedFrom(field: "account")
-  liquidityPosition: [Collateral!]! @derivedFrom(field: "account")
+  liquidityPosition: [LiquidityPosition!]! @derivedFrom(field: "account")
+  liquidityPositionEntry: [LiquidityPositionEntry!]! @derivedFrom(field: "account")
+
 }
 
 """
@@ -122,7 +124,7 @@ limit order types
 """
 enum TokenStatus {
   NONE
-  LOWER_LIMIT
+  TokenStatus
   UPPER_LIMIT
 }
 
@@ -160,7 +162,6 @@ type LiquidityPosition @entity {
   "insuranceFundFee total liquidaiton fee paid to the insurance fund (can be negative in case the account is not enought to cover the fee)"
   insuranceFundFee: BigInt
 }
-
 
 """
 denotes historical token position changes due to liquidity add/remove, funding
@@ -243,8 +244,6 @@ type VPoolWrapper @entity {
   id: ID! # wrapper address
   pool: RageTradePool!
 }
-
-
 
 # -------------------
 # Uniswap V3 Subgraph
