@@ -153,6 +153,15 @@ export class Account extends Entity {
   set liquidityPosition(value: Array<string>) {
     this.set("liquidityPosition", Value.fromStringArray(value));
   }
+
+  get liquidityPositionEntry(): Array<string> {
+    let value = this.get("liquidityPositionEntry");
+    return value.toStringArray();
+  }
+
+  set liquidityPositionEntry(value: Array<string>) {
+    this.set("liquidityPositionEntry", Value.fromStringArray(value));
+  }
 }
 
 export class Collateral extends Entity {
