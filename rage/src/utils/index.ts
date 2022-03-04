@@ -113,5 +113,27 @@ export function loadTransaction(event: ethereum.Event): UniswapV3Transaction {
 }
 
 export function generateId(strings: string[]): string {
-  return strings.join("-");
+  return strings.join('-');
+}
+
+/**
+ ```graphql
+  enum TokenStatus {
+      NONE
+      TokenStatus
+      UPPER_LIMIT
+  }
+  ```
+*/
+export function getLimitOrderEnum(limitOrder: i32): string {
+  switch (limitOrder) {
+    case 0:
+      return 'NONE';
+    case 1:
+      return 'TokenStatus';
+    case 2:
+      return 'UPPER_LIMIT';
+    default:
+      return 'NONE';
+  }
 }
