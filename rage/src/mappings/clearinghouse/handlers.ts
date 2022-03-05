@@ -38,8 +38,8 @@ export function handleAccountCreated(event: AccountCreated): void {
 }
 
 // @entity TokenPosition
-export function handleTokenPositionChange(event: TokenPositionChanged): void {
-  log.warning('customlogs: handleTokenPositionChange triggered {} {} {} {}', [
+export function handleTokenPositionChanged(event: TokenPositionChanged): void {
+  log.warning('custom_logs: handleTokenPositionChanged triggered {} {} {} {}', [
     event.params.accountId.toHexString(),
     event.params.poolId.toHexString(),
     event.params.tokenAmountOut.toString(),
