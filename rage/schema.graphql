@@ -20,11 +20,13 @@ type Account @entity {
   owner: Owner!
   margin: [Collateral!]! @derivedFrom(field: "account")
   tokenPositions: [TokenPosition!]! @derivedFrom(field: "account")
-  tokenPositionChangeEntries: [TokenPositionChangeEntry!]! @derivedFrom(field: "account")
+  tokenPositionChangeEntries: [TokenPositionChangeEntry!]!
+    @derivedFrom(field: "account")
   liquidateToken: [Collateral!]! @derivedFrom(field: "account")
   liquidateRangePosition: [Collateral!]! @derivedFrom(field: "account")
   liquidityPosition: [LiquidityPosition!]! @derivedFrom(field: "account")
-  liquidityPositionEntry: [LiquidityPositionEntry!]! @derivedFrom(field: "account")
+  liquidityPositionEntry: [LiquidityPositionEntry!]!
+    @derivedFrom(field: "account")
 }
 
 """
@@ -46,6 +48,31 @@ type Collateral @entity {
   marginRatio: BigInt
 }
 
+enum Side {
+  long
+  short
+}
+
+"""
+funding rate
+"""
+type FundingRateEntry @entity {
+  id: ID!
+
+  fundingRate: BigDecimal!
+
+  "long or short"
+  side: Side!
+
+  "token Position on vToken"
+  netTokenPosition: BigInt!
+
+  "timestamp of the funding rate"
+  timestamp: BigInt!
+  
+  vBaseDebitORCredit: BigInt!
+}
+
 """
 token position change
 """
@@ -54,7 +81,7 @@ type TokenPosition @entity {
   "accountNo serial number of the account"
   account: Account!
   "vToken address of token whose position was taken"
-  vToken: Bytes! # TODO change to entity
+  rageTradePool: RageTradePool! # TODO change to entity
   "tokenAmountOut amount of tokens that account received (positive) or paid (negative)"
   netPosition: BigInt!
 }
@@ -68,8 +95,8 @@ type TokenPositionChangeEntry @entity {
   timestamp: BigInt!
   "accountNo serial number of the account"
   account: Account!
-  "vToken address of token whose position was taken"
-  vToken: Bytes!
+  "rageTradePool position was taken"
+  rageTradePool: RageTradePool!
   "tokenAmountOut amount of tokens that account received (positive) or paid (negative)"
   tokenAmountOut: BigInt!
   "baseAmountOut amount of base tokens that account received (positive) or paid (negative)"
