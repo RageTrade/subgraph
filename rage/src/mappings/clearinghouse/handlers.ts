@@ -1,42 +1,24 @@
-import {
-  Address,
-  BigDecimal,
-  BigInt,
-  Bytes,
-  log,
-} from '@graphprotocol/graph-ts';
+import { Address, log, BigInt } from '@graphprotocol/graph-ts';
 import {
   AccountCreated,
-  UpdateProfit,
-  DepositMargin,
-  WithdrawMargin,
-  FundingPayment,
-  LiquidateRanges,
-  LiquidateTokenPosition,
-  LiquidityChange,
-  LiquidityFee,
-  LiquidityTokenPositionChange,
-  ProtocolFeeWithdrawm,
-  TokenPositionChange,
-} from '../../../generated/AccountLibrary/AccountLibrary';
+  FundingPaymentRealized,
+  TokenPositionChanged,
+} from '../../../generated/ClearingHouse/ClearingHouse';
 import {
   Account,
-  LiquidityPosition,
-  LiquidityPositionEntry,
-  RageTradeFactory,
-  TokenPosition,
+  FundingRateEntry,
+  RageTradePool,
   TokenPositionChangeEntry,
-  VToken,
 } from '../../../generated/schema';
 import { generateAccountId, getAccount } from './account';
 import { getOwner } from './owner';
-import { getCollateral } from './collateral';
 import { getTokenPosition } from './token-position';
-import { generateId, getLimitOrderEnum } from '../../utils';
+import { generateId, getFundingRate } from '../../utils';
+import { contracts } from '../../utils/addresses';
 
 // @entity Account
 export function handleAccountCreated(event: AccountCreated): void {
-  let accountId = generateAccountId(event.params.accountNo);
+  let accountId = generateAccountId(event.params.accountId);
 
   let account = Account.load(accountId);
 
@@ -56,19 +38,19 @@ export function handleAccountCreated(event: AccountCreated): void {
 }
 
 // @entity TokenPosition
-export function handleTokenPositionChange(event: TokenPositionChange): void {
+export function handleTokenPositionChange(event: TokenPositionChanged): void {
   log.warning('customlogs: handleTokenPositionChange triggered {} {} {} {}', [
-    event.params.accountNo.toHexString(),
-    event.params.vToken.toHexString(),
+    event.params.accountId.toHexString(),
+    event.params.poolId.toHexString(),
     event.params.tokenAmountOut.toString(),
     event.params.baseAmountOut.toString(),
   ]);
 
-  let account = getAccount(event.params.accountNo);
+  let account = getAccount(event.params.accountId);
 
   // update token position
   {
-    let tokenPosition = getTokenPosition(account, event.params.vToken);
+    let tokenPosition = getTokenPosition(account, event.params.poolId);
     tokenPosition.netPosition = tokenPosition.netPosition.plus(
       event.params.tokenAmountOut
     );
@@ -78,9 +60,9 @@ export function handleTokenPositionChange(event: TokenPositionChange): void {
   // create token position change entry
   {
     let tokenPositionChangeEntryId = generateId([
-      event.params.accountNo.toString(),
+      event.params.accountId.toString(),
       event.block.number.toString(),
-      event.params.vToken.toHexString(),
+      event.params.poolId.toHexString(),
       event.logIndex.toString(),
     ]);
 
@@ -90,7 +72,7 @@ export function handleTokenPositionChange(event: TokenPositionChange): void {
 
     tokenPositionChangeEntry.timestamp = event.block.timestamp;
     tokenPositionChangeEntry.account = account.id;
-    tokenPositionChangeEntry.vToken = event.params.vToken;
+    tokenPositionChangeEntry.rageTradePool = event.params.poolId.toHexString();
     tokenPositionChangeEntry.tokenAmountOut = event.params.tokenAmountOut;
     tokenPositionChangeEntry.baseAmountOut = event.params.baseAmountOut;
     tokenPositionChangeEntry.save();
@@ -98,279 +80,170 @@ export function handleTokenPositionChange(event: TokenPositionChange): void {
 }
 
 // @entity Margin
-export function handleDepositMargin(event: DepositMargin): void {
-  log.warning('customlogs: handleDepositMargin triggered {} {} {}', [
-    event.params.accountNo.toHexString(),
-    event.params.rTokenAddress.toString(),
-    event.params.amount.toString(),
-  ]);
+// export function handleDepositMargin(event: DepositMargin): void {
+//   log.warning('customlogs: handleDepositMargin triggered {} {} {}', [
+//     event.params.accountNo.toHexString(),
+//     event.params.rTokenAddress.toString(),
+//     event.params.amount.toString(),
+//   ]);
 
-  let account = getAccount(event.params.accountNo);
-  let collateral = getCollateral(account, event.params.rTokenAddress);
+//   let account = getAccount(event.params.accountNo);
+//   let collateral = getCollateral(account, event.params.rTokenAddress);
 
-  // TODO is this supposed to be last update timestamp?
-  collateral.timestamp = event.block.timestamp;
-  collateral.amount = collateral.amount.plus(event.params.amount);
-  collateral.save();
-
-  // let time = event.block.timestamp;
-  // let margin = new Margin(
-  //   event.params.accountNo.toString() + '-' + time.toString()
-  // );
-  // let account = Account.load(event.params.accountNo.toString());
-  // if (account) {
-  //   let len = account.tokenPositions.length;
-  // }
-  // // nullable check
-  // if (margin) {
-  //   margin.timestamp = time;
-  //   margin.account = getAccount(event.params.accountNo).id;
-  //   margin.rTokenAddress = event.params.rTokenAddress;
-  //   margin.marginAmount = event.params.amount;
-  //   // calculate margin ratio
-  //   // margin.marginRatio = (margin.marginAmount) /
-  //   margin.save();
-  // }
-}
-
-export function handleUpdateProfit(event: UpdateProfit): void {
-  // let time = event.block.timestamp;
-  // let margin = new Margin(
-  //   event.params.accountNo.toString() + '-' + time.toString()
-  // );
-  // // nullable check
-  // if (margin) {
-  //   margin.timestamp = time;
-  //   margin.account = getAccount(event.params.accountNo).id;
-  //   margin.totalProfit = margin.totalProfit.plus(event.params.amount);
-  //   margin.save();
-  // }
-}
+//   // TODO is this supposed to be last update timestamp?
+//   collateral.timestamp = event.block.timestamp;
+//   collateral.amount = collateral.amount.plus(event.params.amount);
+//   collateral.save();
+// }
 
 // @entity Margin
-export function handleWithdrawMargin(event: WithdrawMargin): void {
-  log.warning('customlogs: handleDepositMargin triggered {} {} {}', [
-    event.params.accountNo.toHexString(),
-    event.params.rTokenAddress.toString(),
-    event.params.amount.toString(),
-  ]);
+// export function handleWithdrawMargin(event: WithdrawMargin): void {
+//   log.warning('customlogs: handleDepositMargin triggered {} {} {}', [
+//     event.params.accountNo.toHexString(),
+//     event.params.rTokenAddress.toString(),
+//     event.params.amount.toString(),
+//   ]);
 
-  let account = getAccount(event.params.accountNo);
-  let collateral = getCollateral(account, event.params.rTokenAddress);
+//   let account = getAccount(event.params.accountNo);
+//   let collateral = getCollateral(account, event.params.rTokenAddress);
 
-  // TODO is this supposed to be last update timestamp?
-  collateral.timestamp = event.block.timestamp;
-  collateral.amount = collateral.amount.minus(event.params.amount);
-  collateral.save();
-
-  // let time = event.block.timestamp;
-  // let margin = new Margin(
-  //   event.params.accountNo.toString() + '-' + time.toString()
-  // );
-  // // nullable check
-  // if (margin) {
-  //   margin.timestamp = time;
-  //   margin.account = getAccount(event.params.accountNo).id;
-  //   margin.rTokenAddress = event.params.rTokenAddress;
-  //   margin.marginAmount = event.params.amount;
-  //   margin.save();
-  // }
-}
+//   // TODO is this supposed to be last update timestamp?
+//   collateral.timestamp = event.block.timestamp;
+//   collateral.amount = collateral.amount.minus(event.params.amount);
+//   collateral.save();
+// }
 
 // @entity LiquidityPosition
-export function handleFundingPayment(event: FundingPayment): void {
-  log.warning('customlogs: handleFundingPayment triggered {} {} {}', [
-    event.params.accountNo.toHexString(),
+export function handleFundingPaymentRealized(
+  event: FundingPaymentRealized
+): void {
+  log.warning('custom_logs: handleFundingPayment triggered {} {} {}', [
+    event.params.accountId.toHexString(),
     event.params.amount.toString(),
-    event.params.vToken.toString(),
+    event.params.poolId.toHexString(),
   ]);
 
-  let account = getAccount(event.params.accountNo);
-  let tokenPositionId = generateId([
-    account.id,
-    event.params.vToken.toHexString(),
+  let account = getAccount(event.params.accountId);
+
+  let tokePosition = getTokenPosition(account, event.params.poolId);
+  let rageTradePool = RageTradePool.load(event.params.poolId.toHexString());
+
+  let fundingRateId = generateId([
+    event.params.accountId.toString(),
+    event.params.poolId.toHexString(),
+    event.block.number.toHexString(),
+    event.logIndex.toHexString(),
   ]);
 
-  let tokenPosition = TokenPosition.load(tokenPositionId);
-  if (tokenPosition === null) {
-    return;
-  }
-  // TODO: incorrect
-  tokenPosition.netPosition = tokenPosition.netPosition.plus(
-    event.params.amount
+  let fundingRate = new FundingRateEntry(fundingRateId);
+
+  fundingRate.timestamp = event.block.timestamp;
+  fundingRate.netTokenPosition = tokePosition.netPosition;
+  fundingRate.vBaseDebitORCredit = event.params.amount;
+  fundingRate.fundingRate = getFundingRate(
+    contracts.ClearingHouse,
+    Address.fromString(rageTradePool.vToken)
   );
-  tokenPosition.save();
+  fundingRate.side = tokePosition.netPosition.gt(BigInt.fromI32(0))
+    ? 'long'
+    : 'short';
+
+  fundingRate.save();
 }
 
 // @entity LiquidateRanges
-export function handleLiquidateRanges(event: LiquidateRanges): void {
-  // let time = event.block.timestamp;
-  // let liquidateRanges = new LiquidateRangePosition(
-  //   event.params.accountNo.toString() +
-  //     '-' +
-  //     event.params.keeperAddress.toHexString() +
-  //     '-' +
-  //     time.toString()
-  // );
-  // // @TODO also update liquidityPosition's amounts so that liquidated amount can be calculated
-  // // nullable check
-  // if (liquidateRanges) {
-  //   liquidateRanges.timestamp = time;
-  //   liquidateRanges.account = getAccount(event.params.accountNo).id;
-  //   liquidateRanges.keeperAddress = event.params.keeperAddress;
-  //   liquidateRanges.liquidationFee = event.params.liquidationFee;
-  //   liquidateRanges.keeperFee = event.params.keeperFee;
-  //   liquidateRanges.insuranceFundFee = event.params.insuranceFundFee;
-  //   liquidateRanges.save();
-  // }
-}
+// export function handleLiquidateRanges(event: LiquidateRanges): void {}
 
 // @entity LiquidateTokenPosition
-export function handleLiquidateTokenPosition(
-  event: LiquidateTokenPosition
-): void {
-  // let time = event.block.timestamp;
-  // let liquidateTokenPosition = new LiquidateToken(
-  //   event.params.accountNo.toString() +
-  //     '-' +
-  //     event.params.vToken.toHexString() +
-  //     '-' +
-  //     time.toString()
-  // );
-  // // @TODO also update liquidityPosition's amounts so that liquidated amount can be calculated
-  // // nullable check
-  // if (liquidateTokenPosition) {
-  //   liquidateTokenPosition.timestamp = time;
-  //   liquidateTokenPosition.account = getAccount(event.params.accountNo).id;
-  //   liquidateTokenPosition.liquidatorAccountNo =
-  //     event.params.liquidatorAccountNo;
-  //   liquidateTokenPosition.vToken = event.params.vToken;
-  //   liquidateTokenPosition.liquidationBps = BigInt.fromI32(
-  //     event.params.liquidationBps
-  //   );
-  //   liquidateTokenPosition.liquidationPriceX128 =
-  //     event.params.liquidationPriceX128;
-  //   liquidateTokenPosition.liquidatorPriceX128 =
-  //     event.params.liquidatorPriceX128;
-  //   liquidateTokenPosition.insuranceFundFee = event.params.insuranceFundFee;
-  //   liquidateTokenPosition.save();
-  // }
-}
+// export function handleLiquidateTokenPosition(
+//   event: LiquidateTokenPosition
+// ): void {}
 
 // @entity LiquidityPosition
 // history of each liquidity change event
-export function handleLiquidityChange(event: LiquidityChange): void {
-  log.warning('customlogs: handleLiquidityChange triggered {} {} {}', [
-    event.params.accountNo.toHexString(),
-    event.params.liquidityDelta.toString(),
-    event.params.vToken.toString(),
-  ]);
+// export function handleLiquidityChange(event: LiquidityChange): void {
+//   log.warning('customlogs: handleLiquidityChange triggered {} {} {}', [
+//     event.params.accountNo.toHexString(),
+//     event.params.liquidityDelta.toString(),
+//     event.params.vToken.toString(),
+//   ]);
 
-  {
-    let liquidityPositionId = generateId([
-      event.params.accountNo.toString(),
-      event.params.vToken.toHexString(),
-    ]);
+//   {
+//     let liquidityPositionId = generateId([
+//       event.params.accountNo.toString(),
+//       event.params.vToken.toHexString(),
+//     ]);
 
-    let liquidityPosition = LiquidityPosition.load(liquidityPositionId);
-    if (liquidityPosition === null) {
-      liquidityPosition = new LiquidityPosition(liquidityPositionId);
-      liquidityPosition.timestamp = event.block.timestamp;
-      liquidityPosition.account = event.params.accountNo.toString();
-      liquidityPosition.vToken = event.params.vToken;
-    }
+//     let liquidityPosition = LiquidityPosition.load(liquidityPositionId);
+//     if (liquidityPosition === null) {
+//       liquidityPosition = new LiquidityPosition(liquidityPositionId);
+//       liquidityPosition.timestamp = event.block.timestamp;
+//       liquidityPosition.account = event.params.accountNo.toString();
+//       liquidityPosition.vToken = event.params.vToken;
+//     }
 
-    liquidityPosition.tickLower = event.params.tickLower;
-    liquidityPosition.tickUpper = event.params.tickUpper;
-    liquidityPosition.tokenAmountOut = event.params.tokenAmountOut;
-    liquidityPosition.liquidityDelta = event.params.liquidityDelta;
-    // TODO: how to handle enum?
-    liquidityPosition.limitOrderType = getLimitOrderEnum(
-      event.params.limitOrderType
-    );
+//     liquidityPosition.tickLower = event.params.tickLower;
+//     liquidityPosition.tickUpper = event.params.tickUpper;
+//     liquidityPosition.tokenAmountOut = event.params.tokenAmountOut;
+//     liquidityPosition.liquidityDelta = event.params.liquidityDelta;
+//     // TODO: how to handle enum?
+//     liquidityPosition.limitOrderType = getLimitOrderEnum(
+//       event.params.limitOrderType
+//     );
 
-    // TODO: calculations
-    liquidityPosition.fundingPayment = BigInt.fromI32(0);
-    liquidityPosition.feePayment = BigInt.fromI32(0);
-    liquidityPosition.keeperAddress = Bytes.fromUTF8('0') as Bytes;
-    liquidityPosition.liquidationFee = BigDecimal.fromString('0');
-    liquidityPosition.keeperFee = BigInt.fromI32(0);
-    liquidityPosition.insuranceFundFee = BigInt.fromI32(0);
-    liquidityPosition.save();
-  }
-  /* ------------------ HISTORICAL DATA ENTRIES --------------------------- */
+//     // TODO: calculations
+//     liquidityPosition.fundingPayment = BigInt.fromI32(0);
+//     liquidityPosition.feePayment = BigInt.fromI32(0);
+//     liquidityPosition.keeperAddress = Bytes.fromUTF8('0') as Bytes;
+//     liquidityPosition.liquidationFee = BigDecimal.fromString('0');
+//     liquidityPosition.keeperFee = BigInt.fromI32(0);
+//     liquidityPosition.insuranceFundFee = BigInt.fromI32(0);
+//     liquidityPosition.save();
+//   }
+//   /* ------------------ HISTORICAL DATA ENTRIES --------------------------- */
 
-  {
-    let liquidityChangeEntryId = generateId([
-      event.params.accountNo.toString(),
-      event.block.number.toString(),
-      event.params.vToken.toHexString(),
-      event.logIndex.toString(),
-    ]);
+//   {
+//     let liquidityChangeEntryId = generateId([
+//       event.params.accountNo.toString(),
+//       event.block.number.toString(),
+//       event.params.vToken.toHexString(),
+//       event.logIndex.toString(),
+//     ]);
 
-    let liquidityPositionEntry = new LiquidityPositionEntry(
-      liquidityChangeEntryId
-    );
+//     let liquidityPositionEntry = new LiquidityPositionEntry(
+//       liquidityChangeEntryId
+//     );
 
-    liquidityPositionEntry.timestamp = event.block.timestamp;
-    liquidityPositionEntry.account = event.params.accountNo.toString();
-    liquidityPositionEntry.vToken = event.params.vToken;
-    liquidityPositionEntry.tickLower = event.params.tickLower;
-    liquidityPositionEntry.tickUpper = event.params.tickUpper;
-    liquidityPositionEntry.tokenAmountOut = event.params.tokenAmountOut;
-    liquidityPositionEntry.liquidityDelta = event.params.liquidityDelta;
-    // TODO: how to handle enum?
-    liquidityPositionEntry.limitOrderType = getLimitOrderEnum(
-      event.params.limitOrderType
-    );
+//     liquidityPositionEntry.timestamp = event.block.timestamp;
+//     liquidityPositionEntry.account = event.params.accountNo.toString();
+//     liquidityPositionEntry.vToken = event.params.vToken;
+//     liquidityPositionEntry.tickLower = event.params.tickLower;
+//     liquidityPositionEntry.tickUpper = event.params.tickUpper;
+//     liquidityPositionEntry.tokenAmountOut = event.params.tokenAmountOut;
+//     liquidityPositionEntry.liquidityDelta = event.params.liquidityDelta;
+//     // TODO: how to handle enum?
+//     liquidityPositionEntry.limitOrderType = getLimitOrderEnum(
+//       event.params.limitOrderType
+//     );
 
-    // event.params.baseAmountOut
-    //TODO: calculations
-    liquidityPositionEntry.fundingPayment = BigInt.fromI32(0);
-    liquidityPositionEntry.feePayment = BigInt.fromI32(0);
-    liquidityPositionEntry.liquidationFee = BigDecimal.fromString('0');
-    liquidityPositionEntry.keeperFee = BigInt.fromI32(0);
-    liquidityPositionEntry.insuranceFundFee = BigInt.fromI32(0);
-    liquidityPositionEntry.save();
-  }
-}
-
-// @entity LiquidityPosition
-export function handleLiquidityFee(event: LiquidityFee): void {
-  // let time = event.block.timestamp;
-  // let liquidityPosition = new LiquidityPosition(
-  //   event.params.accountNo.toString() +
-  //     '-' +
-  //     event.params.vToken.toHexString() +
-  //     '-' +
-  //     time.toString()
-  // );
-  // // nullable check
-  // if (liquidityPosition) {
-  //   liquidityPosition.timestamp = time;
-  //   liquidityPosition.account = getAccount(event.params.accountNo).id;
-  //   liquidityPosition.vToken = event.params.vToken;
-  //   liquidityPosition.tickLower = BigInt.fromI32(event.params.tickLower);
-  //   liquidityPosition.tickUpper = BigInt.fromI32(event.params.tickUpper);
-  //   liquidityPosition.tokenAmountOut = event.params.amount;
-  //   liquidityPosition.save();
-  // }
-}
+//     // event.params.baseAmountOut
+//     //TODO: calculations
+//     liquidityPositionEntry.fundingPayment = BigInt.fromI32(0);
+//     liquidityPositionEntry.feePayment = BigInt.fromI32(0);
+//     liquidityPositionEntry.liquidationFee = BigDecimal.fromString('0');
+//     liquidityPositionEntry.keeperFee = BigInt.fromI32(0);
+//     liquidityPositionEntry.insuranceFundFee = BigInt.fromI32(0);
+//     liquidityPositionEntry.save();
+//   }
+// }
 
 // @entity LiquidityPosition
-export function handleLiquidityTokenPositionChange(
-  event: LiquidityTokenPositionChange
-): void {}
+// export function handleLiquidityFee(event: LiquidityFee): void {}
+
+// @entity LiquidityPosition
+// export function handleLiquidityTokenPositionChanged(
+//   event: LiquidityTokenPositionChange
+// ): void {}
 
 // @entity Protocol
-export function handleProtocolFeeWithdrawm(event: ProtocolFeeWithdrawm): void {
-  // let time = event.block.timestamp;
-  // let protocol = new Protocol(event.params.wrapperAddress.toHexString());
-  // // nullable check
-  // if (protocol) {
-  //   protocol.timestamp = time;
-  //   protocol.wrapperAddress = event.params.wrapperAddress;
-  //   protocol.feeAmount = event.params.feeAmount;
-  //   protocol.save();
-  // }
-}
+// export function handleProtocolFeeWithdrawm(event: ProtocolFeeWithdrawm): void {}
