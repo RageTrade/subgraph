@@ -978,23 +978,6 @@ export class LiquidityPositionEntry extends Entity {
     }
   }
 
-  get keeperAddress(): Bytes | null {
-    let value = this.get("keeperAddress");
-    if (value === null || value.kind == ValueKind.NULL) {
-      return null;
-    } else {
-      return value.toBytes();
-    }
-  }
-
-  set keeperAddress(value: Bytes | null) {
-    if (value === null) {
-      this.unset("keeperAddress");
-    } else {
-      this.set("keeperAddress", Value.fromBytes(value as Bytes));
-    }
-  }
-
   get liquidationFee(): BigDecimal | null {
     let value = this.get("liquidationFee");
     if (value === null || value.kind == ValueKind.NULL) {
@@ -1133,15 +1116,6 @@ export class RageTradeFactory extends Entity {
 
   set id(value: string) {
     this.set("id", Value.fromString(value));
-  }
-
-  get vBase(): string {
-    let value = this.get("vBase");
-    return value.toString();
-  }
-
-  set vBase(value: string) {
-    this.set("vBase", Value.fromString(value));
   }
 
   get pools(): Array<string> {
