@@ -265,6 +265,82 @@ export class Collateral extends Entity {
   }
 }
 
+export class FundingRateEntry extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id !== null, "Cannot save FundingRateEntry entity without an ID");
+    assert(
+      id.kind == ValueKind.STRING,
+      "Cannot save FundingRateEntry entity with non-string ID. " +
+        'Considering using .toHex() to convert the "id" to a string.'
+    );
+    store.set("FundingRateEntry", id.toString(), this);
+  }
+
+  static load(id: string): FundingRateEntry | null {
+    return store.get("FundingRateEntry", id) as FundingRateEntry | null;
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    return value.toString();
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get fundingRate(): BigDecimal {
+    let value = this.get("fundingRate");
+    return value.toBigDecimal();
+  }
+
+  set fundingRate(value: BigDecimal) {
+    this.set("fundingRate", Value.fromBigDecimal(value));
+  }
+
+  get side(): string {
+    let value = this.get("side");
+    return value.toString();
+  }
+
+  set side(value: string) {
+    this.set("side", Value.fromString(value));
+  }
+
+  get netTokenPosition(): BigInt {
+    let value = this.get("netTokenPosition");
+    return value.toBigInt();
+  }
+
+  set netTokenPosition(value: BigInt) {
+    this.set("netTokenPosition", Value.fromBigInt(value));
+  }
+
+  get timestamp(): BigInt {
+    let value = this.get("timestamp");
+    return value.toBigInt();
+  }
+
+  set timestamp(value: BigInt) {
+    this.set("timestamp", Value.fromBigInt(value));
+  }
+
+  get vBaseDebitORCredit(): BigInt {
+    let value = this.get("vBaseDebitORCredit");
+    return value.toBigInt();
+  }
+
+  set vBaseDebitORCredit(value: BigInt) {
+    this.set("vBaseDebitORCredit", Value.fromBigInt(value));
+  }
+}
+
 export class TokenPosition extends Entity {
   constructor(id: string) {
     super();
@@ -304,13 +380,13 @@ export class TokenPosition extends Entity {
     this.set("account", Value.fromString(value));
   }
 
-  get vToken(): Bytes {
-    let value = this.get("vToken");
-    return value.toBytes();
+  get rageTradePool(): string {
+    let value = this.get("rageTradePool");
+    return value.toString();
   }
 
-  set vToken(value: Bytes) {
-    this.set("vToken", Value.fromBytes(value));
+  set rageTradePool(value: string) {
+    this.set("rageTradePool", Value.fromString(value));
   }
 
   get netPosition(): BigInt {
@@ -377,13 +453,13 @@ export class TokenPositionChangeEntry extends Entity {
     this.set("account", Value.fromString(value));
   }
 
-  get vToken(): Bytes {
-    let value = this.get("vToken");
-    return value.toBytes();
+  get rageTradePool(): string {
+    let value = this.get("rageTradePool");
+    return value.toString();
   }
 
-  set vToken(value: Bytes) {
-    this.set("vToken", Value.fromBytes(value));
+  set rageTradePool(value: string) {
+    this.set("rageTradePool", Value.fromString(value));
   }
 
   get tokenAmountOut(): BigInt {

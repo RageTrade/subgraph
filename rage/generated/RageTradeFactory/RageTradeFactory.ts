@@ -269,8 +269,8 @@ export class InitializePoolCallInitializePoolParamsStruct extends ethereum.Tuple
     return this[0].toTuple() as InitializePoolCallInitializePoolParamsDeployVTokenParamsStruct;
   }
 
-  get rageTradePoolInitialSettings(): InitializePoolCallInitializePoolParamsRageTradePoolInitialSettingsStruct {
-    return this[1].toTuple() as InitializePoolCallInitializePoolParamsRageTradePoolInitialSettingsStruct;
+  get poolInitialSettings(): InitializePoolCallInitializePoolParamsPoolInitialSettingsStruct {
+    return this[1].toTuple() as InitializePoolCallInitializePoolParamsPoolInitialSettingsStruct;
   }
 
   get liquidityFeePips(): i32 {
@@ -300,7 +300,7 @@ export class InitializePoolCallInitializePoolParamsDeployVTokenParamsStruct exte
   }
 }
 
-export class InitializePoolCallInitializePoolParamsRageTradePoolInitialSettingsStruct extends ethereum.Tuple {
+export class InitializePoolCallInitializePoolParamsPoolInitialSettingsStruct extends ethereum.Tuple {
   get initialMarginRatio(): i32 {
     return this[0].toI32();
   }
