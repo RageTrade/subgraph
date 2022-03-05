@@ -21,6 +21,8 @@ export function handlePoolInitialized(event: PoolInitialized): void {
   }
 
   let poolId = truncate(event.params.vToken.toHexString());
+  log.debug('custom_logs: handlePoolInitialized poolId {}', [poolId]);
+  
   let rageTradePool = RageTradePool.load(poolId);
 
   if (rageTradePool !== null) {

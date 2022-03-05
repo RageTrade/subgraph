@@ -18,7 +18,7 @@ export function getAccount(accountNo: BigInt): Account {
   let account = Account.load(accountId);
   if (account === null) {
     // this should ideally not happen
-    log.critical('customlogs: account {} did not exist in getAccount', [
+    log.critical('custom_logs: account {} did not exist in getAccount', [
       accountId,
     ]);
     // creating empty account for other code to work
