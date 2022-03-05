@@ -266,71 +266,73 @@ export function handleLiquidityChange(event: LiquidityChange): void {
     event.params.vToken.toString(),
   ]);
 
-  let liquidityPositionId = generateId([
-    event.params.accountNo.toString(),
-    event.params.vToken.toHexString(),
-  ]);
+  {
+    let liquidityPositionId = generateId([
+      event.params.accountNo.toString(),
+      event.params.vToken.toHexString(),
+    ]);
 
-  let liquidityPosition = LiquidityPosition.load(liquidityPositionId);
-  if (liquidityPosition === null) {
-    liquidityPosition = new LiquidityPosition(liquidityPositionId);
-    liquidityPosition.timestamp = event.block.timestamp;
-    liquidityPosition.account = event.params.accountNo.toString();
-    liquidityPosition.vToken = event.params.vToken;
+    let liquidityPosition = LiquidityPosition.load(liquidityPositionId);
+    if (liquidityPosition === null) {
+      liquidityPosition = new LiquidityPosition(liquidityPositionId);
+      liquidityPosition.timestamp = event.block.timestamp;
+      liquidityPosition.account = event.params.accountNo.toString();
+      liquidityPosition.vToken = event.params.vToken;
+    }
+
+    liquidityPosition.tickLower = event.params.tickLower;
+    liquidityPosition.tickUpper = event.params.tickUpper;
+    liquidityPosition.tokenAmountOut = event.params.tokenAmountOut;
+    liquidityPosition.liquidityDelta = event.params.liquidityDelta;
+    // TODO: how to handle enum?
+    liquidityPosition.limitOrderType = getLimitOrderEnum(
+      event.params.limitOrderType
+    );
+
+    // TODO: calculations
+    liquidityPosition.fundingPayment = BigInt.fromI32(0);
+    liquidityPosition.feePayment = BigInt.fromI32(0);
+    liquidityPosition.keeperAddress = Bytes.fromUTF8('0') as Bytes;
+    liquidityPosition.liquidationFee = BigDecimal.fromString('0');
+    liquidityPosition.keeperFee = BigInt.fromI32(0);
+    liquidityPosition.insuranceFundFee = BigInt.fromI32(0);
+    liquidityPosition.save();
   }
-
-  liquidityPosition.tickLower = event.params.tickLower;
-  liquidityPosition.tickUpper = event.params.tickUpper;
-  liquidityPosition.tokenAmountOut = event.params.tokenAmountOut;
-  liquidityPosition.liquidityDelta = event.params.liquidityDelta;
-  // TODO: how to handle enum?
-  liquidityPosition.limitOrderType = getLimitOrderEnum(
-    event.params.limitOrderType
-  );
-
-  // TODO: calculations
-  liquidityPosition.fundingPayment = BigInt.fromI32(0);
-  liquidityPosition.feePayment = BigInt.fromI32(0);
-  liquidityPosition.keeperAddress = Bytes.fromUTF8("0x0000");
-  liquidityPosition.liquidationFee = BigDecimal.fromString("0");
-  liquidityPosition.keeperFee = BigInt.fromI32(0);
-  liquidityPosition.insuranceFundFee = BigInt.fromI32(0);
-  liquidityPosition.save();
-
   /* ------------------ HISTORICAL DATA ENTRIES --------------------------- */
 
-  let liquidityChangeEntryId = generateId([
-    event.params.accountNo.toString(),
-    event.block.number.toString(),
-    event.params.vToken.toHexString(),
-    event.logIndex.toString(),
-  ]);
+  {
+    let liquidityChangeEntryId = generateId([
+      event.params.accountNo.toString(),
+      event.block.number.toString(),
+      event.params.vToken.toHexString(),
+      event.logIndex.toString(),
+    ]);
 
-  let liquidityPositionEntry = new LiquidityPositionEntry(
-    liquidityChangeEntryId
-  );
+    let liquidityPositionEntry = new LiquidityPositionEntry(
+      liquidityChangeEntryId
+    );
 
-  liquidityPositionEntry.timestamp = event.block.timestamp;
-  liquidityPositionEntry.account = event.params.accountNo.toString();
-  liquidityPositionEntry.vToken = event.params.vToken;
-  liquidityPositionEntry.tickLower = event.params.tickLower;
-  liquidityPositionEntry.tickUpper = event.params.tickUpper;
-  liquidityPositionEntry.tokenAmountOut = event.params.tokenAmountOut;
-  liquidityPositionEntry.liquidityDelta = event.params.liquidityDelta;
-  // TODO: how to handle enum?
-  liquidityPositionEntry.limitOrderType = getLimitOrderEnum(
-    event.params.limitOrderType
-  );
+    liquidityPositionEntry.timestamp = event.block.timestamp;
+    liquidityPositionEntry.account = event.params.accountNo.toString();
+    liquidityPositionEntry.vToken = event.params.vToken;
+    liquidityPositionEntry.tickLower = event.params.tickLower;
+    liquidityPositionEntry.tickUpper = event.params.tickUpper;
+    liquidityPositionEntry.tokenAmountOut = event.params.tokenAmountOut;
+    liquidityPositionEntry.liquidityDelta = event.params.liquidityDelta;
+    // TODO: how to handle enum?
+    liquidityPositionEntry.limitOrderType = getLimitOrderEnum(
+      event.params.limitOrderType
+    );
 
-  // event.params.baseAmountOut
-  //TODO: calculations
-  liquidityPosition.fundingPayment = BigInt.fromI32(0);
-  liquidityPosition.feePayment = BigInt.fromI32(0);
-  liquidityPosition.keeperAddress = Bytes.fromUTF8("0x0000");
-  liquidityPosition.liquidationFee = BigDecimal.fromString("0");
-  liquidityPosition.keeperFee = BigInt.fromI32(0);
-  liquidityPosition.insuranceFundFee = BigInt.fromI32(0);
-  liquidityPositionEntry.save();
+    // event.params.baseAmountOut
+    //TODO: calculations
+    liquidityPositionEntry.fundingPayment = BigInt.fromI32(0);
+    liquidityPositionEntry.feePayment = BigInt.fromI32(0);
+    liquidityPositionEntry.liquidationFee = BigDecimal.fromString('0');
+    liquidityPositionEntry.keeperFee = BigInt.fromI32(0);
+    liquidityPositionEntry.insuranceFundFee = BigInt.fromI32(0);
+    liquidityPositionEntry.save();
+  }
 }
 
 // @entity LiquidityPosition
