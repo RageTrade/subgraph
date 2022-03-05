@@ -130,10 +130,14 @@ export function getLimitOrderEnum(limitOrder: i32): string {
     case 0:
       return 'NONE';
     case 1:
-      return 'TokenStatus';
+      return 'LOWER_LIMIT';
     case 2:
       return 'UPPER_LIMIT';
     default:
       return 'NONE';
   }
+}
+
+export function truncate(address: string): string {
+  return '0x' + address.slice(34, 42);
 }
