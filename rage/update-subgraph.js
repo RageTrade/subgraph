@@ -68,9 +68,9 @@ class Contracts {
 }
 
 export let contracts: Contracts = { 
-  ClearingHouse: Address.fromHexString("${clearingHouseAddress}"),
-  RageTradeFactory: Address.fromHexString("${rageTradeFactoryAddress}"),
-  InsuranceFund: Address.fromHexString("${insuranceFundAddress}"),
+  ClearingHouse: Address.fromString("${clearingHouseAddress}"),
+  RageTradeFactory: Address.fromString("${rageTradeFactoryAddress}"),
+  InsuranceFund: Address.fromString("${insuranceFundAddress}"),
  };`;
 
   fs.writeFile('./src/utils/addresses.ts', file, {
