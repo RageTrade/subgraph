@@ -5,10 +5,11 @@
     "create": "graph create rage/perpswap-contracts-subgraph --node https://api.thegraph.com/deploy/",
     "create-local": "graph create rage/perpswap-contracts-subgraph --node http://127.0.0.1:8020",
     "codegen": "graph codegen",
+    "auth": "graph auth https://thegraph.com/hosted-service/subgraph/fr0ntenddev/rage-trade <add-key-here>",
     "build": "graph build",
     "deploy": "graph deploy rage/perpswap-contracts-subgraph --ipfs https://api.thegraph.com/ipfs/ --node https://api.thegraph.com/deploy/",
     "deploy-local": "graph deploy rage/perpswap-contracts-subgraph --ipfs http://localhost:5001 --node http://127.0.0.1:8020",
-    "deploy1": "graph deploy 134dd3v/ragetrade --ipfs https://api.thegraph.com/ipfs/ --node https://api.thegraph.com/deploy/",
+    "deploy1": "graph deploy fr0ntenddev/rage-trade --ipfs https://api.thegraph.com/ipfs/ --node https://api.thegraph.com/deploy/",
     "format": "prettier --check '**/*'",
     "format:fix": "prettier --write '**/*'",
     "update": "yarn add @ragetrade/sdk@latest && node update-subgraph.js"
