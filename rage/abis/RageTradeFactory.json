@@ -231,8 +231,8 @@
                 "type": "address"
               }
             ],
-            "internalType": "struct IClearingHouse.RageTradePoolSettings",
-            "name": "rageTradePoolInitialSettings",
+            "internalType": "struct IClearingHouseStructures.PoolSettings",
+            "name": "poolInitialSettings",
             "type": "tuple"
           },
           {
