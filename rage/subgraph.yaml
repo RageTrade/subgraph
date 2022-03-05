@@ -57,6 +57,26 @@ dataSources:
         - event: UpdateProfit(indexed uint256,int256)
           handler: handleUpdateProfit
   - kind: ethereum/contract
+    name: RageTradeFactory
+    network: arbitrum-rinkeby
+    source:
+      address: "0x9Fcaf2c2F518ABc95DEbf6f9aDa89fbbBdA02F54"
+      abi: RageTradeFactory
+      startBlock: 9523700
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.4
+      language: wasm/assemblyscript
+      entities:
+        - RageTradePool
+      abis:
+        - name: RageTradeFactory
+          file: ./abis/RageTradeFactory.json
+      file: ./src/mappings/ragetradeFactory/handler.ts
+      eventHandlers:
+        - event: PoolInitialized(address,address,address)
+          handler: handlePoolInitialized
+  - kind: ethereum/contract
     name: Factory
     network: arbitrum-rinkeby
     source:
@@ -109,8 +129,6 @@ templates:
       eventHandlers:
         - event: Initialize(uint160,int24)
           handler: handleInitialize
-        # - event: Swap(indexed address,indexed address,int256,int256,uint160,uint128,int24)
-        #   handler: handleSwap
         - event: Mint(address,indexed address,indexed int24,indexed
             int24,uint128,uint256,uint256)
           handler: handleMint

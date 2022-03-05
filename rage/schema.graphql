@@ -25,7 +25,6 @@ type Account @entity {
   liquidateRangePosition: [Collateral!]! @derivedFrom(field: "account")
   liquidityPosition: [LiquidityPosition!]! @derivedFrom(field: "account")
   liquidityPositionEntry: [LiquidityPositionEntry!]! @derivedFrom(field: "account")
-
 }
 
 """
@@ -124,7 +123,7 @@ limit order types
 """
 enum TokenStatus {
   NONE
-  TokenStatus
+  LOWER_LIMIT
   UPPER_LIMIT
 }
 
@@ -188,8 +187,6 @@ type LiquidityPositionEntry @entity {
   fundingPayment: BigInt
   "fee payment for a range / token position"
   feePayment: BigInt
-  "keeperAddress address of keeper who performed the liquidation"
-  keeperAddress: Bytes
   "liquidationFee Bytes liquidation fee charged to the account"
   liquidationFee: BigDecimal
   "keeperFee total liquidaiton fee paid to the keeper (positive only)"
@@ -213,7 +210,6 @@ type Protocol @entity {
 
 type RageTradeFactory @entity {
   id: ID! # factory address
-  vBase: VBase!
   pools: [RageTradePool!]! @derivedFrom(field: "factory")
 }
 
