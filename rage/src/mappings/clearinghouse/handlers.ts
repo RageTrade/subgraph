@@ -360,40 +360,7 @@ export function handleLiquidityFee(event: LiquidityFee): void {
 // @entity LiquidityPosition
 export function handleLiquidityTokenPositionChange(
   event: LiquidityTokenPositionChange
-): void {
-  let liquidityPositionId = generateId([
-    event.params.accountNo.toString(),
-    event.block.number.toString(),
-    event.params.vToken.toHexString(),
-    event.logIndex.toString(),
-  ]);
-
-  let account = getAccount(event.params.accountNo);
-
-  let liquidityPosition = LiquidityPosition.load(liquidityPositionId);
-  if (liquidityPosition === null) {
-    liquidityPosition = new LiquidityPosition(liquidityPositionId);
-  }
-
-  liquidityPosition.timestamp = event.block.timestamp;
-  liquidityPosition.account = account.id;
-  liquidityPosition.vToken = event.params.vToken;
-  liquidityPosition.tokenAmountOut = event.params.tokenAmountOut;
-
-  // TODO: this is a placeholder, need to get correct liquidity position
-  liquidityPosition.tickLower = event.params.tickLower;
-  liquidityPosition.tickUpper = event.params.tickUpper;
-  liquidityPosition.liquidityDelta = BigInt.fromI32(0);
-  liquidityPosition.limitOrderType = 'long';
-  liquidityPosition.fundingPayment = BigInt.fromI32(0);
-  liquidityPosition.feePayment = BigInt.fromI32(0);
-  liquidityPosition.keeperAddress = Address.fromString('0');
-  liquidityPosition.liquidationFee = BigDecimal.fromString('0');
-  liquidityPosition.keeperFee = BigInt.fromI32(0);
-  liquidityPosition.insuranceFundFee = BigInt.fromI32(0);
-
-  liquidityPosition.save();
-}
+): void {}
 
 // @entity Protocol
 export function handleProtocolFeeWithdrawm(event: ProtocolFeeWithdrawm): void {
