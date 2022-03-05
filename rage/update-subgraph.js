@@ -6,8 +6,9 @@ const networkNameIn = { subgraph: 'arbitrum-rinkeby', sdk: 'arbtest' };
 
 async function main() {
   // updates abi
-  await updateAbi('RageTradeFactory');
+  const rtfDeployment = await updateAbi('RageTradeFactory');
   const chDeployment = await updateAbi('ClearingHouse'); // contains the abi for the account as well
+
   await updateAbi('InsuranceFund');
 
   // updates clearing house address in subgraph.yaml
@@ -21,6 +22,16 @@ async function main() {
     );
   }
   clearingHouseDataSource.source.address = chDeployment.address;
+
+  const rageTradeFactoryDataSource = subgraphYaml.dataSources.find(
+    ({ name }) => name === 'RageTradeFactory'
+  );
+  if (!rageTradeFactoryDataSource) {
+    throw new Error(
+      'There is no RageTradeFactory data source in the subgraph.yaml'
+    );
+  }
+  rageTradeFactoryDataSource.source.address = rtfDeployment.address;
 
   // subgraphYaml
   fs.writeFile('./subgraph.yaml', yaml.stringify(subgraphYaml, { indent: 2 }));
