@@ -9,7 +9,7 @@ async function main() {
   const rtfDeployment = await updateAbi('RageTradeFactory');
   const chDeployment = await updateAbi('ClearingHouse'); // contains the abi for the account as well
 
-  await updateAbi('InsuranceFund');
+  const ifDeployment = await updateAbi('InsuranceFund');
 
   // updates clearing house address in subgraph.yaml
   const subgraphYaml = yaml.parse(fs.readFileSync('./subgraph.yaml', 'utf8'));
@@ -35,14 +35,49 @@ async function main() {
 
   // subgraphYaml
   fs.writeFile('./subgraph.yaml', yaml.stringify(subgraphYaml, { indent: 2 }));
+
+  writeContractAddress({
+    clearingHouseAddress: chDeployment.address,
+    rageTradeFactoryAddress: rtfDeployment.address,
+    insuranceFundAddress: ifDeployment.address,
+  });
+
   console.log('Updated subgraph.yaml');
 }
 
 async function updateAbi(name) {
   const deployment = await sdk.getDeployment(networkNameIn.sdk, name);
   await fs.writeJSON(`./abis/${name}.json`, deployment.abi, { spaces: 2 });
+
   console.log(`Updated ${name}.json`);
   return deployment;
+}
+
+function writeContractAddress({
+  clearingHouseAddress,
+  rageTradeFactoryAddress,
+  insuranceFundAddress,
+}) {
+  const file = 
+  `import { Address } from '@graphprotocol/graph-ts'
+
+class Contracts {
+  ClearingHouse: Address;
+  RageTradeFactory: Address;
+  InsuranceFund: Address;
+}
+
+export let contracts: Contracts = { 
+  ClearingHouse: Address.fromHexString("${clearingHouseAddress}"),
+  RageTradeFactory: Address.fromHexString("${rageTradeFactoryAddress}"),
+  InsuranceFund: Address.fromHexString("${insuranceFundAddress}"),
+ };`;
+
+  fs.writeFile('./src/utils/addresses.ts', file, {
+    spaces: 2,
+  });
+
+  console.log('updated contract-address.ts');
 }
 
 main().catch(console.error);
