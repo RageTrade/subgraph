@@ -2,6 +2,9 @@
 import { BigInt, BigDecimal, ethereum } from '@graphprotocol/graph-ts';
 import { UniswapV3Transaction } from '../../generated/schema';
 import { ONE_BI, ZERO_BI, ZERO_BD, ONE_BD } from '../utils/constants';
+import { Address } from '@graphprotocol/graph-ts';
+
+import { ClearingHouse } from '../../generated/ClearingHouse/ClearingHouse';
 
 export function exponentToBigDecimal(decimals: BigInt): BigDecimal {
   let bd = BigDecimal.fromString('1');
@@ -140,4 +143,50 @@ export function getLimitOrderEnum(limitOrder: i32): string {
 
 export function truncate(address: string): string {
   return '0x' + address.slice(34, 42);
+}
+
+export function parsePriceX128(
+  priceX128: BigInt,
+  vTokenDecimals: BigInt,
+  vBaseDecimals: BigInt
+): BigDecimal {
+  let price = priceX128.toBigDecimal();
+  let vTokenUnit = tenPower(vTokenDecimals);
+  let vBaseUnit = tenPower(vBaseDecimals);
+  return price.div(vTokenUnit).div(vBaseUnit);
+}
+
+export function tenPower(power: BigInt): BigDecimal {
+  let val = ONE_BD;
+  for (let i = ZERO_BI; i.lt(power as BigInt); i = i.plus(ONE_BI)) {
+    val = val.times(BigDecimal.fromString('10'));
+  }
+  return val;
+}
+
+export function getFundingRate(
+  clearingHouseAddress: Address, // TODO somehow get this
+  vTokenAddress: Address // TODO poolId
+): BigDecimal {
+  let clearingHouseContract = ClearingHouse.bind(clearingHouseAddress);
+  let result = clearingHouseContract.try_getTwapSqrtPricesForSetDuration(
+    vTokenAddress
+  );
+  let realPriceX128 = result.value.value0;
+  let virtualPriceX128 = result.value.value1;
+
+  // TODO take decimals dynamically
+  let realPrice = parsePriceX128(
+    realPriceX128,
+    BigInt.fromI32(18),
+    BigInt.fromI32(6)
+  );
+  let virtualPrice = parsePriceX128(
+    virtualPriceX128,
+    BigInt.fromI32(18),
+    BigInt.fromI32(6)
+  );
+
+  let fundingRate = realPrice.minus(virtualPrice).div(virtualPrice);
+  return fundingRate;
 }
