@@ -5,33 +5,24 @@ const sdk = require('@ragetrade/sdk');
 const networkNameIn = { subgraph: 'arbitrum-rinkeby', sdk: 'arbtest' };
 
 async function main() {
-  // updates abi
-  const rtfDeployment = await updateAbi('RageTradeFactory');
-  const chDeployment = await updateAbi('ClearingHouse'); // contains the abi for the account as well
-
-  const ifDeployment = await updateAbi('InsuranceFund');
+  const [
+    rtfDeployment,
+    chDeployment,
+    ifDeployment,
+    vpwDeployment,
+  ] = await Promise.all([
+    updateAbi('RageTradeFactory'),
+    updateAbi('ClearingHouse'),
+    updateAbi('InsuranceFund'),
+    updateAbi('VPoolWrapperLogic'),
+  ]);
 
   // updates clearing house address in subgraph.yaml
   const subgraphYaml = yaml.parse(fs.readFileSync('./subgraph.yaml', 'utf8'));
-  const clearingHouseDataSource = subgraphYaml.dataSources.find(
-    ({ name }) => name === 'ClearingHouse'
-  );
-  if (!clearingHouseDataSource) {
-    throw new Error(
-      'There is no ClearingHouse data source in the subgraph.yaml'
-    );
-  }
-  clearingHouseDataSource.source.address = chDeployment.address;
 
-  const rageTradeFactoryDataSource = subgraphYaml.dataSources.find(
-    ({ name }) => name === 'RageTradeFactory'
-  );
-  if (!rageTradeFactoryDataSource) {
-    throw new Error(
-      'There is no RageTradeFactory data source in the subgraph.yaml'
-    );
-  }
-  rageTradeFactoryDataSource.source.address = rtfDeployment.address;
+  updateSubgraphYaml(subgraphYaml, 'ClearingHouse', chDeployment);
+  updateSubgraphYaml(subgraphYaml, 'RageTradeFactory', rtfDeployment);
+  updateSubgraphYaml(subgraphYaml, 'VPoolWrapper', vpwDeployment);
 
   // subgraphYaml
   fs.writeFile('./subgraph.yaml', yaml.stringify(subgraphYaml, { indent: 2 }));
@@ -40,9 +31,22 @@ async function main() {
     clearingHouseAddress: chDeployment.address,
     rageTradeFactoryAddress: rtfDeployment.address,
     insuranceFundAddress: ifDeployment.address,
+    vPoolWrapperAddress: vpwDeployment.address,
   });
 
   console.log('Updated subgraph.yaml');
+}
+
+function updateSubgraphYaml(subgraphYaml, contractName, contractDeployment) {
+  const dataSources = subgraphYaml.dataSources.find(
+    ({ name }) => name === contractName
+  );
+  if (!dataSources) {
+    throw new Error(
+      `There is no ${contractName} data source in the subgraph.yaml`
+    );
+  }
+  dataSources.source.address = contractDeployment.address;
 }
 
 async function updateAbi(name) {
@@ -57,20 +61,22 @@ function writeContractAddress({
   clearingHouseAddress,
   rageTradeFactoryAddress,
   insuranceFundAddress,
+  vPoolWrapperAddress,
 }) {
-  const file = 
-  `import { Address } from '@graphprotocol/graph-ts'
+  const file = `import { Address } from '@graphprotocol/graph-ts'
 
 class Contracts {
   ClearingHouse: Address;
   RageTradeFactory: Address;
   InsuranceFund: Address;
+  VPoolWrapper: Address;
 }
 
 export let contracts: Contracts = { 
   ClearingHouse: Address.fromString("${clearingHouseAddress}"),
   RageTradeFactory: Address.fromString("${rageTradeFactoryAddress}"),
   InsuranceFund: Address.fromString("${insuranceFundAddress}"),
+  VPoolWrapper: Address.fromString("${vPoolWrapperAddress}"),
  };`;
 
   fs.writeFile('./src/utils/addresses.ts', file, {
