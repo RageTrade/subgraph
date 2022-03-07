@@ -6,6 +6,7 @@ import { Address } from '@graphprotocol/graph-ts';
 
 import { ClearingHouse } from '../../generated/ClearingHouse/ClearingHouse';
 import { VPoolWrapper } from '../../generated/VPoolWrapper/VPoolWrapper';
+import { contracts } from './addresses';
 
 export function exponentToBigDecimal(decimals: BigInt): BigDecimal {
   let bd = BigDecimal.fromString('1');
@@ -166,10 +167,9 @@ export function tenPower(power: BigInt): BigDecimal {
 }
 
 export function getFundingRate(
-  clearingHouseAddress: Address,
   vTokenAddress: Address // TODO poolId
 ): BigDecimal {
-  let clearingHouseContract = ClearingHouse.bind(clearingHouseAddress);
+  let clearingHouseContract = ClearingHouse.bind(contracts.ClearingHouse);
 
   let result = clearingHouseContract.getTwapPrices(vTokenAddress);
   let realPriceX128 = result.value0;
@@ -191,8 +191,8 @@ export function getFundingRate(
   return fundingRate;
 }
 
-export function getSumAX128(vPoolWrapperAddress: Address): BigInt {
-  let contract = VPoolWrapper.bind(vPoolWrapperAddress);
+export function getSumAX128(): BigInt {
+  let contract = VPoolWrapper.bind(contracts.VPoolWrapper);
 
   return contract.getSumAX128();
 }

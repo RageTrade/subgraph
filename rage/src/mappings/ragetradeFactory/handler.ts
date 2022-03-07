@@ -45,7 +45,7 @@ export function handlePoolInitialized(event: PoolInitialized): void {
   /// TODO
   rageTradePool.price = BigInt.fromI32(10000);
 
-  rageTradePool.sumAX128 = getSumAX128(contracts.VPoolWrapper);
+  rageTradePool.sumAX128 = getSumAX128();
   rageTradePool.liquidity = BigInt.fromI32(10000);
   rageTradePool.funding = BigInt.fromI32(10000);
   rageTradePool.volume24H = BigInt.fromI32(10000);

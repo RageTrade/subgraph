@@ -54,7 +54,7 @@ export function handleTokenPositionChanged(event: TokenPositionChanged): void {
     tokenPosition.netPosition = tokenPosition.netPosition.plus(
       event.params.tokenAmountOut
     );
-    tokenPosition.sumAX128CheckPoint = getSumAX128(contracts.VPoolWrapper);
+    tokenPosition.sumAX128CheckPoint = getSumAX128();
 
     tokenPosition.save();
   }
@@ -143,7 +143,6 @@ export function handleFundingPaymentRealized(
   fundingRateEntry.tokenPosition = tokenPosition.id;
   fundingRateEntry.amount = event.params.amount; // TODO: is this correct?
   fundingRateEntry.fundingRate = getFundingRate(
-    contracts.ClearingHouse,
     Address.fromString(rageTradePool.vToken)
   );
   fundingRateEntry.side = tokenPosition.netPosition.gt(BigInt.fromI32(0))
