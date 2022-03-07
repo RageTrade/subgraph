@@ -5,6 +5,7 @@ import { ONE_BI, ZERO_BI, ZERO_BD, ONE_BD } from '../utils/constants';
 import { Address } from '@graphprotocol/graph-ts';
 
 import { ClearingHouse } from '../../generated/ClearingHouse/ClearingHouse';
+import { VPoolWrapper } from '../../generated/VPoolWrapper/VPoolWrapper';
 
 export function exponentToBigDecimal(decimals: BigInt): BigDecimal {
   let bd = BigDecimal.fromString('1');
@@ -188,4 +189,10 @@ export function getFundingRate(
 
   let fundingRate = realPrice.minus(virtualPrice).div(virtualPrice);
   return fundingRate;
+}
+
+export function getSumAX128(vPoolWrapperAddress: Address): BigInt {
+  let contract = VPoolWrapper.bind(vPoolWrapperAddress);
+
+  return contract.getSumAX128();
 }
