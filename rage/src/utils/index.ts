@@ -165,15 +165,14 @@ export function tenPower(power: BigInt): BigDecimal {
 }
 
 export function getFundingRate(
-  clearingHouseAddress: Address, // TODO somehow get this
+  clearingHouseAddress: Address,
   vTokenAddress: Address // TODO poolId
 ): BigDecimal {
   let clearingHouseContract = ClearingHouse.bind(clearingHouseAddress);
-  let result = clearingHouseContract.try_getTwapSqrtPricesForSetDuration(
-    vTokenAddress
-  );
-  let realPriceX128 = result.value.value0;
-  let virtualPriceX128 = result.value.value1;
+
+  let result = clearingHouseContract.getTwapPrices(vTokenAddress);
+  let realPriceX128 = result.value0;
+  let virtualPriceX128 = result.value1;
 
   // TODO take decimals dynamically
   let realPrice = parsePriceX128(
