@@ -56,6 +56,26 @@ dataSources:
         - event: PoolInitialized(address,address,address)
           handler: handlePoolInitialized
   - kind: ethereum/contract
+    name: VPoolWrapper
+    network: arbitrum-rinkeby
+    source:
+      address: "0x19263Fc95A32cAE86338FDf9692aBE323B52bb9B"
+      abi: VPoolWrapper
+      startBlock: 9523700
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.4
+      language: wasm/assemblyscript
+      entities:
+        - VPoolWrapper
+      abis:
+        - name: VPoolWrapper
+          file: ./abis/VPoolWrapperLogic.json
+      file: ./src/mappings/vPoolWrapper/handler.ts
+      eventHandlers:
+        - event: Swap(int256,int256,uint256,uint256)
+          handler: handleSwap
+  - kind: ethereum/contract
     name: Factory
     network: arbitrum-rinkeby
     source:
