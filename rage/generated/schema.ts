@@ -265,7 +265,7 @@ export class Collateral extends Entity {
   }
 }
 
-export class FundingRateEntry extends Entity {
+export class FundingPaymentRealizedEntry extends Entity {
   constructor(id: string) {
     super();
     this.set("id", Value.fromString(id));
@@ -273,17 +273,23 @@ export class FundingRateEntry extends Entity {
 
   save(): void {
     let id = this.get("id");
-    assert(id !== null, "Cannot save FundingRateEntry entity without an ID");
+    assert(
+      id !== null,
+      "Cannot save FundingPaymentRealizedEntry entity without an ID"
+    );
     assert(
       id.kind == ValueKind.STRING,
-      "Cannot save FundingRateEntry entity with non-string ID. " +
+      "Cannot save FundingPaymentRealizedEntry entity with non-string ID. " +
         'Considering using .toHex() to convert the "id" to a string.'
     );
-    store.set("FundingRateEntry", id.toString(), this);
+    store.set("FundingPaymentRealizedEntry", id.toString(), this);
   }
 
-  static load(id: string): FundingRateEntry | null {
-    return store.get("FundingRateEntry", id) as FundingRateEntry | null;
+  static load(id: string): FundingPaymentRealizedEntry | null {
+    return store.get(
+      "FundingPaymentRealizedEntry",
+      id
+    ) as FundingPaymentRealizedEntry | null;
   }
 
   get id(): string {
@@ -313,13 +319,13 @@ export class FundingRateEntry extends Entity {
     this.set("side", Value.fromString(value));
   }
 
-  get netTokenPosition(): BigInt {
-    let value = this.get("netTokenPosition");
-    return value.toBigInt();
+  get tokenPosition(): string {
+    let value = this.get("tokenPosition");
+    return value.toString();
   }
 
-  set netTokenPosition(value: BigInt) {
-    this.set("netTokenPosition", Value.fromBigInt(value));
+  set tokenPosition(value: string) {
+    this.set("tokenPosition", Value.fromString(value));
   }
 
   get timestamp(): BigInt {
@@ -331,13 +337,13 @@ export class FundingRateEntry extends Entity {
     this.set("timestamp", Value.fromBigInt(value));
   }
 
-  get vBaseDebitORCredit(): BigInt {
-    let value = this.get("vBaseDebitORCredit");
+  get amount(): BigInt {
+    let value = this.get("amount");
     return value.toBigInt();
   }
 
-  set vBaseDebitORCredit(value: BigInt) {
-    this.set("vBaseDebitORCredit", Value.fromBigInt(value));
+  set amount(value: BigInt) {
+    this.set("amount", Value.fromBigInt(value));
   }
 }
 
@@ -396,6 +402,33 @@ export class TokenPosition extends Entity {
 
   set netPosition(value: BigInt) {
     this.set("netPosition", Value.fromBigInt(value));
+  }
+
+  get fundingPaymentRealizedEntries(): Array<string> {
+    let value = this.get("fundingPaymentRealizedEntries");
+    return value.toStringArray();
+  }
+
+  set fundingPaymentRealizedEntries(value: Array<string>) {
+    this.set("fundingPaymentRealizedEntries", Value.fromStringArray(value));
+  }
+
+  get totalRealizedFundingPaymentAmount(): BigInt {
+    let value = this.get("totalRealizedFundingPaymentAmount");
+    return value.toBigInt();
+  }
+
+  set totalRealizedFundingPaymentAmount(value: BigInt) {
+    this.set("totalRealizedFundingPaymentAmount", Value.fromBigInt(value));
+  }
+
+  get sumAX128Ckpt(): BigInt {
+    let value = this.get("sumAX128Ckpt");
+    return value.toBigInt();
+  }
+
+  set sumAX128Ckpt(value: BigInt) {
+    this.set("sumAX128Ckpt", Value.fromBigInt(value));
   }
 }
 

@@ -56,7 +56,7 @@ enum Side {
 """
 funding rate
 """
-type FundingRateEntry @entity {
+type FundingPaymentRealizedEntry @entity {
   id: ID!
 
   fundingRate: BigDecimal!
@@ -65,12 +65,13 @@ type FundingRateEntry @entity {
   side: Side!
 
   "token Position on vToken"
-  netTokenPosition: BigInt!
+  tokenPosition: TokenPosition!
 
   "timestamp of the funding rate"
   timestamp: BigInt!
-  
-  vBaseDebitORCredit: BigInt!
+
+  "amount of base token in the funding rate"
+  amount: BigInt!
 }
 
 """
@@ -81,9 +82,15 @@ type TokenPosition @entity {
   "accountNo serial number of the account"
   account: Account!
   "vToken address of token whose position was taken"
-  rageTradePool: RageTradePool! # TODO change to entity
+  rageTradePool: RageTradePool!
   "tokenAmountOut amount of tokens that account received (positive) or paid (negative)"
   netPosition: BigInt!
+
+  fundingPaymentRealizedEntries: [FundingPaymentRealizedEntry!]! @derivedFrom(field: "tokenPosition")
+
+  totalRealizedFundingPaymentAmount: BigInt!
+
+  sumAX128Ckpt: BigInt!
 }
 
 """
