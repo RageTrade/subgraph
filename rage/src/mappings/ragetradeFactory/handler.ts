@@ -5,7 +5,8 @@ import {
   RageTradePool,
   VToken,
 } from '../../../generated/schema';
-import { truncate } from '../../utils';
+import { getSumAX128, truncate } from '../../utils';
+import { contracts } from '../../utils/addresses';
 
 export function handlePoolInitialized(event: PoolInitialized): void {
   log.debug('custom_logs: handlePoolInitialized triggered {} {} {}', [
@@ -22,7 +23,7 @@ export function handlePoolInitialized(event: PoolInitialized): void {
 
   let poolId = truncate(event.params.vToken.toHexString());
   log.debug('custom_logs: handlePoolInitialized poolId {}', [poolId]);
-  
+
   let rageTradePool = RageTradePool.load(poolId);
 
   if (rageTradePool !== null) {
@@ -43,6 +44,8 @@ export function handlePoolInitialized(event: PoolInitialized): void {
 
   /// TODO
   rageTradePool.price = BigInt.fromI32(10000);
+
+  rageTradePool.sumAX128 = getSumAX128(contracts.VPoolWrapper);
   rageTradePool.liquidity = BigInt.fromI32(10000);
   rageTradePool.funding = BigInt.fromI32(10000);
   rageTradePool.volume24H = BigInt.fromI32(10000);
