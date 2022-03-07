@@ -41,6 +41,7 @@ export function handlePoolInitialized(event: PoolInitialized): void {
   rageTradePool.vPoolWrapper = event.params.vPoolWrapper.toHexString();
   rageTradePool.factory = rageTradeFactory.id;
 
+  /// TODO
   rageTradePool.price = BigInt.fromI32(10000);
   rageTradePool.liquidity = BigInt.fromI32(10000);
   rageTradePool.funding = BigInt.fromI32(10000);
