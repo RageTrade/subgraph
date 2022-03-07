@@ -43,14 +43,14 @@ export function handlePoolInitialized(event: PoolInitialized): void {
   rageTradePool.factory = rageTradeFactory.id;
 
   /// TODO
-  rageTradePool.price = BigInt.fromI32(10000);
-
   rageTradePool.sumAX128 = getSumAX128();
-  rageTradePool.liquidity = BigInt.fromI32(10000);
-  rageTradePool.funding = BigInt.fromI32(10000);
-  rageTradePool.volume24H = BigInt.fromI32(10000);
-  rageTradePool.priceChange24H = BigInt.fromI32(10000);
-  rageTradePool.funding1H = BigInt.fromI32(10000);
+  
+  rageTradePool.price = BigInt.fromI32(0);
+  rageTradePool.liquidity = BigInt.fromI32(0);
+  rageTradePool.funding = BigInt.fromI32(0);
+  rageTradePool.volume24H = BigInt.fromI32(0);
+  rageTradePool.priceChange24H = BigInt.fromI32(0);
+  rageTradePool.funding1H = BigInt.fromI32(0);
 
   rageTradePool.save();
 }
