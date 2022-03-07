@@ -6,8 +6,9 @@ import {
 } from '../../../generated/ClearingHouse/ClearingHouse';
 import {
   Account,
-  FundingRateEntry,
+  FundingPaymentRealizedEntry,
   RageTradePool,
+  TokenPosition,
   TokenPositionChangeEntry,
 } from '../../../generated/schema';
 import { generateAccountId, getAccount } from './account';
@@ -54,6 +55,7 @@ export function handleTokenPositionChanged(event: TokenPositionChanged): void {
     tokenPosition.netPosition = tokenPosition.netPosition.plus(
       event.params.tokenAmountOut
     );
+
     tokenPosition.save();
   }
 
@@ -125,7 +127,7 @@ export function handleFundingPaymentRealized(
 
   let account = getAccount(event.params.accountId);
 
-  let tokePosition = getTokenPosition(account, event.params.poolId);
+  let tokenPosition = getTokenPosition(account, event.params.poolId);
   let rageTradePool = RageTradePool.load(event.params.poolId.toHexString());
 
   let fundingRateId = generateId([
@@ -135,20 +137,25 @@ export function handleFundingPaymentRealized(
     event.logIndex.toHexString(),
   ]);
 
-  let fundingRate = new FundingRateEntry(fundingRateId);
+  let fundingRateEntry = new FundingPaymentRealizedEntry(fundingRateId);
 
-  fundingRate.timestamp = event.block.timestamp;
-  fundingRate.netTokenPosition = tokePosition.netPosition;
-  fundingRate.vBaseDebitORCredit = event.params.amount;
-  fundingRate.fundingRate = getFundingRate(
+  fundingRateEntry.timestamp = event.block.timestamp;
+  fundingRateEntry.tokenPosition = tokenPosition.id;
+  fundingRateEntry.amount = event.params.amount; // TODO: is this correct?
+  fundingRateEntry.fundingRate = getFundingRate(
     contracts.ClearingHouse,
     Address.fromString(rageTradePool.vToken)
   );
-  fundingRate.side = tokePosition.netPosition.gt(BigInt.fromI32(0))
+  fundingRateEntry.side = tokenPosition.netPosition.gt(BigInt.fromI32(0))
     ? 'long'
     : 'short';
 
-  fundingRate.save();
+  tokenPosition.totalRealizedFundingPaymentAmount = tokenPosition.totalRealizedFundingPaymentAmount.plus(
+    fundingRateEntry.amount
+  );
+
+  tokenPosition.save();
+  fundingRateEntry.save();
 }
 
 // @entity LiquidateRanges
