@@ -1387,6 +1387,15 @@ export class RageTradePool extends Entity {
   set funding1H(value: BigInt) {
     this.set("funding1H", Value.fromBigInt(value));
   }
+
+  get sumAX128(): BigInt {
+    let value = this.get("sumAX128");
+    return value.toBigInt();
+  }
+
+  set sumAX128(value: BigInt) {
+    this.set("sumAX128", Value.fromBigInt(value));
+  }
 }
 
 export class VToken extends Entity {

@@ -263,6 +263,7 @@ type RageTradePool @entity {
   volume24H: BigInt!
   priceChange24H: BigInt!
   funding1H: BigInt!
+  sumAX128: BigInt!
 }
 
 type VToken @entity {
