@@ -90,7 +90,7 @@ type TokenPosition @entity {
 
   totalRealizedFundingPaymentAmount: BigInt!
 
-  sumAX128Ckpt: BigInt!
+  sumAX128CheckPoint: BigInt!
 }
 
 """

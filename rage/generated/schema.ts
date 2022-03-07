@@ -422,13 +422,13 @@ export class TokenPosition extends Entity {
     this.set("totalRealizedFundingPaymentAmount", Value.fromBigInt(value));
   }
 
-  get sumAX128Ckpt(): BigInt {
-    let value = this.get("sumAX128Ckpt");
+  get sumAX128CheckPoint(): BigInt {
+    let value = this.get("sumAX128CheckPoint");
     return value.toBigInt();
   }
 
-  set sumAX128Ckpt(value: BigInt) {
-    this.set("sumAX128Ckpt", Value.fromBigInt(value));
+  set sumAX128CheckPoint(value: BigInt) {
+    this.set("sumAX128CheckPoint", Value.fromBigInt(value));
   }
 }
 
