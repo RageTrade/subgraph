@@ -571,8 +571,12 @@ export class TokenPositionLiquidated__Params {
     return this._event.parameters[5].value.toBigInt();
   }
 
-  get insuranceFundFee(): BigInt {
+  get fixFee(): BigInt {
     return this._event.parameters[6].value.toBigInt();
+  }
+
+  get insuranceFundFee(): BigInt {
+    return this._event.parameters[7].value.toBigInt();
   }
 }
 
@@ -763,7 +767,7 @@ export class ClearingHouse__getPoolInfoResultValue0SettingsStruct extends ethere
   }
 }
 
-export class ClearingHouse__getTwapSqrtPricesForSetDurationResult {
+export class ClearingHouse__getTwapPricesResult {
   value0: BigInt;
   value1: BigInt;
 
@@ -1245,27 +1249,25 @@ export class ClearingHouse extends ethereum.SmartContract {
     );
   }
 
-  getTwapSqrtPricesForSetDuration(
-    vToken: Address
-  ): ClearingHouse__getTwapSqrtPricesForSetDurationResult {
+  getTwapPrices(vToken: Address): ClearingHouse__getTwapPricesResult {
     let result = super.call(
-      "getTwapSqrtPricesForSetDuration",
-      "getTwapSqrtPricesForSetDuration(address):(uint256,uint256)",
+      "getTwapPrices",
+      "getTwapPrices(address):(uint256,uint256)",
       [ethereum.Value.fromAddress(vToken)]
     );
 
-    return new ClearingHouse__getTwapSqrtPricesForSetDurationResult(
+    return new ClearingHouse__getTwapPricesResult(
       result[0].toBigInt(),
       result[1].toBigInt()
     );
   }
 
-  try_getTwapSqrtPricesForSetDuration(
+  try_getTwapPrices(
     vToken: Address
-  ): ethereum.CallResult<ClearingHouse__getTwapSqrtPricesForSetDurationResult> {
+  ): ethereum.CallResult<ClearingHouse__getTwapPricesResult> {
     let result = super.tryCall(
-      "getTwapSqrtPricesForSetDuration",
-      "getTwapSqrtPricesForSetDuration(address):(uint256,uint256)",
+      "getTwapPrices",
+      "getTwapPrices(address):(uint256,uint256)",
       [ethereum.Value.fromAddress(vToken)]
     );
     if (result.reverted) {
@@ -1273,7 +1275,7 @@ export class ClearingHouse extends ethereum.SmartContract {
     }
     let value = result.value;
     return ethereum.CallResult.fromValue(
-      new ClearingHouse__getTwapSqrtPricesForSetDurationResult(
+      new ClearingHouse__getTwapPricesResult(
         value[0].toBigInt(),
         value[1].toBigInt()
       )
@@ -1314,20 +1316,20 @@ export class ClearingHouse extends ethereum.SmartContract {
     return ethereum.CallResult.fromValue(value[0].toAddress());
   }
 
-  isVTokenAddressAvailable(poolId: BigInt): boolean {
+  isPoolIdAvailable(poolId: BigInt): boolean {
     let result = super.call(
-      "isVTokenAddressAvailable",
-      "isVTokenAddressAvailable(uint32):(bool)",
+      "isPoolIdAvailable",
+      "isPoolIdAvailable(uint32):(bool)",
       [ethereum.Value.fromUnsignedBigInt(poolId)]
     );
 
     return result[0].toBoolean();
   }
 
-  try_isVTokenAddressAvailable(poolId: BigInt): ethereum.CallResult<boolean> {
+  try_isPoolIdAvailable(poolId: BigInt): ethereum.CallResult<boolean> {
     let result = super.tryCall(
-      "isVTokenAddressAvailable",
-      "isVTokenAddressAvailable(uint32):(bool)",
+      "isPoolIdAvailable",
+      "isPoolIdAvailable(uint32):(bool)",
       [ethereum.Value.fromUnsignedBigInt(poolId)]
     );
     if (result.reverted) {
@@ -1842,7 +1844,7 @@ export class AddMarginCall__Inputs {
     return this._call.inputValues[0].value.toBigInt();
   }
 
-  get cTokenTruncatedAddress(): BigInt {
+  get collateralId(): BigInt {
     return this._call.inputValues[1].value.toBigInt();
   }
 
@@ -2390,7 +2392,7 @@ export class RemoveMarginCall__Inputs {
     return this._call.inputValues[0].value.toBigInt();
   }
 
-  get cTokenTruncatedAddress(): BigInt {
+  get collateralId(): BigInt {
     return this._call.inputValues[1].value.toBigInt();
   }
 

@@ -494,7 +494,7 @@
       },
       {
         "internalType": "uint32",
-        "name": "cTokenTruncatedAddress",
+        "name": "collateralId",
         "type": "uint32"
       },
       {
@@ -904,7 +904,7 @@
         "type": "address"
       }
     ],
-    "name": "getTwapSqrtPricesForSetDuration",
+    "name": "getTwapPrices",
     "outputs": [
       {
         "internalType": "uint256",
@@ -954,7 +954,7 @@
         "type": "uint32"
       }
     ],
-    "name": "isVTokenAddressAvailable",
+    "name": "isPoolIdAvailable",
     "outputs": [
       {
         "internalType": "bool",
@@ -1414,7 +1414,7 @@
       },
       {
         "internalType": "uint32",
-        "name": "cTokenTruncatedAddress",
+        "name": "collateralId",
         "type": "uint32"
       },
       {
@@ -2221,6 +2221,12 @@
         "indexed": false,
         "internalType": "uint256",
         "name": "liquidatorPriceX128",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "fixFee",
         "type": "uint256"
       },
       {
