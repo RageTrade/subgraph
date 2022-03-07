@@ -7,7 +7,7 @@ class Contracts {
 }
 
 export let contracts: Contracts = { 
-  ClearingHouse: Address.fromString("0x93fb98a87Aa1002E940f5b5Fb15444d1337ca2dF"),
-  RageTradeFactory: Address.fromString("0x4539253aDA67931E779666E3dF3Ce5C55DD322e9"),
-  InsuranceFund: Address.fromString("0x49a9b9322c3934decd9e7712B59bF1ADb345c45e"),
+  ClearingHouse: Address.fromString("0x5739C2023Ba0f06C9c38fd4e0CDB596Bb4F6a104"),
+  RageTradeFactory: Address.fromString("0x0532E839aa8F8E22f415DD67017adE849d0D247c"),
+  InsuranceFund: Address.fromString("0x38e7498f54c80aBc25Ad854eD30a94f2ad0DA14d"),
  };

@@ -8,7 +8,7 @@ dataSources:
     name: ClearingHouse
     network: arbitrum-rinkeby
     source:
-      address: "0x93fb98a87Aa1002E940f5b5Fb15444d1337ca2dF"
+      address: "0x5739C2023Ba0f06C9c38fd4e0CDB596Bb4F6a104"
       abi: ClearingHouse
       startBlock: 9523700
     mapping:
@@ -39,7 +39,7 @@ dataSources:
     name: RageTradeFactory
     network: arbitrum-rinkeby
     source:
-      address: "0x4539253aDA67931E779666E3dF3Ce5C55DD322e9"
+      address: "0x0532E839aa8F8E22f415DD67017adE849d0D247c"
       abi: RageTradeFactory
       startBlock: 9523700
     mapping:
