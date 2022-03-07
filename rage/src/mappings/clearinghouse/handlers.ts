@@ -8,13 +8,12 @@ import {
   Account,
   FundingPaymentRealizedEntry,
   RageTradePool,
-  TokenPosition,
   TokenPositionChangeEntry,
 } from '../../../generated/schema';
 import { generateAccountId, getAccount } from './account';
 import { getOwner } from './owner';
 import { getTokenPosition } from './token-position';
-import { generateId, getFundingRate } from '../../utils';
+import { generateId, getFundingRate, getSumAX128 } from '../../utils';
 import { contracts } from '../../utils/addresses';
 
 // @entity Account
@@ -55,6 +54,7 @@ export function handleTokenPositionChanged(event: TokenPositionChanged): void {
     tokenPosition.netPosition = tokenPosition.netPosition.plus(
       event.params.tokenAmountOut
     );
+    tokenPosition.sumAX128CheckPoint = getSumAX128(contracts.VPoolWrapper);
 
     tokenPosition.save();
   }
