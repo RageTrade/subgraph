@@ -13,14 +13,9 @@ import {
 import { generateAccountId, getAccount } from './account';
 import { getOwner } from './owner';
 import { getTokenPosition } from './token-position';
-import {
-  generateId,
-  getFundingRate,
-  getSumAX128,
-  parseSqrtPriceX96,
-} from '../../utils';
-import { contracts } from '../../utils/addresses';
+import { generateId, getFundingRate, getSumAX128 } from '../../utils';
 import { Pool } from '../../../generated/templates/Pool/Pool';
+import { getPriceANDTick } from '../vPoolWrapper/utils';
 
 // @entity Account
 export function handleAccountCreated(event: AccountCreated): void {
@@ -60,8 +55,11 @@ export function handleTokenPositionChanged(event: TokenPositionChanged): void {
     tokenPosition.netPosition = tokenPosition.netPosition.plus(
       event.params.tokenAmountOut
     );
+    let rageTradePool = RageTradePool.load(tokenPosition.rageTradePool);
+    let vPoolWrapperAddress = Address.fromString(rageTradePool.vPoolWrapper);
 
-    let result = getSumAX128();
+    let result = getSumAX128(vPoolWrapperAddress);
+
     if (!result.reverted) {
       tokenPosition.sumAX128CheckPoint = result.value;
     } else {
@@ -94,6 +92,8 @@ export function handleTokenPositionChanged(event: TokenPositionChanged): void {
 
   {
     let rageTradePool = RageTradePool.load(event.params.poolId.toHexString());
+    let vPoolWrapperAddress = Address.fromString(rageTradePool.vPoolWrapper);
+    let vPoolAddress = Address.fromString(rageTradePool.vPool);
 
     if (!rageTradePool) {
       log.error(
@@ -102,27 +102,18 @@ export function handleTokenPositionChanged(event: TokenPositionChanged): void {
       );
     }
 
-    const UniswapV3Pool = Pool
+    rageTradePool.price = getPriceANDTick(vPoolAddress).price;
 
-    let slot_result = UniswapV3Pool.bind(contracts.VPoolWrapper).try_slot0();
+    let sumAX128_result = getSumAX128(vPoolWrapperAddress);
 
-    if (!slot_result.reverted) {
-      rageTradePool.price =  parseSqrtPriceX96(slot_result.value[0]);
-    } else {
-      log.error('priceStr reverted in handleTokenPositionChanged', ['']);
-    }
-
-    let sumAX128_result = getSumAX128();
-    
     if (!sumAX128_result.reverted) {
       rageTradePool.sumAX128 = sumAX128_result.value;
     } else {
       log.error('custom_logs: getSumAX128 reverted {}', ['']);
     }
 
-    let liquidity_result = UniswapV3Pool.bind(
-      contracts.VPoolWrapper
-    ).try_liquidity();
+    // Pool is UniswapV3Pool
+    let liquidity_result = Pool.bind(vPoolAddress).try_liquidity();
 
     if (!liquidity_result.reverted) {
       rageTradePool.liquidity = liquidity_result.value;
