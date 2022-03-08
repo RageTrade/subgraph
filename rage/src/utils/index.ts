@@ -196,3 +196,11 @@ export function getSumAX128(): ethereum.CallResult<BigInt> {
 
   return contract.try_getSumAX128();
 }
+
+export function parseSqrtPriceX96(val: BigInt): BigDecimal {
+  return parsePriceX128(
+    val.times(val).div(BigInt.fromI32(1).pow(64)),
+    BigInt.fromI32(18),
+    BigInt.fromI32(6)
+  );
+}
