@@ -43,8 +43,13 @@ export function handlePoolInitialized(event: PoolInitialized): void {
   rageTradePool.factory = rageTradeFactory.id;
 
   /// TODO
-  rageTradePool.sumAX128 = getSumAX128();
-  
+  let result = getSumAX128();
+  if (!result.reverted) {
+    rageTradePool.sumAX128 = result.value;
+  } else {
+    log.error('custom_logs: getSumAX128 reverted {}', ['']);
+  }
+
   rageTradePool.price = BigInt.fromI32(0);
   rageTradePool.liquidity = BigInt.fromI32(0);
   rageTradePool.funding = BigInt.fromI32(0);
