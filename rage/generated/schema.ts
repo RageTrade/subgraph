@@ -1478,6 +1478,154 @@ export class VPoolWrapper extends Entity {
   }
 }
 
+export class Candle extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id !== null, "Cannot save Candle entity without an ID");
+    assert(
+      id.kind == ValueKind.STRING,
+      "Cannot save Candle entity with non-string ID. " +
+        'Considering using .toHex() to convert the "id" to a string.'
+    );
+    store.set("Candle", id.toString(), this);
+  }
+
+  static load(id: string): Candle | null {
+    return store.get("Candle", id) as Candle | null;
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    return value.toString();
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get rageTradePool(): string {
+    let value = this.get("rageTradePool");
+    return value.toString();
+  }
+
+  set rageTradePool(value: string) {
+    this.set("rageTradePool", Value.fromString(value));
+  }
+
+  get periodStartUnix(): BigInt {
+    let value = this.get("periodStartUnix");
+    return value.toBigInt();
+  }
+
+  set periodStartUnix(value: BigInt) {
+    this.set("periodStartUnix", Value.fromBigInt(value));
+  }
+
+  get open(): BigDecimal {
+    let value = this.get("open");
+    return value.toBigDecimal();
+  }
+
+  set open(value: BigDecimal) {
+    this.set("open", Value.fromBigDecimal(value));
+  }
+
+  get high(): BigDecimal {
+    let value = this.get("high");
+    return value.toBigDecimal();
+  }
+
+  set high(value: BigDecimal) {
+    this.set("high", Value.fromBigDecimal(value));
+  }
+
+  get low(): BigDecimal {
+    let value = this.get("low");
+    return value.toBigDecimal();
+  }
+
+  set low(value: BigDecimal) {
+    this.set("low", Value.fromBigDecimal(value));
+  }
+
+  get close(): BigDecimal {
+    let value = this.get("close");
+    return value.toBigDecimal();
+  }
+
+  set close(value: BigDecimal) {
+    this.set("close", Value.fromBigDecimal(value));
+  }
+
+  get sumAX128(): BigInt {
+    let value = this.get("sumAX128");
+    return value.toBigInt();
+  }
+
+  set sumAX128(value: BigInt) {
+    this.set("sumAX128", Value.fromBigInt(value));
+  }
+
+  get sumBX128(): BigInt {
+    let value = this.get("sumBX128");
+    return value.toBigInt();
+  }
+
+  set sumBX128(value: BigInt) {
+    this.set("sumBX128", Value.fromBigInt(value));
+  }
+
+  get sumFpX128(): BigInt {
+    let value = this.get("sumFpX128");
+    return value.toBigInt();
+  }
+
+  set sumFpX128(value: BigInt) {
+    this.set("sumFpX128", Value.fromBigInt(value));
+  }
+
+  get sumFeeX128(): BigInt {
+    let value = this.get("sumFeeX128");
+    return value.toBigInt();
+  }
+
+  set sumFeeX128(value: BigInt) {
+    this.set("sumFeeX128", Value.fromBigInt(value));
+  }
+
+  get volumeVToken(): BigDecimal {
+    let value = this.get("volumeVToken");
+    return value.toBigDecimal();
+  }
+
+  set volumeVToken(value: BigDecimal) {
+    this.set("volumeVToken", Value.fromBigDecimal(value));
+  }
+
+  get volumeUSDC(): BigDecimal {
+    let value = this.get("volumeUSDC");
+    return value.toBigDecimal();
+  }
+
+  set volumeUSDC(value: BigDecimal) {
+    this.set("volumeUSDC", Value.fromBigDecimal(value));
+  }
+
+  get txCount(): BigInt {
+    let value = this.get("txCount");
+    return value.toBigInt();
+  }
+
+  set txCount(value: BigInt) {
+    this.set("txCount", Value.fromBigInt(value));
+  }
+}
+
 export class UniswapV3Factory extends Entity {
   constructor(id: string) {
     super();

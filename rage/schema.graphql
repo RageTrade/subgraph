@@ -86,7 +86,8 @@ type TokenPosition @entity {
   "tokenAmountOut amount of tokens that account received (positive) or paid (negative)"
   netPosition: BigInt!
 
-  fundingPaymentRealizedEntries: [FundingPaymentRealizedEntry!]! @derivedFrom(field: "tokenPosition")
+  fundingPaymentRealizedEntries: [FundingPaymentRealizedEntry!]!
+    @derivedFrom(field: "tokenPosition")
 
   totalRealizedFundingPaymentAmount: BigInt!
 
@@ -274,6 +275,26 @@ type VToken @entity {
 type VPoolWrapper @entity {
   id: ID! # wrapper address
   pool: RageTradePool!
+}
+
+type Candle @entity {
+  id: ID!
+  rageTradePool: RageTradePool!
+  periodStartUnix: BigInt!
+
+  open: BigDecimal!
+  high: BigDecimal!
+  low: BigDecimal!
+  close: BigDecimal!
+
+  sumAX128: BigInt!
+  sumBX128: BigInt!
+  sumFpX128: BigInt!
+  sumFeeX128: BigInt!
+
+  volumeVToken: BigDecimal!
+  volumeUSDC: BigDecimal!
+  txCount: BigInt!
 }
 
 # -------------------
