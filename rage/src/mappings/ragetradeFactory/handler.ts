@@ -1,4 +1,4 @@
-import { BigInt, log } from '@graphprotocol/graph-ts';
+import { log } from '@graphprotocol/graph-ts';
 import { PoolInitialized } from '../../../generated/RageTradeFactory/RageTradeFactory';
 import {
   RageTradeFactory,
@@ -6,7 +6,7 @@ import {
   VToken,
 } from '../../../generated/schema';
 import { getSumAX128, truncate } from '../../utils';
-import { contracts } from '../../utils/addresses';
+import { ZERO_BD, ZERO_BI } from '../../utils/constants';
 
 export function handlePoolInitialized(event: PoolInitialized): void {
   log.debug('custom_logs: handlePoolInitialized triggered {} {} {}', [
@@ -42,20 +42,14 @@ export function handlePoolInitialized(event: PoolInitialized): void {
   rageTradePool.vPoolWrapper = event.params.vPoolWrapper.toHexString();
   rageTradePool.factory = rageTradeFactory.id;
 
-  /// TODO
-  let result = getSumAX128();
-  if (!result.reverted) {
-    rageTradePool.sumAX128 = result.value;
-  } else {
-    log.error('custom_logs: getSumAX128 reverted {}', ['']);
-  }
 
-  rageTradePool.price = BigInt.fromI32(0);
-  rageTradePool.liquidity = BigInt.fromI32(0);
-  rageTradePool.funding = BigInt.fromI32(0);
-  rageTradePool.volume24H = BigInt.fromI32(0);
-  rageTradePool.priceChange24H = BigInt.fromI32(0);
-  rageTradePool.funding1H = BigInt.fromI32(0);
+  rageTradePool.sumAX128 = ZERO_BI;
+  rageTradePool.price = ZERO_BD;
+  rageTradePool.liquidity = ZERO_BI;
+  rageTradePool.funding = ZERO_BI;
+  rageTradePool.volume24H = ZERO_BI;
+  rageTradePool.priceChange24H = ZERO_BI;
+  rageTradePool.funding1H = ZERO_BI;
 
   rageTradePool.save();
 }
