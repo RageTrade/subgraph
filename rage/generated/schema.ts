@@ -164,6 +164,64 @@ export class Account extends Entity {
   }
 }
 
+export class Protocol extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id !== null, "Cannot save Protocol entity without an ID");
+    assert(
+      id.kind == ValueKind.STRING,
+      "Cannot save Protocol entity with non-string ID. " +
+        'Considering using .toHex() to convert the "id" to a string.'
+    );
+    store.set("Protocol", id.toString(), this);
+  }
+
+  static load(id: string): Protocol | null {
+    return store.get("Protocol", id) as Protocol | null;
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    return value.toString();
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get tvlUSDC(): BigDecimal {
+    let value = this.get("tvlUSDC");
+    return value.toBigDecimal();
+  }
+
+  set tvlUSDC(value: BigDecimal) {
+    this.set("tvlUSDC", Value.fromBigDecimal(value));
+  }
+
+  get lpFees(): BigDecimal {
+    let value = this.get("lpFees");
+    return value.toBigDecimal();
+  }
+
+  set lpFees(value: BigDecimal) {
+    this.set("lpFees", Value.fromBigDecimal(value));
+  }
+
+  get protocolFees(): BigDecimal {
+    let value = this.get("protocolFees");
+    return value.toBigDecimal();
+  }
+
+  set protocolFees(value: BigDecimal) {
+    this.set("protocolFees", Value.fromBigDecimal(value));
+  }
+}
+
 export class Collateral extends Entity {
   constructor(id: string) {
     super();
@@ -1139,64 +1197,6 @@ export class LiquidityPositionEntry extends Entity {
   }
 }
 
-export class Protocol extends Entity {
-  constructor(id: string) {
-    super();
-    this.set("id", Value.fromString(id));
-  }
-
-  save(): void {
-    let id = this.get("id");
-    assert(id !== null, "Cannot save Protocol entity without an ID");
-    assert(
-      id.kind == ValueKind.STRING,
-      "Cannot save Protocol entity with non-string ID. " +
-        'Considering using .toHex() to convert the "id" to a string.'
-    );
-    store.set("Protocol", id.toString(), this);
-  }
-
-  static load(id: string): Protocol | null {
-    return store.get("Protocol", id) as Protocol | null;
-  }
-
-  get id(): string {
-    let value = this.get("id");
-    return value.toString();
-  }
-
-  set id(value: string) {
-    this.set("id", Value.fromString(value));
-  }
-
-  get timestamp(): BigInt {
-    let value = this.get("timestamp");
-    return value.toBigInt();
-  }
-
-  set timestamp(value: BigInt) {
-    this.set("timestamp", Value.fromBigInt(value));
-  }
-
-  get wrapperAddress(): Bytes {
-    let value = this.get("wrapperAddress");
-    return value.toBytes();
-  }
-
-  set wrapperAddress(value: Bytes) {
-    this.set("wrapperAddress", Value.fromBytes(value));
-  }
-
-  get feeAmount(): BigInt {
-    let value = this.get("feeAmount");
-    return value.toBigInt();
-  }
-
-  set feeAmount(value: BigInt) {
-    this.set("feeAmount", Value.fromBigInt(value));
-  }
-}
-
 export class RageTradeFactory extends Entity {
   constructor(id: string) {
     super();
@@ -1343,6 +1343,15 @@ export class RageTradePool extends Entity {
     this.set("price", Value.fromBigDecimal(value));
   }
 
+  get tick(): BigInt {
+    let value = this.get("tick");
+    return value.toBigInt();
+  }
+
+  set tick(value: BigInt) {
+    this.set("tick", Value.fromBigInt(value));
+  }
+
   get liquidity(): BigInt {
     let value = this.get("liquidity");
     return value.toBigInt();
@@ -1352,13 +1361,13 @@ export class RageTradePool extends Entity {
     this.set("liquidity", Value.fromBigInt(value));
   }
 
-  get funding(): BigInt {
-    let value = this.get("funding");
+  get fundingRate(): BigInt {
+    let value = this.get("fundingRate");
     return value.toBigInt();
   }
 
-  set funding(value: BigInt) {
-    this.set("funding", Value.fromBigInt(value));
+  set fundingRate(value: BigInt) {
+    this.set("fundingRate", Value.fromBigInt(value));
   }
 
   get volume24H(): BigInt {
@@ -1379,15 +1388,6 @@ export class RageTradePool extends Entity {
     this.set("priceChange24H", Value.fromBigInt(value));
   }
 
-  get funding1H(): BigInt {
-    let value = this.get("funding1H");
-    return value.toBigInt();
-  }
-
-  set funding1H(value: BigInt) {
-    this.set("funding1H", Value.fromBigInt(value));
-  }
-
   get sumAX128(): BigInt {
     let value = this.get("sumAX128");
     return value.toBigInt();
@@ -1395,6 +1395,51 @@ export class RageTradePool extends Entity {
 
   set sumAX128(value: BigInt) {
     this.set("sumAX128", Value.fromBigInt(value));
+  }
+
+  get sumBX128(): BigInt {
+    let value = this.get("sumBX128");
+    return value.toBigInt();
+  }
+
+  set sumBX128(value: BigInt) {
+    this.set("sumBX128", Value.fromBigInt(value));
+  }
+
+  get sumFpX128(): BigInt {
+    let value = this.get("sumFpX128");
+    return value.toBigInt();
+  }
+
+  set sumFpX128(value: BigInt) {
+    this.set("sumFpX128", Value.fromBigInt(value));
+  }
+
+  get sumFeeX128(): BigInt {
+    let value = this.get("sumFeeX128");
+    return value.toBigInt();
+  }
+
+  set sumFeeX128(value: BigInt) {
+    this.set("sumFeeX128", Value.fromBigInt(value));
+  }
+
+  get hourData(): string {
+    let value = this.get("hourData");
+    return value.toString();
+  }
+
+  set hourData(value: string) {
+    this.set("hourData", Value.fromString(value));
+  }
+
+  get dayData(): string {
+    let value = this.get("dayData");
+    return value.toString();
+  }
+
+  set dayData(value: string) {
+    this.set("dayData", Value.fromString(value));
   }
 }
 
@@ -1478,6 +1523,46 @@ export class VPoolWrapper extends Entity {
   }
 }
 
+export class Collection extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id !== null, "Cannot save Collection entity without an ID");
+    assert(
+      id.kind == ValueKind.STRING,
+      "Cannot save Collection entity with non-string ID. " +
+        'Considering using .toHex() to convert the "id" to a string.'
+    );
+    store.set("Collection", id.toString(), this);
+  }
+
+  static load(id: string): Collection | null {
+    return store.get("Collection", id) as Collection | null;
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    return value.toString();
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get data(): Array<string> {
+    let value = this.get("data");
+    return value.toStringArray();
+  }
+
+  set data(value: Array<string>) {
+    this.set("data", Value.fromStringArray(value));
+  }
+}
+
 export class Candle extends Entity {
   constructor(id: string) {
     super();
@@ -1508,13 +1593,13 @@ export class Candle extends Entity {
     this.set("id", Value.fromString(value));
   }
 
-  get rageTradePool(): string {
-    let value = this.get("rageTradePool");
+  get collection(): string {
+    let value = this.get("collection");
     return value.toString();
   }
 
-  set rageTradePool(value: string) {
-    this.set("rageTradePool", Value.fromString(value));
+  set collection(value: string) {
+    this.set("collection", Value.fromString(value));
   }
 
   get periodStartUnix(): BigInt {
@@ -1524,6 +1609,15 @@ export class Candle extends Entity {
 
   set periodStartUnix(value: BigInt) {
     this.set("periodStartUnix", Value.fromBigInt(value));
+  }
+
+  get tick(): BigInt {
+    let value = this.get("tick");
+    return value.toBigInt();
+  }
+
+  set tick(value: BigInt) {
+    this.set("tick", Value.fromBigInt(value));
   }
 
   get open(): BigDecimal {
@@ -1623,6 +1717,15 @@ export class Candle extends Entity {
 
   set txCount(value: BigInt) {
     this.set("txCount", Value.fromBigInt(value));
+  }
+
+  get liquidity(): BigInt {
+    let value = this.get("liquidity");
+    return value.toBigInt();
+  }
+
+  set liquidity(value: BigInt) {
+    this.set("liquidity", Value.fromBigInt(value));
   }
 }
 

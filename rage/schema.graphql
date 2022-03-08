@@ -30,6 +30,20 @@ type Account @entity {
 }
 
 """
+Data help by the protocol
+"""
+type Protocol @entity {
+  id: ID!
+  tvlUSDC: BigDecimal!
+
+  "fee earned by lps"
+  lpFees: BigDecimal!
+
+  "fee earned by the protocol"
+  protocolFees: BigDecimal!
+}
+
+"""
 deposit/withdraw of margin
 """
 type Collateral @entity {
@@ -230,19 +244,6 @@ type LiquidityPositionEntry @entity {
   insuranceFundFee: BigInt
 }
 
-"""
-denotes protocol fee withdrawal from a pool wrapper
-"""
-type Protocol @entity {
-  id: ID! # wrapperAddress
-  "timestamp of the token position change"
-  timestamp: BigInt!
-  "wrapperAddress address of token for which fee was paid"
-  wrapperAddress: Bytes!
-  "feeAmount amount of protocol fee which was withdrawn"
-  feeAmount: BigInt!
-}
-
 type RageTradeFactory @entity {
   id: ID! # factory address
   pools: [RageTradePool!]! @derivedFrom(field: "factory")
@@ -255,16 +256,26 @@ type VBase @entity {
 type RageTradePool @entity {
   id: ID! # vToken address
   vToken: VToken!
+
   vPool: UniswapV3Pool!
   vPoolWrapper: VPoolWrapper!
+
   factory: RageTradeFactory! # links to the factory
   price: BigDecimal!
+  tick: BigInt!
   liquidity: BigInt!
-  funding: BigInt!
+
+  fundingRate: BigInt!
   volume24H: BigInt!
   priceChange24H: BigInt!
-  funding1H: BigInt!
+
   sumAX128: BigInt!
+  sumBX128: BigInt!
+  sumFpX128: BigInt!
+  sumFeeX128: BigInt!
+
+  hourData: Collection!
+  dayData: Collection!
 }
 
 type VToken @entity {
@@ -277,10 +288,17 @@ type VPoolWrapper @entity {
   pool: RageTradePool!
 }
 
+type Collection @entity {
+  id: ID!
+  data: [Candle!]! @derivedFrom(field: "collection")
+}
+
 type Candle @entity {
   id: ID!
-  rageTradePool: RageTradePool!
+  collection: Collection!
   periodStartUnix: BigInt!
+
+  tick: BigInt!
 
   open: BigDecimal!
   high: BigDecimal!
@@ -295,6 +313,8 @@ type Candle @entity {
   volumeVToken: BigDecimal!
   volumeUSDC: BigDecimal!
   txCount: BigInt!
+
+  liquidity: BigInt!
 }
 
 # -------------------
