@@ -54,7 +54,13 @@ export function handleTokenPositionChanged(event: TokenPositionChanged): void {
     tokenPosition.netPosition = tokenPosition.netPosition.plus(
       event.params.tokenAmountOut
     );
-    tokenPosition.sumAX128CheckPoint = getSumAX128();
+
+    let result = getSumAX128();
+    if (!result.reverted) {
+      tokenPosition.sumAX128CheckPoint = result.value;
+    } else {
+      log.error('custom_logs: getSumAX128 reverted {}', ['']);
+    }
 
     tokenPosition.save();
   }
