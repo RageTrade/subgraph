@@ -13,8 +13,14 @@ import {
 import { generateAccountId, getAccount } from './account';
 import { getOwner } from './owner';
 import { getTokenPosition } from './token-position';
-import { generateId, getFundingRate, getSumAX128 } from '../../utils';
+import {
+  generateId,
+  getFundingRate,
+  getSumAX128,
+  parseSqrtPriceX96,
+} from '../../utils';
 import { contracts } from '../../utils/addresses';
+import { Pool } from '../../../generated/templates/Pool/Pool';
 
 // @entity Account
 export function handleAccountCreated(event: AccountCreated): void {
@@ -84,6 +90,45 @@ export function handleTokenPositionChanged(event: TokenPositionChanged): void {
     tokenPositionChangeEntry.tokenAmountOut = event.params.tokenAmountOut;
     tokenPositionChangeEntry.baseAmountOut = event.params.baseAmountOut;
     tokenPositionChangeEntry.save();
+  }
+
+  {
+    let rageTradePool = RageTradePool.load(event.params.poolId.toHexString());
+
+    if (!rageTradePool) {
+      log.error(
+        'custom_logs: rageTradePool does not exist in handleTokenPositionChanged {}',
+        [event.params.poolId.toHexString()]
+      );
+    }
+
+    const UniswapV3Pool = Pool
+
+    let slot_result = UniswapV3Pool.bind(contracts.VPoolWrapper).try_slot0();
+
+    if (!slot_result.reverted) {
+      rageTradePool.price =  parseSqrtPriceX96(slot_result.value[0]);
+    } else {
+      log.error('priceStr reverted in handleTokenPositionChanged', ['']);
+    }
+
+    let sumAX128_result = getSumAX128();
+    
+    if (!sumAX128_result.reverted) {
+      rageTradePool.sumAX128 = sumAX128_result.value;
+    } else {
+      log.error('custom_logs: getSumAX128 reverted {}', ['']);
+    }
+
+    let liquidity_result = UniswapV3Pool.bind(
+      contracts.VPoolWrapper
+    ).try_liquidity();
+
+    if (!liquidity_result.reverted) {
+      rageTradePool.liquidity = liquidity_result.value;
+    } else {
+      log.error('custom_logs: try_liquidity reverted {}', ['']);
+    }
   }
 }
 
