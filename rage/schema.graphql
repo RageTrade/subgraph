@@ -257,7 +257,7 @@ type RageTradePool @entity {
   vPool: UniswapV3Pool!
   vPoolWrapper: VPoolWrapper!
   factory: RageTradeFactory! # links to the factory
-  price: BigInt!
+  price: BigDecimal!
   liquidity: BigInt!
   funding: BigInt!
   volume24H: BigInt!
