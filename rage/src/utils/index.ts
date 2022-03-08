@@ -191,8 +191,10 @@ export function getFundingRate(
   return fundingRate;
 }
 
-export function getSumAX128(): ethereum.CallResult<BigInt> {
-  let contract = VPoolWrapper.bind(contracts.VPoolWrapper);
+export function getSumAX128(
+  vPoolWrapperAddress: Address
+): ethereum.CallResult<BigInt> {
+  let contract = VPoolWrapper.bind(vPoolWrapperAddress);
 
   return contract.try_getSumAX128();
 }
