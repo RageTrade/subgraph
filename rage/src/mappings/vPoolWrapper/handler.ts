@@ -4,11 +4,8 @@ import {
   Burn,
   Mint,
   Swap,
-  VPoolWrapper as VPoolWrapperContract,
 } from '../../../generated/VPoolWrapper/VPoolWrapper';
-import { getCandle, getPriceANDTick } from './utils';
-import { BigInt } from '@graphprotocol/graph-ts';
-import { ONE_BI } from '../../utils/constants';
+import { getPriceANDTick, updateCandleData } from './utils';
 import { generateId } from '../../utils';
 
 export function handleSwap(event: Swap): void {
@@ -23,11 +20,27 @@ export function handleSwap(event: Swap): void {
   let hourIndex = timestamp / 3600; // get unique hour within unix history
   let hourStartUnix = hourIndex * 3600; // want the rounded effect
 
+  let dayIndex = timestamp / (3600 * 24); // get unique hour within unix history
+  let dayStartUnix = dayIndex * (3600 * 24); // want the rounded effect
+
   let vPoolWrapper = VPoolWrapper.load(event.address.toHexString());
+  if (vPoolWrapper === null) {
+    log.error('custom_logs: vPoolWrapper not found id - {}', [
+      event.address.toHexString(),
+    ]);
+    return;
+  }
+
   let vPoolWrapperAddress = Address.fromString(vPoolWrapper.id);
 
-  // TODO: DO WE NEED RageTradePool or UniswapV3Pool?
   let rageTradePool = RageTradePool.load(vPoolWrapper.pool); // use poolId from vPoolWrapper entity
+  if (rageTradePool === null) {
+    log.error('custom_logs: RageTradePool not found id - {}', [
+      vPoolWrapper.pool,
+    ]);
+    return;
+  }
+
   let price_tick = getPriceANDTick(Address.fromString(rageTradePool.vPool));
 
   rageTradePool.price = price_tick.price;
@@ -36,58 +49,29 @@ export function handleSwap(event: Swap): void {
   rageTradePool.save();
 
   let hourPoolID = generateId([rageTradePool.hourData, hourIndex.toString()]);
+  let dayPoolID = generateId([rageTradePool.dayData, dayIndex.toString()]);
 
-  // TODO: build dayData
-  let hourData = getCandle(
+  // hourData
+  updateCandleData(
     hourPoolID,
-    BigInt.fromI32(hourStartUnix),
     rageTradePool.hourData,
-    rageTradePool.price
-  );
-
-  hourData.txCount = hourData.txCount.plus(ONE_BI);
-
-  if (rageTradePool.price.gt(hourData.high)) {
-    hourData.high = rageTradePool.price;
-  }
-  if (rageTradePool.price.lt(hourData.low)) {
-    hourData.low = rageTradePool.price;
-  }
-
-  hourData.close = rageTradePool.price;
-
-  hourData.liquidity = rageTradePool.liquidity;
-  hourData.sumAX128 = rageTradePool.sumAX128;
-  hourData.sumBX128 = rageTradePool.sumBX128;
-  hourData.sumFpX128 = rageTradePool.sumFpX128;
-  hourData.sumFeeX128 = rageTradePool.sumFeeX128;
-
-  hourData.tick = rageTradePool.tick;
-  // TODO
-  // hourData.tvlUSD = rageTradePool.totalValueLockedUSD;
-
-  hourData.volumeVToken = hourData.volumeVToken.plus(
-    event.params.vTokenIn.toBigDecimal()
-  );
-  hourData.volumeUSDC = hourData.volumeUSDC.plus(
+    rageTradePool as RageTradePool,
+    vPoolWrapperAddress,
+    hourStartUnix,
+    event.params.vTokenIn.toBigDecimal(),
     event.params.vBaseIn.toBigDecimal()
   );
-  hourData.txCount = hourData.txCount.plus(ONE_BI);
 
-  let vPoolWrapperContract = VPoolWrapperContract.bind(vPoolWrapperAddress);
-  let fp_result = vPoolWrapperContract.try_fpGlobal();
-  let sum_result = vPoolWrapperContract.try_sumFeeGlobalX128();
-
-  if (!fp_result.reverted && !sum_result.reverted) {
-    hourData.sumAX128 = fp_result.value.value0;
-    hourData.sumBX128 = fp_result.value.value1;
-    hourData.sumFpX128 = fp_result.value.value2;
-    hourData.sumFeeX128 = sum_result.value;
-  } else {
-    log.error('custom_logs: handleSwap fp_result or sum_result reverted', ['']);
-  }
-
-  hourData.save();
+  // dayData
+  updateCandleData(
+    dayPoolID,
+    rageTradePool.dayData,
+    rageTradePool as RageTradePool,
+    vPoolWrapperAddress,
+    dayStartUnix,
+    event.params.vTokenIn.toBigDecimal(),
+    event.params.vBaseIn.toBigDecimal()
+  );
 }
 
 export function handleMint(event: Mint): void {}
