@@ -1,8 +1,9 @@
 import { Candle, RageTradePool } from '../../../generated/schema';
-import { ZERO_BD, ZERO_BI } from '../../utils/constants';
+import { ONE_BI, ZERO_BD, ZERO_BI } from '../../utils/constants';
 import { Address, BigDecimal, BigInt, log } from '@graphprotocol/graph-ts';
 import { Pool } from '../../../generated/templates/Pool/Pool';
 import { parseSqrtPriceX96 } from '../../utils';
+import { VPoolWrapper } from '../../../generated/VPoolWrapper/VPoolWrapper';
 
 export function getCandle(
   id: string,
@@ -69,4 +70,65 @@ export function getPriceANDTick(vPoolAddress: Address): PriceANDTick {
   }
 
   return data;
+}
+
+// let candlePoolID = generateId([rageTradePool.hourData, timeIndex.toString()]);
+
+export function updateCandleData(
+  candleId: string,
+  collectionId: string,
+  rageTradePool: RageTradePool,
+  vPoolWrapperAddress: Address,
+  timeStartUnix: i32,
+  vTokenIn: BigDecimal,
+  vBaseIn: BigDecimal
+): Candle {
+  let candle = getCandle(
+    candleId,
+    BigInt.fromI32(timeStartUnix),
+    collectionId,
+    rageTradePool.price
+  );
+
+  candle.txCount = candle.txCount.plus(ONE_BI);
+
+  if (rageTradePool.price.gt(candle.high)) {
+    candle.high = rageTradePool.price;
+  }
+  if (rageTradePool.price.lt(candle.low)) {
+    candle.low = rageTradePool.price;
+  }
+
+  candle.close = rageTradePool.price;
+
+  candle.liquidity = rageTradePool.liquidity;
+  candle.sumAX128 = rageTradePool.sumAX128;
+  candle.sumBX128 = rageTradePool.sumBX128;
+  candle.sumFpX128 = rageTradePool.sumFpX128;
+  candle.sumFeeX128 = rageTradePool.sumFeeX128;
+
+  candle.tick = rageTradePool.tick;
+  // TODO
+  // hourData.tvlUSD = rageTradePool.totalValueLockedUSD;
+
+  candle.volumeVToken = candle.volumeVToken.plus(vTokenIn);
+  candle.volumeUSDC = candle.volumeUSDC.plus(vBaseIn);
+  candle.txCount = candle.txCount.plus(ONE_BI);
+
+  let vPoolWrapperContract = VPoolWrapper.bind(vPoolWrapperAddress);
+  let fp_result = vPoolWrapperContract.try_fpGlobal();
+  let sum_result = vPoolWrapperContract.try_sumFeeGlobalX128();
+
+  if (!fp_result.reverted && !sum_result.reverted) {
+    candle.sumAX128 = fp_result.value.value0;
+    candle.sumBX128 = fp_result.value.value1;
+    candle.sumFpX128 = fp_result.value.value2;
+    candle.sumFeeX128 = sum_result.value;
+  } else {
+    log.error('custom_logs: handleSwap fp_result or sum_result reverted', ['']);
+  }
+
+  candle.save();
+
+  return candle;
 }
