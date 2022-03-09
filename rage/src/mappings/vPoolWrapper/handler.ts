@@ -9,7 +9,7 @@ import { getPriceANDTick, updateCandleData } from './utils';
 import { generateId } from '../../utils';
 
 export function handleSwap(event: Swap): void {
-  log.debug('custom_logs: handleSwap in VPoolWrapper triggered {} {} {}', [
+  log.debug('custom_logs: handleSwap in VPoolWrapper triggered {} {} {} {}', [
     event.params.vTokenIn.toHexString(),
     event.params.vBaseIn.toHexString(),
     event.params.liquidityFees.toHexString(),
