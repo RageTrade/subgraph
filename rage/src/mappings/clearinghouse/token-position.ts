@@ -1,6 +1,7 @@
 import { BigInt, log } from '@graphprotocol/graph-ts';
 import { Account, TokenPosition } from '../../../generated/schema';
 import { generateId } from '../../utils';
+import { ZERO_BD, ZERO_BI } from '../../utils/constants';
 
 export function getTokenPosition(
   account: Account,
@@ -19,8 +20,19 @@ export function getTokenPosition(
     tokenPosition.account = account.id;
     tokenPosition.rageTradePool = poolId.toHexString();
     tokenPosition.netPosition = BigInt.fromI32(0);
+
     tokenPosition.totalRealizedFundingPaymentAmount = BigInt.fromI32(0);
 
+    tokenPosition.sumAX128CheckPoint = ZERO_BI;
+
+    tokenPosition.buyVQuoteAmount = ZERO_BD;
+    tokenPosition.buyVTokenAmount = ZERO_BD;
+
+    tokenPosition.sellVQuoteAmount = ZERO_BD;
+    tokenPosition.sellVTokenAmount = ZERO_BD;
+    
+    tokenPosition.realizedPnL = ZERO_BD;
+    
     tokenPosition.save();
   }
 
