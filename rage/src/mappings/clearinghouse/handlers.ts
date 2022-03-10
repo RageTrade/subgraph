@@ -16,6 +16,7 @@ import { getTokenPosition } from './token-position';
 import { generateId, getFundingRate, getSumAX128 } from '../../utils';
 import { Pool } from '../../../generated/templates/Pool/Pool';
 import { getPriceANDTick } from '../vPoolWrapper/utils';
+import { ZERO_BI } from '../../utils/constants';
 
 // @entity Account
 export function handleAccountCreated(event: AccountCreated): void {
@@ -52,18 +53,51 @@ export function handleTokenPositionChanged(event: TokenPositionChanged): void {
   // update token position
   {
     let tokenPosition = getTokenPosition(account, event.params.poolId);
-    tokenPosition.netPosition = tokenPosition.netPosition.plus(
-      event.params.tokenAmountOut
-    );
     let rageTradePool = RageTradePool.load(tokenPosition.rageTradePool);
     let vPoolWrapperAddress = Address.fromString(rageTradePool.vPoolWrapper);
 
-    let result = getSumAX128(vPoolWrapperAddress);
+    tokenPosition.netPosition = tokenPosition.netPosition.plus(
+      event.params.tokenAmountOut
+    );
 
+    let result = getSumAX128(vPoolWrapperAddress);
     if (!result.reverted) {
       tokenPosition.sumAX128CheckPoint = result.value;
     } else {
       log.error('custom_logs: getSumAX128 reverted {}', ['']);
+    }
+
+    if (event.params.tokenAmountOut.gt(ZERO_BI)) {
+      tokenPosition.buyVTokenAmount = tokenPosition.buyVTokenAmount.plus(
+        event.params.tokenAmountOut.toBigDecimal()
+      );
+      tokenPosition.buyVQuoteAmount = tokenPosition.buyVQuoteAmount.plus(
+        event.params.baseAmountOut.toBigDecimal()
+      );
+    } else {
+      tokenPosition.sellVTokenAmount = tokenPosition.sellVTokenAmount.plus(
+        event.params.tokenAmountOut.abs().toBigDecimal()
+      );
+      tokenPosition.sellVQuoteAmount = tokenPosition.sellVQuoteAmount.plus(
+        event.params.baseAmountOut.abs().toBigDecimal()
+      );
+    }
+
+    let buyAvgPrice = tokenPosition.buyVQuoteAmount.div(
+      tokenPosition.buyVTokenAmount
+    );
+    let sellAvgPrice = tokenPosition.sellVQuoteAmount.div(
+      tokenPosition.sellVTokenAmount
+    );
+
+    if (tokenPosition.buyVTokenAmount.gt(tokenPosition.sellVTokenAmount)) {
+      tokenPosition.realizedPnL = tokenPosition.sellVTokenAmount.times(
+        sellAvgPrice.minus(buyAvgPrice)
+      );
+    } else {
+      tokenPosition.realizedPnL = tokenPosition.buyVTokenAmount.times(
+        sellAvgPrice.minus(buyAvgPrice)
+      );
     }
 
     tokenPosition.save();
