@@ -488,6 +488,51 @@ export class TokenPosition extends Entity {
   set sumAX128CheckPoint(value: BigInt) {
     this.set("sumAX128CheckPoint", Value.fromBigInt(value));
   }
+
+  get buyVQuoteAmount(): BigDecimal {
+    let value = this.get("buyVQuoteAmount");
+    return value.toBigDecimal();
+  }
+
+  set buyVQuoteAmount(value: BigDecimal) {
+    this.set("buyVQuoteAmount", Value.fromBigDecimal(value));
+  }
+
+  get buyVTokenAmount(): BigDecimal {
+    let value = this.get("buyVTokenAmount");
+    return value.toBigDecimal();
+  }
+
+  set buyVTokenAmount(value: BigDecimal) {
+    this.set("buyVTokenAmount", Value.fromBigDecimal(value));
+  }
+
+  get sellVQuoteAmount(): BigDecimal {
+    let value = this.get("sellVQuoteAmount");
+    return value.toBigDecimal();
+  }
+
+  set sellVQuoteAmount(value: BigDecimal) {
+    this.set("sellVQuoteAmount", Value.fromBigDecimal(value));
+  }
+
+  get sellVTokenAmount(): BigDecimal {
+    let value = this.get("sellVTokenAmount");
+    return value.toBigDecimal();
+  }
+
+  set sellVTokenAmount(value: BigDecimal) {
+    this.set("sellVTokenAmount", Value.fromBigDecimal(value));
+  }
+
+  get realizedPnL(): BigDecimal {
+    let value = this.get("realizedPnL");
+    return value.toBigDecimal();
+  }
+
+  set realizedPnL(value: BigDecimal) {
+    this.set("realizedPnL", Value.fromBigDecimal(value));
+  }
 }
 
 export class TokenPositionChangeEntry extends Entity {

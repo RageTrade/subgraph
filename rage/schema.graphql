@@ -106,6 +106,14 @@ type TokenPosition @entity {
   totalRealizedFundingPaymentAmount: BigInt!
 
   sumAX128CheckPoint: BigInt!
+
+  buyVQuoteAmount: BigDecimal!
+  buyVTokenAmount: BigDecimal!
+
+  sellVQuoteAmount: BigDecimal!
+  sellVTokenAmount: BigDecimal!
+
+  realizedPnL: BigDecimal!
 }
 
 """
