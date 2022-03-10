@@ -63,6 +63,7 @@ export function handlePoolInitialized(event: PoolInitialized): void {
   rageTradePool.liquidity = ZERO_BI;
   rageTradePool.volume24H = ZERO_BI;
   rageTradePool.priceChange24H = ZERO_BI;
+  rageTradePool.fundingRate = ZERO_BI;
 
   rageTradePool.save();
 }
