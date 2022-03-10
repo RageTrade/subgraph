@@ -45,10 +45,23 @@ export function handlePoolInitialized(event: PoolInitialized): void {
 
   rageTradePool = new RageTradePool(poolId);
   rageTradePool.vToken = vToken.id;
+  
   rageTradePool.vPool = event.params.vPool.toHexString();
   rageTradePool.vPoolWrapper = vPoolWrapper.id;
+  
   rageTradePool.factory = rageTradeFactory.id;
+  rageTradePool.price = ZERO_BD;
   rageTradePool.tick = ZERO_BI;
+  rageTradePool.liquidity = ZERO_BI;
+
+  rageTradePool.fundingRate = ZERO_BI;
+  rageTradePool.volume24H = ZERO_BI;
+  rageTradePool.priceChange24H = ZERO_BI;
+
+  rageTradePool.sumAX128 = ZERO_BI;
+  rageTradePool.sumBX128 = ZERO_BI;
+  rageTradePool.sumFpX128 = ZERO_BI;
+  rageTradePool.sumFeeX128 = ZERO_BI;
 
   let dayCollection = new Collection(generateId([rageTradePool.id, 'dayData']));
   let hourCollection = new Collection(
@@ -57,13 +70,6 @@ export function handlePoolInitialized(event: PoolInitialized): void {
 
   rageTradePool.dayData = dayCollection.id;
   rageTradePool.hourData = hourCollection.id;
-
-  rageTradePool.sumAX128 = ZERO_BI;
-  rageTradePool.price = ZERO_BD;
-  rageTradePool.liquidity = ZERO_BI;
-  rageTradePool.volume24H = ZERO_BI;
-  rageTradePool.priceChange24H = ZERO_BI;
-  rageTradePool.fundingRate = ZERO_BI;
 
   rageTradePool.save();
 }
