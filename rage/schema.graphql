@@ -265,7 +265,7 @@ type RageTradePool @entity {
   id: ID! # vToken address
   vToken: VToken!
 
-  vPool: UniswapV3Pool!
+  vPool: Temp_UniswapV3_Pool!
   vPoolWrapper: VPoolWrapper!
 
   factory: RageTradeFactory! # links to the factory
@@ -401,6 +401,13 @@ type UniswapV3Token @entity {
   whitelistPools: [UniswapV3Pool!]!
   # derived fields
   tokenDayData: [TokenDayData!]! @derivedFrom(field: "token")
+}
+
+type Temp_UniswapV3_Pool @entity {
+  # pool address
+  id: ID!
+
+  rageTradePool: RageTradePool!
 }
 
 type UniswapV3Pool @entity {
