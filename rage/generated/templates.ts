@@ -6,12 +6,30 @@ import {
   DataSourceContext
 } from "@graphprotocol/graph-ts";
 
-export class Pool extends DataSourceTemplate {
+export class UniswapV3Pool extends DataSourceTemplate {
   static create(address: Address): void {
-    DataSourceTemplate.create("Pool", [address.toHex()]);
+    DataSourceTemplate.create("UniswapV3Pool", [address.toHex()]);
   }
 
   static createWithContext(address: Address, context: DataSourceContext): void {
-    DataSourceTemplate.createWithContext("Pool", [address.toHex()], context);
+    DataSourceTemplate.createWithContext(
+      "UniswapV3Pool",
+      [address.toHex()],
+      context
+    );
+  }
+}
+
+export class VPoolWrapperLogic extends DataSourceTemplate {
+  static create(address: Address): void {
+    DataSourceTemplate.create("VPoolWrapperLogic", [address.toHex()]);
+  }
+
+  static createWithContext(address: Address, context: DataSourceContext): void {
+    DataSourceTemplate.createWithContext(
+      "VPoolWrapperLogic",
+      [address.toHex()],
+      context
+    );
   }
 }

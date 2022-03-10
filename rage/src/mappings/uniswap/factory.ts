@@ -8,9 +8,9 @@ import {
   ADDRESS_ZERO,
 } from '../../utils/constants';
 import { UniswapV3Factory } from '../../../generated/schema';
-import { PoolCreated } from '../../../generated/Factory/Factory';
+import { PoolCreated } from '../../../generated/UniswapV3Factory/UniswapV3Factory';
 import { UniswapV3Pool, UniswapV3Token, Bundle } from '../../../generated/schema';
-import { Pool as PoolTemplate } from '../../../generated/templates';
+import { UniswapV3Pool as PoolTemplate } from '../../../generated/templates';
 import {
   fetchTokenSymbol,
   fetchTokenName,

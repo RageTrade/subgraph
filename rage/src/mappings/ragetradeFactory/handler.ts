@@ -4,9 +4,11 @@ import {
   Collection,
   RageTradeFactory,
   RageTradePool,
+  Temp_UniswapV3_Pool,
   VPoolWrapper,
   VToken,
 } from '../../../generated/schema';
+import { VPoolWrapperLogic } from '../../../generated/templates';
 import { generateId, truncate } from '../../utils';
 import { ZERO_BD, ZERO_BI } from '../../utils/constants';
 
@@ -25,6 +27,8 @@ export function handlePoolInitialized(event: PoolInitialized): void {
 
   let vPoolWrapper = new VPoolWrapper(event.params.vPoolWrapper.toHexString());
 
+  VPoolWrapperLogic.create(event.params.vPoolWrapper);
+
   let poolId = truncate(event.params.vToken.toHexString());
   log.debug('custom_logs: handlePoolInitialized poolId {}', [poolId]);
 
@@ -40,15 +44,23 @@ export function handlePoolInitialized(event: PoolInitialized): void {
   vToken.pool = poolId;
   vToken.save();
 
+  let vPool = Temp_UniswapV3_Pool.load(event.params.vPool.toHexString());
+  if (vPool === null) {
+    vPool = new Temp_UniswapV3_Pool(event.params.vPool.toHexString());
+  }
+
+  vPool.rageTradePool = poolId;
+  vPool.save();
+
   vPoolWrapper.pool = poolId;
   vPoolWrapper.save();
 
   rageTradePool = new RageTradePool(poolId);
   rageTradePool.vToken = vToken.id;
-  
-  rageTradePool.vPool = event.params.vPool.toHexString();
+
+  rageTradePool.vPool = vPool.id;
   rageTradePool.vPoolWrapper = vPoolWrapper.id;
-  
+
   rageTradePool.factory = rageTradeFactory.id;
   rageTradePool.price = ZERO_BD;
   rageTradePool.tick = ZERO_BI;

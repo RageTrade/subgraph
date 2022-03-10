@@ -1,8 +1,8 @@
 /* eslint-disable prefer-const */
 import { BigDecimal, BigInt } from '@graphprotocol/graph-ts';
 import { bigDecimalExponated, safeDiv } from '.';
-import { Tick } from '../../generated/schema';
-import { Mint as MintEvent } from '../../generated/templates/Pool/Pool';
+import { UniswapV3Tick } from '../../generated/schema';
+import { Mint as MintEvent } from '../../generated/templates/UniswapV3Pool/UniswapV3Pool';
 import { ONE_BD, ZERO_BD, ZERO_BI } from './constants';
 
 export function createTick(
@@ -10,8 +10,8 @@ export function createTick(
   tickIdx: i32,
   poolId: string,
   event: MintEvent
-): Tick {
-  let tick = new Tick(tickId);
+): UniswapV3Tick {
+  let tick = new UniswapV3Tick(tickId);
   tick.tickIdx = BigInt.fromI32(tickIdx);
   tick.pool = poolId;
   tick.poolAddress = poolId;

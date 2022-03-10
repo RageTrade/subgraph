@@ -14,7 +14,7 @@ import { generateAccountId, getAccount } from './account';
 import { getOwner } from './owner';
 import { getTokenPosition } from './token-position';
 import { generateId, getFundingRate, getSumAX128 } from '../../utils';
-import { Pool } from '../../../generated/templates/Pool/Pool';
+import { UniswapV3Pool } from '../../../generated/templates/UniswapV3Pool/UniswapV3Pool';
 import { getPriceANDTick } from '../vPoolWrapper/utils';
 import { ZERO_BI } from '../../utils/constants';
 
@@ -64,7 +64,9 @@ export function handleTokenPositionChanged(event: TokenPositionChanged): void {
     if (!result.reverted) {
       tokenPosition.sumAX128CheckPoint = result.value;
     } else {
-      log.error('custom_logs: getSumAX128 reverted {}', ['']);
+      log.error('custom_logs: getSumAX128 reverted {}', [
+        vPoolWrapperAddress.toHexString(),
+      ]);
     }
 
     if (event.params.tokenAmountOut.gt(ZERO_BI)) {
@@ -147,7 +149,7 @@ export function handleTokenPositionChanged(event: TokenPositionChanged): void {
     }
 
     // Pool is UniswapV3Pool
-    let liquidity_result = Pool.bind(vPoolAddress).try_liquidity();
+    let liquidity_result = UniswapV3Pool.bind(vPoolAddress).try_liquidity();
 
     if (!liquidity_result.reverted) {
       rageTradePool.liquidity = liquidity_result.value;
@@ -218,6 +220,7 @@ export function handleFundingPaymentRealized(
   fundingRateEntry.timestamp = event.block.timestamp;
   fundingRateEntry.tokenPosition = tokenPosition.id;
   fundingRateEntry.amount = event.params.amount; // TODO: is this correct?
+
   fundingRateEntry.fundingRate = getFundingRate(
     Address.fromString(rageTradePool.vToken)
   );

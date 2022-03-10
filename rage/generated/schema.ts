@@ -2128,6 +2128,46 @@ export class UniswapV3Token extends Entity {
   }
 }
 
+export class Temp_UniswapV3_Pool extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id !== null, "Cannot save Temp_UniswapV3_Pool entity without an ID");
+    assert(
+      id.kind == ValueKind.STRING,
+      "Cannot save Temp_UniswapV3_Pool entity with non-string ID. " +
+        'Considering using .toHex() to convert the "id" to a string.'
+    );
+    store.set("Temp_UniswapV3_Pool", id.toString(), this);
+  }
+
+  static load(id: string): Temp_UniswapV3_Pool | null {
+    return store.get("Temp_UniswapV3_Pool", id) as Temp_UniswapV3_Pool | null;
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    return value.toString();
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get rageTradePool(): string {
+    let value = this.get("rageTradePool");
+    return value.toString();
+  }
+
+  set rageTradePool(value: string) {
+    this.set("rageTradePool", Value.fromString(value));
+  }
+}
+
 export class UniswapV3Pool extends Entity {
   constructor(id: string) {
     super();

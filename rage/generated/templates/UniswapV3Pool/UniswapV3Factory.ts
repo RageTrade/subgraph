@@ -88,9 +88,9 @@ export class PoolCreated__Params {
   }
 }
 
-export class Factory extends ethereum.SmartContract {
-  static bind(address: Address): Factory {
-    return new Factory("Factory", address);
+export class UniswapV3Factory extends ethereum.SmartContract {
+  static bind(address: Address): UniswapV3Factory {
+    return new UniswapV3Factory("UniswapV3Factory", address);
   }
 
   createPool(tokenA: Address, tokenB: Address, fee: i32): Address {

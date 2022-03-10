@@ -12,9 +12,12 @@ import {
   Burn as BurnEvent,
   Initialize,
   Mint as MintEvent,
-} from '../../../generated/templates/Pool/Pool';
+} from '../../../generated/templates/UniswapV3Pool/UniswapV3Pool';
 import { convertTokenToDecimal, loadTransaction } from '../../utils';
-import { FACTORY_ADDRESS, ONE_BI } from '../../utils/constants';
+import {
+  FACTORY_ADDRESS,
+  ONE_BI,
+} from '../../utils/constants';
 import {
   updatePoolDayData,
   updatePoolHourData,
@@ -22,6 +25,7 @@ import {
   updateTokenHourData,
   updateUniswapDayData,
 } from '../../utils/intervalUpdates';
+/* eslint-disable prefer-const */
 
 export function handleInitialize(event: Initialize): void {
   let pool = UniswapV3Pool.load(event.address.toHexString());

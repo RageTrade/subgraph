@@ -1,9 +1,9 @@
 import { Candle, RageTradePool } from '../../../generated/schema';
 import { ONE_BI, ZERO_BD, ZERO_BI } from '../../utils/constants';
 import { Address, BigDecimal, BigInt, log } from '@graphprotocol/graph-ts';
-import { Pool } from '../../../generated/templates/Pool/Pool';
+import { UniswapV3Pool } from '../../../generated/templates/UniswapV3Pool/UniswapV3Pool';
 import { parseSqrtPriceX96 } from '../../utils';
-import { VPoolWrapper } from '../../../generated/VPoolWrapper/VPoolWrapper';
+import { VPoolWrapperLogic } from '../../../generated/templates/VPoolWrapperLogic/VPoolWrapperLogic';
 
 export function getCandle(
   id: string,
@@ -55,7 +55,7 @@ class PriceANDTick {
  */
 export function getPriceANDTick(vPoolAddress: Address): PriceANDTick {
   // Pool is UniswapV3Pool
-  let slot_result = Pool.bind(vPoolAddress).try_slot0();
+  let slot_result = UniswapV3Pool.bind(vPoolAddress).try_slot0();
 
   let data = new PriceANDTick();
 
@@ -115,7 +115,7 @@ export function updateCandleData(
   candle.volumeUSDC = candle.volumeUSDC.plus(vBaseIn);
   candle.txCount = candle.txCount.plus(ONE_BI);
 
-  let vPoolWrapperContract = VPoolWrapper.bind(vPoolWrapperAddress);
+  let vPoolWrapperContract = VPoolWrapperLogic.bind(vPoolWrapperAddress);
   let fp_result = vPoolWrapperContract.try_fpGlobal();
   let sum_result = vPoolWrapperContract.try_sumFeeGlobalX128();
 

@@ -1,7 +1,7 @@
 /* eslint-disable prefer-const */
-import { ERC20 } from '../../generated/Factory/ERC20';
-import { ERC20SymbolBytes } from '../../generated/Factory/ERC20SymbolBytes';
-import { ERC20NameBytes } from '../../generated/Factory/ERC20NameBytes';
+import { ERC20 } from '../../generated/UniswapV3Factory/ERC20';
+import { ERC20SymbolBytes } from '../../generated/UniswapV3Factory/ERC20SymbolBytes';
+import { ERC20NameBytes } from '../../generated/UniswapV3Factory/ERC20NameBytes';
 import { StaticTokenDefinition } from './staticTokenDefinition';
 import { BigInt, Address } from '@graphprotocol/graph-ts';
 import { isNullEthValue } from '.';

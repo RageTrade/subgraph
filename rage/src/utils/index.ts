@@ -1,11 +1,17 @@
 /* eslint-disable prefer-const */
-import { BigInt, BigDecimal, ethereum } from '@graphprotocol/graph-ts';
+import {
+  BigInt,
+  BigDecimal,
+  ethereum,
+  log,
+  ByteArray,
+} from '@graphprotocol/graph-ts';
 import { UniswapV3Transaction } from '../../generated/schema';
 import { ONE_BI, ZERO_BI, ZERO_BD, ONE_BD } from '../utils/constants';
 import { Address } from '@graphprotocol/graph-ts';
 
 import { ClearingHouse } from '../../generated/ClearingHouse/ClearingHouse';
-import { VPoolWrapper } from '../../generated/VPoolWrapper/VPoolWrapper';
+import { VPoolWrapperLogic } from '../../generated/templates/VPoolWrapperLogic/VPoolWrapperLogic';
 import { contracts } from './addresses';
 
 export function exponentToBigDecimal(decimals: BigInt): BigDecimal {
@@ -194,7 +200,15 @@ export function getFundingRate(
 export function getSumAX128(
   vPoolWrapperAddress: Address
 ): ethereum.CallResult<BigInt> {
-  let contract = VPoolWrapper.bind(vPoolWrapperAddress);
+  log.debug('custom_logs: getSumAX128, vPoolWrapperAddress is - {}', [
+    vPoolWrapperAddress.toHexString(),
+  ]);
+
+  let contract = VPoolWrapperLogic.bind(vPoolWrapperAddress);
+
+  log.debug('custom_logs: getSumAX128-bind, contract is - {}', [
+    contract._name,
+  ]);
 
   return contract.try_getSumAX128();
 }

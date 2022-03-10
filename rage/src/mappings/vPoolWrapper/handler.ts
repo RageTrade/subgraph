@@ -4,7 +4,7 @@ import {
   Burn,
   Mint,
   Swap,
-} from '../../../generated/VPoolWrapper/VPoolWrapper';
+} from '../../../generated/templates/VPoolWrapperLogic/VPoolWrapperLogic';
 import { getPriceANDTick, updateCandleData } from './utils';
 import { generateId } from '../../utils';
 
