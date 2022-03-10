@@ -17,12 +17,29 @@ async function main() {
     updateAbi('VPoolWrapperLogic'),
   ]);
 
+  const StartBlockNumber = rtfDeployment.receipt.blockNumber;
+
   // updates clearing house address in subgraph.yaml
   const subgraphYaml = yaml.parse(fs.readFileSync('./subgraph.yaml', 'utf8'));
 
-  updateSubgraphYaml(subgraphYaml, 'ClearingHouse', chDeployment);
-  updateSubgraphYaml(subgraphYaml, 'RageTradeFactory', rtfDeployment);
-  updateSubgraphYaml(subgraphYaml, 'VPoolWrapper', vpwDeployment);
+  updateSubgraphYaml(
+    subgraphYaml,
+    'ClearingHouse',
+    chDeployment,
+    StartBlockNumber
+  );
+  updateSubgraphYaml(
+    subgraphYaml,
+    'RageTradeFactory',
+    rtfDeployment,
+    StartBlockNumber
+  );
+  updateSubgraphYaml(
+    subgraphYaml,
+    'VPoolWrapper',
+    vpwDeployment,
+    StartBlockNumber
+  );
 
   // subgraphYaml
   fs.writeFile('./subgraph.yaml', yaml.stringify(subgraphYaml, { indent: 2 }));
@@ -37,7 +54,12 @@ async function main() {
   console.log('Updated subgraph.yaml');
 }
 
-function updateSubgraphYaml(subgraphYaml, contractName, contractDeployment) {
+function updateSubgraphYaml(
+  subgraphYaml,
+  contractName,
+  contractDeployment,
+  StartBlockNumber
+) {
   const dataSources = subgraphYaml.dataSources.find(
     ({ name }) => name === contractName
   );
@@ -46,6 +68,8 @@ function updateSubgraphYaml(subgraphYaml, contractName, contractDeployment) {
       `There is no ${contractName} data source in the subgraph.yaml`
     );
   }
+
+  dataSources.source.startBlock = StartBlockNumber;
   dataSources.source.address = contractDeployment.address;
 }
 

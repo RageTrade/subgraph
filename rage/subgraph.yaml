@@ -10,7 +10,7 @@ dataSources:
     source:
       address: "0x5739C2023Ba0f06C9c38fd4e0CDB596Bb4F6a104"
       abi: ClearingHouse
-      startBlock: 9523700
+      startBlock: 10139574
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.4
@@ -41,7 +41,7 @@ dataSources:
     source:
       address: "0x0532E839aa8F8E22f415DD67017adE849d0D247c"
       abi: RageTradeFactory
-      startBlock: 9523700
+      startBlock: 10139574
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.4
@@ -60,8 +60,8 @@ dataSources:
     network: arbitrum-rinkeby
     source:
       address: "0x19263Fc95A32cAE86338FDf9692aBE323B52bb9B"
-      abi: VPoolWrapper
-      startBlock: 9523700
+      abi: VPoolWrapperLogic
+      startBlock: 10139574
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.4
@@ -69,7 +69,7 @@ dataSources:
       entities:
         - VPoolWrapper
       abis:
-        - name: VPoolWrapper
+        - name: VPoolWrapperLogic
           file: ./abis/VPoolWrapperLogic.json
       file: ./src/mappings/vPoolWrapper/handler.ts
       eventHandlers:
@@ -81,7 +81,7 @@ dataSources:
     source:
       address: "0x1F98431c8aD98523631AE4a59f267346ea31F984"
       abi: Factory
-      startBlock: 9523700
+      startBlock: 10139574
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.4
