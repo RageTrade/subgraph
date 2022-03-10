@@ -36,7 +36,7 @@ async function main() {
   );
   updateSubgraphYaml(
     subgraphYaml,
-    'VPoolWrapper',
+    'VPoolWrapperLogic',
     vpwDeployment,
     StartBlockNumber
   );
