@@ -34,12 +34,6 @@ async function main() {
     rtfDeployment,
     StartBlockNumber
   );
-  updateSubgraphYaml(
-    subgraphYaml,
-    'VPoolWrapperLogic',
-    vpwDeployment,
-    StartBlockNumber
-  );
 
   // subgraphYaml
   fs.writeFile('./subgraph.yaml', yaml.stringify(subgraphYaml, { indent: 2 }));
