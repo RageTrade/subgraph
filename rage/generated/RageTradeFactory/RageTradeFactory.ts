@@ -149,21 +149,6 @@ export class RageTradeFactory extends ethereum.SmartContract {
     return ethereum.CallResult.fromValue(value[0].toAddress());
   }
 
-  vBase(): Address {
-    let result = super.call("vBase", "vBase():(address)", []);
-
-    return result[0].toAddress();
-  }
-
-  try_vBase(): ethereum.CallResult<Address> {
-    let result = super.tryCall("vBase", "vBase():(address)", []);
-    if (result.reverted) {
-      return new ethereum.CallResult();
-    }
-    let value = result.value;
-    return ethereum.CallResult.fromValue(value[0].toAddress());
-  }
-
   vPoolWrapperLogicAddress(): Address {
     let result = super.call(
       "vPoolWrapperLogicAddress",
@@ -180,6 +165,21 @@ export class RageTradeFactory extends ethereum.SmartContract {
       "vPoolWrapperLogicAddress():(address)",
       []
     );
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toAddress());
+  }
+
+  vQuote(): Address {
+    let result = super.call("vQuote", "vQuote():(address)", []);
+
+    return result[0].toAddress();
+  }
+
+  try_vQuote(): ethereum.CallResult<Address> {
+    let result = super.tryCall("vQuote", "vQuote():(address)", []);
     if (result.reverted) {
       return new ethereum.CallResult();
     }
@@ -217,7 +217,7 @@ export class ConstructorCall__Inputs {
     return this._call.inputValues[2].value.toAddress();
   }
 
-  get cBase(): Address {
+  get settlementToken(): Address {
     return this._call.inputValues[3].value.toAddress();
   }
 
@@ -313,7 +313,7 @@ export class InitializePoolCallInitializePoolParamsPoolInitialSettingsStruct ext
     return this[2].toBigInt();
   }
 
-  get supported(): boolean {
+  get isAllowedForTrade(): boolean {
     return this[3].toBoolean();
   }
 

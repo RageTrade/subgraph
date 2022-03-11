@@ -63,7 +63,7 @@ export class CollateralSettingsUpdatedCTokenInfoStruct extends ethereum.Tuple {
     return this[1].toBigInt();
   }
 
-  get supported(): boolean {
+  get isAllowedForDeposit(): boolean {
     return this[2].toBoolean();
   }
 }
@@ -142,6 +142,24 @@ export class MarginRemoved__Params {
   }
 }
 
+export class Paused extends ethereum.Event {
+  get params(): Paused__Params {
+    return new Paused__Params(this);
+  }
+}
+
+export class Paused__Params {
+  _event: Paused;
+
+  constructor(event: Paused) {
+    this._event = event;
+  }
+
+  get account(): Address {
+    return this._event.parameters[0].value.toAddress();
+  }
+}
+
 export class PausedUpdated extends ethereum.Event {
   get params(): PausedUpdated__Params {
     return new PausedUpdated__Params(this);
@@ -195,7 +213,7 @@ export class PoolSettingsUpdatedSettingsStruct extends ethereum.Tuple {
     return this[2].toBigInt();
   }
 
-  get supported(): boolean {
+  get isAllowedForTrade(): boolean {
     return this[3].toBoolean();
   }
 
@@ -278,6 +296,24 @@ export class TeamMultisigTransferred__Params {
   }
 }
 
+export class Unpaused extends ethereum.Event {
+  get params(): Unpaused__Params {
+    return new Unpaused__Params(this);
+  }
+}
+
+export class Unpaused__Params {
+  _event: Unpaused;
+
+  constructor(event: Unpaused) {
+    this._event = event;
+  }
+
+  get account(): Address {
+    return this._event.parameters[0].value.toAddress();
+  }
+}
+
 export class FundingPaymentRealized extends ethereum.Event {
   get params(): FundingPaymentRealized__Params {
     return new FundingPaymentRealized__Params(this);
@@ -349,11 +385,11 @@ export class LiquidityChanged__Params {
     return this._event.parameters[5].value.toI32();
   }
 
-  get tokenAmountOut(): BigInt {
+  get vTokenAmountOut(): BigInt {
     return this._event.parameters[6].value.toBigInt();
   }
 
-  get baseAmountOut(): BigInt {
+  get vQuoteAmountOut(): BigInt {
     return this._event.parameters[7].value.toBigInt();
   }
 }
@@ -491,11 +527,11 @@ export class TokenPositionChanged__Params {
     return this._event.parameters[1].value.toBigInt();
   }
 
-  get tokenAmountOut(): BigInt {
+  get vTokenAmountOut(): BigInt {
     return this._event.parameters[2].value.toBigInt();
   }
 
-  get baseAmountOut(): BigInt {
+  get vQuoteAmountOut(): BigInt {
     return this._event.parameters[3].value.toBigInt();
   }
 }
@@ -529,7 +565,7 @@ export class TokenPositionChangedDueToLiquidityChanged__Params {
     return this._event.parameters[3].value.toI32();
   }
 
-  get tokenAmountOut(): BigInt {
+  get vTokenAmountOut(): BigInt {
     return this._event.parameters[4].value.toBigInt();
   }
 }
@@ -580,8 +616,8 @@ export class TokenPositionLiquidated__Params {
   }
 }
 
-export class ClearingHouse__getAccountInfoResultTokenDepositsStruct extends ethereum.Tuple {
-  get cTokenAddress(): Address {
+export class ClearingHouse__getAccountInfoResultCollateralDepositsStruct extends ethereum.Tuple {
+  get collateral(): Address {
     return this[0].toAddress();
   }
 
@@ -591,7 +627,7 @@ export class ClearingHouse__getAccountInfoResultTokenDepositsStruct extends ethe
 }
 
 export class ClearingHouse__getAccountInfoResultTokenPositionsStruct extends ethereum.Tuple {
-  get vTokenAddress(): Address {
+  get vToken(): Address {
     return this[0].toAddress();
   }
 
@@ -603,7 +639,7 @@ export class ClearingHouse__getAccountInfoResultTokenPositionsStruct extends eth
     return this[2].toBigInt();
   }
 
-  get sumAX128Ckpt(): BigInt {
+  get sumAX128Chkpt(): BigInt {
     return this[3].toBigInt();
   }
 
@@ -657,13 +693,13 @@ export class ClearingHouse__getAccountInfoResultTokenPositionsLiquidityPositions
 export class ClearingHouse__getAccountInfoResult {
   value0: Address;
   value1: BigInt;
-  value2: Array<ClearingHouse__getAccountInfoResultTokenDepositsStruct>;
+  value2: Array<ClearingHouse__getAccountInfoResultCollateralDepositsStruct>;
   value3: Array<ClearingHouse__getAccountInfoResultTokenPositionsStruct>;
 
   constructor(
     value0: Address,
     value1: BigInt,
-    value2: Array<ClearingHouse__getAccountInfoResultTokenDepositsStruct>,
+    value2: Array<ClearingHouse__getAccountInfoResultCollateralDepositsStruct>,
     value3: Array<ClearingHouse__getAccountInfoResultTokenPositionsStruct>
   ) {
     this.value0 = value0;
@@ -718,7 +754,7 @@ export class ClearingHouse__getCollateralInfoResultValue0SettingsStruct extends 
     return this[1].toBigInt();
   }
 
-  get supported(): boolean {
+  get isAllowedForDeposit(): boolean {
     return this[2].toBoolean();
   }
 }
@@ -754,7 +790,7 @@ export class ClearingHouse__getPoolInfoResultValue0SettingsStruct extends ethere
     return this[2].toBigInt();
   }
 
-  get supported(): boolean {
+  get isAllowedForTrade(): boolean {
     return this[3].toBoolean();
   }
 
@@ -785,7 +821,7 @@ export class ClearingHouse__getTwapPricesResult {
 }
 
 export class ClearingHouse__liquidateTokenPositionResultLiquidatorBalanceAdjustmentsStruct extends ethereum.Tuple {
-  get vBaseIncrease(): BigInt {
+  get vQuoteIncrease(): BigInt {
     return this[0].toBigInt();
   }
 
@@ -799,7 +835,7 @@ export class ClearingHouse__liquidateTokenPositionResultLiquidatorBalanceAdjustm
 }
 
 export class ClearingHouse__liquidateTokenPositionWithGasClaimResultLiquidatorBalanceAdjustmentsStruct extends ethereum.Tuple {
-  get vBaseIncrease(): BigInt {
+  get vQuoteIncrease(): BigInt {
     return this[0].toBigInt();
   }
 
@@ -1059,7 +1095,7 @@ export class ClearingHouse extends ethereum.SmartContract {
       result[0].toAddress(),
       result[1].toBigInt(),
       result[2].toTupleArray<
-        ClearingHouse__getAccountInfoResultTokenDepositsStruct
+        ClearingHouse__getAccountInfoResultCollateralDepositsStruct
       >(),
       result[3].toTupleArray<
         ClearingHouse__getAccountInfoResultTokenPositionsStruct
@@ -1084,7 +1120,7 @@ export class ClearingHouse extends ethereum.SmartContract {
         value[0].toAddress(),
         value[1].toBigInt(),
         value[2].toTupleArray<
-          ClearingHouse__getAccountInfoResultTokenDepositsStruct
+          ClearingHouse__getAccountInfoResultCollateralDepositsStruct
         >(),
         value[3].toTupleArray<
           ClearingHouse__getAccountInfoResultTokenPositionsStruct
@@ -1806,7 +1842,7 @@ export class __initialize_ClearingHouseCall__Inputs {
     return this._call.inputValues[3].value.toAddress();
   }
 
-  get _vBase(): Address {
+  get _vQuote(): Address {
     return this._call.inputValues[4].value.toAddress();
   }
 
@@ -2044,7 +2080,7 @@ export class LiquidateTokenPositionCall__Outputs {
 }
 
 export class LiquidateTokenPositionCallLiquidatorBalanceAdjustmentsStruct extends ethereum.Tuple {
-  get vBaseIncrease(): BigInt {
+  get vQuoteIncrease(): BigInt {
     return this[0].toBigInt();
   }
 
@@ -2108,7 +2144,7 @@ export class LiquidateTokenPositionWithGasClaimCall__Outputs {
 }
 
 export class LiquidateTokenPositionWithGasClaimCallLiquidatorBalanceAdjustmentsStruct extends ethereum.Tuple {
-  get vBaseIncrease(): BigInt {
+  get vQuoteIncrease(): BigInt {
     return this[0].toBigInt();
   }
 
@@ -2205,6 +2241,32 @@ export class MulticallWithSingleMarginCheckCallOperationsStruct extends ethereum
   }
 }
 
+export class PauseCall extends ethereum.Call {
+  get inputs(): PauseCall__Inputs {
+    return new PauseCall__Inputs(this);
+  }
+
+  get outputs(): PauseCall__Outputs {
+    return new PauseCall__Outputs(this);
+  }
+}
+
+export class PauseCall__Inputs {
+  _call: PauseCall;
+
+  constructor(call: PauseCall) {
+    this._call = call;
+  }
+}
+
+export class PauseCall__Outputs {
+  _call: PauseCall;
+
+  constructor(call: PauseCall) {
+    this._call = call;
+  }
+}
+
 export class RegisterPoolCall extends ethereum.Call {
   get inputs(): RegisterPoolCall__Inputs {
     return new RegisterPoolCall__Inputs(this);
@@ -2266,7 +2328,7 @@ export class RegisterPoolCallPoolInfoSettingsStruct extends ethereum.Tuple {
     return this[2].toBigInt();
   }
 
-  get supported(): boolean {
+  get isAllowedForTrade(): boolean {
     return this[3].toBoolean();
   }
 
@@ -2409,36 +2471,6 @@ export class RemoveMarginCall__Outputs {
   }
 }
 
-export class SetPausedCall extends ethereum.Call {
-  get inputs(): SetPausedCall__Inputs {
-    return new SetPausedCall__Inputs(this);
-  }
-
-  get outputs(): SetPausedCall__Outputs {
-    return new SetPausedCall__Outputs(this);
-  }
-}
-
-export class SetPausedCall__Inputs {
-  _call: SetPausedCall;
-
-  constructor(call: SetPausedCall) {
-    this._call = call;
-  }
-
-  get _pause(): boolean {
-    return this._call.inputValues[0].value.toBoolean();
-  }
-}
-
-export class SetPausedCall__Outputs {
-  _call: SetPausedCall;
-
-  constructor(call: SetPausedCall) {
-    this._call = call;
-  }
-}
-
 export class SwapTokenCall extends ethereum.Call {
   get inputs(): SwapTokenCall__Inputs {
     return new SwapTokenCall__Inputs(this);
@@ -2480,7 +2512,7 @@ export class SwapTokenCall__Outputs {
     return this._call.outputValues[0].value.toBigInt();
   }
 
-  get vBaseAmountOut(): BigInt {
+  get vQuoteAmountOut(): BigInt {
     return this._call.outputValues[1].value.toBigInt();
   }
 }
@@ -2563,6 +2595,32 @@ export class TransferTeamMultisigCall__Outputs {
   }
 }
 
+export class UnpauseCall extends ethereum.Call {
+  get inputs(): UnpauseCall__Inputs {
+    return new UnpauseCall__Inputs(this);
+  }
+
+  get outputs(): UnpauseCall__Outputs {
+    return new UnpauseCall__Outputs(this);
+  }
+}
+
+export class UnpauseCall__Inputs {
+  _call: UnpauseCall;
+
+  constructor(call: UnpauseCall) {
+    this._call = call;
+  }
+}
+
+export class UnpauseCall__Outputs {
+  _call: UnpauseCall;
+
+  constructor(call: UnpauseCall) {
+    this._call = call;
+  }
+}
+
 export class UpdateCollateralSettingsCall extends ethereum.Call {
   get inputs(): UpdateCollateralSettingsCall__Inputs {
     return new UpdateCollateralSettingsCall__Inputs(this);
@@ -2606,7 +2664,7 @@ export class UpdateCollateralSettingsCallCollateralSettingsStruct extends ethere
     return this[1].toBigInt();
   }
 
-  get supported(): boolean {
+  get isAllowedForDeposit(): boolean {
     return this[2].toBoolean();
   }
 }
@@ -2658,7 +2716,7 @@ export class UpdatePoolSettingsCallNewSettingsStruct extends ethereum.Tuple {
     return this[2].toBigInt();
   }
 
-  get supported(): boolean {
+  get isAllowedForTrade(): boolean {
     return this[3].toBoolean();
   }
 
@@ -2806,7 +2864,7 @@ export class UpdateRangeOrderCall__Outputs {
     return this._call.outputValues[0].value.toBigInt();
   }
 
-  get vBaseAmountOut(): BigInt {
+  get vQuoteAmountOut(): BigInt {
     return this._call.outputValues[1].value.toBigInt();
   }
 }
