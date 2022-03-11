@@ -18,7 +18,7 @@
       },
       {
         "internalType": "contract IERC20Metadata",
-        "name": "cBase",
+        "name": "settlementToken",
         "type": "address"
       },
       {
@@ -217,7 +217,7 @@
               },
               {
                 "internalType": "bool",
-                "name": "supported",
+                "name": "isAllowedForTrade",
                 "type": "bool"
               },
               {
@@ -328,10 +328,10 @@
   },
   {
     "inputs": [],
-    "name": "vBase",
+    "name": "vPoolWrapperLogicAddress",
     "outputs": [
       {
-        "internalType": "contract IVBase",
+        "internalType": "address",
         "name": "",
         "type": "address"
       }
@@ -341,10 +341,10 @@
   },
   {
     "inputs": [],
-    "name": "vPoolWrapperLogicAddress",
+    "name": "vQuote",
     "outputs": [
       {
-        "internalType": "address",
+        "internalType": "contract IVQuote",
         "name": "",
         "type": "address"
       }

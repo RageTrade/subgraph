@@ -58,7 +58,7 @@
     "inputs": [
       {
         "internalType": "contract IERC20",
-        "name": "_rBase",
+        "name": "_settlementToken",
         "type": "address"
       },
       {
@@ -264,7 +264,7 @@
   },
   {
     "inputs": [],
-    "name": "rBase",
+    "name": "settlementToken",
     "outputs": [
       {
         "internalType": "contract IERC20",
@@ -305,7 +305,7 @@
     "inputs": [
       {
         "internalType": "address",
-        "name": "recipient",
+        "name": "to",
         "type": "address"
       },
       {
@@ -329,12 +329,12 @@
     "inputs": [
       {
         "internalType": "address",
-        "name": "sender",
+        "name": "from",
         "type": "address"
       },
       {
         "internalType": "address",
-        "name": "recipient",
+        "name": "to",
         "type": "address"
       },
       {
