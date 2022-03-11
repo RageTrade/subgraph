@@ -197,7 +197,7 @@ export function handleTokenPositionChanged(event: TokenPositionChanged): void {
 export function handleFundingPaymentRealized(
   event: FundingPaymentRealized
 ): void {
-  log.warning('custom_logs: handleFundingPayment triggered {} {} {}', [
+  log.debug('custom_logs: handleFundingPayment triggered {} {} {}', [
     event.params.accountId.toHexString(),
     event.params.amount.toString(),
     event.params.poolId.toHexString(),
@@ -207,6 +207,18 @@ export function handleFundingPaymentRealized(
 
   let tokenPosition = getTokenPosition(account, event.params.poolId);
   let rageTradePool = RageTradePool.load(event.params.poolId.toHexString());
+
+  if (rageTradePool === null || tokenPosition === null) {
+    log.error(
+      'custom_logs: handleFundingPayment - either tokenPosition rageTradePool are null',
+      ['']
+    );
+  }
+
+  log.debug(
+    'custom_logs: handleFundingPayment tokenPosition - {} rageTradePool - {}',
+    [tokenPosition.id, rageTradePool.id]
+  );
 
   let fundingRateId = generateId([
     event.params.accountId.toString(),

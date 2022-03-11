@@ -15,8 +15,8 @@ import { ZERO_BD, ZERO_BI } from '../../utils/constants';
 export function handlePoolInitialized(event: PoolInitialized): void {
   log.debug('custom_logs: handlePoolInitialized triggered {} {} {}', [
     event.params.vToken.toHexString(),
-    event.params.vPoolWrapper.toString(),
-    event.params.vPool.toString(),
+    event.params.vPoolWrapper.toHexString(),
+    event.params.vPool.toHexString(),
   ]);
 
   let rageTradeFactory = RageTradeFactory.load(event.address.toHexString());
@@ -30,6 +30,7 @@ export function handlePoolInitialized(event: PoolInitialized): void {
   VPoolWrapperLogic.create(event.params.vPoolWrapper);
 
   let poolId = truncate(event.params.vToken.toHexString());
+
   log.debug('custom_logs: handlePoolInitialized poolId {}', [poolId]);
 
   let rageTradePool = RageTradePool.load(poolId);
@@ -39,6 +40,7 @@ export function handlePoolInitialized(event: PoolInitialized): void {
       poolId,
     ]);
   }
+  rageTradePool = new RageTradePool(poolId);
 
   let vToken = new VToken(event.params.vToken.toHexString());
   vToken.pool = poolId;
@@ -55,7 +57,6 @@ export function handlePoolInitialized(event: PoolInitialized): void {
   vPoolWrapper.pool = poolId;
   vPoolWrapper.save();
 
-  rageTradePool = new RageTradePool(poolId);
   rageTradePool.vToken = vToken.id;
 
   rageTradePool.vPool = vPool.id;

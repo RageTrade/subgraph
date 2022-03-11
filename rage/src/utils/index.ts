@@ -181,6 +181,12 @@ export function getFundingRate(
   let realPriceX128 = result.value0;
   let virtualPriceX128 = result.value1;
 
+  log.debug('custom_logs: handleFundingPayment getFundingRate triggered {} {} {}', [
+    contracts.ClearingHouse.toHexString(),
+    virtualPriceX128.toHexString(),
+    realPriceX128.toHexString(),
+  ]);
+
   // TODO take decimals dynamically
   let realPrice = parsePriceX128(
     realPriceX128,
@@ -192,6 +198,11 @@ export function getFundingRate(
     BigInt.fromI32(18),
     BigInt.fromI32(6)
   );
+
+  log.debug('custom_logs: handleFundingPayment getFundingRate triggered realPrice - {} virtualPrice - {}', [
+    realPrice.toString(),
+    virtualPrice.toString(),
+  ]);
 
   let fundingRate = realPrice.minus(virtualPrice).div(virtualPrice);
   return fundingRate;

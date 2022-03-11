@@ -1,4 +1,4 @@
-import { Address, log } from '@graphprotocol/graph-ts';
+import { Address, log, BigInt, BigDecimal } from '@graphprotocol/graph-ts';
 import { RageTradePool, VPoolWrapper } from '../../../generated/schema';
 import {
   Burn,
@@ -32,6 +32,8 @@ export function handleSwap(event: Swap): void {
   }
 
   let vPoolWrapperAddress = Address.fromString(vPoolWrapper.id);
+
+  log.error('custom_logs: vPoolWrapperAddress - {}', [vPoolWrapper.id]);
 
   let rageTradePool = RageTradePool.load(vPoolWrapper.pool); // use poolId from vPoolWrapper entity
   if (rageTradePool === null) {
