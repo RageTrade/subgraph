@@ -1282,7 +1282,7 @@ export class RageTradeFactory extends Entity {
   }
 }
 
-export class VBase extends Entity {
+export class VQuote extends Entity {
   constructor(id: string) {
     super();
     this.set("id", Value.fromString(id));
@@ -1290,17 +1290,17 @@ export class VBase extends Entity {
 
   save(): void {
     let id = this.get("id");
-    assert(id !== null, "Cannot save VBase entity without an ID");
+    assert(id !== null, "Cannot save VQuote entity without an ID");
     assert(
       id.kind == ValueKind.STRING,
-      "Cannot save VBase entity with non-string ID. " +
+      "Cannot save VQuote entity with non-string ID. " +
         'Considering using .toHex() to convert the "id" to a string.'
     );
-    store.set("VBase", id.toString(), this);
+    store.set("VQuote", id.toString(), this);
   }
 
-  static load(id: string): VBase | null {
-    return store.get("VBase", id) as VBase | null;
+  static load(id: string): VQuote | null {
+    return store.get("VQuote", id) as VQuote | null;
   }
 
   get id(): string {

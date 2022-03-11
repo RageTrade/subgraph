@@ -257,7 +257,7 @@ type RageTradeFactory @entity {
   pools: [RageTradePool!]! @derivedFrom(field: "factory")
 }
 
-type VBase @entity {
+type VQuote @entity {
   id: ID! # address
 }
 
