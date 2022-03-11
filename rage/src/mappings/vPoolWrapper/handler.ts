@@ -11,7 +11,7 @@ import { generateId } from '../../utils';
 export function handleSwap(event: Swap): void {
   log.debug('custom_logs: handleSwap in VPoolWrapper triggered {} {} {} {}', [
     event.params.vTokenIn.toHexString(),
-    event.params.vBaseIn.toHexString(),
+    event.params.vQuoteIn.toHexString(),
     event.params.liquidityFees.toHexString(),
     event.params.protocolFees.toHexString(),
   ]);
@@ -59,7 +59,7 @@ export function handleSwap(event: Swap): void {
     vPoolWrapperAddress,
     hourStartUnix,
     event.params.vTokenIn.toBigDecimal(),
-    event.params.vBaseIn.toBigDecimal()
+    event.params.vQuoteIn.toBigDecimal()
   );
 
   // dayData
@@ -70,7 +70,7 @@ export function handleSwap(event: Swap): void {
     vPoolWrapperAddress,
     dayStartUnix,
     event.params.vTokenIn.toBigDecimal(),
-    event.params.vBaseIn.toBigDecimal()
+    event.params.vQuoteIn.toBigDecimal()
   );
 }
 

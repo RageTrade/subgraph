@@ -81,7 +81,7 @@ export function updateCandleData(
   vPoolWrapperAddress: Address,
   timeStartUnix: i32,
   vTokenIn: BigDecimal,
-  vBaseIn: BigDecimal
+  vQuoteIn: BigDecimal
 ): Candle {
   let candle = getCandle(
     candleId,
@@ -112,7 +112,7 @@ export function updateCandleData(
   // hourData.tvlUSD = rageTradePool.totalValueLockedUSD;
 
   candle.volumeVToken = candle.volumeVToken.plus(vTokenIn);
-  candle.volumeUSDC = candle.volumeUSDC.plus(vBaseIn);
+  candle.volumeUSDC = candle.volumeUSDC.plus(vQuoteIn);
   candle.txCount = candle.txCount.plus(ONE_BI);
 
   let vPoolWrapperContract = VPoolWrapperLogic.bind(vPoolWrapperAddress);

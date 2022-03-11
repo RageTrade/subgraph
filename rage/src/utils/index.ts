@@ -156,12 +156,12 @@ export function truncate(address: string): string {
 export function parsePriceX128(
   priceX128: BigInt,
   vTokenDecimals: BigInt,
-  vBaseDecimals: BigInt
+  vQuoteDecimals: BigInt
 ): BigDecimal {
   let price = priceX128.toBigDecimal();
   let vTokenUnit = tenPower(vTokenDecimals);
-  let vBaseUnit = tenPower(vBaseDecimals);
-  return price.div(vTokenUnit).div(vBaseUnit);
+  let vQuoteUnit = tenPower(vQuoteDecimals);
+  return price.div(vTokenUnit).div(vQuoteUnit);
 }
 
 export function tenPower(power: BigInt): BigDecimal {
