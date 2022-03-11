@@ -150,7 +150,11 @@ export function getLimitOrderEnum(limitOrder: i32): string {
 }
 
 export function truncate(address: string): string {
-  return '0x' + address.slice(34, 42);
+  let temp = address.slice(34, 42);
+  while (temp[0] == '0') {
+    temp = temp.slice(1);
+  }
+  return '0x' + temp;
 }
 
 export function parsePriceX128(
@@ -181,11 +185,14 @@ export function getFundingRate(
   let realPriceX128 = result.value0;
   let virtualPriceX128 = result.value1;
 
-  log.debug('custom_logs: handleFundingPayment getFundingRate triggered {} {} {}', [
-    contracts.ClearingHouse.toHexString(),
-    virtualPriceX128.toHexString(),
-    realPriceX128.toHexString(),
-  ]);
+  log.debug(
+    'custom_logs: handleFundingPayment getFundingRate triggered {} {} {}',
+    [
+      contracts.ClearingHouse.toHexString(),
+      virtualPriceX128.toHexString(),
+      realPriceX128.toHexString(),
+    ]
+  );
 
   // TODO take decimals dynamically
   let realPrice = parsePriceX128(
@@ -199,10 +206,10 @@ export function getFundingRate(
     BigInt.fromI32(6)
   );
 
-  log.debug('custom_logs: handleFundingPayment getFundingRate triggered realPrice - {} virtualPrice - {}', [
-    realPrice.toString(),
-    virtualPrice.toString(),
-  ]);
+  log.debug(
+    'custom_logs: handleFundingPayment getFundingRate triggered realPrice - {} virtualPrice - {}',
+    [realPrice.toString(), virtualPrice.toString()]
+  );
 
   let fundingRate = realPrice.minus(virtualPrice).div(virtualPrice);
   return fundingRate;

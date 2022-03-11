@@ -208,9 +208,16 @@ export function handleFundingPaymentRealized(
   let tokenPosition = getTokenPosition(account, event.params.poolId);
   let rageTradePool = RageTradePool.load(event.params.poolId.toHexString());
 
-  if (rageTradePool === null || tokenPosition === null) {
+  if (rageTradePool === null) {
     log.error(
-      'custom_logs: handleFundingPayment - either tokenPosition rageTradePool are null',
+      'custom_logs: handleFundingPayment - rageTradePool is null',
+      ['']
+    );
+  }
+
+  if ( tokenPosition === null) {
+    log.error(
+      'custom_logs: handleFundingPayment - tokenPosition is null',
       ['']
     );
   }

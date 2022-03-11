@@ -9,7 +9,7 @@ export function getTokenPosition(
 ): TokenPosition {
   let tokenPositionId = generateId([account.id, poolId.toHexString()]);
   log.debug(
-    'custom_logs: handlePoolInitialized poolId and tokenPositionId {}',
+    'custom_logs: getTokenPosition [[ poolId - {} ]] _______ [[ tokenPositionId - {} ]]',
     [poolId.toHexString(), tokenPositionId]
   );
 

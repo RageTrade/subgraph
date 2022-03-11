@@ -31,12 +31,12 @@ export function handlePoolInitialized(event: PoolInitialized): void {
 
   let poolId = truncate(event.params.vToken.toHexString());
 
-  log.debug('custom_logs: handlePoolInitialized poolId {}', [poolId]);
+  log.debug('custom_logs: handlePoolInitialized [[ vToken - {} ]] [[ poolId - {} ]]', [event.params.vToken.toHexString(), poolId]);
 
   let rageTradePool = RageTradePool.load(poolId);
 
   if (rageTradePool !== null) {
-    log.error('custom_logs: rageTradePool exists when it should not {}', [
+    log.error('custom_logs: handlePoolInitialized rageTradePool exists when it should not [[ poolId - {} ]]', [
       poolId,
     ]);
   }
