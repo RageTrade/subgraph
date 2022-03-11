@@ -121,8 +121,8 @@ export function handleTokenPositionChanged(event: TokenPositionChanged): void {
     tokenPositionChangeEntry.timestamp = event.block.timestamp;
     tokenPositionChangeEntry.account = account.id;
     tokenPositionChangeEntry.rageTradePool = event.params.poolId.toHexString();
-    tokenPositionChangeEntry.tokenAmountOut = event.params.vTokenAmountOut;
-    tokenPositionChangeEntry.baseAmountOut = event.params.vQuoteAmountOut;
+    tokenPositionChangeEntry.vTokenAmountOut = event.params.vTokenAmountOut;
+    tokenPositionChangeEntry.vQuoteAmountOut = event.params.vQuoteAmountOut;
     tokenPositionChangeEntry.save();
   }
 

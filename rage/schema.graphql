@@ -128,9 +128,9 @@ type TokenPositionChangeEntry @entity {
   "rageTradePool position was taken"
   rageTradePool: RageTradePool!
   "tokenAmountOut amount of tokens that account received (positive) or paid (negative)"
-  tokenAmountOut: BigInt!
+  vTokenAmountOut: BigInt!
   "baseAmountOut amount of base tokens that account received (positive) or paid (negative)"
-  baseAmountOut: BigInt!
+  vQuoteAmountOut: BigInt!
 }
 
 """

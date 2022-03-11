@@ -598,22 +598,22 @@ export class TokenPositionChangeEntry extends Entity {
     this.set("rageTradePool", Value.fromString(value));
   }
 
-  get tokenAmountOut(): BigInt {
-    let value = this.get("tokenAmountOut");
+  get vTokenAmountOut(): BigInt {
+    let value = this.get("vTokenAmountOut");
     return value.toBigInt();
   }
 
-  set tokenAmountOut(value: BigInt) {
-    this.set("tokenAmountOut", Value.fromBigInt(value));
+  set vTokenAmountOut(value: BigInt) {
+    this.set("vTokenAmountOut", Value.fromBigInt(value));
   }
 
-  get baseAmountOut(): BigInt {
-    let value = this.get("baseAmountOut");
+  get vQuoteAmountOut(): BigInt {
+    let value = this.get("vQuoteAmountOut");
     return value.toBigInt();
   }
 
-  set baseAmountOut(value: BigInt) {
-    this.set("baseAmountOut", Value.fromBigInt(value));
+  set vQuoteAmountOut(value: BigInt) {
+    this.set("vQuoteAmountOut", Value.fromBigInt(value));
   }
 }
 
