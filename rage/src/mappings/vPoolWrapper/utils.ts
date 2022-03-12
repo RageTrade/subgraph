@@ -21,6 +21,10 @@ export function getCandle(
     candle.volumeVToken = ZERO_BD; // token0
     candle.volumeUSDC = ZERO_BD; // token1
     candle.txCount = ZERO_BI;
+
+    candle.liquidity = ZERO_BI;
+    candle.tick = ZERO_BI;
+
     candle.sumAX128 = ZERO_BI;
     candle.sumBX128 = ZERO_BI;
     candle.sumFpX128 = ZERO_BI;
