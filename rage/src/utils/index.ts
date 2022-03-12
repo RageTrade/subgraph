@@ -23,11 +23,14 @@ export function exponentToBigDecimal(decimals: BigInt): BigDecimal {
 }
 
 // return 0 if denominator is 0 in division
-export function safeDiv(amount0: BigDecimal, amount1: BigDecimal): BigDecimal {
-  if (amount1.equals(ZERO_BD)) {
+export function safeDiv(
+  numerator: BigDecimal,
+  denominator: BigDecimal
+): BigDecimal {
+  if (denominator.equals(ZERO_BD)) {
     return ZERO_BD;
   } else {
-    return amount0.div(amount1);
+    return numerator.div(denominator);
   }
 }
 
@@ -163,9 +166,11 @@ export function parsePriceX128(
   vQuoteDecimals: BigInt
 ): BigDecimal {
   let price = priceX128.toBigDecimal();
+
   let vTokenUnit = tenPower(vTokenDecimals);
   let vQuoteUnit = tenPower(vQuoteDecimals);
-  return price.div(vTokenUnit).div(vQuoteUnit);
+
+  return safeDiv(safeDiv(price, vTokenUnit), vQuoteUnit);
 }
 
 export function tenPower(power: BigInt): BigDecimal {
@@ -211,7 +216,7 @@ export function getFundingRate(
     [realPrice.toString(), virtualPrice.toString()]
   );
 
-  let fundingRate = realPrice.minus(virtualPrice).div(virtualPrice);
+  let fundingRate = safeDiv(realPrice.minus(virtualPrice), virtualPrice);
   return fundingRate;
 }
 

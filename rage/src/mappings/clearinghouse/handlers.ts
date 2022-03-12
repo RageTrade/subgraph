@@ -13,7 +13,7 @@ import {
 import { generateAccountId, getAccount } from './account';
 import { getOwner } from './owner';
 import { getTokenPosition } from './token-position';
-import { generateId, getFundingRate, getSumAX128 } from '../../utils';
+import { generateId, getFundingRate, getSumAX128, safeDiv } from '../../utils';
 import { UniswapV3Pool } from '../../../generated/templates/UniswapV3Pool/UniswapV3Pool';
 import { getPriceANDTick } from '../vPoolWrapper/utils';
 import { ZERO_BI } from '../../utils/constants';
@@ -85,10 +85,12 @@ export function handleTokenPositionChanged(event: TokenPositionChanged): void {
       );
     }
 
-    let buyAvgPrice = tokenPosition.buyVQuoteAmount.div(
+    let buyAvgPrice = safeDiv(
+      tokenPosition.buyVQuoteAmount,
       tokenPosition.buyVTokenAmount
     );
-    let sellAvgPrice = tokenPosition.sellVQuoteAmount.div(
+    let sellAvgPrice = safeDiv(
+      tokenPosition.sellVQuoteAmount,
       tokenPosition.sellVTokenAmount
     );
 
@@ -209,17 +211,15 @@ export function handleFundingPaymentRealized(
   let rageTradePool = RageTradePool.load(event.params.poolId.toHexString());
 
   if (rageTradePool === null) {
-    log.error(
-      'custom_logs: handleFundingPayment - rageTradePool is null',
-      ['']
-    );
+    log.error('custom_logs: handleFundingPayment - rageTradePool is null', [
+      '',
+    ]);
   }
 
-  if ( tokenPosition === null) {
-    log.error(
-      'custom_logs: handleFundingPayment - tokenPosition is null',
-      ['']
-    );
+  if (tokenPosition === null) {
+    log.error('custom_logs: handleFundingPayment - tokenPosition is null', [
+      '',
+    ]);
   }
 
   log.debug(
