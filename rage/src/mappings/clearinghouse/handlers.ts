@@ -71,10 +71,10 @@ export function handleTokenPositionChanged(event: TokenPositionChanged): void {
 
     if (event.params.vTokenAmountOut.gt(ZERO_BI)) {
       tokenPosition.buyVTokenAmount = tokenPosition.buyVTokenAmount.plus(
-        event.params.vTokenAmountOut.toBigDecimal()
+        event.params.vTokenAmountOut.abs().toBigDecimal()
       );
       tokenPosition.buyVQuoteAmount = tokenPosition.buyVQuoteAmount.plus(
-        event.params.vQuoteAmountOut.toBigDecimal()
+        event.params.vQuoteAmountOut.abs().toBigDecimal()
       );
     } else {
       tokenPosition.sellVTokenAmount = tokenPosition.sellVTokenAmount.plus(
@@ -103,6 +103,21 @@ export function handleTokenPositionChanged(event: TokenPositionChanged): void {
         sellAvgPrice.minus(buyAvgPrice)
       );
     }
+
+    log.debug(
+      'custom_logs: handleTokenPositionChanged pnl calc [ vTokenAmountOut - {} ] [ vQuoteAmountOut - {} ] [ buyVQuoteAmount - {} ] [ sellVQuoteAmount - {} ] [ buyVTokenAmount - {} ] [ sellVTokenAmount - {} ] [ buyAvgPrice - {} ] [ sellAvgPrice - {} ] [ realizedPnL - {} ]',
+      [
+        event.params.vTokenAmountOut.toString(),
+        event.params.vQuoteAmountOut.toString(),
+        tokenPosition.buyVQuoteAmount.toString(),
+        tokenPosition.sellVQuoteAmount.toString(),
+        tokenPosition.buyVTokenAmount.toString(),
+        tokenPosition.sellVTokenAmount.toString(),
+        buyAvgPrice.toString(),
+        sellAvgPrice.toString(),
+        tokenPosition.realizedPnL.toString(),
+      ]
+    );
 
     tokenPosition.save();
   }
