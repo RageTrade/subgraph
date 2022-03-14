@@ -63,6 +63,11 @@ export function getPriceANDTick(vPoolAddress: Address): PriceANDTick {
 
   let data = new PriceANDTick();
 
+  log.debug('custom_logs: getPriceANDTick [ value0 - {} ] [ value1 - {} ]', [
+    slot_result.value.value0.toString(),
+    slot_result.value.value1.toString(),
+  ]);
+
   if (!slot_result.reverted) {
     data.price = parseSqrtPriceX96(slot_result.value.value0);
     data.tick = BigInt.fromI32(slot_result.value.value1);
@@ -77,6 +82,14 @@ export function getPriceANDTick(vPoolAddress: Address): PriceANDTick {
 }
 
 // let candlePoolID = generateId([rageTradePool.hourData, timeIndex.toString()]);
+
+function absBigDecimal(num: BigDecimal): BigDecimal {
+  if (num.gt(ZERO_BD)) {
+    return num;
+  } else {
+    return num.neg();
+  }
+}
 
 export function updateCandleData(
   candleId: string,
@@ -115,8 +128,8 @@ export function updateCandleData(
   // TODO
   // hourData.tvlUSD = rageTradePool.totalValueLockedUSD;
 
-  candle.volumeVToken = candle.volumeVToken.plus(vTokenIn);
-  candle.volumeUSDC = candle.volumeUSDC.plus(vQuoteIn);
+  candle.volumeVToken = candle.volumeVToken.plus(absBigDecimal(vTokenIn));
+  candle.volumeUSDC = candle.volumeUSDC.plus(absBigDecimal(vQuoteIn));
   candle.txCount = candle.txCount.plus(ONE_BI);
 
   let vPoolWrapperContract = VPoolWrapperLogic.bind(vPoolWrapperAddress);

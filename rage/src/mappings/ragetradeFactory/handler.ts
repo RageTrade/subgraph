@@ -31,14 +31,18 @@ export function handlePoolInitialized(event: PoolInitialized): void {
 
   let poolId = truncate(event.params.vToken.toHexString());
 
-  log.debug('custom_logs: handlePoolInitialized [[ vToken - {} ]] [[ poolId - {} ]]', [event.params.vToken.toHexString(), poolId]);
+  log.debug(
+    'custom_logs: handlePoolInitialized [[ vToken - {} ]] [[ poolId - {} ]]',
+    [event.params.vToken.toHexString(), poolId]
+  );
 
   let rageTradePool = RageTradePool.load(poolId);
 
   if (rageTradePool !== null) {
-    log.error('custom_logs: handlePoolInitialized rageTradePool exists when it should not [[ poolId - {} ]]', [
-      poolId,
-    ]);
+    log.error(
+      'custom_logs: handlePoolInitialized rageTradePool exists when it should not [[ poolId - {} ]]',
+      [poolId]
+    );
   }
   rageTradePool = new RageTradePool(poolId);
 
@@ -80,6 +84,9 @@ export function handlePoolInitialized(event: PoolInitialized): void {
   let hourCollection = new Collection(
     generateId([rageTradePool.id, 'hourData'])
   );
+
+  dayCollection.save();
+  hourCollection.save();
 
   rageTradePool.dayData = dayCollection.id;
   rageTradePool.hourData = hourCollection.id;

@@ -170,7 +170,25 @@ export function parsePriceX128(
   let vTokenUnit = tenPower(vTokenDecimals);
   let vQuoteUnit = tenPower(vQuoteDecimals);
 
-  return safeDiv(safeDiv(price, vTokenUnit), vQuoteUnit);
+  let twoPow128 = bigDecimalExponated(
+    BigDecimal.fromString('2'),
+    BigInt.fromI32(128)
+  );
+
+  let value = safeDiv(price.times(vTokenUnit), vQuoteUnit).div(twoPow128);
+
+  log.debug(
+    'custom_logs: parsePriceX128 [ vTokenUnit - {} ] [ vQuoteUnit - {} ] [ price - {} ] [ returnValue - {} ] [ twoX128 - {}]',
+    [
+      vTokenUnit.toString(),
+      vQuoteUnit.toString(),
+      price.toString(),
+      value.toString(),
+      twoPow128.toString()
+    ]
+  );
+
+  return value;
 }
 
 export function tenPower(power: BigInt): BigDecimal {
@@ -237,9 +255,16 @@ export function getSumAX128(
 }
 
 export function parseSqrtPriceX96(val: BigInt): BigDecimal {
-  return parsePriceX128(
-    val.times(val).div(BigInt.fromI32(1).pow(64)),
+  let output = parsePriceX128(
+    val.times(val).div(BigInt.fromI32(2).pow(64)),
     BigInt.fromI32(18),
     BigInt.fromI32(6)
   );
+
+  log.debug(
+    'custom_logs: parseSqrtPriceX96 [ inputValue - {} ] [ output - {} ]',
+    [val.toString(), output.toString()]
+  );
+
+  return output;
 }
