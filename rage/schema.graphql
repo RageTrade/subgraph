@@ -261,7 +261,7 @@ type VQuote @entity {
   id: ID! # address
   symbol: String!
   name: String!
-  decimals: Int!
+  decimals: BigInt!
 }
 
 type RageTradePool @entity {
@@ -295,7 +295,7 @@ type VToken @entity {
 
   symbol: String!
   name: String!
-  decimals: Int!
+  decimals: BigInt!
 }
 
 type VPoolWrapper @entity {

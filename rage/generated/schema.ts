@@ -1330,13 +1330,13 @@ export class VQuote extends Entity {
     this.set("name", Value.fromString(value));
   }
 
-  get decimals(): i32 {
+  get decimals(): BigInt {
     let value = this.get("decimals");
-    return value.toI32();
+    return value.toBigInt();
   }
 
-  set decimals(value: i32) {
-    this.set("decimals", Value.fromI32(value));
+  set decimals(value: BigInt) {
+    this.set("decimals", Value.fromBigInt(value));
   }
 }
 
@@ -1572,13 +1572,13 @@ export class VToken extends Entity {
     this.set("name", Value.fromString(value));
   }
 
-  get decimals(): i32 {
+  get decimals(): BigInt {
     let value = this.get("decimals");
-    return value.toI32();
+    return value.toBigInt();
   }
 
-  set decimals(value: i32) {
-    this.set("decimals", Value.fromI32(value));
+  set decimals(value: BigInt) {
+    this.set("decimals", Value.fromBigInt(value));
   }
 }
 
