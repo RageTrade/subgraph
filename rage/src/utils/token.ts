@@ -3,8 +3,10 @@ import { ERC20 } from '../../generated/UniswapV3Factory/ERC20';
 import { ERC20SymbolBytes } from '../../generated/UniswapV3Factory/ERC20SymbolBytes';
 import { ERC20NameBytes } from '../../generated/UniswapV3Factory/ERC20NameBytes';
 import { StaticTokenDefinition } from './staticTokenDefinition';
-import { BigInt, Address } from '@graphprotocol/graph-ts';
+import { BigInt, Address, BigDecimal } from '@graphprotocol/graph-ts';
 import { isNullEthValue } from '.';
+import { ZERO_BD, ZERO_BI } from './constants';
+import { contracts } from './addresses';
 
 export function fetchTokenSymbol(tokenAddress: Address): string {
   let contract = ERC20.bind(tokenAddress);
@@ -93,4 +95,24 @@ export function fetchTokenDecimals(tokenAddress: Address): BigInt {
   }
 
   return BigInt.fromI32(decimalValue as i32);
+}
+
+/**
+ * get token balance of token in rageTradePool
+ * @param tokenAddr
+ */
+export function fetchTokenBalance(
+  tokenAddress: Address,
+  ownerAddress: Address
+): BigDecimal {
+  let erc20Contract = ERC20.bind(tokenAddress);
+  let result = erc20Contract.try_balanceOf(ownerAddress);
+
+  let balance = ZERO_BI;
+
+  if (!result.reverted) {
+    balance = result.value;
+  }
+
+  return balance.toBigDecimal();
 }
