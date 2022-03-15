@@ -39,6 +39,12 @@ dataSources:
           handler: handleFundingPaymentRealized
         - event: TokenPositionChanged(indexed uint256,indexed uint32,int256,int256)
           handler: handleTokenPositionChanged
+        - event: MarginAdded(indexed uint256,indexed uint32,uint256)
+          handler: handleMarginAdded
+        - event: MarginRemoved(indexed uint256,indexed uint32,uint256)
+          handler: handleMarginRemoved
+        - event: ProfitUpdated(indexed uint256,int256)
+          handler: handleProfitUpdated
   - kind: ethereum/contract
     name: RageTradeFactory
     network: arbitrum-rinkeby
@@ -59,6 +65,12 @@ dataSources:
           file: ./abis/VPoolWrapperLogic.json
         - name: UniswapV3Pool
           file: ./abis/UniswapV3Pool.json
+        - name: ERC20
+          file: ./abis/ERC20.json
+        - name: ERC20SymbolBytes
+          file: ./abis/ERC20SymbolBytes.json
+        - name: ERC20NameBytes
+          file: ./abis/ERC20NameBytes.json
       file: ./src/mappings/ragetradeFactory/handler.ts
       eventHandlers:
         - event: PoolInitialized(address,address,address)
@@ -139,3 +151,7 @@ templates:
       eventHandlers:
         - event: Swap(int256,int256,uint256,uint256)
           handler: handleSwap
+        - event: Mint(int24,int24,uint128,uint256,uint256)
+          handler: handleMint
+        - event: Burn(int24,int24,uint128,uint256,uint256)
+          handler: handleBurn

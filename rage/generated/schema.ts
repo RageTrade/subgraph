@@ -270,15 +270,6 @@ export class Collateral extends Entity {
     this.set("account", Value.fromString(value));
   }
 
-  get rTokenAddress(): Bytes {
-    let value = this.get("rTokenAddress");
-    return value.toBytes();
-  }
-
-  set rTokenAddress(value: Bytes) {
-    this.set("rTokenAddress", Value.fromBytes(value));
-  }
-
   get amount(): BigInt {
     let value = this.get("amount");
     return value.toBigInt();
@@ -1512,6 +1503,15 @@ export class RageTradePool extends Entity {
 
   set dayData(value: string) {
     this.set("dayData", Value.fromString(value));
+  }
+
+  get vTotalValueLocked(): BigDecimal {
+    let value = this.get("vTotalValueLocked");
+    return value.toBigDecimal();
+  }
+
+  set vTotalValueLocked(value: BigDecimal) {
+    this.set("vTotalValueLocked", Value.fromBigDecimal(value));
   }
 }
 

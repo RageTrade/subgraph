@@ -286,8 +286,8 @@ type RageTradePool @entity {
   hourData: Collection!
   dayData: Collection!
 
-  "Total value locked in pool (in base tokens)"
-  tvlUSDC: BigDecimal!
+  "Total value locked in pool (in vQuote(USDC) tokens)"
+  vTotalValueLocked: BigDecimal!
 }
 
 type VToken @entity {
