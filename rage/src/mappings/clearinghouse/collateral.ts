@@ -1,30 +1,21 @@
-import { Address, BigInt, log } from '@graphprotocol/graph-ts';
-import { Account, Collateral, TokenPosition } from '../../../generated/schema';
-import { generateAccountId } from './account';
-
-export function generateCollateralId(
-  account: Account,
-  collateral: Address
-): string {
-  return account.id + '-' + collateral.toHexString();
-}
+import { BigInt } from '@graphprotocol/graph-ts';
+import { Account, Collateral } from '../../../generated/schema';
+import { ZERO_BI } from '../../utils/constants';
 
 export function getCollateral(
   account: Account,
-  cTokenAddress: Address
+  collateralId: BigInt
 ): Collateral {
-  let collateralId = generateCollateralId(account, cTokenAddress);
-
-  let collateral = Collateral.load(collateralId);
+  let collateral = Collateral.load(collateralId.toHexString());
   if (collateral === null) {
     // creating empty object
-    collateral = new Collateral(collateralId);
+    collateral = new Collateral(collateralId.toHexString());
+
     collateral.account = account.id;
-    collateral.timestamp = BigInt.fromI32(0);
-    collateral.rTokenAddress = cTokenAddress; // TODO change to Token Entity
-    collateral.totalProfit = BigInt.fromI32(0);
-    collateral.marginRatio = BigInt.fromI32(0); // TODO is this needed here?
-    collateral.amount = BigInt.fromI32(0);
+    collateral.timestamp = ZERO_BI;
+    collateral.totalProfit = ZERO_BI;
+    collateral.marginRatio = ZERO_BI; // TODO is this needed here?
+    collateral.amount = ZERO_BI;
     collateral.save();
   }
 
