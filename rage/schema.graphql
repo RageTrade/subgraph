@@ -52,8 +52,6 @@ type Collateral @entity {
   timestamp: BigInt!
   " accountNo serial number of the account"
   account: Account!
-  " rTokenAddress token in which margin is deposited"
-  rTokenAddress: Bytes!
   " amount of tokens deposited"
   amount: BigInt!
   "total realized profit of the account"
@@ -287,6 +285,9 @@ type RageTradePool @entity {
 
   hourData: Collection!
   dayData: Collection!
+
+  "Total value locked in pool (in base tokens)"
+  tvlUSDC: BigDecimal!
 }
 
 type VToken @entity {
