@@ -1311,6 +1311,33 @@ export class VQuote extends Entity {
   set id(value: string) {
     this.set("id", Value.fromString(value));
   }
+
+  get symbol(): string {
+    let value = this.get("symbol");
+    return value.toString();
+  }
+
+  set symbol(value: string) {
+    this.set("symbol", Value.fromString(value));
+  }
+
+  get name(): string {
+    let value = this.get("name");
+    return value.toString();
+  }
+
+  set name(value: string) {
+    this.set("name", Value.fromString(value));
+  }
+
+  get decimals(): i32 {
+    let value = this.get("decimals");
+    return value.toI32();
+  }
+
+  set decimals(value: i32) {
+    this.set("decimals", Value.fromI32(value));
+  }
 }
 
 export class RageTradePool extends Entity {
@@ -1525,6 +1552,33 @@ export class VToken extends Entity {
 
   set pool(value: string) {
     this.set("pool", Value.fromString(value));
+  }
+
+  get symbol(): string {
+    let value = this.get("symbol");
+    return value.toString();
+  }
+
+  set symbol(value: string) {
+    this.set("symbol", Value.fromString(value));
+  }
+
+  get name(): string {
+    let value = this.get("name");
+    return value.toString();
+  }
+
+  set name(value: string) {
+    this.set("name", Value.fromString(value));
+  }
+
+  get decimals(): i32 {
+    let value = this.get("decimals");
+    return value.toI32();
+  }
+
+  set decimals(value: i32) {
+    this.set("decimals", Value.fromI32(value));
   }
 }
 

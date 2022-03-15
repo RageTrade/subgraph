@@ -259,6 +259,9 @@ type RageTradeFactory @entity {
 
 type VQuote @entity {
   id: ID! # address
+  symbol: String!
+  name: String!
+  decimals: Int!
 }
 
 type RageTradePool @entity {
@@ -289,6 +292,10 @@ type RageTradePool @entity {
 type VToken @entity {
   id: ID! # address
   pool: RageTradePool!
+
+  symbol: String!
+  name: String!
+  decimals: Int!
 }
 
 type VPoolWrapper @entity {
