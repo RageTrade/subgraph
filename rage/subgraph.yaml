@@ -59,6 +59,8 @@ dataSources:
       entities:
         - RageTradePool
       abis:
+        - name: ClearingHouse
+          file: ./abis/ClearingHouse.json
         - name: RageTradeFactory
           file: ./abis/RageTradeFactory.json
         - name: VPoolWrapperLogic
@@ -144,10 +146,18 @@ templates:
       entities:
         - VPoolWrapper
       abis:
+        - name: ClearingHouse
+          file: ./abis/ClearingHouse.json
         - name: VPoolWrapperLogic
           file: ./abis/VPoolWrapperLogic.json
         - name: UniswapV3Pool
           file: ./abis/UniswapV3Pool.json
+        - name: ERC20
+          file: ./abis/ERC20.json
+        - name: ERC20SymbolBytes
+          file: ./abis/ERC20SymbolBytes.json
+        - name: ERC20NameBytes
+          file: ./abis/ERC20NameBytes.json
       eventHandlers:
         - event: Swap(int256,int256,uint256,uint256)
           handler: handleSwap
