@@ -312,7 +312,7 @@ type Collection @entity {
 type Candle @entity {
   id: ID!
   collection: Collection!
-  periodStartUnix: BigInt!
+  periodStartUnix: Int!
 
   tick: BigInt!
 

@@ -10,7 +10,7 @@ import { fetchTokenBalance } from '../../utils/token';
 
 export function getCandle(
   id: string,
-  periodStartUnix: BigInt,
+  periodStartUnix: i32,
   collectionId: string,
   initialPrice: BigDecimal
 ): Candle {
@@ -105,7 +105,7 @@ export function updateCandleData(
 ): Candle {
   let candle = getCandle(
     candleId,
-    BigInt.fromI32(timeStartUnix),
+    timeStartUnix,
     collectionId,
     rageTradePool.price
   );

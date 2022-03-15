@@ -1701,13 +1701,13 @@ export class Candle extends Entity {
     this.set("collection", Value.fromString(value));
   }
 
-  get periodStartUnix(): BigInt {
+  get periodStartUnix(): i32 {
     let value = this.get("periodStartUnix");
-    return value.toBigInt();
+    return value.toI32();
   }
 
-  set periodStartUnix(value: BigInt) {
-    this.set("periodStartUnix", Value.fromBigInt(value));
+  set periodStartUnix(value: i32) {
+    this.set("periodStartUnix", Value.fromI32(value));
   }
 
   get tick(): BigInt {
