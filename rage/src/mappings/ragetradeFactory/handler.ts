@@ -1,4 +1,5 @@
 import { log } from '@graphprotocol/graph-ts';
+import { ClearingHouse } from '../../../generated/ClearingHouse/ClearingHouse';
 import { PoolInitialized } from '../../../generated/RageTradeFactory/RageTradeFactory';
 import {
   Collection,
@@ -6,11 +7,18 @@ import {
   RageTradePool,
   Temp_UniswapV3_Pool,
   VPoolWrapper,
+  VQuote,
   VToken,
 } from '../../../generated/schema';
 import { VPoolWrapperLogic } from '../../../generated/templates';
 import { generateId, truncate } from '../../utils';
+import { contracts } from '../../utils/addresses';
 import { ZERO_BD, ZERO_BI } from '../../utils/constants';
+import {
+  fetchTokenDecimals,
+  fetchTokenName,
+  fetchTokenSymbol,
+} from '../../utils/token';
 
 export function handlePoolInitialized(event: PoolInitialized): void {
   log.debug('custom_logs: handlePoolInitialized triggered {} {} {}', [
@@ -20,7 +28,7 @@ export function handlePoolInitialized(event: PoolInitialized): void {
   ]);
 
   let rageTradeFactory = RageTradeFactory.load(event.address.toHexString());
-  if (rageTradeFactory === null) {
+  if (rageTradeFactory == null) {
     rageTradeFactory = new RageTradeFactory(event.address.toHexString());
     rageTradeFactory.save();
   }
@@ -38,7 +46,7 @@ export function handlePoolInitialized(event: PoolInitialized): void {
 
   let rageTradePool = RageTradePool.load(poolId);
 
-  if (rageTradePool !== null) {
+  if (rageTradePool != null) {
     log.error(
       'custom_logs: handlePoolInitialized rageTradePool exists when it should not [[ poolId - {} ]]',
       [poolId]
@@ -48,10 +56,42 @@ export function handlePoolInitialized(event: PoolInitialized): void {
 
   let vToken = new VToken(event.params.vToken.toHexString());
   vToken.pool = poolId;
+
+  vToken.symbol = fetchTokenSymbol(event.params.vToken);
+  vToken.name = fetchTokenName(event.params.vToken);
+  vToken.decimals = fetchTokenDecimals(event.params.vToken);
+
   vToken.save();
 
+  // vQUOTE
+  {
+    let clearingHouse = ClearingHouse.bind(contracts.ClearingHouse);
+    let result = clearingHouse.try_protocolInfo();
+
+    if (!result.reverted) {
+      let vQuoteAddress = result.value.value0;
+
+      let vQuote = VQuote.load(vQuoteAddress.toHexString());
+
+      if (vQuote == null) {
+        vQuote = new VQuote(vQuoteAddress.toHexString());
+
+        vQuote.symbol = fetchTokenSymbol(vQuoteAddress);
+        vQuote.name = fetchTokenName(vQuoteAddress);
+        vQuote.decimals = fetchTokenDecimals(vQuoteAddress);
+
+        vQuote.save();
+      } else {
+        log.error(
+          'custom_logs: handlePoolInitialized ClearingHouse.try_getPoolInfo reverted',
+          []
+        );
+      }
+    }
+  }
+
   let vPool = Temp_UniswapV3_Pool.load(event.params.vPool.toHexString());
-  if (vPool === null) {
+  if (vPool == null) {
     vPool = new Temp_UniswapV3_Pool(event.params.vPool.toHexString());
   }
 
