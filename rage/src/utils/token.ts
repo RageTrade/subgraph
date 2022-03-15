@@ -5,8 +5,7 @@ import { ERC20NameBytes } from '../../generated/UniswapV3Factory/ERC20NameBytes'
 import { StaticTokenDefinition } from './staticTokenDefinition';
 import { BigInt, Address, BigDecimal } from '@graphprotocol/graph-ts';
 import { isNullEthValue } from '.';
-import { ZERO_BD, ZERO_BI } from './constants';
-import { contracts } from './addresses';
+import { ZERO_BI } from './constants';
 
 export function fetchTokenSymbol(tokenAddress: Address): string {
   let contract = ERC20.bind(tokenAddress);

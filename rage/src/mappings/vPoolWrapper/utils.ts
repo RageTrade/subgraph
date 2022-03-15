@@ -162,7 +162,7 @@ export function getRageTradePoolTvl(rageTradePool: RageTradePool): BigDecimal {
 
   if (pi_result.reverted) {
     log.error('custom_logs: updateRagePoolTvl protocolInfo reverted', ['']);
-    return;
+    return ZERO_BD;
   }
 
   let vQuoteAddress = pi_result.value.value0;

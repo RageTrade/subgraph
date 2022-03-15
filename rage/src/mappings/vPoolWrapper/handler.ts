@@ -51,7 +51,7 @@ export function handleSwap(event: Swap): void {
 
   rageTradePool.price = price_tick.price;
   rageTradePool.tick = price_tick.tick;
-  rageTradePool.vTotalValueLocked = getRageTradePoolTvl(rageTradePool);
+  rageTradePool.vTotalValueLocked = getRageTradePoolTvl(rageTradePool as RageTradePool);
   rageTradePool.save();
 
   let hourPoolID = generateId([rageTradePool.hourData, hourIndex.toString()]);
@@ -104,7 +104,7 @@ export function handleMint(event: Mint): void {
     return;
   }
 
-  rageTradePool.vTotalValueLocked = getRageTradePoolTvl(rageTradePool);
+  rageTradePool.vTotalValueLocked = getRageTradePoolTvl(rageTradePool as RageTradePool);
   rageTradePool.save();
 }
 export function handleBurn(event: Burn): void {
@@ -132,6 +132,6 @@ export function handleBurn(event: Burn): void {
     return;
   }
 
-  rageTradePool.vTotalValueLocked = getRageTradePoolTvl(rageTradePool);
+  rageTradePool.vTotalValueLocked = getRageTradePoolTvl(rageTradePool as RageTradePool);
   rageTradePool.save();
 }
