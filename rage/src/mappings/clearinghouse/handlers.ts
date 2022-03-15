@@ -2,6 +2,8 @@ import { Address, log, BigInt } from '@graphprotocol/graph-ts';
 import {
   AccountCreated,
   FundingPaymentRealized,
+  MarginAdded,
+  MarginRemoved,
   TokenPositionChanged,
 } from '../../../generated/ClearingHouse/ClearingHouse';
 import {
@@ -17,6 +19,7 @@ import { generateId, getFundingRate, getSumAX128, safeDiv } from '../../utils';
 import { UniswapV3Pool } from '../../../generated/templates/UniswapV3Pool/UniswapV3Pool';
 import { getPriceANDTick } from '../vPoolWrapper/utils';
 import { ZERO_BI } from '../../utils/constants';
+import { getCollateral } from './collateral';
 
 // @entity Account
 export function handleAccountCreated(event: AccountCreated): void {
@@ -177,38 +180,38 @@ export function handleTokenPositionChanged(event: TokenPositionChanged): void {
 }
 
 // @entity Margin
-// export function handleDepositMargin(event: DepositMargin): void {
-//   log.warning('customlogs: handleDepositMargin triggered {} {} {}', [
-//     event.params.accountNo.toHexString(),
-//     event.params.rTokenAddress.toString(),
-//     event.params.amount.toString(),
-//   ]);
+export function handleMarginAdded(event: MarginAdded): void {
+  log.warning('custom_logs: handleMarginAdded triggered {} {} {}', [
+    event.params.accountId.toHexString(),
+    event.params.collateralId.toString(),
+    event.params.amount.toString(),
+  ]);
 
-//   let account = getAccount(event.params.accountNo);
-//   let collateral = getCollateral(account, event.params.rTokenAddress);
+  let account = getAccount(event.params.accountId);
+  let collateral = getCollateral(account, event.params.collateralId);
 
-//   // TODO is this supposed to be last update timestamp?
-//   collateral.timestamp = event.block.timestamp;
-//   collateral.amount = collateral.amount.plus(event.params.amount);
-//   collateral.save();
-// }
+  // TODO is this supposed to be last update timestamp?
+  collateral.timestamp = event.block.timestamp;
+  collateral.amount = collateral.amount.plus(event.params.amount);
+  collateral.save();
+}
 
 // @entity Margin
-// export function handleWithdrawMargin(event: WithdrawMargin): void {
-//   log.warning('customlogs: handleDepositMargin triggered {} {} {}', [
-//     event.params.accountNo.toHexString(),
-//     event.params.rTokenAddress.toString(),
-//     event.params.amount.toString(),
-//   ]);
+export function handleMarginRemoved(event: MarginRemoved): void {
+  log.warning('custom_logs: handleMarginRemoved triggered {} {} {}', [
+    event.params.accountId.toHexString(),
+    event.params.collateralId.toString(),
+    event.params.amount.toString(),
+  ]);
 
-//   let account = getAccount(event.params.accountNo);
-//   let collateral = getCollateral(account, event.params.rTokenAddress);
+  let account = getAccount(event.params.accountId);
+  let collateral = getCollateral(account, event.params.collateralId);
 
-//   // TODO is this supposed to be last update timestamp?
-//   collateral.timestamp = event.block.timestamp;
-//   collateral.amount = collateral.amount.minus(event.params.amount);
-//   collateral.save();
-// }
+  // TODO is this supposed to be last update timestamp?
+  collateral.timestamp = event.block.timestamp;
+  collateral.amount = collateral.amount.minus(event.params.amount);
+  collateral.save();
+}
 
 // @entity LiquidityPosition
 export function handleFundingPaymentRealized(
