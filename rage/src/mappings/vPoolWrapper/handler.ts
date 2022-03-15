@@ -5,7 +5,11 @@ import {
   Mint,
   Swap,
 } from '../../../generated/templates/VPoolWrapperLogic/VPoolWrapperLogic';
-import { getPriceANDTick, updateCandleData } from './utils';
+import {
+  getPriceANDTick,
+  getRageTradePoolTvl,
+  updateCandleData,
+} from './utils';
 import { generateId } from '../../utils';
 
 export function handleSwap(event: Swap): void {
@@ -47,7 +51,7 @@ export function handleSwap(event: Swap): void {
 
   rageTradePool.price = price_tick.price;
   rageTradePool.tick = price_tick.tick;
-
+  rageTradePool.vTotalValueLocked = getRageTradePoolTvl(rageTradePool);
   rageTradePool.save();
 
   let hourPoolID = generateId([rageTradePool.hourData, hourIndex.toString()]);
@@ -76,5 +80,58 @@ export function handleSwap(event: Swap): void {
   );
 }
 
-export function handleMint(event: Mint): void {}
-export function handleBurn(event: Burn): void {}
+export function handleMint(event: Mint): void {
+  log.debug('custom_logs: handleMint in VPoolWrapper triggered {}', [
+    event.address.toHexString(),
+  ]);
+
+  let vPoolWrapper = VPoolWrapper.load(event.address.toHexString());
+
+  if (vPoolWrapper == null) {
+    log.error('custom_logs: vPoolWrapper not found id - {}', [
+      event.address.toHexString(),
+    ]);
+    return;
+  }
+
+  log.error('custom_logs: vPoolWrapperAddress - {}', [vPoolWrapper.id]);
+
+  let rageTradePool = RageTradePool.load(vPoolWrapper.pool); // use poolId from vPoolWrapper entity
+  if (rageTradePool == null) {
+    log.error('custom_logs: RageTradePool not found id - {}', [
+      vPoolWrapper.pool,
+    ]);
+    return;
+  }
+
+  rageTradePool.vTotalValueLocked = getRageTradePoolTvl(rageTradePool);
+  rageTradePool.save();
+}
+export function handleBurn(event: Burn): void {
+  log.debug('custom_logs: handleBurn in VPoolWrapper triggered {}', [
+    event.address.toHexString(),
+  ]);
+
+  let vPoolWrapper = VPoolWrapper.load(event.address.toHexString());
+
+  if (vPoolWrapper == null) {
+    log.error('custom_logs: vPoolWrapper not found id - {}', [
+      event.address.toHexString(),
+    ]);
+    return;
+  }
+
+  log.error('custom_logs: vPoolWrapperAddress - {}', [vPoolWrapper.id]);
+
+  let rageTradePool = RageTradePool.load(vPoolWrapper.pool); // use poolId from vPoolWrapper entity
+
+  if (rageTradePool == null) {
+    log.error('custom_logs: RageTradePool not found id - {}', [
+      vPoolWrapper.pool,
+    ]);
+    return;
+  }
+
+  rageTradePool.vTotalValueLocked = getRageTradePoolTvl(rageTradePool);
+  rageTradePool.save();
+}
