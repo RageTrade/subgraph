@@ -164,6 +164,64 @@ export class Account extends Entity {
   }
 }
 
+export class VQuote extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id !== null, "Cannot save VQuote entity without an ID");
+    assert(
+      id.kind == ValueKind.STRING,
+      "Cannot save VQuote entity with non-string ID. " +
+        'Considering using .toHex() to convert the "id" to a string.'
+    );
+    store.set("VQuote", id.toString(), this);
+  }
+
+  static load(id: string): VQuote | null {
+    return store.get("VQuote", id) as VQuote | null;
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    return value.toString();
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get symbol(): string {
+    let value = this.get("symbol");
+    return value.toString();
+  }
+
+  set symbol(value: string) {
+    this.set("symbol", Value.fromString(value));
+  }
+
+  get name(): string {
+    let value = this.get("name");
+    return value.toString();
+  }
+
+  set name(value: string) {
+    this.set("name", Value.fromString(value));
+  }
+
+  get decimals(): BigInt {
+    let value = this.get("decimals");
+    return value.toBigInt();
+  }
+
+  set decimals(value: BigInt) {
+    this.set("decimals", Value.fromBigInt(value));
+  }
+}
+
 export class Protocol extends Entity {
   constructor(id: string) {
     super();
@@ -219,6 +277,15 @@ export class Protocol extends Entity {
 
   set protocolFees(value: BigDecimal) {
     this.set("protocolFees", Value.fromBigDecimal(value));
+  }
+
+  get vQuote(): string {
+    let value = this.get("vQuote");
+    return value.toString();
+  }
+
+  set vQuote(value: string) {
+    this.set("vQuote", Value.fromString(value));
   }
 }
 
@@ -1273,64 +1340,6 @@ export class RageTradeFactory extends Entity {
   }
 }
 
-export class VQuote extends Entity {
-  constructor(id: string) {
-    super();
-    this.set("id", Value.fromString(id));
-  }
-
-  save(): void {
-    let id = this.get("id");
-    assert(id !== null, "Cannot save VQuote entity without an ID");
-    assert(
-      id.kind == ValueKind.STRING,
-      "Cannot save VQuote entity with non-string ID. " +
-        'Considering using .toHex() to convert the "id" to a string.'
-    );
-    store.set("VQuote", id.toString(), this);
-  }
-
-  static load(id: string): VQuote | null {
-    return store.get("VQuote", id) as VQuote | null;
-  }
-
-  get id(): string {
-    let value = this.get("id");
-    return value.toString();
-  }
-
-  set id(value: string) {
-    this.set("id", Value.fromString(value));
-  }
-
-  get symbol(): string {
-    let value = this.get("symbol");
-    return value.toString();
-  }
-
-  set symbol(value: string) {
-    this.set("symbol", Value.fromString(value));
-  }
-
-  get name(): string {
-    let value = this.get("name");
-    return value.toString();
-  }
-
-  set name(value: string) {
-    this.set("name", Value.fromString(value));
-  }
-
-  get decimals(): BigInt {
-    let value = this.get("decimals");
-    return value.toBigInt();
-  }
-
-  set decimals(value: BigInt) {
-    this.set("decimals", Value.fromBigInt(value));
-  }
-}
-
 export class RageTradePool extends Entity {
   constructor(id: string) {
     super();
@@ -1368,15 +1377,6 @@ export class RageTradePool extends Entity {
 
   set vToken(value: string) {
     this.set("vToken", Value.fromString(value));
-  }
-
-  get vQuote(): string {
-    let value = this.get("vQuote");
-    return value.toString();
-  }
-
-  set vQuote(value: string) {
-    this.set("vQuote", Value.fromString(value));
   }
 
   get vPool(): string {

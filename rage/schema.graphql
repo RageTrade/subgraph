@@ -29,11 +29,19 @@ type Account @entity {
     @derivedFrom(field: "account")
 }
 
+type VQuote @entity {
+  id: ID! # address
+  symbol: String!
+  name: String!
+  decimals: BigInt!
+}
+
 """
 Data help by the protocol
 """
 type Protocol @entity {
   id: ID!
+  
   tvlUSDC: BigDecimal!
 
   "fee earned by lps"
@@ -41,6 +49,8 @@ type Protocol @entity {
 
   "fee earned by the protocol"
   protocolFees: BigDecimal!
+
+  vQuote: VQuote!
 }
 
 """
@@ -255,17 +265,9 @@ type RageTradeFactory @entity {
   pools: [RageTradePool!]! @derivedFrom(field: "factory")
 }
 
-type VQuote @entity {
-  id: ID! # address
-  symbol: String!
-  name: String!
-  decimals: BigInt!
-}
-
 type RageTradePool @entity {
   id: ID! # vToken address
   vToken: VToken!
-  vQuote: VQuote!
 
   vPool: Temp_UniswapV3_Pool!
   vPoolWrapper: VPoolWrapper!
