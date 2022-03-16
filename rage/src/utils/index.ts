@@ -160,6 +160,10 @@ export function truncate(address: string): string {
   return '0x' + temp;
 }
 
+export function BigIntToBigDecimal(value: BigInt, decimals: BigInt): BigDecimal {
+  return value.toBigDecimal().div(tenPower(decimals));
+}
+
 export function parsePriceX128(
   priceX128: BigInt,
   vTokenDecimals: BigInt,
