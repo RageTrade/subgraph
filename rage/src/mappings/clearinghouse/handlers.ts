@@ -282,9 +282,7 @@ export function handleFundingPaymentRealized(
   fundingRateEntry.tokenPosition = tokenPosition.id;
   fundingRateEntry.amount = event.params.amount; // TODO: is this correct?
 
-  fundingRateEntry.fundingRate = getFundingRate(
-    Address.fromString(rageTradePool.vToken)
-  );
+  fundingRateEntry.fundingRate = getFundingRate(event.params.poolId);
   fundingRateEntry.side = tokenPosition.netPosition.gt(BigInt.fromI32(0))
     ? 'long'
     : 'short';

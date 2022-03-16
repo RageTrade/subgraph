@@ -160,7 +160,10 @@ export function truncate(address: string): string {
   return '0x' + temp;
 }
 
-export function BigIntToBigDecimal(value: BigInt, decimals: BigInt): BigDecimal {
+export function BigIntToBigDecimal(
+  value: BigInt,
+  decimals: BigInt
+): BigDecimal {
   return value.toBigDecimal().div(tenPower(decimals));
 }
 
@@ -188,7 +191,7 @@ export function parsePriceX128(
       vQuoteUnit.toString(),
       price.toString(),
       value.toString(),
-      twoPow128.toString()
+      twoPow128.toString(),
     ]
   );
 
@@ -203,12 +206,10 @@ export function tenPower(power: BigInt): BigDecimal {
   return val;
 }
 
-export function getFundingRate(
-  vTokenAddress: Address // TODO poolId
-): BigDecimal {
+export function getFundingRate(poolId: BigInt): BigDecimal {
   let clearingHouseContract = ClearingHouse.bind(contracts.ClearingHouse);
 
-  let result = clearingHouseContract.getTwapPrices(vTokenAddress);
+  let result = clearingHouseContract.getTwapPrices(poolId);
   let realPriceX128 = result.value0;
   let virtualPriceX128 = result.value1;
 
