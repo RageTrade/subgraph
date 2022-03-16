@@ -843,25 +843,6 @@ export class VPoolWrapperLogic extends ethereum.SmartContract {
     );
   }
 
-  uniswapFeePips(): i32 {
-    let result = super.call("uniswapFeePips", "uniswapFeePips():(uint24)", []);
-
-    return result[0].toI32();
-  }
-
-  try_uniswapFeePips(): ethereum.CallResult<i32> {
-    let result = super.tryCall(
-      "uniswapFeePips",
-      "uniswapFeePips():(uint24)",
-      []
-    );
-    if (result.reverted) {
-      return new ethereum.CallResult();
-    }
-    let value = result.value;
-    return ethereum.CallResult.fromValue(value[0].toI32());
-  }
-
   vPool(): Address {
     let result = super.call("vPool", "vPool():(address)", []);
 
@@ -961,10 +942,6 @@ export class __initialize_VPoolWrapperCallParamsStruct extends ethereum.Tuple {
 
   get protocolFeePips(): i32 {
     return this[5].toI32();
-  }
-
-  get UNISWAP_V3_DEFAULT_FEE_TIER(): i32 {
-    return this[6].toI32();
   }
 }
 

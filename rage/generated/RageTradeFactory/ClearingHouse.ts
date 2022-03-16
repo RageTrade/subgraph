@@ -1285,11 +1285,11 @@ export class ClearingHouse extends ethereum.SmartContract {
     );
   }
 
-  getTwapPrices(vToken: Address): ClearingHouse__getTwapPricesResult {
+  getTwapPrices(poolId: BigInt): ClearingHouse__getTwapPricesResult {
     let result = super.call(
       "getTwapPrices",
-      "getTwapPrices(address):(uint256,uint256)",
-      [ethereum.Value.fromAddress(vToken)]
+      "getTwapPrices(uint32):(uint256,uint256)",
+      [ethereum.Value.fromUnsignedBigInt(poolId)]
     );
 
     return new ClearingHouse__getTwapPricesResult(
@@ -1299,12 +1299,12 @@ export class ClearingHouse extends ethereum.SmartContract {
   }
 
   try_getTwapPrices(
-    vToken: Address
+    poolId: BigInt
   ): ethereum.CallResult<ClearingHouse__getTwapPricesResult> {
     let result = super.tryCall(
       "getTwapPrices",
-      "getTwapPrices(address):(uint256,uint256)",
-      [ethereum.Value.fromAddress(vToken)]
+      "getTwapPrices(uint32):(uint256,uint256)",
+      [ethereum.Value.fromUnsignedBigInt(poolId)]
     );
     if (result.reverted) {
       return new ethereum.CallResult();
