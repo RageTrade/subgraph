@@ -67,25 +67,26 @@ export function handlePoolInitialized(event: PoolInitialized): void {
   let clearingHouse = ClearingHouse.bind(contracts.ClearingHouse);
   let result = clearingHouse.try_protocolInfo();
 
-  if (!result.reverted) {
-    let vQuoteAddress = result.value.value0;
+  if (result.reverted) {
+    log.error(
+      'custom_logs: handlePoolInitialized ClearingHouse.try_getPoolInfo reverted',
+      []
+    );
 
-    let vQuote = VQuote.load(vQuoteAddress.toHexString());
+    return;
+  }
+  let vQuoteAddress = result.value.value0;
 
-    if (vQuote == null) {
-      vQuote = new VQuote(vQuoteAddress.toHexString());
+  let vQuote = VQuote.load(vQuoteAddress.toHexString());
 
-      vQuote.symbol = fetchTokenSymbol(vQuoteAddress);
-      vQuote.name = fetchTokenName(vQuoteAddress);
-      vQuote.decimals = fetchTokenDecimals(vQuoteAddress);
+  if (vQuote == null) {
+    vQuote = new VQuote(vQuoteAddress.toHexString());
 
-      vQuote.save();
-    } else {
-      log.error(
-        'custom_logs: handlePoolInitialized ClearingHouse.try_getPoolInfo reverted',
-        []
-      );
-    }
+    vQuote.symbol = fetchTokenSymbol(vQuoteAddress);
+    vQuote.name = fetchTokenName(vQuoteAddress);
+    vQuote.decimals = fetchTokenDecimals(vQuoteAddress);
+
+    vQuote.save();
   }
 
   let vPool = Temp_UniswapV3_Pool.load(event.params.vPool.toHexString());
@@ -101,6 +102,7 @@ export function handlePoolInitialized(event: PoolInitialized): void {
 
   rageTradePool.vTotalValueLocked = ZERO_BD;
   rageTradePool.vToken = vToken.id;
+  rageTradePool.vQuote = vQuote.id;
 
   rageTradePool.vPool = vPool.id;
   rageTradePool.vPoolWrapper = vPoolWrapper.id;

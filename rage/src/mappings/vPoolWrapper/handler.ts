@@ -37,7 +37,7 @@ export function handleSwap(event: Swap): void {
 
   let vPoolWrapperAddress = Address.fromString(vPoolWrapper.id);
 
-  log.error('custom_logs: vPoolWrapperAddress - {}', [vPoolWrapper.id]);
+  log.debug('custom_logs: vPoolWrapperAddress - {}', [vPoolWrapper.id]);
 
   let rageTradePool = RageTradePool.load(vPoolWrapper.pool); // use poolId from vPoolWrapper entity
   if (rageTradePool === null) {
@@ -94,7 +94,7 @@ export function handleMint(event: Mint): void {
     return;
   }
 
-  log.error('custom_logs: vPoolWrapperAddress - {}', [vPoolWrapper.id]);
+  log.debug('custom_logs: vPoolWrapperAddress - {}', [vPoolWrapper.id]);
 
   let rageTradePool = RageTradePool.load(vPoolWrapper.pool); // use poolId from vPoolWrapper entity
   if (rageTradePool == null) {
@@ -121,7 +121,7 @@ export function handleBurn(event: Burn): void {
     return;
   }
 
-  log.error('custom_logs: vPoolWrapperAddress - {}', [vPoolWrapper.id]);
+  log.debug('custom_logs: vPoolWrapperAddress - {}', [vPoolWrapper.id]);
 
   let rageTradePool = RageTradePool.load(vPoolWrapper.pool); // use poolId from vPoolWrapper entity
 
