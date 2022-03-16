@@ -126,9 +126,9 @@ type TokenPositionChangeEntry @entity {
   "rageTradePool position was taken"
   rageTradePool: RageTradePool!
   "tokenAmountOut amount of tokens that account received (positive) or paid (negative)"
-  vTokenAmountOut: BigInt!
+  vTokenAmountOut: BigDecimal!
   "baseAmountOut amount of base tokens that account received (positive) or paid (negative)"
-  vQuoteAmountOut: BigInt!
+  vQuoteAmountOut: BigDecimal!
 }
 
 """
@@ -266,7 +266,7 @@ type RageTradePool @entity {
   id: ID! # vToken address
   vToken: VToken!
   vQuote: VQuote!
-  
+
   vPool: Temp_UniswapV3_Pool!
   vPoolWrapper: VPoolWrapper!
 
