@@ -1,11 +1,14 @@
-import { Candle, RageTradePool } from '../../../generated/schema';
+import {
+  Candle,
+  RageTradePool,
+  VQuote,
+  VToken,
+} from '../../../generated/schema';
 import { ONE_BI, ZERO_BD, ZERO_BI } from '../../utils/constants';
 import { Address, BigDecimal, BigInt, log } from '@graphprotocol/graph-ts';
 import { UniswapV3Pool } from '../../../generated/templates/UniswapV3Pool/UniswapV3Pool';
 import { parseSqrtPriceX96 } from '../../utils';
 import { VPoolWrapperLogic } from '../../../generated/templates/VPoolWrapperLogic/VPoolWrapperLogic';
-import { ClearingHouse } from '../../../generated/ClearingHouse/ClearingHouse';
-import { contracts } from '../../utils/addresses';
 import { fetchTokenBalance } from '../../utils/token';
 
 export function getCandle(
@@ -155,22 +158,23 @@ export function updateCandleData(
 
 export function getRageTradePoolTvl(rageTradePool: RageTradePool): BigDecimal {
   let vPoolAddress = Address.fromString(rageTradePool.vPool);
-  let vTokenAddress = Address.fromString(rageTradePool.vToken);
 
-  let clearingHouse = ClearingHouse.bind(contracts.ClearingHouse);
-  let pi_result = clearingHouse.try_protocolInfo();
-
-  if (pi_result.reverted) {
-    log.error('custom_logs: updateRagePoolTvl protocolInfo reverted', ['']);
-    return ZERO_BD;
-  }
-
-  let vQuoteAddress = pi_result.value.value0;
+  let vToken = VToken.load(rageTradePool.vToken);
+  let vQuote = VQuote.load(rageTradePool.vQuote);
 
   let price = getPriceANDTick(vPoolAddress).price;
 
-  let vQuoteBalance = fetchTokenBalance(vQuoteAddress, vPoolAddress);
-  let vTokenBalance = fetchTokenBalance(vTokenAddress, vPoolAddress);
+  let vTokenBalance = fetchTokenBalance(
+    Address.fromString(vToken.id),
+    vToken.decimals,
+    vPoolAddress
+  );
+
+  let vQuoteBalance = fetchTokenBalance(
+    Address.fromString(vQuote.id),
+    vQuote.decimals,
+    vPoolAddress
+  );
 
   // vToken * price + vQuote
   return vQuoteBalance.plus(vTokenBalance.times(price));
