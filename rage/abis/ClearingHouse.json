@@ -173,6 +173,11 @@
     "type": "error"
   },
   {
+    "inputs": [],
+    "name": "T",
+    "type": "error"
+  },
+  {
     "inputs": [
       {
         "internalType": "uint32",
@@ -757,7 +762,7 @@
     "outputs": [
       {
         "internalType": "int256",
-        "name": "accountMarketValue",
+        "name": "marketValue",
         "type": "int256"
       },
       {
@@ -936,9 +941,9 @@
   {
     "inputs": [
       {
-        "internalType": "contract IVToken",
-        "name": "vToken",
-        "type": "address"
+        "internalType": "uint32",
+        "name": "poolId",
+        "type": "uint32"
       }
     ],
     "name": "getTwapPrices",

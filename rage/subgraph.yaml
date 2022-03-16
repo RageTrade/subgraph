@@ -8,9 +8,9 @@ dataSources:
     name: ClearingHouse
     network: arbitrum-rinkeby
     source:
-      address: '0x549603efbd63a41f122Ae53A1dfEfDAFF9DB4CEa'
+      address: "0x367Ee41731Ab92FEA4B0715e93a1D9f1c699A1dB"
       abi: ClearingHouse
-      startBlock: 10280211
+      startBlock: 10410374
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.4
@@ -49,9 +49,9 @@ dataSources:
     name: RageTradeFactory
     network: arbitrum-rinkeby
     source:
-      address: '0x3A89bcc7Fe865579fE96063E14ed31fE71b29D05'
+      address: "0x4FC3D33Cbb9794041C19c006A9D6ac140905a02d"
       abi: RageTradeFactory
-      startBlock: 10280211
+      startBlock: 10410374
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.4
@@ -81,7 +81,7 @@ dataSources:
     name: UniswapV3Factory
     network: arbitrum-rinkeby
     source:
-      address: '0x1F98431c8aD98523631AE4a59f267346ea31F984'
+      address: "0x1F98431c8aD98523631AE4a59f267346ea31F984"
       abi: UniswapV3Factory
       startBlock: 10139574
     mapping:
