@@ -1370,6 +1370,15 @@ export class RageTradePool extends Entity {
     this.set("vToken", Value.fromString(value));
   }
 
+  get vQuote(): string {
+    let value = this.get("vQuote");
+    return value.toString();
+  }
+
+  set vQuote(value: string) {
+    this.set("vQuote", Value.fromString(value));
+  }
+
   get vPool(): string {
     let value = this.get("vPool");
     return value.toString();

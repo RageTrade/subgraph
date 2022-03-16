@@ -265,7 +265,8 @@ type VQuote @entity {
 type RageTradePool @entity {
   id: ID! # vToken address
   vToken: VToken!
-
+  vQuote: VQuote!
+  
   vPool: Temp_UniswapV3_Pool!
   vPoolWrapper: VPoolWrapper!
 
