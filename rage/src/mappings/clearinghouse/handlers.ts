@@ -15,7 +15,13 @@ import {
 import { generateAccountId, getAccount } from './account';
 import { getOwner } from './owner';
 import { getTokenPosition } from './token-position';
-import { generateId, getFundingRate, getSumAX128, safeDiv } from '../../utils';
+import {
+  BigIntToBigDecimal,
+  generateId,
+  getFundingRate,
+  getSumAX128,
+  safeDiv,
+} from '../../utils';
 import { UniswapV3Pool } from '../../../generated/templates/UniswapV3Pool/UniswapV3Pool';
 import { getPriceANDTick } from '../vPoolWrapper/utils';
 import { ZERO_BI } from '../../utils/constants';
@@ -74,17 +80,29 @@ export function handleTokenPositionChanged(event: TokenPositionChanged): void {
 
     if (event.params.vTokenAmountOut.gt(ZERO_BI)) {
       tokenPosition.buyVTokenAmount = tokenPosition.buyVTokenAmount.plus(
-        event.params.vTokenAmountOut.abs().toBigDecimal()
+        BigIntToBigDecimal(
+          event.params.vTokenAmountOut.abs(),
+          BigInt.fromI32(18)
+        )
       );
       tokenPosition.buyVQuoteAmount = tokenPosition.buyVQuoteAmount.plus(
-        event.params.vQuoteAmountOut.abs().toBigDecimal()
+        BigIntToBigDecimal(
+          event.params.vQuoteAmountOut.abs(),
+          BigInt.fromI32(6)
+        )
       );
     } else {
       tokenPosition.sellVTokenAmount = tokenPosition.sellVTokenAmount.plus(
-        event.params.vTokenAmountOut.abs().toBigDecimal()
+        BigIntToBigDecimal(
+          event.params.vTokenAmountOut.abs(),
+          BigInt.fromI32(18)
+        )
       );
       tokenPosition.sellVQuoteAmount = tokenPosition.sellVQuoteAmount.plus(
-        event.params.vQuoteAmountOut.abs().toBigDecimal()
+        BigIntToBigDecimal(
+          event.params.vQuoteAmountOut.abs(),
+          BigInt.fromI32(6)
+        )
       );
     }
 
@@ -141,8 +159,14 @@ export function handleTokenPositionChanged(event: TokenPositionChanged): void {
     tokenPositionChangeEntry.timestamp = event.block.timestamp;
     tokenPositionChangeEntry.account = account.id;
     tokenPositionChangeEntry.rageTradePool = event.params.poolId.toHexString();
-    tokenPositionChangeEntry.vTokenAmountOut = event.params.vTokenAmountOut;
-    tokenPositionChangeEntry.vQuoteAmountOut = event.params.vQuoteAmountOut;
+    tokenPositionChangeEntry.vTokenAmountOut = BigIntToBigDecimal(
+      event.params.vTokenAmountOut,
+      BigInt.fromI32(18)
+    );
+    tokenPositionChangeEntry.vQuoteAmountOut = BigIntToBigDecimal(
+      event.params.vQuoteAmountOut,
+      BigInt.fromI32(6)
+    );
     tokenPositionChangeEntry.save();
   }
 
