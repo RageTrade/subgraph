@@ -4,7 +4,7 @@ import { ERC20SymbolBytes } from '../../generated/UniswapV3Factory/ERC20SymbolBy
 import { ERC20NameBytes } from '../../generated/UniswapV3Factory/ERC20NameBytes';
 import { StaticTokenDefinition } from './staticTokenDefinition';
 import { BigInt, Address, BigDecimal } from '@graphprotocol/graph-ts';
-import { isNullEthValue } from '.';
+import { isNullEthValue, tenPower } from './index';
 import { ZERO_BI } from './constants';
 
 export function fetchTokenSymbol(tokenAddress: Address): string {
@@ -102,7 +102,8 @@ export function fetchTokenDecimals(tokenAddress: Address): BigInt {
  */
 export function fetchTokenBalance(
   tokenAddress: Address,
-  ownerAddress: Address
+  tokenDecimals: BigInt,
+  ownerAddress: Address,
 ): BigDecimal {
   let erc20Contract = ERC20.bind(tokenAddress);
   let result = erc20Contract.try_balanceOf(ownerAddress);
@@ -113,5 +114,5 @@ export function fetchTokenBalance(
     balance = result.value;
   }
 
-  return balance.toBigDecimal();
+  return balance.toBigDecimal().div(tenPower(tokenDecimals));
 }
