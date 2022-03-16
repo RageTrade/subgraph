@@ -1,5 +1,6 @@
 import {
   Candle,
+  Protocol,
   RageTradePool,
   VQuote,
   VToken,
@@ -159,8 +160,10 @@ export function updateCandleData(
 export function getRageTradePoolTvl(rageTradePool: RageTradePool): BigDecimal {
   let vPoolAddress = Address.fromString(rageTradePool.vPool);
 
+  let protocol = Protocol.load("rage_trade");
+
   let vToken = VToken.load(rageTradePool.vToken);
-  let vQuote = VQuote.load(rageTradePool.vQuote);
+  let vQuote = VQuote.load(protocol.vQuote);
 
   let price = getPriceANDTick(vPoolAddress).price;
 

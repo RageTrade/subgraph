@@ -3,6 +3,7 @@ import { ClearingHouse } from '../../../generated/ClearingHouse/ClearingHouse';
 import { PoolInitialized } from '../../../generated/RageTradeFactory/RageTradeFactory';
 import {
   Collection,
+  Protocol,
   RageTradeFactory,
   RageTradePool,
   Temp_UniswapV3_Pool,
@@ -78,7 +79,6 @@ export function handlePoolInitialized(event: PoolInitialized): void {
   let vQuoteAddress = result.value.value0;
 
   let vQuote = VQuote.load(vQuoteAddress.toHexString());
-
   if (vQuote == null) {
     vQuote = new VQuote(vQuoteAddress.toHexString());
 
@@ -87,6 +87,18 @@ export function handlePoolInitialized(event: PoolInitialized): void {
     vQuote.decimals = fetchTokenDecimals(vQuoteAddress);
 
     vQuote.save();
+  }
+
+  // Protocol is a global with info about the rage trade protocol itself
+  let protocol = Protocol.load('rage_trade');
+  if (protocol == null) {
+    protocol = new Protocol('rage_trade');
+    protocol.tvlUSDC = ZERO_BD;
+    protocol.lpFees = ZERO_BD;
+    protocol.protocolFees = ZERO_BD;
+    protocol.vQuote = vQuote.id;
+
+    protocol.save();
   }
 
   let vPool = Temp_UniswapV3_Pool.load(event.params.vPool.toHexString());
@@ -102,7 +114,6 @@ export function handlePoolInitialized(event: PoolInitialized): void {
 
   rageTradePool.vTotalValueLocked = ZERO_BD;
   rageTradePool.vToken = vToken.id;
-  rageTradePool.vQuote = vQuote.id;
 
   rageTradePool.vPool = vPool.id;
   rageTradePool.vPoolWrapper = vPoolWrapper.id;
