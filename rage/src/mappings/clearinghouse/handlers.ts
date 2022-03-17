@@ -167,6 +167,11 @@ export function handleTokenPositionChanged(event: TokenPositionChanged): void {
       event.params.vQuoteAmountOut,
       BigInt.fromI32(6)
     );
+
+    tokenPositionChangeEntry.executionPrice = tokenPositionChangeEntry.vQuoteAmountOut.div(
+      tokenPositionChangeEntry.vTokenAmountOut
+    );
+
     tokenPositionChangeEntry.save();
   }
 
