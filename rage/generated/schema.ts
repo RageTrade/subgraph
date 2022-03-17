@@ -673,6 +673,24 @@ export class TokenPositionChangeEntry extends Entity {
   set vQuoteAmountOut(value: BigDecimal) {
     this.set("vQuoteAmountOut", Value.fromBigDecimal(value));
   }
+
+  get vToken(): string {
+    let value = this.get("vToken");
+    return value.toString();
+  }
+
+  set vToken(value: string) {
+    this.set("vToken", Value.fromString(value));
+  }
+
+  get executionPrice(): BigDecimal {
+    let value = this.get("executionPrice");
+    return value.toBigDecimal();
+  }
+
+  set executionPrice(value: BigDecimal) {
+    this.set("executionPrice", Value.fromBigDecimal(value));
+  }
 }
 
 export class LiquidateToken extends Entity {

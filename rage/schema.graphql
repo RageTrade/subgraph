@@ -41,7 +41,7 @@ Data help by the protocol
 """
 type Protocol @entity {
   id: ID!
-  
+
   tvlUSDC: BigDecimal!
 
   "fee earned by lps"
@@ -139,6 +139,8 @@ type TokenPositionChangeEntry @entity {
   vTokenAmountOut: BigDecimal!
   "baseAmountOut amount of base tokens that account received (positive) or paid (negative)"
   vQuoteAmountOut: BigDecimal!
+
+  executionPrice: BigDecimal!
 }
 
 """
