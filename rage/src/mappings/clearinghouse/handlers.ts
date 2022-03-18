@@ -170,7 +170,7 @@ export function handleTokenPositionChanged(event: TokenPositionChanged): void {
 
     tokenPositionChangeEntry.executionPrice = tokenPositionChangeEntry.vQuoteAmountOut.div(
       tokenPositionChangeEntry.vTokenAmountOut
-    );
+    ).neg();
 
     tokenPositionChangeEntry.save();
   }
