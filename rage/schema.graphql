@@ -92,8 +92,10 @@ type FundingPaymentRealizedEntry @entity {
   "timestamp of the funding rate"
   timestamp: BigInt!
 
-  "amount of base token in the funding rate"
-  amount: BigInt!
+  "amount of base token in the funding rate, in settlementToken(USDC)"
+  amount: BigDecimal!
+
+  vTokenPosition: BigDecimal!
 }
 
 """
@@ -111,7 +113,7 @@ type TokenPosition @entity {
   fundingPaymentRealizedEntries: [FundingPaymentRealizedEntry!]!
     @derivedFrom(field: "tokenPosition")
 
-  totalRealizedFundingPaymentAmount: BigInt!
+  totalRealizedFundingPaymentAmount: BigDecimal!
 
   sumAX128CheckPoint: BigInt!
 

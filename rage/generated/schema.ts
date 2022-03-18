@@ -453,13 +453,22 @@ export class FundingPaymentRealizedEntry extends Entity {
     this.set("timestamp", Value.fromBigInt(value));
   }
 
-  get amount(): BigInt {
+  get amount(): BigDecimal {
     let value = this.get("amount");
-    return value.toBigInt();
+    return value.toBigDecimal();
   }
 
-  set amount(value: BigInt) {
-    this.set("amount", Value.fromBigInt(value));
+  set amount(value: BigDecimal) {
+    this.set("amount", Value.fromBigDecimal(value));
+  }
+
+  get vTokenPosition(): BigDecimal {
+    let value = this.get("vTokenPosition");
+    return value.toBigDecimal();
+  }
+
+  set vTokenPosition(value: BigDecimal) {
+    this.set("vTokenPosition", Value.fromBigDecimal(value));
   }
 }
 
@@ -529,13 +538,13 @@ export class TokenPosition extends Entity {
     this.set("fundingPaymentRealizedEntries", Value.fromStringArray(value));
   }
 
-  get totalRealizedFundingPaymentAmount(): BigInt {
+  get totalRealizedFundingPaymentAmount(): BigDecimal {
     let value = this.get("totalRealizedFundingPaymentAmount");
-    return value.toBigInt();
+    return value.toBigDecimal();
   }
 
-  set totalRealizedFundingPaymentAmount(value: BigInt) {
-    this.set("totalRealizedFundingPaymentAmount", Value.fromBigInt(value));
+  set totalRealizedFundingPaymentAmount(value: BigDecimal) {
+    this.set("totalRealizedFundingPaymentAmount", Value.fromBigDecimal(value));
   }
 
   get sumAX128CheckPoint(): BigInt {
@@ -672,15 +681,6 @@ export class TokenPositionChangeEntry extends Entity {
 
   set vQuoteAmountOut(value: BigDecimal) {
     this.set("vQuoteAmountOut", Value.fromBigDecimal(value));
-  }
-
-  get vToken(): string {
-    let value = this.get("vToken");
-    return value.toString();
-  }
-
-  set vToken(value: string) {
-    this.set("vToken", Value.fromString(value));
   }
 
   get executionPrice(): BigDecimal {
