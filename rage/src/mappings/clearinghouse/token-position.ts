@@ -21,7 +21,7 @@ export function getTokenPosition(
     tokenPosition.rageTradePool = poolId.toHexString();
     tokenPosition.netPosition = ZERO_BI;
 
-    tokenPosition.totalRealizedFundingPaymentAmount = ZERO_BI;
+    tokenPosition.totalRealizedFundingPaymentAmount = ZERO_BD;
 
     tokenPosition.sumAX128CheckPoint = ZERO_BI;
 

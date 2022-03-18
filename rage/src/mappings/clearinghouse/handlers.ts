@@ -285,7 +285,16 @@ export function handleFundingPaymentRealized(
 
   fundingRateEntry.timestamp = event.block.timestamp;
   fundingRateEntry.tokenPosition = tokenPosition.id;
-  fundingRateEntry.amount = event.params.amount; // TODO: is this correct?
+  // usdc settlementToken
+  fundingRateEntry.amount = BigIntToBigDecimal(
+    event.params.amount,
+    BigInt.fromI32(6)
+  );
+
+  fundingRateEntry.vTokenPosition = BigIntToBigDecimal(
+    tokenPosition.netPosition,
+    BigInt.fromI32(18)
+  );
 
   fundingRateEntry.fundingRate = getFundingRate(event.params.poolId);
   fundingRateEntry.side = tokenPosition.netPosition.gt(BigInt.fromI32(0))
