@@ -94,6 +94,8 @@ type FundingPaymentRealizedEntry @entity {
   "timestamp of the funding rate"
   timestamp: BigInt!
 
+  transactionHash: Bytes!
+
   "amount of base token in the funding rate, in settlementToken(USDC)"
   amount: BigDecimal!
 
@@ -159,6 +161,9 @@ type TokenPositionChangeEntry @entity {
   id: ID! # accountNo - vToken - timestamp
   "timestamp of the token position change"
   timestamp: BigInt!
+
+  transactionHash: Bytes!
+
   "accountNo serial number of the account"
   account: Account!
   "rageTradePool position was taken"

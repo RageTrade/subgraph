@@ -462,6 +462,15 @@ export class FundingPaymentRealizedEntry extends Entity {
     this.set("timestamp", Value.fromBigInt(value));
   }
 
+  get transactionHash(): Bytes {
+    let value = this.get("transactionHash");
+    return value.toBytes();
+  }
+
+  set transactionHash(value: Bytes) {
+    this.set("transactionHash", Value.fromBytes(value));
+  }
+
   get amount(): BigDecimal {
     let value = this.get("amount");
     return value.toBigDecimal();
@@ -730,6 +739,15 @@ export class TokenPositionChangeEntry extends Entity {
 
   set timestamp(value: BigInt) {
     this.set("timestamp", Value.fromBigInt(value));
+  }
+
+  get transactionHash(): Bytes {
+    let value = this.get("transactionHash");
+    return value.toBytes();
+  }
+
+  set transactionHash(value: Bytes) {
+    this.set("transactionHash", Value.fromBytes(value));
   }
 
   get account(): string {
