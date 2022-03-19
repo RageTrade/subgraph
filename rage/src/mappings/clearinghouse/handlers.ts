@@ -158,6 +158,8 @@ export function handleTokenPositionChanged(event: TokenPositionChanged): void {
     );
 
     tokenPositionChangeEntry.timestamp = event.block.timestamp;
+    tokenPositionChangeEntry.transactionHash = event.transaction.hash;
+
     tokenPositionChangeEntry.account = account.id;
     tokenPositionChangeEntry.rageTradePool = event.params.poolId.toHexString();
     tokenPositionChangeEntry.vTokenAmountOut = BigIntToBigDecimal(
@@ -330,6 +332,8 @@ export function handleFundingPaymentRealized(
   let fundingRateEntry = new FundingPaymentRealizedEntry(fundingRateId);
 
   fundingRateEntry.timestamp = event.block.timestamp;
+  fundingRateEntry.transactionHash = event.transaction.hash;
+
   fundingRateEntry.tokenPosition = tokenPosition.id;
   // usdc settlementToken
   fundingRateEntry.amount = BigIntToBigDecimal(
