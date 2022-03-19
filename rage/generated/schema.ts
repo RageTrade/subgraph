@@ -127,6 +127,15 @@ export class Account extends Entity {
     this.set("tokenPositionChangeEntries", Value.fromStringArray(value));
   }
 
+  get marginChangeEntries(): Array<string> {
+    let value = this.get("marginChangeEntries");
+    return value.toStringArray();
+  }
+
+  set marginChangeEntries(value: Array<string>) {
+    this.set("marginChangeEntries", Value.fromStringArray(value));
+  }
+
   get liquidateToken(): Array<string> {
     let value = this.get("liquidateToken");
     return value.toStringArray();
@@ -599,6 +608,82 @@ export class TokenPosition extends Entity {
 
   set realizedPnL(value: BigDecimal) {
     this.set("realizedPnL", Value.fromBigDecimal(value));
+  }
+}
+
+export class MarginChangeEntry extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id !== null, "Cannot save MarginChangeEntry entity without an ID");
+    assert(
+      id.kind == ValueKind.STRING,
+      "Cannot save MarginChangeEntry entity with non-string ID. " +
+        'Considering using .toHex() to convert the "id" to a string.'
+    );
+    store.set("MarginChangeEntry", id.toString(), this);
+  }
+
+  static load(id: string): MarginChangeEntry | null {
+    return store.get("MarginChangeEntry", id) as MarginChangeEntry | null;
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    return value.toString();
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get timestamp(): BigInt {
+    let value = this.get("timestamp");
+    return value.toBigInt();
+  }
+
+  set timestamp(value: BigInt) {
+    this.set("timestamp", Value.fromBigInt(value));
+  }
+
+  get transactionHash(): Bytes {
+    let value = this.get("transactionHash");
+    return value.toBytes();
+  }
+
+  set transactionHash(value: Bytes) {
+    this.set("transactionHash", Value.fromBytes(value));
+  }
+
+  get account(): string {
+    let value = this.get("account");
+    return value.toString();
+  }
+
+  set account(value: string) {
+    this.set("account", Value.fromString(value));
+  }
+
+  get amount(): BigDecimal {
+    let value = this.get("amount");
+    return value.toBigDecimal();
+  }
+
+  set amount(value: BigDecimal) {
+    this.set("amount", Value.fromBigDecimal(value));
+  }
+
+  get transactionType(): string {
+    let value = this.get("transactionType");
+    return value.toString();
+  }
+
+  set transactionType(value: string) {
+    this.set("transactionType", Value.fromString(value));
   }
 }
 

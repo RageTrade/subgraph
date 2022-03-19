@@ -22,6 +22,8 @@ type Account @entity {
   tokenPositions: [TokenPosition!]! @derivedFrom(field: "account")
   tokenPositionChangeEntries: [TokenPositionChangeEntry!]!
     @derivedFrom(field: "account")
+  marginChangeEntries: [MarginChangeEntry!]! @derivedFrom(field: "account")
+
   liquidateToken: [Collateral!]! @derivedFrom(field: "account")
   liquidateRangePosition: [Collateral!]! @derivedFrom(field: "account")
   liquidityPosition: [LiquidityPosition!]! @derivedFrom(field: "account")
@@ -124,6 +126,30 @@ type TokenPosition @entity {
   sellVTokenAmount: BigDecimal!
 
   realizedPnL: BigDecimal!
+}
+
+enum MarginTransactionType {
+  deposit
+  withdraw
+}
+
+"""
+token position change
+"""
+type MarginChangeEntry @entity {
+  id: ID! # accountNo - vToken - timestamp
+  "timestamp of the token position change"
+  timestamp: BigInt!
+
+  transactionHash: Bytes!
+
+  "accountNo serial number of the account"
+  account: Account!
+
+  "settlement token"
+  amount: BigDecimal!
+
+  transactionType: MarginTransactionType!
 }
 
 """
