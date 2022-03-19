@@ -9,6 +9,7 @@ import {
 import {
   Account,
   FundingPaymentRealizedEntry,
+  MarginChangeEntry,
   RageTradePool,
   TokenPositionChangeEntry,
 } from '../../../generated/schema';
@@ -168,9 +169,9 @@ export function handleTokenPositionChanged(event: TokenPositionChanged): void {
       BigInt.fromI32(6)
     );
 
-    tokenPositionChangeEntry.executionPrice = tokenPositionChangeEntry.vQuoteAmountOut.div(
-      tokenPositionChangeEntry.vTokenAmountOut
-    ).neg();
+    tokenPositionChangeEntry.executionPrice = tokenPositionChangeEntry.vQuoteAmountOut
+      .div(tokenPositionChangeEntry.vTokenAmountOut)
+      .neg();
 
     tokenPositionChangeEntry.save();
   }
@@ -219,10 +220,32 @@ export function handleMarginAdded(event: MarginAdded): void {
   let account = getAccount(event.params.accountId);
   let collateral = getCollateral(account, event.params.collateralId);
 
-  // TODO is this supposed to be last update timestamp?
   collateral.timestamp = event.block.timestamp;
   collateral.amount = collateral.amount.plus(event.params.amount);
   collateral.save();
+
+  /////////////////////////////////////////////////////////////////////
+
+  let marginChangeEntryId = generateId([
+    event.params.accountId.toHexString(),
+    event.params.collateralId.toString(),
+    event.block.number.toString(),
+    event.logIndex.toString(),
+  ]);
+
+  let marginChangeEntry = new MarginChangeEntry(marginChangeEntryId);
+
+  marginChangeEntry.timestamp = event.block.timestamp;
+  marginChangeEntry.transactionHash = event.transaction.hash;
+  marginChangeEntry.account = account.id;
+  marginChangeEntry.transactionType = 'deposit';
+
+  marginChangeEntry.amount = BigIntToBigDecimal(
+    event.params.amount,
+    BigInt.fromI32(6)
+  );
+
+  marginChangeEntry.save();
 }
 
 // @entity Margin
@@ -240,6 +263,29 @@ export function handleMarginRemoved(event: MarginRemoved): void {
   collateral.timestamp = event.block.timestamp;
   collateral.amount = collateral.amount.minus(event.params.amount);
   collateral.save();
+
+  /////////////////////////////////////////////////////////////////////
+
+  let marginChangeEntryId = generateId([
+    event.params.accountId.toHexString(),
+    event.params.collateralId.toString(),
+    event.block.number.toString(),
+    event.logIndex.toString(),
+  ]);
+
+  let marginChangeEntry = new MarginChangeEntry(marginChangeEntryId);
+
+  marginChangeEntry.timestamp = event.block.timestamp;
+  marginChangeEntry.transactionHash = event.transaction.hash;
+  marginChangeEntry.account = account.id;
+  marginChangeEntry.transactionType = 'withdraw';
+
+  marginChangeEntry.amount = BigIntToBigDecimal(
+    event.params.amount,
+    BigInt.fromI32(6)
+  );
+
+  marginChangeEntry.save();
 }
 
 // @entity LiquidityPosition
