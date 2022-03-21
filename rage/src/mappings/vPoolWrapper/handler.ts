@@ -62,8 +62,8 @@ export function handleSwap(event: Swap): void {
     rageTradePool as RageTradePool,
     vPoolWrapperAddress,
     hourStartUnix,
-    event.params.swapResult.vTokenIn.toBigDecimal(),
-    event.params.swapResult.vQuoteIn.toBigDecimal()
+    event.params.vTokenIn.toBigDecimal(),
+    event.params.vQuoteIn.toBigDecimal()
   );
 
   // dayData
@@ -73,8 +73,8 @@ export function handleSwap(event: Swap): void {
     rageTradePool as RageTradePool,
     vPoolWrapperAddress,
     dayStartUnix,
-    event.params.swapResult.vTokenIn.toBigDecimal(),
-    event.params.swapResult.vQuoteIn.toBigDecimal()
+    event.params.vTokenIn.toBigDecimal(),
+    event.params.vQuoteIn.toBigDecimal()
   );
 }
 
