@@ -38,7 +38,8 @@ dataSources:
         - event: TokenPositionFundingPaymentRealized(indexed uint256,indexed
             uint32,int256,int256)
           handler: handleTokenPositionFundingPaymentRealized
-        - event: TokenPositionChanged(indexed uint256,indexed uint32,int256,int256,uint160,uint160)
+        - event: TokenPositionChanged(indexed uint256,indexed
+            uint32,int256,int256,uint160,uint160)
           handler: handleTokenPositionChanged
         - event: MarginUpdated(indexed uint256,indexed uint32,int256)
           handler: handleMarginUpdated

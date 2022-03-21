@@ -1,4 +1,4 @@
-import { Address, log, BigInt, BigDecimal } from '@graphprotocol/graph-ts';
+import { Address, log } from '@graphprotocol/graph-ts';
 import { RageTradePool, VPoolWrapper } from '../../../generated/schema';
 import {
   Burn,
@@ -137,7 +137,7 @@ export function handleBurn(event: Burn): void {
     ]);
     return;
   }
-  
+
   let price_tick = getPriceANDTick(Address.fromString(rageTradePool.vPool));
 
   rageTradePool.price = price_tick.price;
