@@ -1,9 +1,8 @@
 import { Address, log, BigInt } from '@graphprotocol/graph-ts';
 import {
   AccountCreated,
-  FundingPaymentRealized,
-  MarginAdded,
-  MarginRemoved,
+  TokenPositionFundingPaymentRealized,
+  MarginUpdated,
   TokenPositionChanged,
 } from '../../../generated/ClearingHouse/ClearingHouse';
 import {
@@ -56,6 +55,8 @@ export function handleTokenPositionChanged(event: TokenPositionChanged): void {
     event.params.poolId.toHexString(),
     event.params.vTokenAmountOut.toString(),
     event.params.vQuoteAmountOut.toString(),
+    event.params.sqrtPriceX96Start.toString(),
+    event.params.sqrtPriceX96End.toString(),
   ]);
 
   let account = getAccount(event.params.accountId);
@@ -171,9 +172,14 @@ export function handleTokenPositionChanged(event: TokenPositionChanged): void {
       BigInt.fromI32(6)
     );
 
-    tokenPositionChangeEntry.executionPrice = tokenPositionChangeEntry.vQuoteAmountOut
-      .div(tokenPositionChangeEntry.vTokenAmountOut)
-      .neg();
+    tokenPositionChangeEntry.startPrice = BigIntToBigDecimal(
+      event.params.sqrtPriceX96Start,
+      BigInt.fromI32(6)
+    );
+    tokenPositionChangeEntry.endPrice = BigIntToBigDecimal(
+      event.params.sqrtPriceX96End,
+      BigInt.fromI32(6)
+    );
 
     tokenPositionChangeEntry.save();
   }
@@ -212,7 +218,7 @@ export function handleTokenPositionChanged(event: TokenPositionChanged): void {
 }
 
 // @entity Margin
-export function handleMarginAdded(event: MarginAdded): void {
+export function handleMarginUpdated(event: MarginUpdated): void {
   log.warning('custom_logs: handleMarginAdded triggered {} {} {}', [
     event.params.accountId.toHexString(),
     event.params.collateralId.toString(),
@@ -240,47 +246,9 @@ export function handleMarginAdded(event: MarginAdded): void {
   marginChangeEntry.timestamp = event.block.timestamp;
   marginChangeEntry.transactionHash = event.transaction.hash;
   marginChangeEntry.account = account.id;
-  marginChangeEntry.transactionType = 'deposit';
-
-  marginChangeEntry.amount = BigIntToBigDecimal(
-    event.params.amount,
-    BigInt.fromI32(6)
-  );
-
-  marginChangeEntry.save();
-}
-
-// @entity Margin
-export function handleMarginRemoved(event: MarginRemoved): void {
-  log.warning('custom_logs: handleMarginRemoved triggered {} {} {}', [
-    event.params.accountId.toHexString(),
-    event.params.collateralId.toString(),
-    event.params.amount.toString(),
-  ]);
-
-  let account = getAccount(event.params.accountId);
-  let collateral = getCollateral(account, event.params.collateralId);
-
-  // TODO is this supposed to be last update timestamp?
-  collateral.timestamp = event.block.timestamp;
-  collateral.amount = collateral.amount.minus(event.params.amount);
-  collateral.save();
-
-  /////////////////////////////////////////////////////////////////////
-
-  let marginChangeEntryId = generateId([
-    event.params.accountId.toHexString(),
-    event.params.collateralId.toString(),
-    event.block.number.toString(),
-    event.logIndex.toString(),
-  ]);
-
-  let marginChangeEntry = new MarginChangeEntry(marginChangeEntryId);
-
-  marginChangeEntry.timestamp = event.block.timestamp;
-  marginChangeEntry.transactionHash = event.transaction.hash;
-  marginChangeEntry.account = account.id;
-  marginChangeEntry.transactionType = 'withdraw';
+  marginChangeEntry.transactionType = event.params.amount.gt(ZERO_BI)
+    ? 'deposit'
+    : 'withdraw';
 
   marginChangeEntry.amount = BigIntToBigDecimal(
     event.params.amount,
@@ -291,8 +259,8 @@ export function handleMarginRemoved(event: MarginRemoved): void {
 }
 
 // @entity LiquidityPosition
-export function handleFundingPaymentRealized(
-  event: FundingPaymentRealized
+export function handleTokenPositionFundingPaymentRealized(
+  event: TokenPositionFundingPaymentRealized
 ): void {
   log.debug('custom_logs: handleFundingPayment triggered {} {} {}', [
     event.params.accountId.toHexString(),
