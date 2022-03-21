@@ -8,9 +8,9 @@ dataSources:
     name: ClearingHouse
     network: arbitrum-rinkeby
     source:
-      address: "0x548F34A1D0d0C6CE98269497F320685D7ADB80DB"
+      address: "0x0a9397967521C012ddFC7A3CE748A03229f4C010"
       abi: ClearingHouse
-      startBlock: 10521466
+      startBlock: 10510500
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.4
@@ -49,9 +49,9 @@ dataSources:
     name: RageTradeFactory
     network: arbitrum-rinkeby
     source:
-      address: "0x6088fA06e133086a2D0E7307ba741A9206344d4e"
+      address: "0x3446A0B09BeACA6fBafd8968A5e2A570c5965D1D"
       abi: RageTradeFactory
-      startBlock: 10521466
+      startBlock: 10510500
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.4
@@ -159,7 +159,7 @@ templates:
         - name: ERC20NameBytes
           file: ./abis/ERC20NameBytes.json
       eventHandlers:
-        - event: Swap(int256,int256,int256,uint256,uint256,uint160,uint160)
+        - event: Swap((int256,int256,int256,uint256,uint256,uint160,uint160))
           handler: handleSwap
         - event: Mint(int24,int24,uint128,uint256,uint256)
           handler: handleMint

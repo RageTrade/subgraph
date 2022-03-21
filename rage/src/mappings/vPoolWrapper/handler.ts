@@ -16,12 +16,12 @@ export function handleSwap(event: Swap): void {
   log.debug(
     'custom_logs: handleSwap in VPoolWrapper triggered [ vTokenIn - {} ] [ vQuoteIn - {} ] [ liquidityFees - {} ] [ protocolFees - {} ] [ sqrtPriceX96Start - {} ] [ sqrtPriceX96End - {} ]',
     [
-      event.params.vTokenIn.toHexString(),
-      event.params.vQuoteIn.toHexString(),
-      event.params.liquidityFees.toHexString(),
-      event.params.protocolFees.toHexString(),
-      event.params.sqrtPriceX96Start.toHexString(),
-      event.params.sqrtPriceX96End.toHexString(),
+      event.params.swapResult.vTokenIn.toHexString(),
+      event.params.swapResult.vQuoteIn.toHexString(),
+      event.params.swapResult.liquidityFees.toHexString(),
+      event.params.swapResult.protocolFees.toHexString(),
+      event.params.swapResult.sqrtPriceX96Start.toHexString(),
+      event.params.swapResult.sqrtPriceX96End.toHexString(),
     ]
   );
 
@@ -72,8 +72,8 @@ export function handleSwap(event: Swap): void {
     rageTradePool as RageTradePool,
     vPoolWrapperAddress,
     hourStartUnix,
-    event.params.vTokenIn.toBigDecimal(),
-    event.params.vQuoteIn.toBigDecimal()
+    event.params.swapResult.vTokenIn.toBigDecimal(),
+    event.params.swapResult.vQuoteIn.toBigDecimal()
   );
 
   // dayData
@@ -83,8 +83,8 @@ export function handleSwap(event: Swap): void {
     rageTradePool as RageTradePool,
     vPoolWrapperAddress,
     dayStartUnix,
-    event.params.vTokenIn.toBigDecimal(),
-    event.params.vQuoteIn.toBigDecimal()
+    event.params.swapResult.vTokenIn.toBigDecimal(),
+    event.params.swapResult.vQuoteIn.toBigDecimal()
   );
 }
 
