@@ -20,11 +20,6 @@
         "internalType": "contract IERC20Metadata",
         "name": "settlementToken",
         "type": "address"
-      },
-      {
-        "internalType": "contract IOracle",
-        "name": "nativeOracle",
-        "type": "address"
       }
     ],
     "stateMutability": "nonpayable",
@@ -191,12 +186,17 @@
             "components": [
               {
                 "internalType": "uint16",
-                "name": "initialMarginRatio",
+                "name": "initialMarginRatioBps",
                 "type": "uint16"
               },
               {
                 "internalType": "uint16",
-                "name": "maintainanceMarginRatio",
+                "name": "maintainanceMarginRatioBps",
+                "type": "uint16"
+              },
+              {
+                "internalType": "uint16",
+                "name": "maxVirtualPriceDeviationRatioBps",
                 "type": "uint16"
               },
               {

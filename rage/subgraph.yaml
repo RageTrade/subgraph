@@ -8,9 +8,9 @@ dataSources:
     name: ClearingHouse
     network: arbitrum-rinkeby
     source:
-      address: "0x367Ee41731Ab92FEA4B0715e93a1D9f1c699A1dB"
+      address: "0x0a9397967521C012ddFC7A3CE748A03229f4C010"
       abi: ClearingHouse
-      startBlock: 10410374
+      startBlock: 10510500
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.4
@@ -35,23 +35,22 @@ dataSources:
       eventHandlers:
         - event: AccountCreated(indexed address,uint256)
           handler: handleAccountCreated
-        - event: FundingPaymentRealized(indexed uint256,indexed uint32,int24,int24,int256)
-          handler: handleFundingPaymentRealized
-        - event: TokenPositionChanged(indexed uint256,indexed uint32,int256,int256)
+        - event: TokenPositionFundingPaymentRealized(indexed uint256,indexed
+            uint32,int256,int256)
+          handler: handleTokenPositionFundingPaymentRealized
+        - event: TokenPositionChanged(indexed uint256,indexed uint32,int256,int256,uint160,uint160)
           handler: handleTokenPositionChanged
-        - event: MarginAdded(indexed uint256,indexed uint32,uint256)
-          handler: handleMarginAdded
-        - event: MarginRemoved(indexed uint256,indexed uint32,uint256)
-          handler: handleMarginRemoved
+        - event: MarginUpdated(indexed uint256,indexed uint32,int256)
+          handler: handleMarginUpdated
         - event: ProfitUpdated(indexed uint256,int256)
           handler: handleProfitUpdated
   - kind: ethereum/contract
     name: RageTradeFactory
     network: arbitrum-rinkeby
     source:
-      address: "0x4FC3D33Cbb9794041C19c006A9D6ac140905a02d"
+      address: "0x3446A0B09BeACA6fBafd8968A5e2A570c5965D1D"
       abi: RageTradeFactory
-      startBlock: 10410374
+      startBlock: 10510500
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.4
@@ -159,7 +158,7 @@ templates:
         - name: ERC20NameBytes
           file: ./abis/ERC20NameBytes.json
       eventHandlers:
-        - event: Swap(int256,int256,uint256,uint256)
+        - event: Swap((int256,int256,int256,uint256,uint256,uint160,uint160))
           handler: handleSwap
         - event: Mint(int24,int24,uint128,uint256,uint256)
           handler: handleMint
