@@ -20,6 +20,8 @@ import {
   generateId,
   getFundingRate,
   getSumAX128,
+  parsePriceX128,
+  parseSqrtPriceX96,
   safeDiv,
 } from '../../utils';
 import { UniswapV3Pool } from '../../../generated/templates/UniswapV3Pool/UniswapV3Pool';
@@ -172,12 +174,18 @@ export function handleTokenPositionChanged(event: TokenPositionChanged): void {
       BigInt.fromI32(6)
     );
 
-    tokenPositionChangeEntry.startPrice = BigIntToBigDecimal(
-      event.params.sqrtPriceX96Start,
-      BigInt.fromI32(6)
+    tokenPositionChangeEntry.startPrice = parseSqrtPriceX96(
+      event.params.sqrtPriceX96Start
     );
-    tokenPositionChangeEntry.endPrice = BigIntToBigDecimal(
+    tokenPositionChangeEntry.endPrice = parseSqrtPriceX96(
       event.params.sqrtPriceX96End,
+    );
+
+    tokenPositionChangeEntry.executionPrice = parsePriceX128(
+      event.params.sqrtPriceX96End
+        .times(event.params.sqrtPriceX96Start)
+        .div(BigInt.fromI32(2).pow(64)),
+      BigInt.fromI32(18),
       BigInt.fromI32(6)
     );
 
