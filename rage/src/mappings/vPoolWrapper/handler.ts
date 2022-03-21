@@ -13,12 +13,7 @@ import {
 import { generateId } from '../../utils';
 
 export function handleSwap(event: Swap): void {
-  log.debug('custom_logs: handleSwap in VPoolWrapper triggered {} {} {} {}', [
-    event.params.vTokenIn.toHexString(),
-    event.params.vQuoteIn.toHexString(),
-    event.params.liquidityFees.toHexString(),
-    event.params.protocolFees.toHexString(),
-  ]);
+  log.debug('custom_logs: handleSwap in VPoolWrapper triggered {}', []);
 
   let timestamp = event.block.timestamp.toI32();
   let hourIndex = timestamp / 3600; // get unique hour within unix history
@@ -51,7 +46,10 @@ export function handleSwap(event: Swap): void {
 
   rageTradePool.price = price_tick.price;
   rageTradePool.tick = price_tick.tick;
-  rageTradePool.vTotalValueLocked = getRageTradePoolTvl(rageTradePool as RageTradePool);
+  rageTradePool.vTotalValueLocked = getRageTradePoolTvl(
+    rageTradePool as RageTradePool,
+    price_tick.price
+  );
   rageTradePool.save();
 
   let hourPoolID = generateId([rageTradePool.hourData, hourIndex.toString()]);
@@ -64,8 +62,8 @@ export function handleSwap(event: Swap): void {
     rageTradePool as RageTradePool,
     vPoolWrapperAddress,
     hourStartUnix,
-    event.params.vTokenIn.toBigDecimal(),
-    event.params.vQuoteIn.toBigDecimal()
+    event.params.swapResult.vTokenIn.toBigDecimal(),
+    event.params.swapResult.vQuoteIn.toBigDecimal()
   );
 
   // dayData
@@ -75,8 +73,8 @@ export function handleSwap(event: Swap): void {
     rageTradePool as RageTradePool,
     vPoolWrapperAddress,
     dayStartUnix,
-    event.params.vTokenIn.toBigDecimal(),
-    event.params.vQuoteIn.toBigDecimal()
+    event.params.swapResult.vTokenIn.toBigDecimal(),
+    event.params.swapResult.vQuoteIn.toBigDecimal()
   );
 }
 
@@ -104,9 +102,17 @@ export function handleMint(event: Mint): void {
     return;
   }
 
-  rageTradePool.vTotalValueLocked = getRageTradePoolTvl(rageTradePool as RageTradePool);
+  let price_tick = getPriceANDTick(Address.fromString(rageTradePool.vPool));
+
+  rageTradePool.price = price_tick.price;
+  rageTradePool.tick = price_tick.tick;
+  rageTradePool.vTotalValueLocked = getRageTradePoolTvl(
+    rageTradePool as RageTradePool,
+    price_tick.price
+  );
   rageTradePool.save();
 }
+
 export function handleBurn(event: Burn): void {
   log.debug('custom_logs: handleBurn in VPoolWrapper triggered {}', [
     event.address.toHexString(),
@@ -131,7 +137,14 @@ export function handleBurn(event: Burn): void {
     ]);
     return;
   }
+  
+  let price_tick = getPriceANDTick(Address.fromString(rageTradePool.vPool));
 
-  rageTradePool.vTotalValueLocked = getRageTradePoolTvl(rageTradePool as RageTradePool);
+  rageTradePool.price = price_tick.price;
+  rageTradePool.tick = price_tick.tick;
+  rageTradePool.vTotalValueLocked = getRageTradePoolTvl(
+    rageTradePool as RageTradePool,
+    price_tick.price
+  );
   rageTradePool.save();
 }

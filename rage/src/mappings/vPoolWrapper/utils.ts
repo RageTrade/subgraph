@@ -157,15 +157,16 @@ export function updateCandleData(
   return candle;
 }
 
-export function getRageTradePoolTvl(rageTradePool: RageTradePool): BigDecimal {
+export function getRageTradePoolTvl(
+  rageTradePool: RageTradePool,
+  price: BigDecimal
+): BigDecimal {
   let vPoolAddress = Address.fromString(rageTradePool.vPool);
 
-  let protocol = Protocol.load("rage_trade");
+  let protocol = Protocol.load('rage_trade');
 
   let vToken = VToken.load(rageTradePool.vToken);
   let vQuote = VQuote.load(protocol.vQuote);
-
-  let price = getPriceANDTick(vPoolAddress).price;
 
   let vTokenBalance = fetchTokenBalance(
     Address.fromString(vToken.id),
