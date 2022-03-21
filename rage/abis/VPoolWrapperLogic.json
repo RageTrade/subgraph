@@ -195,47 +195,46 @@
     "anonymous": false,
     "inputs": [
       {
-        "components": [
-          {
-            "internalType": "int256",
-            "name": "amountSpecified",
-            "type": "int256"
-          },
-          {
-            "internalType": "int256",
-            "name": "vTokenIn",
-            "type": "int256"
-          },
-          {
-            "internalType": "int256",
-            "name": "vQuoteIn",
-            "type": "int256"
-          },
-          {
-            "internalType": "uint256",
-            "name": "liquidityFees",
-            "type": "uint256"
-          },
-          {
-            "internalType": "uint256",
-            "name": "protocolFees",
-            "type": "uint256"
-          },
-          {
-            "internalType": "uint160",
-            "name": "sqrtPriceX96Start",
-            "type": "uint160"
-          },
-          {
-            "internalType": "uint160",
-            "name": "sqrtPriceX96End",
-            "type": "uint160"
-          }
-        ],
         "indexed": false,
-        "internalType": "struct IVPoolWrapper.SwapResult",
-        "name": "swapResult",
-        "type": "tuple"
+        "internalType": "int256",
+        "name": "amountSpecified",
+        "type": "int256"
+      },
+      {
+        "indexed": false,
+        "internalType": "int256",
+        "name": "vTokenIn",
+        "type": "int256"
+      },
+      {
+        "indexed": false,
+        "internalType": "int256",
+        "name": "vQuoteIn",
+        "type": "int256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "liquidityFees",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "protocolFees",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint160",
+        "name": "sqrtPriceX96Start",
+        "type": "uint160"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint160",
+        "name": "sqrtPriceX96End",
+        "type": "uint160"
       }
     ],
     "name": "Swap",

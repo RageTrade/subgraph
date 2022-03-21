@@ -145,38 +145,32 @@ export class Swap__Params {
     this._event = event;
   }
 
-  get swapResult(): SwapSwapResultStruct {
-    return this._event.parameters[0].value.toTuple() as SwapSwapResultStruct;
-  }
-}
-
-export class SwapSwapResultStruct extends ethereum.Tuple {
   get amountSpecified(): BigInt {
-    return this[0].toBigInt();
+    return this._event.parameters[0].value.toBigInt();
   }
 
   get vTokenIn(): BigInt {
-    return this[1].toBigInt();
+    return this._event.parameters[1].value.toBigInt();
   }
 
   get vQuoteIn(): BigInt {
-    return this[2].toBigInt();
+    return this._event.parameters[2].value.toBigInt();
   }
 
   get liquidityFees(): BigInt {
-    return this[3].toBigInt();
+    return this._event.parameters[3].value.toBigInt();
   }
 
   get protocolFees(): BigInt {
-    return this[4].toBigInt();
+    return this._event.parameters[4].value.toBigInt();
   }
 
   get sqrtPriceX96Start(): BigInt {
-    return this[5].toBigInt();
+    return this._event.parameters[5].value.toBigInt();
   }
 
   get sqrtPriceX96End(): BigInt {
-    return this[6].toBigInt();
+    return this._event.parameters[6].value.toBigInt();
   }
 }
 
