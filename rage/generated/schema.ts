@@ -786,13 +786,22 @@ export class TokenPositionChangeEntry extends Entity {
     this.set("vQuoteAmountOut", Value.fromBigDecimal(value));
   }
 
-  get executionPrice(): BigDecimal {
-    let value = this.get("executionPrice");
+  get startPrice(): BigDecimal {
+    let value = this.get("startPrice");
     return value.toBigDecimal();
   }
 
-  set executionPrice(value: BigDecimal) {
-    this.set("executionPrice", Value.fromBigDecimal(value));
+  set startPrice(value: BigDecimal) {
+    this.set("startPrice", Value.fromBigDecimal(value));
+  }
+
+  get endPrice(): BigDecimal {
+    let value = this.get("endPrice");
+    return value.toBigDecimal();
+  }
+
+  set endPrice(value: BigDecimal) {
+    this.set("endPrice", Value.fromBigDecimal(value));
   }
 }
 

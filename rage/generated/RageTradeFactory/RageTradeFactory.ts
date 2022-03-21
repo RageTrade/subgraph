@@ -220,10 +220,6 @@ export class ConstructorCall__Inputs {
   get settlementToken(): Address {
     return this._call.inputValues[3].value.toAddress();
   }
-
-  get nativeOracle(): Address {
-    return this._call.inputValues[4].value.toAddress();
-  }
 }
 
 export class ConstructorCall__Outputs {
@@ -301,28 +297,32 @@ export class InitializePoolCallInitializePoolParamsDeployVTokenParamsStruct exte
 }
 
 export class InitializePoolCallInitializePoolParamsPoolInitialSettingsStruct extends ethereum.Tuple {
-  get initialMarginRatio(): i32 {
+  get initialMarginRatioBps(): i32 {
     return this[0].toI32();
   }
 
-  get maintainanceMarginRatio(): i32 {
+  get maintainanceMarginRatioBps(): i32 {
     return this[1].toI32();
   }
 
+  get maxVirtualPriceDeviationRatioBps(): i32 {
+    return this[2].toI32();
+  }
+
   get twapDuration(): BigInt {
-    return this[2].toBigInt();
+    return this[3].toBigInt();
   }
 
   get isAllowedForTrade(): boolean {
-    return this[3].toBoolean();
-  }
-
-  get isCrossMargined(): boolean {
     return this[4].toBoolean();
   }
 
+  get isCrossMargined(): boolean {
+    return this[5].toBoolean();
+  }
+
   get oracle(): Address {
-    return this[5].toAddress();
+    return this[6].toAddress();
   }
 }
 

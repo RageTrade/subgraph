@@ -145,20 +145,38 @@ export class Swap__Params {
     this._event = event;
   }
 
+  get swapResult(): SwapSwapResultStruct {
+    return this._event.parameters[0].value.toTuple() as SwapSwapResultStruct;
+  }
+}
+
+export class SwapSwapResultStruct extends ethereum.Tuple {
+  get amountSpecified(): BigInt {
+    return this[0].toBigInt();
+  }
+
   get vTokenIn(): BigInt {
-    return this._event.parameters[0].value.toBigInt();
+    return this[1].toBigInt();
   }
 
   get vQuoteIn(): BigInt {
-    return this._event.parameters[1].value.toBigInt();
+    return this[2].toBigInt();
   }
 
   get liquidityFees(): BigInt {
-    return this._event.parameters[2].value.toBigInt();
+    return this[3].toBigInt();
   }
 
   get protocolFees(): BigInt {
-    return this._event.parameters[3].value.toBigInt();
+    return this[4].toBigInt();
+  }
+
+  get sqrtPriceX96Start(): BigInt {
+    return this[5].toBigInt();
+  }
+
+  get sqrtPriceX96End(): BigInt {
+    return this[6].toBigInt();
   }
 }
 
@@ -305,20 +323,33 @@ export class VPoolWrapperLogic__mintResult {
   }
 }
 
-export class VPoolWrapperLogic__swapResult {
-  value0: BigInt;
-  value1: BigInt;
-
-  constructor(value0: BigInt, value1: BigInt) {
-    this.value0 = value0;
-    this.value1 = value1;
+export class VPoolWrapperLogic__swapResultSwapResultStruct extends ethereum.Tuple {
+  get amountSpecified(): BigInt {
+    return this[0].toBigInt();
   }
 
-  toMap(): TypedMap<string, ethereum.Value> {
-    let map = new TypedMap<string, ethereum.Value>();
-    map.set("value0", ethereum.Value.fromSignedBigInt(this.value0));
-    map.set("value1", ethereum.Value.fromSignedBigInt(this.value1));
-    return map;
+  get vTokenIn(): BigInt {
+    return this[1].toBigInt();
+  }
+
+  get vQuoteIn(): BigInt {
+    return this[2].toBigInt();
+  }
+
+  get liquidityFees(): BigInt {
+    return this[3].toBigInt();
+  }
+
+  get protocolFees(): BigInt {
+    return this[4].toBigInt();
+  }
+
+  get sqrtPriceX96Start(): BigInt {
+    return this[5].toBigInt();
+  }
+
+  get sqrtPriceX96End(): BigInt {
+    return this[6].toBigInt();
   }
 }
 
@@ -763,10 +794,10 @@ export class VPoolWrapperLogic extends ethereum.SmartContract {
     swapVTokenForVQuote: boolean,
     amountSpecified: BigInt,
     sqrtPriceLimitX96: BigInt
-  ): VPoolWrapperLogic__swapResult {
+  ): VPoolWrapperLogic__swapResultSwapResultStruct {
     let result = super.call(
       "swap",
-      "swap(bool,int256,uint160):(int256,int256)",
+      "swap(bool,int256,uint160):((int256,int256,int256,uint256,uint256,uint160,uint160))",
       [
         ethereum.Value.fromBoolean(swapVTokenForVQuote),
         ethereum.Value.fromSignedBigInt(amountSpecified),
@@ -774,20 +805,17 @@ export class VPoolWrapperLogic extends ethereum.SmartContract {
       ]
     );
 
-    return new VPoolWrapperLogic__swapResult(
-      result[0].toBigInt(),
-      result[1].toBigInt()
-    );
+    return result[0].toTuple() as VPoolWrapperLogic__swapResultSwapResultStruct;
   }
 
   try_swap(
     swapVTokenForVQuote: boolean,
     amountSpecified: BigInt,
     sqrtPriceLimitX96: BigInt
-  ): ethereum.CallResult<VPoolWrapperLogic__swapResult> {
+  ): ethereum.CallResult<VPoolWrapperLogic__swapResultSwapResultStruct> {
     let result = super.tryCall(
       "swap",
-      "swap(bool,int256,uint160):(int256,int256)",
+      "swap(bool,int256,uint160):((int256,int256,int256,uint256,uint256,uint160,uint160))",
       [
         ethereum.Value.fromBoolean(swapVTokenForVQuote),
         ethereum.Value.fromSignedBigInt(amountSpecified),
@@ -799,10 +827,7 @@ export class VPoolWrapperLogic extends ethereum.SmartContract {
     }
     let value = result.value;
     return ethereum.CallResult.fromValue(
-      new VPoolWrapperLogic__swapResult(
-        value[0].toBigInt(),
-        value[1].toBigInt()
-      )
+      value[0].toTuple() as VPoolWrapperLogic__swapResultSwapResultStruct
     );
   }
 
@@ -1208,12 +1233,38 @@ export class SwapCall__Outputs {
     this._call = call;
   }
 
-  get vTokenAmount(): BigInt {
-    return this._call.outputValues[0].value.toBigInt();
+  get swapResult(): SwapCallSwapResultStruct {
+    return this._call.outputValues[0].value.toTuple() as SwapCallSwapResultStruct;
+  }
+}
+
+export class SwapCallSwapResultStruct extends ethereum.Tuple {
+  get amountSpecified(): BigInt {
+    return this[0].toBigInt();
   }
 
-  get vQuoteAmount(): BigInt {
-    return this._call.outputValues[1].value.toBigInt();
+  get vTokenIn(): BigInt {
+    return this[1].toBigInt();
+  }
+
+  get vQuoteIn(): BigInt {
+    return this[2].toBigInt();
+  }
+
+  get liquidityFees(): BigInt {
+    return this[3].toBigInt();
+  }
+
+  get protocolFees(): BigInt {
+    return this[4].toBigInt();
+  }
+
+  get sqrtPriceX96Start(): BigInt {
+    return this[5].toBigInt();
+  }
+
+  get sqrtPriceX96End(): BigInt {
+    return this[6].toBigInt();
   }
 }
 
@@ -1308,6 +1359,14 @@ export class UpdateGlobalFundingStateCall__Inputs {
 
   constructor(call: UpdateGlobalFundingStateCall) {
     this._call = call;
+  }
+
+  get realPriceX128(): BigInt {
+    return this._call.inputValues[0].value.toBigInt();
+  }
+
+  get virtualPriceX128(): BigInt {
+    return this._call.inputValues[1].value.toBigInt();
   }
 }
 

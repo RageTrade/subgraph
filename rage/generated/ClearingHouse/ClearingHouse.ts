@@ -90,58 +90,6 @@ export class GovernanceTransferred__Params {
   }
 }
 
-export class MarginAdded extends ethereum.Event {
-  get params(): MarginAdded__Params {
-    return new MarginAdded__Params(this);
-  }
-}
-
-export class MarginAdded__Params {
-  _event: MarginAdded;
-
-  constructor(event: MarginAdded) {
-    this._event = event;
-  }
-
-  get accountId(): BigInt {
-    return this._event.parameters[0].value.toBigInt();
-  }
-
-  get collateralId(): BigInt {
-    return this._event.parameters[1].value.toBigInt();
-  }
-
-  get amount(): BigInt {
-    return this._event.parameters[2].value.toBigInt();
-  }
-}
-
-export class MarginRemoved extends ethereum.Event {
-  get params(): MarginRemoved__Params {
-    return new MarginRemoved__Params(this);
-  }
-}
-
-export class MarginRemoved__Params {
-  _event: MarginRemoved;
-
-  constructor(event: MarginRemoved) {
-    this._event = event;
-  }
-
-  get accountId(): BigInt {
-    return this._event.parameters[0].value.toBigInt();
-  }
-
-  get collateralId(): BigInt {
-    return this._event.parameters[1].value.toBigInt();
-  }
-
-  get amount(): BigInt {
-    return this._event.parameters[2].value.toBigInt();
-  }
-}
-
 export class Paused extends ethereum.Event {
   get params(): Paused__Params {
     return new Paused__Params(this);
@@ -201,28 +149,32 @@ export class PoolSettingsUpdated__Params {
 }
 
 export class PoolSettingsUpdatedSettingsStruct extends ethereum.Tuple {
-  get initialMarginRatio(): i32 {
+  get initialMarginRatioBps(): i32 {
     return this[0].toI32();
   }
 
-  get maintainanceMarginRatio(): i32 {
+  get maintainanceMarginRatioBps(): i32 {
     return this[1].toI32();
   }
 
+  get maxVirtualPriceDeviationRatioBps(): i32 {
+    return this[2].toI32();
+  }
+
   get twapDuration(): BigInt {
-    return this[2].toBigInt();
+    return this[3].toBigInt();
   }
 
   get isAllowedForTrade(): boolean {
-    return this[3].toBoolean();
-  }
-
-  get isCrossMargined(): boolean {
     return this[4].toBoolean();
   }
 
+  get isCrossMargined(): boolean {
+    return this[5].toBoolean();
+  }
+
   get oracle(): Address {
-    return this[5].toAddress();
+    return this[6].toAddress();
   }
 }
 
@@ -257,20 +209,36 @@ export class ProtocolSettingsUpdated__Params {
 }
 
 export class ProtocolSettingsUpdatedLiquidationParamsStruct extends ethereum.Tuple {
-  get liquidationFeeFraction(): i32 {
+  get rangeLiquidationFeeFraction(): i32 {
     return this[0].toI32();
   }
 
-  get tokenLiquidationPriceDeltaBps(): i32 {
+  get tokenLiquidationFeeFraction(): i32 {
     return this[1].toI32();
   }
 
-  get insuranceFundFeeShareBps(): i32 {
+  get closeFactorMMThresholdBps(): i32 {
     return this[2].toI32();
   }
 
+  get partialLiquidationCloseFactorBps(): i32 {
+    return this[3].toI32();
+  }
+
+  get insuranceFundFeeShareBps(): i32 {
+    return this[4].toI32();
+  }
+
+  get liquidationSlippageSqrtToleranceBps(): i32 {
+    return this[5].toI32();
+  }
+
   get maxRangeLiquidationFees(): BigInt {
-    return this[3].toBigInt();
+    return this[6].toBigInt();
+  }
+
+  get minNotionalLiquidatable(): BigInt {
+    return this[7].toBigInt();
   }
 }
 
@@ -311,40 +279,6 @@ export class Unpaused__Params {
 
   get account(): Address {
     return this._event.parameters[0].value.toAddress();
-  }
-}
-
-export class FundingPaymentRealized extends ethereum.Event {
-  get params(): FundingPaymentRealized__Params {
-    return new FundingPaymentRealized__Params(this);
-  }
-}
-
-export class FundingPaymentRealized__Params {
-  _event: FundingPaymentRealized;
-
-  constructor(event: FundingPaymentRealized) {
-    this._event = event;
-  }
-
-  get accountId(): BigInt {
-    return this._event.parameters[0].value.toBigInt();
-  }
-
-  get poolId(): BigInt {
-    return this._event.parameters[1].value.toBigInt();
-  }
-
-  get tickLower(): i32 {
-    return this._event.parameters[2].value.toI32();
-  }
-
-  get tickUpper(): i32 {
-    return this._event.parameters[3].value.toI32();
-  }
-
-  get amount(): BigInt {
-    return this._event.parameters[4].value.toBigInt();
   }
 }
 
@@ -428,6 +362,56 @@ export class LiquidityPositionEarningsRealized__Params {
   }
 }
 
+export class LiquidityPositionFundingPaymentRealized extends ethereum.Event {
+  get params(): LiquidityPositionFundingPaymentRealized__Params {
+    return new LiquidityPositionFundingPaymentRealized__Params(this);
+  }
+}
+
+export class LiquidityPositionFundingPaymentRealized__Params {
+  _event: LiquidityPositionFundingPaymentRealized;
+
+  constructor(event: LiquidityPositionFundingPaymentRealized) {
+    this._event = event;
+  }
+
+  get accountId(): BigInt {
+    return this._event.parameters[0].value.toBigInt();
+  }
+
+  get poolId(): BigInt {
+    return this._event.parameters[1].value.toBigInt();
+  }
+
+  get tickLower(): i32 {
+    return this._event.parameters[2].value.toI32();
+  }
+
+  get tickUpper(): i32 {
+    return this._event.parameters[3].value.toI32();
+  }
+
+  get amount(): BigInt {
+    return this._event.parameters[4].value.toBigInt();
+  }
+
+  get sumALastX128(): BigInt {
+    return this._event.parameters[5].value.toBigInt();
+  }
+
+  get sumBInsideLastX128(): BigInt {
+    return this._event.parameters[6].value.toBigInt();
+  }
+
+  get sumFpInsideLastX128(): BigInt {
+    return this._event.parameters[7].value.toBigInt();
+  }
+
+  get sumFeeInsideLastX128(): BigInt {
+    return this._event.parameters[8].value.toBigInt();
+  }
+}
+
 export class LiquidityPositionsLiquidated extends ethereum.Event {
   get params(): LiquidityPositionsLiquidated__Params {
     return new LiquidityPositionsLiquidated__Params(this);
@@ -459,6 +443,32 @@ export class LiquidityPositionsLiquidated__Params {
 
   get insuranceFundFee(): BigInt {
     return this._event.parameters[4].value.toBigInt();
+  }
+}
+
+export class MarginUpdated extends ethereum.Event {
+  get params(): MarginUpdated__Params {
+    return new MarginUpdated__Params(this);
+  }
+}
+
+export class MarginUpdated__Params {
+  _event: MarginUpdated;
+
+  constructor(event: MarginUpdated) {
+    this._event = event;
+  }
+
+  get accountId(): BigInt {
+    return this._event.parameters[0].value.toBigInt();
+  }
+
+  get collateralId(): BigInt {
+    return this._event.parameters[1].value.toBigInt();
+  }
+
+  get amount(): BigInt {
+    return this._event.parameters[2].value.toBigInt();
   }
 }
 
@@ -534,6 +544,14 @@ export class TokenPositionChanged__Params {
   get vQuoteAmountOut(): BigInt {
     return this._event.parameters[3].value.toBigInt();
   }
+
+  get sqrtPriceX96Start(): BigInt {
+    return this._event.parameters[4].value.toBigInt();
+  }
+
+  get sqrtPriceX96End(): BigInt {
+    return this._event.parameters[5].value.toBigInt();
+  }
 }
 
 export class TokenPositionChangedDueToLiquidityChanged extends ethereum.Event {
@@ -570,6 +588,36 @@ export class TokenPositionChangedDueToLiquidityChanged__Params {
   }
 }
 
+export class TokenPositionFundingPaymentRealized extends ethereum.Event {
+  get params(): TokenPositionFundingPaymentRealized__Params {
+    return new TokenPositionFundingPaymentRealized__Params(this);
+  }
+}
+
+export class TokenPositionFundingPaymentRealized__Params {
+  _event: TokenPositionFundingPaymentRealized;
+
+  constructor(event: TokenPositionFundingPaymentRealized) {
+    this._event = event;
+  }
+
+  get accountId(): BigInt {
+    return this._event.parameters[0].value.toBigInt();
+  }
+
+  get poolId(): BigInt {
+    return this._event.parameters[1].value.toBigInt();
+  }
+
+  get amount(): BigInt {
+    return this._event.parameters[2].value.toBigInt();
+  }
+
+  get sumALastX128(): BigInt {
+    return this._event.parameters[3].value.toBigInt();
+  }
+}
+
 export class TokenPositionLiquidated extends ethereum.Event {
   get params(): TokenPositionLiquidated__Params {
     return new TokenPositionLiquidated__Params(this);
@@ -595,24 +643,56 @@ export class TokenPositionLiquidated__Params {
     return this._event.parameters[2].value.toBigInt();
   }
 
-  get liquidationBps(): i32 {
-    return this._event.parameters[3].value.toI32();
-  }
-
-  get liquidationPriceX128(): BigInt {
-    return this._event.parameters[4].value.toBigInt();
-  }
-
-  get liquidatorPriceX128(): BigInt {
-    return this._event.parameters[5].value.toBigInt();
-  }
-
-  get fixFee(): BigInt {
-    return this._event.parameters[6].value.toBigInt();
+  get keeperFee(): BigInt {
+    return this._event.parameters[3].value.toBigInt();
   }
 
   get insuranceFundFee(): BigInt {
-    return this._event.parameters[7].value.toBigInt();
+    return this._event.parameters[4].value.toBigInt();
+  }
+}
+
+export class FundingPaymentStateUpdated extends ethereum.Event {
+  get params(): FundingPaymentStateUpdated__Params {
+    return new FundingPaymentStateUpdated__Params(this);
+  }
+}
+
+export class FundingPaymentStateUpdated__Params {
+  _event: FundingPaymentStateUpdated;
+
+  constructor(event: FundingPaymentStateUpdated) {
+    this._event = event;
+  }
+
+  get fundingPayment(): FundingPaymentStateUpdatedFundingPaymentStruct {
+    return this._event.parameters[0].value.toTuple() as FundingPaymentStateUpdatedFundingPaymentStruct;
+  }
+
+  get realPriceX128(): BigInt {
+    return this._event.parameters[1].value.toBigInt();
+  }
+
+  get virtualPriceX128(): BigInt {
+    return this._event.parameters[2].value.toBigInt();
+  }
+}
+
+export class FundingPaymentStateUpdatedFundingPaymentStruct extends ethereum.Tuple {
+  get sumAX128(): BigInt {
+    return this[0].toBigInt();
+  }
+
+  get sumBX128(): BigInt {
+    return this[1].toBigInt();
+  }
+
+  get sumFpX128(): BigInt {
+    return this[2].toBigInt();
+  }
+
+  get timestampLast(): BigInt {
+    return this[3].toBigInt();
   }
 }
 
@@ -627,8 +707,8 @@ export class ClearingHouse__getAccountInfoResultCollateralDepositsStruct extends
 }
 
 export class ClearingHouse__getAccountInfoResultTokenPositionsStruct extends ethereum.Tuple {
-  get vToken(): Address {
-    return this[0].toAddress();
+  get poolId(): BigInt {
+    return this[0].toBigInt();
   }
 
   get balance(): BigInt {
@@ -639,7 +719,7 @@ export class ClearingHouse__getAccountInfoResultTokenPositionsStruct extends eth
     return this[2].toBigInt();
   }
 
-  get sumAX128Chkpt(): BigInt {
+  get sumALastX128(): BigInt {
     return this[3].toBigInt();
   }
 
@@ -653,40 +733,40 @@ export class ClearingHouse__getAccountInfoResultTokenPositionsStruct extends eth
 }
 
 export class ClearingHouse__getAccountInfoResultTokenPositionsLiquidityPositionsStruct extends ethereum.Tuple {
-  get limitOrderType(): i32 {
+  get tickLower(): i32 {
     return this[0].toI32();
   }
 
-  get tickLower(): i32 {
+  get tickUpper(): i32 {
     return this[1].toI32();
   }
 
-  get tickUpper(): i32 {
-    return this[2].toI32();
-  }
-
   get liquidity(): BigInt {
-    return this[3].toBigInt();
+    return this[2].toBigInt();
   }
 
   get vTokenAmountIn(): BigInt {
-    return this[4].toBigInt();
+    return this[3].toBigInt();
   }
 
   get sumALastX128(): BigInt {
-    return this[5].toBigInt();
+    return this[4].toBigInt();
   }
 
   get sumBInsideLastX128(): BigInt {
-    return this[6].toBigInt();
+    return this[5].toBigInt();
   }
 
   get sumFpInsideLastX128(): BigInt {
-    return this[7].toBigInt();
+    return this[6].toBigInt();
   }
 
   get sumFeeInsideLastX128(): BigInt {
-    return this[8].toBigInt();
+    return this[7].toBigInt();
+  }
+
+  get limitOrderType(): i32 {
+    return this[8].toI32();
   }
 }
 
@@ -778,28 +858,32 @@ export class ClearingHouse__getPoolInfoResultValue0Struct extends ethereum.Tuple
 }
 
 export class ClearingHouse__getPoolInfoResultValue0SettingsStruct extends ethereum.Tuple {
-  get initialMarginRatio(): i32 {
+  get initialMarginRatioBps(): i32 {
     return this[0].toI32();
   }
 
-  get maintainanceMarginRatio(): i32 {
+  get maintainanceMarginRatioBps(): i32 {
     return this[1].toI32();
   }
 
+  get maxVirtualPriceDeviationRatioBps(): i32 {
+    return this[2].toI32();
+  }
+
   get twapDuration(): BigInt {
-    return this[2].toBigInt();
+    return this[3].toBigInt();
   }
 
   get isAllowedForTrade(): boolean {
-    return this[3].toBoolean();
-  }
-
-  get isCrossMargined(): boolean {
     return this[4].toBoolean();
   }
 
+  get isCrossMargined(): boolean {
+    return this[5].toBoolean();
+  }
+
   get oracle(): Address {
-    return this[5].toAddress();
+    return this[6].toAddress();
   }
 }
 
@@ -820,34 +904,6 @@ export class ClearingHouse__getTwapPricesResult {
   }
 }
 
-export class ClearingHouse__liquidateTokenPositionResultLiquidatorBalanceAdjustmentsStruct extends ethereum.Tuple {
-  get vQuoteIncrease(): BigInt {
-    return this[0].toBigInt();
-  }
-
-  get vTokenIncrease(): BigInt {
-    return this[1].toBigInt();
-  }
-
-  get traderPositionIncrease(): BigInt {
-    return this[2].toBigInt();
-  }
-}
-
-export class ClearingHouse__liquidateTokenPositionWithGasClaimResultLiquidatorBalanceAdjustmentsStruct extends ethereum.Tuple {
-  get vQuoteIncrease(): BigInt {
-    return this[0].toBigInt();
-  }
-
-  get vTokenIncrease(): BigInt {
-    return this[1].toBigInt();
-  }
-
-  get traderPositionIncrease(): BigInt {
-    return this[2].toBigInt();
-  }
-}
-
 export class ClearingHouse__multicallWithSingleMarginCheckInputOperationsStruct extends ethereum.Tuple {
   get operationType(): i32 {
     return this[0].toI32();
@@ -859,51 +915,71 @@ export class ClearingHouse__multicallWithSingleMarginCheckInputOperationsStruct 
 }
 
 export class ClearingHouse__protocolInfoResultLiquidationParamsStruct extends ethereum.Tuple {
-  get liquidationFeeFraction(): i32 {
+  get rangeLiquidationFeeFraction(): i32 {
     return this[0].toI32();
   }
 
-  get tokenLiquidationPriceDeltaBps(): i32 {
+  get tokenLiquidationFeeFraction(): i32 {
     return this[1].toI32();
   }
 
-  get insuranceFundFeeShareBps(): i32 {
+  get closeFactorMMThresholdBps(): i32 {
     return this[2].toI32();
   }
 
+  get partialLiquidationCloseFactorBps(): i32 {
+    return this[3].toI32();
+  }
+
+  get insuranceFundFeeShareBps(): i32 {
+    return this[4].toI32();
+  }
+
+  get liquidationSlippageSqrtToleranceBps(): i32 {
+    return this[5].toI32();
+  }
+
   get maxRangeLiquidationFees(): BigInt {
-    return this[3].toBigInt();
+    return this[6].toBigInt();
+  }
+
+  get minNotionalLiquidatable(): BigInt {
+    return this[7].toBigInt();
   }
 }
 
 export class ClearingHouse__protocolInfoResult {
   value0: Address;
-  value1: ClearingHouse__protocolInfoResultLiquidationParamsStruct;
-  value2: BigInt;
+  value1: Address;
+  value2: ClearingHouse__protocolInfoResultLiquidationParamsStruct;
   value3: BigInt;
   value4: BigInt;
+  value5: BigInt;
 
   constructor(
     value0: Address,
-    value1: ClearingHouse__protocolInfoResultLiquidationParamsStruct,
-    value2: BigInt,
+    value1: Address,
+    value2: ClearingHouse__protocolInfoResultLiquidationParamsStruct,
     value3: BigInt,
-    value4: BigInt
+    value4: BigInt,
+    value5: BigInt
   ) {
     this.value0 = value0;
     this.value1 = value1;
     this.value2 = value2;
     this.value3 = value3;
     this.value4 = value4;
+    this.value5 = value5;
   }
 
   toMap(): TypedMap<string, ethereum.Value> {
     let map = new TypedMap<string, ethereum.Value>();
     map.set("value0", ethereum.Value.fromAddress(this.value0));
-    map.set("value1", ethereum.Value.fromTuple(this.value1));
-    map.set("value2", ethereum.Value.fromUnsignedBigInt(this.value2));
+    map.set("value1", ethereum.Value.fromAddress(this.value1));
+    map.set("value2", ethereum.Value.fromTuple(this.value2));
     map.set("value3", ethereum.Value.fromUnsignedBigInt(this.value3));
     map.set("value4", ethereum.Value.fromUnsignedBigInt(this.value4));
+    map.set("value5", ethereum.Value.fromUnsignedBigInt(this.value5));
     return map;
   }
 }
@@ -1014,12 +1090,12 @@ export class ClearingHouse extends ethereum.SmartContract {
     return ethereum.CallResult.fromValue(value[0].toBigInt());
   }
 
-  createAccountAndAddMargin(poolId: BigInt, amount: BigInt): BigInt {
+  createAccountAndAddMargin(collateralId: BigInt, amount: BigInt): BigInt {
     let result = super.call(
       "createAccountAndAddMargin",
       "createAccountAndAddMargin(uint32,uint256):(uint256)",
       [
-        ethereum.Value.fromUnsignedBigInt(poolId),
+        ethereum.Value.fromUnsignedBigInt(collateralId),
         ethereum.Value.fromUnsignedBigInt(amount)
       ]
     );
@@ -1028,14 +1104,14 @@ export class ClearingHouse extends ethereum.SmartContract {
   }
 
   try_createAccountAndAddMargin(
-    poolId: BigInt,
+    collateralId: BigInt,
     amount: BigInt
   ): ethereum.CallResult<BigInt> {
     let result = super.tryCall(
       "createAccountAndAddMargin",
       "createAccountAndAddMargin(uint32,uint256):(uint256)",
       [
-        ethereum.Value.fromUnsignedBigInt(poolId),
+        ethereum.Value.fromUnsignedBigInt(collateralId),
         ethereum.Value.fromUnsignedBigInt(amount)
       ]
     );
@@ -1087,7 +1163,7 @@ export class ClearingHouse extends ethereum.SmartContract {
   getAccountInfo(accountId: BigInt): ClearingHouse__getAccountInfoResult {
     let result = super.call(
       "getAccountInfo",
-      "getAccountInfo(uint256):(address,int256,(address,uint256)[],(address,int256,int256,int256,(uint8,int24,int24,uint128,int256,int256,int256,int256,uint256)[])[])",
+      "getAccountInfo(uint256):(address,int256,(address,uint256)[],(uint32,int256,int256,int256,(int24,int24,uint128,int256,int256,int256,int256,uint256,uint8)[])[])",
       [ethereum.Value.fromUnsignedBigInt(accountId)]
     );
 
@@ -1108,7 +1184,7 @@ export class ClearingHouse extends ethereum.SmartContract {
   ): ethereum.CallResult<ClearingHouse__getAccountInfoResult> {
     let result = super.tryCall(
       "getAccountInfo",
-      "getAccountInfo(uint256):(address,int256,(address,uint256)[],(address,int256,int256,int256,(uint8,int24,int24,uint128,int256,int256,int256,int256,uint256)[])[])",
+      "getAccountInfo(uint256):(address,int256,(address,uint256)[],(uint32,int256,int256,int256,(int24,int24,uint128,int256,int256,int256,int256,uint256,uint8)[])[])",
       [ethereum.Value.fromUnsignedBigInt(accountId)]
     );
     if (result.reverted) {
@@ -1197,6 +1273,38 @@ export class ClearingHouse extends ethereum.SmartContract {
     return ethereum.CallResult.fromValue(value[0].toBigInt());
   }
 
+  getAccountNetTokenPosition(accountId: BigInt, poolId: BigInt): BigInt {
+    let result = super.call(
+      "getAccountNetTokenPosition",
+      "getAccountNetTokenPosition(uint256,uint32):(int256)",
+      [
+        ethereum.Value.fromUnsignedBigInt(accountId),
+        ethereum.Value.fromUnsignedBigInt(poolId)
+      ]
+    );
+
+    return result[0].toBigInt();
+  }
+
+  try_getAccountNetTokenPosition(
+    accountId: BigInt,
+    poolId: BigInt
+  ): ethereum.CallResult<BigInt> {
+    let result = super.tryCall(
+      "getAccountNetTokenPosition",
+      "getAccountNetTokenPosition(uint256,uint32):(int256)",
+      [
+        ethereum.Value.fromUnsignedBigInt(accountId),
+        ethereum.Value.fromUnsignedBigInt(poolId)
+      ]
+    );
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toBigInt());
+  }
+
   getCollateralInfo(
     collateralId: BigInt
   ): ClearingHouse__getCollateralInfoResultValue0Struct {
@@ -1226,42 +1334,10 @@ export class ClearingHouse extends ethereum.SmartContract {
     );
   }
 
-  getNetTokenPosition(accountId: BigInt, poolId: BigInt): BigInt {
-    let result = super.call(
-      "getNetTokenPosition",
-      "getNetTokenPosition(uint256,uint32):(int256)",
-      [
-        ethereum.Value.fromUnsignedBigInt(accountId),
-        ethereum.Value.fromUnsignedBigInt(poolId)
-      ]
-    );
-
-    return result[0].toBigInt();
-  }
-
-  try_getNetTokenPosition(
-    accountId: BigInt,
-    poolId: BigInt
-  ): ethereum.CallResult<BigInt> {
-    let result = super.tryCall(
-      "getNetTokenPosition",
-      "getNetTokenPosition(uint256,uint32):(int256)",
-      [
-        ethereum.Value.fromUnsignedBigInt(accountId),
-        ethereum.Value.fromUnsignedBigInt(poolId)
-      ]
-    );
-    if (result.reverted) {
-      return new ethereum.CallResult();
-    }
-    let value = result.value;
-    return ethereum.CallResult.fromValue(value[0].toBigInt());
-  }
-
   getPoolInfo(poolId: BigInt): ClearingHouse__getPoolInfoResultValue0Struct {
     let result = super.call(
       "getPoolInfo",
-      "getPoolInfo(uint32):((address,address,address,(uint16,uint16,uint32,bool,bool,address)))",
+      "getPoolInfo(uint32):((address,address,address,(uint16,uint16,uint16,uint32,bool,bool,address)))",
       [ethereum.Value.fromUnsignedBigInt(poolId)]
     );
 
@@ -1273,7 +1349,7 @@ export class ClearingHouse extends ethereum.SmartContract {
   ): ethereum.CallResult<ClearingHouse__getPoolInfoResultValue0Struct> {
     let result = super.tryCall(
       "getPoolInfo",
-      "getPoolInfo(uint32):((address,address,address,(uint16,uint16,uint32,bool,bool,address)))",
+      "getPoolInfo(uint32):((address,address,address,(uint16,uint16,uint16,uint32,bool,bool,address)))",
       [ethereum.Value.fromUnsignedBigInt(poolId)]
     );
     if (result.reverted) {
@@ -1375,32 +1451,29 @@ export class ClearingHouse extends ethereum.SmartContract {
     return ethereum.CallResult.fromValue(value[0].toBoolean());
   }
 
-  liquidateLiquidityPositionsWithGasClaim(
-    accountId: BigInt,
-    gasComputationUnitsClaim: BigInt
-  ): BigInt {
+  liquidateTokenPosition(targetAccountId: BigInt, poolId: BigInt): BigInt {
     let result = super.call(
-      "liquidateLiquidityPositionsWithGasClaim",
-      "liquidateLiquidityPositionsWithGasClaim(uint256,uint256):(int256)",
+      "liquidateTokenPosition",
+      "liquidateTokenPosition(uint256,uint32):(int256)",
       [
-        ethereum.Value.fromUnsignedBigInt(accountId),
-        ethereum.Value.fromUnsignedBigInt(gasComputationUnitsClaim)
+        ethereum.Value.fromUnsignedBigInt(targetAccountId),
+        ethereum.Value.fromUnsignedBigInt(poolId)
       ]
     );
 
     return result[0].toBigInt();
   }
 
-  try_liquidateLiquidityPositionsWithGasClaim(
-    accountId: BigInt,
-    gasComputationUnitsClaim: BigInt
+  try_liquidateTokenPosition(
+    targetAccountId: BigInt,
+    poolId: BigInt
   ): ethereum.CallResult<BigInt> {
     let result = super.tryCall(
-      "liquidateLiquidityPositionsWithGasClaim",
-      "liquidateLiquidityPositionsWithGasClaim(uint256,uint256):(int256)",
+      "liquidateTokenPosition",
+      "liquidateTokenPosition(uint256,uint32):(int256)",
       [
-        ethereum.Value.fromUnsignedBigInt(accountId),
-        ethereum.Value.fromUnsignedBigInt(gasComputationUnitsClaim)
+        ethereum.Value.fromUnsignedBigInt(targetAccountId),
+        ethereum.Value.fromUnsignedBigInt(poolId)
       ]
     );
     if (result.reverted) {
@@ -1408,104 +1481,6 @@ export class ClearingHouse extends ethereum.SmartContract {
     }
     let value = result.value;
     return ethereum.CallResult.fromValue(value[0].toBigInt());
-  }
-
-  liquidateTokenPosition(
-    liquidatorAccountId: BigInt,
-    targetAccountId: BigInt,
-    poolId: BigInt,
-    liquidationBps: i32
-  ): ClearingHouse__liquidateTokenPositionResultLiquidatorBalanceAdjustmentsStruct {
-    let result = super.call(
-      "liquidateTokenPosition",
-      "liquidateTokenPosition(uint256,uint256,uint32,uint16):((int256,int256,int256))",
-      [
-        ethereum.Value.fromUnsignedBigInt(liquidatorAccountId),
-        ethereum.Value.fromUnsignedBigInt(targetAccountId),
-        ethereum.Value.fromUnsignedBigInt(poolId),
-        ethereum.Value.fromUnsignedBigInt(BigInt.fromI32(liquidationBps))
-      ]
-    );
-
-    return result[0].toTuple() as ClearingHouse__liquidateTokenPositionResultLiquidatorBalanceAdjustmentsStruct;
-  }
-
-  try_liquidateTokenPosition(
-    liquidatorAccountId: BigInt,
-    targetAccountId: BigInt,
-    poolId: BigInt,
-    liquidationBps: i32
-  ): ethereum.CallResult<
-    ClearingHouse__liquidateTokenPositionResultLiquidatorBalanceAdjustmentsStruct
-  > {
-    let result = super.tryCall(
-      "liquidateTokenPosition",
-      "liquidateTokenPosition(uint256,uint256,uint32,uint16):((int256,int256,int256))",
-      [
-        ethereum.Value.fromUnsignedBigInt(liquidatorAccountId),
-        ethereum.Value.fromUnsignedBigInt(targetAccountId),
-        ethereum.Value.fromUnsignedBigInt(poolId),
-        ethereum.Value.fromUnsignedBigInt(BigInt.fromI32(liquidationBps))
-      ]
-    );
-    if (result.reverted) {
-      return new ethereum.CallResult();
-    }
-    let value = result.value;
-    return ethereum.CallResult.fromValue(
-      value[0].toTuple() as ClearingHouse__liquidateTokenPositionResultLiquidatorBalanceAdjustmentsStruct
-    );
-  }
-
-  liquidateTokenPositionWithGasClaim(
-    liquidatorAccountId: BigInt,
-    targetAccountId: BigInt,
-    poolId: BigInt,
-    liquidationBps: i32,
-    gasComputationUnitsClaim: BigInt
-  ): ClearingHouse__liquidateTokenPositionWithGasClaimResultLiquidatorBalanceAdjustmentsStruct {
-    let result = super.call(
-      "liquidateTokenPositionWithGasClaim",
-      "liquidateTokenPositionWithGasClaim(uint256,uint256,uint32,uint16,uint256):((int256,int256,int256))",
-      [
-        ethereum.Value.fromUnsignedBigInt(liquidatorAccountId),
-        ethereum.Value.fromUnsignedBigInt(targetAccountId),
-        ethereum.Value.fromUnsignedBigInt(poolId),
-        ethereum.Value.fromUnsignedBigInt(BigInt.fromI32(liquidationBps)),
-        ethereum.Value.fromUnsignedBigInt(gasComputationUnitsClaim)
-      ]
-    );
-
-    return result[0].toTuple() as ClearingHouse__liquidateTokenPositionWithGasClaimResultLiquidatorBalanceAdjustmentsStruct;
-  }
-
-  try_liquidateTokenPositionWithGasClaim(
-    liquidatorAccountId: BigInt,
-    targetAccountId: BigInt,
-    poolId: BigInt,
-    liquidationBps: i32,
-    gasComputationUnitsClaim: BigInt
-  ): ethereum.CallResult<
-    ClearingHouse__liquidateTokenPositionWithGasClaimResultLiquidatorBalanceAdjustmentsStruct
-  > {
-    let result = super.tryCall(
-      "liquidateTokenPositionWithGasClaim",
-      "liquidateTokenPositionWithGasClaim(uint256,uint256,uint32,uint16,uint256):((int256,int256,int256))",
-      [
-        ethereum.Value.fromUnsignedBigInt(liquidatorAccountId),
-        ethereum.Value.fromUnsignedBigInt(targetAccountId),
-        ethereum.Value.fromUnsignedBigInt(poolId),
-        ethereum.Value.fromUnsignedBigInt(BigInt.fromI32(liquidationBps)),
-        ethereum.Value.fromUnsignedBigInt(gasComputationUnitsClaim)
-      ]
-    );
-    if (result.reverted) {
-      return new ethereum.CallResult();
-    }
-    let value = result.value;
-    return ethereum.CallResult.fromValue(
-      value[0].toTuple() as ClearingHouse__liquidateTokenPositionWithGasClaimResultLiquidatorBalanceAdjustmentsStruct
-    );
   }
 
   multicallWithSingleMarginCheck(
@@ -1547,21 +1522,6 @@ export class ClearingHouse extends ethereum.SmartContract {
     return ethereum.CallResult.fromValue(value[0].toBytesArray());
   }
 
-  nativeOracle(): Address {
-    let result = super.call("nativeOracle", "nativeOracle():(address)", []);
-
-    return result[0].toAddress();
-  }
-
-  try_nativeOracle(): ethereum.CallResult<Address> {
-    let result = super.tryCall("nativeOracle", "nativeOracle():(address)", []);
-    if (result.reverted) {
-      return new ethereum.CallResult();
-    }
-    let value = result.value;
-    return ethereum.CallResult.fromValue(value[0].toAddress());
-  }
-
   numAccounts(): BigInt {
     let result = super.call("numAccounts", "numAccounts():(uint256)", []);
 
@@ -1595,23 +1555,24 @@ export class ClearingHouse extends ethereum.SmartContract {
   protocolInfo(): ClearingHouse__protocolInfoResult {
     let result = super.call(
       "protocolInfo",
-      "protocolInfo():(address,(uint16,uint16,uint16,uint128),uint256,uint256,uint256)",
+      "protocolInfo():(address,address,(uint16,uint16,uint16,uint16,uint16,uint16,uint64,uint64),uint256,uint256,uint256)",
       []
     );
 
     return new ClearingHouse__protocolInfoResult(
       result[0].toAddress(),
-      result[1].toTuple() as ClearingHouse__protocolInfoResultLiquidationParamsStruct,
-      result[2].toBigInt(),
+      result[1].toAddress(),
+      result[2].toTuple() as ClearingHouse__protocolInfoResultLiquidationParamsStruct,
       result[3].toBigInt(),
-      result[4].toBigInt()
+      result[4].toBigInt(),
+      result[5].toBigInt()
     );
   }
 
   try_protocolInfo(): ethereum.CallResult<ClearingHouse__protocolInfoResult> {
     let result = super.tryCall(
       "protocolInfo",
-      "protocolInfo():(address,(uint16,uint16,uint16,uint128),uint256,uint256,uint256)",
+      "protocolInfo():(address,address,(uint16,uint16,uint16,uint16,uint16,uint16,uint64,uint64),uint256,uint256,uint256)",
       []
     );
     if (result.reverted) {
@@ -1621,10 +1582,11 @@ export class ClearingHouse extends ethereum.SmartContract {
     return ethereum.CallResult.fromValue(
       new ClearingHouse__protocolInfoResult(
         value[0].toAddress(),
-        value[1].toTuple() as ClearingHouse__protocolInfoResultLiquidationParamsStruct,
-        value[2].toBigInt(),
+        value[1].toAddress(),
+        value[2].toTuple() as ClearingHouse__protocolInfoResultLiquidationParamsStruct,
         value[3].toBigInt(),
-        value[4].toBigInt()
+        value[4].toBigInt(),
+        value[5].toBigInt()
       )
     );
   }
@@ -1650,53 +1612,6 @@ export class ClearingHouse extends ethereum.SmartContract {
     }
     let value = result.value;
     return ethereum.CallResult.fromValue(value[0].toAddress());
-  }
-
-  removeLimitOrderWithGasClaim(
-    accountId: BigInt,
-    poolId: BigInt,
-    tickLower: i32,
-    tickUpper: i32,
-    gasComputationUnitsClaim: BigInt
-  ): BigInt {
-    let result = super.call(
-      "removeLimitOrderWithGasClaim",
-      "removeLimitOrderWithGasClaim(uint256,uint32,int24,int24,uint256):(uint256)",
-      [
-        ethereum.Value.fromUnsignedBigInt(accountId),
-        ethereum.Value.fromUnsignedBigInt(poolId),
-        ethereum.Value.fromI32(tickLower),
-        ethereum.Value.fromI32(tickUpper),
-        ethereum.Value.fromUnsignedBigInt(gasComputationUnitsClaim)
-      ]
-    );
-
-    return result[0].toBigInt();
-  }
-
-  try_removeLimitOrderWithGasClaim(
-    accountId: BigInt,
-    poolId: BigInt,
-    tickLower: i32,
-    tickUpper: i32,
-    gasComputationUnitsClaim: BigInt
-  ): ethereum.CallResult<BigInt> {
-    let result = super.tryCall(
-      "removeLimitOrderWithGasClaim",
-      "removeLimitOrderWithGasClaim(uint256,uint32,int24,int24,uint256):(uint256)",
-      [
-        ethereum.Value.fromUnsignedBigInt(accountId),
-        ethereum.Value.fromUnsignedBigInt(poolId),
-        ethereum.Value.fromI32(tickLower),
-        ethereum.Value.fromI32(tickUpper),
-        ethereum.Value.fromUnsignedBigInt(gasComputationUnitsClaim)
-      ]
-    );
-    if (result.reverted) {
-      return new ethereum.CallResult();
-    }
-    let value = result.value;
-    return ethereum.CallResult.fromValue(value[0].toBigInt());
   }
 
   swapToken(
@@ -1845,54 +1760,12 @@ export class __initialize_ClearingHouseCall__Inputs {
   get _vQuote(): Address {
     return this._call.inputValues[4].value.toAddress();
   }
-
-  get _nativeOracle(): Address {
-    return this._call.inputValues[5].value.toAddress();
-  }
 }
 
 export class __initialize_ClearingHouseCall__Outputs {
   _call: __initialize_ClearingHouseCall;
 
   constructor(call: __initialize_ClearingHouseCall) {
-    this._call = call;
-  }
-}
-
-export class AddMarginCall extends ethereum.Call {
-  get inputs(): AddMarginCall__Inputs {
-    return new AddMarginCall__Inputs(this);
-  }
-
-  get outputs(): AddMarginCall__Outputs {
-    return new AddMarginCall__Outputs(this);
-  }
-}
-
-export class AddMarginCall__Inputs {
-  _call: AddMarginCall;
-
-  constructor(call: AddMarginCall) {
-    this._call = call;
-  }
-
-  get accountId(): BigInt {
-    return this._call.inputValues[0].value.toBigInt();
-  }
-
-  get collateralId(): BigInt {
-    return this._call.inputValues[1].value.toBigInt();
-  }
-
-  get amount(): BigInt {
-    return this._call.inputValues[2].value.toBigInt();
-  }
-}
-
-export class AddMarginCall__Outputs {
-  _call: AddMarginCall;
-
-  constructor(call: AddMarginCall) {
     this._call = call;
   }
 }
@@ -1944,7 +1817,7 @@ export class CreateAccountAndAddMarginCall__Inputs {
     this._call = call;
   }
 
-  get poolId(): BigInt {
+  get collateralId(): BigInt {
     return this._call.inputValues[0].value.toBigInt();
   }
 
@@ -1995,44 +1868,6 @@ export class LiquidateLiquidityPositionsCall__Outputs {
   }
 }
 
-export class LiquidateLiquidityPositionsWithGasClaimCall extends ethereum.Call {
-  get inputs(): LiquidateLiquidityPositionsWithGasClaimCall__Inputs {
-    return new LiquidateLiquidityPositionsWithGasClaimCall__Inputs(this);
-  }
-
-  get outputs(): LiquidateLiquidityPositionsWithGasClaimCall__Outputs {
-    return new LiquidateLiquidityPositionsWithGasClaimCall__Outputs(this);
-  }
-}
-
-export class LiquidateLiquidityPositionsWithGasClaimCall__Inputs {
-  _call: LiquidateLiquidityPositionsWithGasClaimCall;
-
-  constructor(call: LiquidateLiquidityPositionsWithGasClaimCall) {
-    this._call = call;
-  }
-
-  get accountId(): BigInt {
-    return this._call.inputValues[0].value.toBigInt();
-  }
-
-  get gasComputationUnitsClaim(): BigInt {
-    return this._call.inputValues[1].value.toBigInt();
-  }
-}
-
-export class LiquidateLiquidityPositionsWithGasClaimCall__Outputs {
-  _call: LiquidateLiquidityPositionsWithGasClaimCall;
-
-  constructor(call: LiquidateLiquidityPositionsWithGasClaimCall) {
-    this._call = call;
-  }
-
-  get keeperFee(): BigInt {
-    return this._call.outputValues[0].value.toBigInt();
-  }
-}
-
 export class LiquidateTokenPositionCall extends ethereum.Call {
   get inputs(): LiquidateTokenPositionCall__Inputs {
     return new LiquidateTokenPositionCall__Inputs(this);
@@ -2050,20 +1885,12 @@ export class LiquidateTokenPositionCall__Inputs {
     this._call = call;
   }
 
-  get liquidatorAccountId(): BigInt {
+  get targetAccountId(): BigInt {
     return this._call.inputValues[0].value.toBigInt();
   }
 
-  get targetAccountId(): BigInt {
-    return this._call.inputValues[1].value.toBigInt();
-  }
-
   get poolId(): BigInt {
-    return this._call.inputValues[2].value.toBigInt();
-  }
-
-  get liquidationBps(): i32 {
-    return this._call.inputValues[3].value.toI32();
+    return this._call.inputValues[1].value.toBigInt();
   }
 }
 
@@ -2074,86 +1901,8 @@ export class LiquidateTokenPositionCall__Outputs {
     this._call = call;
   }
 
-  get liquidatorBalanceAdjustments(): LiquidateTokenPositionCallLiquidatorBalanceAdjustmentsStruct {
-    return this._call.outputValues[0].value.toTuple() as LiquidateTokenPositionCallLiquidatorBalanceAdjustmentsStruct;
-  }
-}
-
-export class LiquidateTokenPositionCallLiquidatorBalanceAdjustmentsStruct extends ethereum.Tuple {
-  get vQuoteIncrease(): BigInt {
-    return this[0].toBigInt();
-  }
-
-  get vTokenIncrease(): BigInt {
-    return this[1].toBigInt();
-  }
-
-  get traderPositionIncrease(): BigInt {
-    return this[2].toBigInt();
-  }
-}
-
-export class LiquidateTokenPositionWithGasClaimCall extends ethereum.Call {
-  get inputs(): LiquidateTokenPositionWithGasClaimCall__Inputs {
-    return new LiquidateTokenPositionWithGasClaimCall__Inputs(this);
-  }
-
-  get outputs(): LiquidateTokenPositionWithGasClaimCall__Outputs {
-    return new LiquidateTokenPositionWithGasClaimCall__Outputs(this);
-  }
-}
-
-export class LiquidateTokenPositionWithGasClaimCall__Inputs {
-  _call: LiquidateTokenPositionWithGasClaimCall;
-
-  constructor(call: LiquidateTokenPositionWithGasClaimCall) {
-    this._call = call;
-  }
-
-  get liquidatorAccountId(): BigInt {
-    return this._call.inputValues[0].value.toBigInt();
-  }
-
-  get targetAccountId(): BigInt {
-    return this._call.inputValues[1].value.toBigInt();
-  }
-
-  get poolId(): BigInt {
-    return this._call.inputValues[2].value.toBigInt();
-  }
-
-  get liquidationBps(): i32 {
-    return this._call.inputValues[3].value.toI32();
-  }
-
-  get gasComputationUnitsClaim(): BigInt {
-    return this._call.inputValues[4].value.toBigInt();
-  }
-}
-
-export class LiquidateTokenPositionWithGasClaimCall__Outputs {
-  _call: LiquidateTokenPositionWithGasClaimCall;
-
-  constructor(call: LiquidateTokenPositionWithGasClaimCall) {
-    this._call = call;
-  }
-
-  get liquidatorBalanceAdjustments(): LiquidateTokenPositionWithGasClaimCallLiquidatorBalanceAdjustmentsStruct {
-    return this._call.outputValues[0].value.toTuple() as LiquidateTokenPositionWithGasClaimCallLiquidatorBalanceAdjustmentsStruct;
-  }
-}
-
-export class LiquidateTokenPositionWithGasClaimCallLiquidatorBalanceAdjustmentsStruct extends ethereum.Tuple {
-  get vQuoteIncrease(): BigInt {
-    return this[0].toBigInt();
-  }
-
-  get vTokenIncrease(): BigInt {
-    return this[1].toBigInt();
-  }
-
-  get traderPositionIncrease(): BigInt {
-    return this[2].toBigInt();
+  get keeperFee(): BigInt {
+    return this._call.outputValues[0].value.toBigInt();
   }
 }
 
@@ -2257,6 +2006,10 @@ export class PauseCall__Inputs {
   constructor(call: PauseCall) {
     this._call = call;
   }
+
+  get allPoolIds(): Array<BigInt> {
+    return this._call.inputValues[0].value.toBigIntArray();
+  }
 }
 
 export class PauseCall__Outputs {
@@ -2316,28 +2069,32 @@ export class RegisterPoolCallPoolInfoStruct extends ethereum.Tuple {
 }
 
 export class RegisterPoolCallPoolInfoSettingsStruct extends ethereum.Tuple {
-  get initialMarginRatio(): i32 {
+  get initialMarginRatioBps(): i32 {
     return this[0].toI32();
   }
 
-  get maintainanceMarginRatio(): i32 {
+  get maintainanceMarginRatioBps(): i32 {
     return this[1].toI32();
   }
 
+  get maxVirtualPriceDeviationRatioBps(): i32 {
+    return this[2].toI32();
+  }
+
   get twapDuration(): BigInt {
-    return this[2].toBigInt();
+    return this[3].toBigInt();
   }
 
   get isAllowedForTrade(): boolean {
-    return this[3].toBoolean();
-  }
-
-  get isCrossMargined(): boolean {
     return this[4].toBoolean();
   }
 
+  get isCrossMargined(): boolean {
+    return this[5].toBoolean();
+  }
+
   get oracle(): Address {
-    return this[5].toAddress();
+    return this[6].toAddress();
   }
 }
 
@@ -2379,94 +2136,6 @@ export class RemoveLimitOrderCall__Outputs {
   _call: RemoveLimitOrderCall;
 
   constructor(call: RemoveLimitOrderCall) {
-    this._call = call;
-  }
-}
-
-export class RemoveLimitOrderWithGasClaimCall extends ethereum.Call {
-  get inputs(): RemoveLimitOrderWithGasClaimCall__Inputs {
-    return new RemoveLimitOrderWithGasClaimCall__Inputs(this);
-  }
-
-  get outputs(): RemoveLimitOrderWithGasClaimCall__Outputs {
-    return new RemoveLimitOrderWithGasClaimCall__Outputs(this);
-  }
-}
-
-export class RemoveLimitOrderWithGasClaimCall__Inputs {
-  _call: RemoveLimitOrderWithGasClaimCall;
-
-  constructor(call: RemoveLimitOrderWithGasClaimCall) {
-    this._call = call;
-  }
-
-  get accountId(): BigInt {
-    return this._call.inputValues[0].value.toBigInt();
-  }
-
-  get poolId(): BigInt {
-    return this._call.inputValues[1].value.toBigInt();
-  }
-
-  get tickLower(): i32 {
-    return this._call.inputValues[2].value.toI32();
-  }
-
-  get tickUpper(): i32 {
-    return this._call.inputValues[3].value.toI32();
-  }
-
-  get gasComputationUnitsClaim(): BigInt {
-    return this._call.inputValues[4].value.toBigInt();
-  }
-}
-
-export class RemoveLimitOrderWithGasClaimCall__Outputs {
-  _call: RemoveLimitOrderWithGasClaimCall;
-
-  constructor(call: RemoveLimitOrderWithGasClaimCall) {
-    this._call = call;
-  }
-
-  get keeperFee(): BigInt {
-    return this._call.outputValues[0].value.toBigInt();
-  }
-}
-
-export class RemoveMarginCall extends ethereum.Call {
-  get inputs(): RemoveMarginCall__Inputs {
-    return new RemoveMarginCall__Inputs(this);
-  }
-
-  get outputs(): RemoveMarginCall__Outputs {
-    return new RemoveMarginCall__Outputs(this);
-  }
-}
-
-export class RemoveMarginCall__Inputs {
-  _call: RemoveMarginCall;
-
-  constructor(call: RemoveMarginCall) {
-    this._call = call;
-  }
-
-  get accountId(): BigInt {
-    return this._call.inputValues[0].value.toBigInt();
-  }
-
-  get collateralId(): BigInt {
-    return this._call.inputValues[1].value.toBigInt();
-  }
-
-  get amount(): BigInt {
-    return this._call.inputValues[2].value.toBigInt();
-  }
-}
-
-export class RemoveMarginCall__Outputs {
-  _call: RemoveMarginCall;
-
-  constructor(call: RemoveMarginCall) {
     this._call = call;
   }
 }
@@ -2611,6 +2280,10 @@ export class UnpauseCall__Inputs {
   constructor(call: UnpauseCall) {
     this._call = call;
   }
+
+  get allPoolIds(): Array<BigInt> {
+    return this._call.inputValues[0].value.toBigIntArray();
+  }
 }
 
 export class UnpauseCall__Outputs {
@@ -2669,6 +2342,44 @@ export class UpdateCollateralSettingsCallCollateralSettingsStruct extends ethere
   }
 }
 
+export class UpdateMarginCall extends ethereum.Call {
+  get inputs(): UpdateMarginCall__Inputs {
+    return new UpdateMarginCall__Inputs(this);
+  }
+
+  get outputs(): UpdateMarginCall__Outputs {
+    return new UpdateMarginCall__Outputs(this);
+  }
+}
+
+export class UpdateMarginCall__Inputs {
+  _call: UpdateMarginCall;
+
+  constructor(call: UpdateMarginCall) {
+    this._call = call;
+  }
+
+  get accountId(): BigInt {
+    return this._call.inputValues[0].value.toBigInt();
+  }
+
+  get collateralId(): BigInt {
+    return this._call.inputValues[1].value.toBigInt();
+  }
+
+  get amount(): BigInt {
+    return this._call.inputValues[2].value.toBigInt();
+  }
+}
+
+export class UpdateMarginCall__Outputs {
+  _call: UpdateMarginCall;
+
+  constructor(call: UpdateMarginCall) {
+    this._call = call;
+  }
+}
+
 export class UpdatePoolSettingsCall extends ethereum.Call {
   get inputs(): UpdatePoolSettingsCall__Inputs {
     return new UpdatePoolSettingsCall__Inputs(this);
@@ -2704,28 +2415,32 @@ export class UpdatePoolSettingsCall__Outputs {
 }
 
 export class UpdatePoolSettingsCallNewSettingsStruct extends ethereum.Tuple {
-  get initialMarginRatio(): i32 {
+  get initialMarginRatioBps(): i32 {
     return this[0].toI32();
   }
 
-  get maintainanceMarginRatio(): i32 {
+  get maintainanceMarginRatioBps(): i32 {
     return this[1].toI32();
   }
 
+  get maxVirtualPriceDeviationRatioBps(): i32 {
+    return this[2].toI32();
+  }
+
   get twapDuration(): BigInt {
-    return this[2].toBigInt();
+    return this[3].toBigInt();
   }
 
   get isAllowedForTrade(): boolean {
-    return this[3].toBoolean();
-  }
-
-  get isCrossMargined(): boolean {
     return this[4].toBoolean();
   }
 
+  get isCrossMargined(): boolean {
+    return this[5].toBoolean();
+  }
+
   get oracle(): Address {
-    return this[5].toAddress();
+    return this[6].toAddress();
   }
 }
 
@@ -2806,20 +2521,36 @@ export class UpdateProtocolSettingsCall__Outputs {
 }
 
 export class UpdateProtocolSettingsCall_liquidationParamsStruct extends ethereum.Tuple {
-  get liquidationFeeFraction(): i32 {
+  get rangeLiquidationFeeFraction(): i32 {
     return this[0].toI32();
   }
 
-  get tokenLiquidationPriceDeltaBps(): i32 {
+  get tokenLiquidationFeeFraction(): i32 {
     return this[1].toI32();
   }
 
-  get insuranceFundFeeShareBps(): i32 {
+  get closeFactorMMThresholdBps(): i32 {
     return this[2].toI32();
   }
 
+  get partialLiquidationCloseFactorBps(): i32 {
+    return this[3].toI32();
+  }
+
+  get insuranceFundFeeShareBps(): i32 {
+    return this[4].toI32();
+  }
+
+  get liquidationSlippageSqrtToleranceBps(): i32 {
+    return this[5].toI32();
+  }
+
   get maxRangeLiquidationFees(): BigInt {
-    return this[3].toBigInt();
+    return this[6].toBigInt();
+  }
+
+  get minNotionalLiquidatable(): BigInt {
+    return this[7].toBigInt();
   }
 }
 

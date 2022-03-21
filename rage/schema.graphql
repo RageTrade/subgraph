@@ -173,7 +173,8 @@ type TokenPositionChangeEntry @entity {
   "baseAmountOut amount of base tokens that account received (positive) or paid (negative)"
   vQuoteAmountOut: BigDecimal!
 
-  executionPrice: BigDecimal!
+  startPrice: BigDecimal!
+  endPrice: BigDecimal!
 }
 
 """
