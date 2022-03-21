@@ -13,7 +13,17 @@ import {
 import { generateId } from '../../utils';
 
 export function handleSwap(event: Swap): void {
-  log.debug('custom_logs: handleSwap in VPoolWrapper triggered {}', []);
+  log.debug(
+    'custom_logs: handleSwap in VPoolWrapper triggered [ vTokenIn - {} ] [ vQuoteIn - {} ] [ liquidityFees - {} ] [ protocolFees - {} ] [ sqrtPriceX96Start - {} ] [ sqrtPriceX96End - {} ]',
+    [
+      event.params.vTokenIn.toHexString(),
+      event.params.vQuoteIn.toHexString(),
+      event.params.liquidityFees.toHexString(),
+      event.params.protocolFees.toHexString(),
+      event.params.sqrtPriceX96Start.toHexString(),
+      event.params.sqrtPriceX96End.toHexString(),
+    ]
+  );
 
   let timestamp = event.block.timestamp.toI32();
   let hourIndex = timestamp / 3600; // get unique hour within unix history
