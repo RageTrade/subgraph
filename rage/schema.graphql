@@ -340,7 +340,7 @@ type RageTradePool @entity {
   vTotalValueLocked: BigDecimal!
   maintenanceMarginRatioBps: BigDecimal!
 
-  fundingRate: BigInt!
+  fundingRate: BigDecimal!
   volume24H: BigInt!
   priceChange24H: BigInt!
 

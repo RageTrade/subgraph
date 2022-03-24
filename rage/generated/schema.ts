@@ -1659,13 +1659,31 @@ export class RageTradePool extends Entity {
     this.set("liquidity", Value.fromBigInt(value));
   }
 
-  get fundingRate(): BigInt {
-    let value = this.get("fundingRate");
-    return value.toBigInt();
+  get vTotalValueLocked(): BigDecimal {
+    let value = this.get("vTotalValueLocked");
+    return value.toBigDecimal();
   }
 
-  set fundingRate(value: BigInt) {
-    this.set("fundingRate", Value.fromBigInt(value));
+  set vTotalValueLocked(value: BigDecimal) {
+    this.set("vTotalValueLocked", Value.fromBigDecimal(value));
+  }
+
+  get maintenanceMarginRatioBps(): BigDecimal {
+    let value = this.get("maintenanceMarginRatioBps");
+    return value.toBigDecimal();
+  }
+
+  set maintenanceMarginRatioBps(value: BigDecimal) {
+    this.set("maintenanceMarginRatioBps", Value.fromBigDecimal(value));
+  }
+
+  get fundingRate(): BigDecimal {
+    let value = this.get("fundingRate");
+    return value.toBigDecimal();
+  }
+
+  set fundingRate(value: BigDecimal) {
+    this.set("fundingRate", Value.fromBigDecimal(value));
   }
 
   get volume24H(): BigInt {
@@ -1722,15 +1740,6 @@ export class RageTradePool extends Entity {
     this.set("sumFeeX128", Value.fromBigInt(value));
   }
 
-  get maintenanceMarginRatioBps(): BigDecimal {
-    let value = this.get("maintenanceMarginRatioBps");
-    return value.toBigDecimal();
-  }
-
-  set maintenanceMarginRatioBps(value: BigDecimal) {
-    this.set("maintenanceMarginRatioBps", Value.fromBigDecimal(value));
-  }
-
   get hourData(): string {
     let value = this.get("hourData");
     return value.toString();
@@ -1747,15 +1756,6 @@ export class RageTradePool extends Entity {
 
   set dayData(value: string) {
     this.set("dayData", Value.fromString(value));
-  }
-
-  get vTotalValueLocked(): BigDecimal {
-    let value = this.get("vTotalValueLocked");
-    return value.toBigDecimal();
-  }
-
-  set vTotalValueLocked(value: BigDecimal) {
-    this.set("vTotalValueLocked", Value.fromBigDecimal(value));
   }
 }
 
