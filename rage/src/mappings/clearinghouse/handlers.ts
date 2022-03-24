@@ -350,6 +350,8 @@ export function handleTokenPositionFundingPaymentRealized(
   );
 
   fundingRateEntry.fundingRate = getFundingRate(event.params.poolId);
+  rageTradePool.fundingRate = fundingRateEntry.fundingRate
+
   fundingRateEntry.side = tokenPosition.netPosition.gt(BigInt.fromI32(0))
     ? 'long'
     : 'short';
@@ -360,6 +362,7 @@ export function handleTokenPositionFundingPaymentRealized(
 
   tokenPosition.save();
   fundingRateEntry.save();
+  rageTradePool.save()
 }
 
 export function handlePoolSettingsUpdated(event: PoolSettingsUpdated): void {

@@ -32,7 +32,7 @@ export function getRageTradePool(poolId: string): RageTradePool {
     rageTradePool.vTotalValueLocked = ZERO_BD;
     rageTradePool.maintenanceMarginRatioBps = ZERO_BD;
 
-    rageTradePool.fundingRate = ZERO_BI;
+    rageTradePool.fundingRate = ZERO_BD;
     rageTradePool.volume24H = ZERO_BI;
     rageTradePool.priceChange24H = ZERO_BI;
 
