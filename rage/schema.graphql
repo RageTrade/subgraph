@@ -18,6 +18,9 @@ type Account @entity {
   timestamp: BigInt!
   "ownerAddress wallet address of account owner"
   owner: Owner!
+  vQuoteBalance: BigDecimal!
+  marginBalance: BigDecimal!
+
   margin: [Collateral!]! @derivedFrom(field: "account")
   tokenPositions: [TokenPosition!]! @derivedFrom(field: "account")
   tokenPositionChangeEntries: [TokenPositionChangeEntry!]!
@@ -114,8 +117,12 @@ type TokenPosition @entity {
   "tokenAmountOut amount of tokens that account received (positive) or paid (negative)"
   netPosition: BigInt!
 
+  liquidationPrice: BigDecimal!
+
   fundingPaymentRealizedEntries: [FundingPaymentRealizedEntry!]!
     @derivedFrom(field: "tokenPosition")
+
+  lastTokenPositionChangeEntry: TokenPositionChangeEntry!
 
   totalRealizedFundingPaymentAmount: BigDecimal!
 
@@ -164,6 +171,9 @@ type TokenPositionChangeEntry @entity {
 
   transactionHash: Bytes!
 
+  "long or short"
+  side: Side!
+
   "accountNo serial number of the account"
   account: Account!
   "rageTradePool position was taken"
@@ -181,24 +191,32 @@ type TokenPositionChangeEntry @entity {
 """
 token liquidation
 """
-type LiquidateToken @entity {
+type TokenPositionLiquidatedEntry @entity {
   id: ID! # accountNo - vToken - timestamp
   "timestamp of the token position change"
   timestamp: BigInt!
+  transactionHash: Bytes!
+
   "accountNo serial number of the account"
   account: Account!
-  "liquidatorAccountNo  account which performed the liquidation"
-  liquidatorAccountNo: BigInt!
+
+  "liquidatorAccountId account which performed the liquidation"
+  liquidatorAccountId: BigInt!
+
   "vToken address of token for whose position was liquidated"
-  vToken: Bytes!
-  "liquidationBps the fraction of current position which was liquidated in bps"
-  liquidationBps: BigInt!
-  "liquidationPriceX128 price at which liquidation was performed"
-  liquidationPriceX128: BigInt!
-  "liquidatorPriceX128 discounted price at which tokens were transferred to the liquidator account"
-  liquidatorPriceX128: BigInt!
-  "insuranceFundFee total liquidaiton fee paid to the insurance fund (can be negative in case the account is not enough to cover the fee)"
-  insuranceFundFee: BigInt!
+  rageTradePool: RageTradePool!
+
+  side: Side!
+
+  "vQuote from most recent token position changes event"
+  amountClosed: BigDecimal!
+
+  "execution price for most recent token position changes event"
+  liquidationPrice: BigDecimal!
+
+  feeKeeper: BigDecimal!
+
+  feeInsuranceFund: BigDecimal!
 }
 
 """
@@ -322,6 +340,8 @@ type RageTradePool @entity {
   sumBX128: BigInt!
   sumFpX128: BigInt!
   sumFeeX128: BigInt!
+
+  maintenanceMarginRatioBps: BigDecimal!
 
   hourData: Collection!
   dayData: Collection!

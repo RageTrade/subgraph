@@ -100,6 +100,24 @@ export class Account extends Entity {
     this.set("owner", Value.fromString(value));
   }
 
+  get vQuoteBalance(): BigDecimal {
+    let value = this.get("vQuoteBalance");
+    return value.toBigDecimal();
+  }
+
+  set vQuoteBalance(value: BigDecimal) {
+    this.set("vQuoteBalance", Value.fromBigDecimal(value));
+  }
+
+  get marginBalance(): BigDecimal {
+    let value = this.get("marginBalance");
+    return value.toBigDecimal();
+  }
+
+  set marginBalance(value: BigDecimal) {
+    this.set("marginBalance", Value.fromBigDecimal(value));
+  }
+
   get margin(): Array<string> {
     let value = this.get("margin");
     return value.toStringArray();
@@ -547,6 +565,15 @@ export class TokenPosition extends Entity {
     this.set("netPosition", Value.fromBigInt(value));
   }
 
+  get liquidationPrice(): BigDecimal {
+    let value = this.get("liquidationPrice");
+    return value.toBigDecimal();
+  }
+
+  set liquidationPrice(value: BigDecimal) {
+    this.set("liquidationPrice", Value.fromBigDecimal(value));
+  }
+
   get fundingPaymentRealizedEntries(): Array<string> {
     let value = this.get("fundingPaymentRealizedEntries");
     return value.toStringArray();
@@ -554,6 +581,15 @@ export class TokenPosition extends Entity {
 
   set fundingPaymentRealizedEntries(value: Array<string>) {
     this.set("fundingPaymentRealizedEntries", Value.fromStringArray(value));
+  }
+
+  get lastTokenPositionChangeEntry(): string {
+    let value = this.get("lastTokenPositionChangeEntry");
+    return value.toString();
+  }
+
+  set lastTokenPositionChangeEntry(value: string) {
+    this.set("lastTokenPositionChangeEntry", Value.fromString(value));
   }
 
   get totalRealizedFundingPaymentAmount(): BigDecimal {
@@ -750,6 +786,15 @@ export class TokenPositionChangeEntry extends Entity {
     this.set("transactionHash", Value.fromBytes(value));
   }
 
+  get side(): string {
+    let value = this.get("side");
+    return value.toString();
+  }
+
+  set side(value: string) {
+    this.set("side", Value.fromString(value));
+  }
+
   get account(): string {
     let value = this.get("account");
     return value.toString();
@@ -814,7 +859,7 @@ export class TokenPositionChangeEntry extends Entity {
   }
 }
 
-export class LiquidateToken extends Entity {
+export class TokenPositionLiquidatedEntry extends Entity {
   constructor(id: string) {
     super();
     this.set("id", Value.fromString(id));
@@ -822,17 +867,23 @@ export class LiquidateToken extends Entity {
 
   save(): void {
     let id = this.get("id");
-    assert(id !== null, "Cannot save LiquidateToken entity without an ID");
+    assert(
+      id !== null,
+      "Cannot save TokenPositionLiquidatedEntry entity without an ID"
+    );
     assert(
       id.kind == ValueKind.STRING,
-      "Cannot save LiquidateToken entity with non-string ID. " +
+      "Cannot save TokenPositionLiquidatedEntry entity with non-string ID. " +
         'Considering using .toHex() to convert the "id" to a string.'
     );
-    store.set("LiquidateToken", id.toString(), this);
+    store.set("TokenPositionLiquidatedEntry", id.toString(), this);
   }
 
-  static load(id: string): LiquidateToken | null {
-    return store.get("LiquidateToken", id) as LiquidateToken | null;
+  static load(id: string): TokenPositionLiquidatedEntry | null {
+    return store.get(
+      "TokenPositionLiquidatedEntry",
+      id
+    ) as TokenPositionLiquidatedEntry | null;
   }
 
   get id(): string {
@@ -853,6 +904,15 @@ export class LiquidateToken extends Entity {
     this.set("timestamp", Value.fromBigInt(value));
   }
 
+  get transactionHash(): Bytes {
+    let value = this.get("transactionHash");
+    return value.toBytes();
+  }
+
+  set transactionHash(value: Bytes) {
+    this.set("transactionHash", Value.fromBytes(value));
+  }
+
   get account(): string {
     let value = this.get("account");
     return value.toString();
@@ -862,58 +922,67 @@ export class LiquidateToken extends Entity {
     this.set("account", Value.fromString(value));
   }
 
-  get liquidatorAccountNo(): BigInt {
-    let value = this.get("liquidatorAccountNo");
+  get liquidatorAccountId(): BigInt {
+    let value = this.get("liquidatorAccountId");
     return value.toBigInt();
   }
 
-  set liquidatorAccountNo(value: BigInt) {
-    this.set("liquidatorAccountNo", Value.fromBigInt(value));
+  set liquidatorAccountId(value: BigInt) {
+    this.set("liquidatorAccountId", Value.fromBigInt(value));
   }
 
-  get vToken(): Bytes {
-    let value = this.get("vToken");
-    return value.toBytes();
+  get rageTradePool(): string {
+    let value = this.get("rageTradePool");
+    return value.toString();
   }
 
-  set vToken(value: Bytes) {
-    this.set("vToken", Value.fromBytes(value));
+  set rageTradePool(value: string) {
+    this.set("rageTradePool", Value.fromString(value));
   }
 
-  get liquidationBps(): BigInt {
-    let value = this.get("liquidationBps");
-    return value.toBigInt();
+  get side(): string {
+    let value = this.get("side");
+    return value.toString();
   }
 
-  set liquidationBps(value: BigInt) {
-    this.set("liquidationBps", Value.fromBigInt(value));
+  set side(value: string) {
+    this.set("side", Value.fromString(value));
   }
 
-  get liquidationPriceX128(): BigInt {
-    let value = this.get("liquidationPriceX128");
-    return value.toBigInt();
+  get amountClosed(): BigDecimal {
+    let value = this.get("amountClosed");
+    return value.toBigDecimal();
   }
 
-  set liquidationPriceX128(value: BigInt) {
-    this.set("liquidationPriceX128", Value.fromBigInt(value));
+  set amountClosed(value: BigDecimal) {
+    this.set("amountClosed", Value.fromBigDecimal(value));
   }
 
-  get liquidatorPriceX128(): BigInt {
-    let value = this.get("liquidatorPriceX128");
-    return value.toBigInt();
+  get liquidationPrice(): BigDecimal {
+    let value = this.get("liquidationPrice");
+    return value.toBigDecimal();
   }
 
-  set liquidatorPriceX128(value: BigInt) {
-    this.set("liquidatorPriceX128", Value.fromBigInt(value));
+  set liquidationPrice(value: BigDecimal) {
+    this.set("liquidationPrice", Value.fromBigDecimal(value));
   }
 
-  get insuranceFundFee(): BigInt {
-    let value = this.get("insuranceFundFee");
-    return value.toBigInt();
+  get feeKeeper(): BigDecimal {
+    let value = this.get("feeKeeper");
+    return value.toBigDecimal();
   }
 
-  set insuranceFundFee(value: BigInt) {
-    this.set("insuranceFundFee", Value.fromBigInt(value));
+  set feeKeeper(value: BigDecimal) {
+    this.set("feeKeeper", Value.fromBigDecimal(value));
+  }
+
+  get feeInsuranceFund(): BigDecimal {
+    let value = this.get("feeInsuranceFund");
+    return value.toBigDecimal();
+  }
+
+  set feeInsuranceFund(value: BigDecimal) {
+    this.set("feeInsuranceFund", Value.fromBigDecimal(value));
   }
 }
 
@@ -1633,6 +1702,15 @@ export class RageTradePool extends Entity {
 
   set sumFeeX128(value: BigInt) {
     this.set("sumFeeX128", Value.fromBigInt(value));
+  }
+
+  get maintenanceMarginRatioBps(): BigDecimal {
+    let value = this.get("maintenanceMarginRatioBps");
+    return value.toBigDecimal();
+  }
+
+  set maintenanceMarginRatioBps(value: BigDecimal) {
+    this.set("maintenanceMarginRatioBps", Value.fromBigDecimal(value));
   }
 
   get hourData(): string {
