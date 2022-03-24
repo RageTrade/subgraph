@@ -34,9 +34,7 @@ import { getCollateral } from './collateral';
 
 // @entity Account
 export function handleAccountCreated(event: AccountCreated): void {
-  let accountId = generateAccountId(event.params.accountId);
-
-  let account = Account.load(accountId);
+  let account = getAccount(event.params.accountId);
 
   if (account !== null) {
     // this should ideally not happen

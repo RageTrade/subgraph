@@ -23,6 +23,7 @@ export function getTokenPosition(
     tokenPosition.account = accountIdString;
     tokenPosition.rageTradePool = poolId.toHexString();
     tokenPosition.netPosition = ZERO_BI;
+    tokenPosition.liquidationPrice = ZERO_BD;
 
     tokenPosition.totalRealizedFundingPaymentAmount = ZERO_BD;
 

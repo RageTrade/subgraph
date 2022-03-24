@@ -10,7 +10,7 @@ export function generateAccountId(accountNo: BigInt): string {
 
 /**
  * Gives the account object, creates one if it doesn't exist on the graph
- * @param accountNo Accoount number
+ * @param accountNo Account number
  * @returns Account object
  */
 export function getAccount(accountNo: BigInt): Account {
