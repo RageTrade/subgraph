@@ -123,6 +123,8 @@ type TokenPosition @entity {
     @derivedFrom(field: "tokenPosition")
 
   lastTokenPositionChangeEntry: TokenPositionChangeEntry!
+  tokenPositionLiquidatedEntries: [TokenPositionLiquidatedEntry!]!
+    @derivedFrom(field: "tokenPosition")
 
   totalRealizedFundingPaymentAmount: BigDecimal!
 
@@ -199,6 +201,8 @@ type TokenPositionLiquidatedEntry @entity {
 
   "accountNo serial number of the account"
   account: Account!
+
+  tokenPosition: TokenPosition!
 
   "liquidatorAccountId account which performed the liquidation"
   liquidatorAccountId: BigInt!

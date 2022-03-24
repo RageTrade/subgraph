@@ -592,6 +592,15 @@ export class TokenPosition extends Entity {
     this.set("lastTokenPositionChangeEntry", Value.fromString(value));
   }
 
+  get tokenPositionLiquidatedEntries(): Array<string> {
+    let value = this.get("tokenPositionLiquidatedEntries");
+    return value.toStringArray();
+  }
+
+  set tokenPositionLiquidatedEntries(value: Array<string>) {
+    this.set("tokenPositionLiquidatedEntries", Value.fromStringArray(value));
+  }
+
   get totalRealizedFundingPaymentAmount(): BigDecimal {
     let value = this.get("totalRealizedFundingPaymentAmount");
     return value.toBigDecimal();
@@ -920,6 +929,15 @@ export class TokenPositionLiquidatedEntry extends Entity {
 
   set account(value: string) {
     this.set("account", Value.fromString(value));
+  }
+
+  get tokenPosition(): string {
+    let value = this.get("tokenPosition");
+    return value.toString();
+  }
+
+  set tokenPosition(value: string) {
+    this.set("tokenPosition", Value.fromString(value));
   }
 
   get liquidatorAccountId(): BigInt {
