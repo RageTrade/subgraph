@@ -1,13 +1,16 @@
 import { BigInt, log } from '@graphprotocol/graph-ts';
-import { Account, TokenPosition } from '../../../generated/schema';
+import { TokenPosition } from '../../../generated/schema';
 import { generateId } from '../../utils';
 import { ZERO_BD, ZERO_BI } from '../../utils/constants';
+import { generateAccountId } from './account';
 
 export function getTokenPosition(
-  account: Account,
+  accountId: BigInt,
   poolId: BigInt
 ): TokenPosition {
-  let tokenPositionId = generateId([account.id, poolId.toHexString()]);
+  let accountIdString = generateAccountId(accountId);
+  let tokenPositionId = generateId([accountIdString, poolId.toHexString()]);
+
   log.debug(
     'custom_logs: getTokenPosition [[ poolId - {} ]] _______ [[ tokenPositionId - {} ]]',
     [poolId.toHexString(), tokenPositionId]
@@ -17,7 +20,7 @@ export function getTokenPosition(
   if (tokenPosition === null) {
     // creating empty object
     tokenPosition = new TokenPosition(tokenPositionId);
-    tokenPosition.account = account.id;
+    tokenPosition.account = accountIdString;
     tokenPosition.rageTradePool = poolId.toHexString();
     tokenPosition.netPosition = ZERO_BI;
 
@@ -30,9 +33,9 @@ export function getTokenPosition(
 
     tokenPosition.sellVQuoteAmount = ZERO_BD;
     tokenPosition.sellVTokenAmount = ZERO_BD;
-    
+
     tokenPosition.realizedPnL = ZERO_BD;
-    
+
     tokenPosition.save();
   }
 
