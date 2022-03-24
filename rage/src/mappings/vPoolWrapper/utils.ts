@@ -132,8 +132,6 @@ export function updateCandleData(
   candle.sumFeeX128 = rageTradePool.sumFeeX128;
 
   candle.tick = rageTradePool.tick;
-  // TODO
-  // hourData.tvlUSD = rageTradePool.totalValueLockedUSD;
 
   candle.volumeVToken = candle.volumeVToken.plus(absBigDecimal(vTokenIn));
   candle.volumeUSDC = candle.volumeUSDC.plus(absBigDecimal(vQuoteIn));

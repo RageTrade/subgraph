@@ -1,4 +1,4 @@
-import { Address, log } from '@graphprotocol/graph-ts';
+import { Address, log, BigInt } from '@graphprotocol/graph-ts';
 import { RageTradePool, VPoolWrapper } from '../../../generated/schema';
 import {
   Burn,
@@ -10,7 +10,7 @@ import {
   getRageTradePoolTvl,
   updateCandleData,
 } from './utils';
-import { generateId } from '../../utils';
+import { BigIntToBigDecimal, generateId } from '../../utils';
 
 export function handleSwap(event: Swap): void {
   log.debug(
@@ -65,6 +65,15 @@ export function handleSwap(event: Swap): void {
   let hourPoolID = generateId([rageTradePool.hourData, hourIndex.toString()]);
   let dayPoolID = generateId([rageTradePool.dayData, dayIndex.toString()]);
 
+  let vTokenInBD = BigIntToBigDecimal(
+    event.params.swapResult.vTokenIn,
+    BigInt.fromI32(18)
+  );
+  let vQuoteInBD = BigIntToBigDecimal(
+    event.params.swapResult.vQuoteIn,
+    BigInt.fromI32(6)
+  );
+
   // hourData
   updateCandleData(
     hourPoolID,
@@ -72,8 +81,8 @@ export function handleSwap(event: Swap): void {
     rageTradePool as RageTradePool,
     vPoolWrapperAddress,
     hourStartUnix,
-    event.params.swapResult.vTokenIn.toBigDecimal(),
-    event.params.swapResult.vQuoteIn.toBigDecimal()
+    vTokenInBD,
+    vQuoteInBD
   );
 
   // dayData
@@ -83,8 +92,8 @@ export function handleSwap(event: Swap): void {
     rageTradePool as RageTradePool,
     vPoolWrapperAddress,
     dayStartUnix,
-    event.params.swapResult.vTokenIn.toBigDecimal(),
-    event.params.swapResult.vQuoteIn.toBigDecimal()
+    vTokenInBD,
+    vQuoteInBD
   );
 }
 
