@@ -336,6 +336,10 @@ type RageTradePool @entity {
   tick: BigInt!
   liquidity: BigInt!
 
+  "Total value locked in pool (in vQuote(USDC) tokens)"
+  vTotalValueLocked: BigDecimal!
+  maintenanceMarginRatioBps: BigDecimal!
+
   fundingRate: BigInt!
   volume24H: BigInt!
   priceChange24H: BigInt!
@@ -345,13 +349,8 @@ type RageTradePool @entity {
   sumFpX128: BigInt!
   sumFeeX128: BigInt!
 
-  maintenanceMarginRatioBps: BigDecimal!
-
   hourData: Collection!
   dayData: Collection!
-
-  "Total value locked in pool (in vQuote(USDC) tokens)"
-  vTotalValueLocked: BigDecimal!
 }
 
 type VToken @entity {

@@ -22,6 +22,8 @@ export function getRageTradePool(poolId: string): RageTradePool {
     rageTradePool.vPool = 'vPool.id';
     rageTradePool.vPoolWrapper = 'vPoolWrapper.id';
     rageTradePool.factory = 'rageTradeFactory.id';
+    rageTradePool.dayData = 'dayCollection.id';
+    rageTradePool.hourData = 'hourCollection.id';
 
     rageTradePool.price = ZERO_BD;
     rageTradePool.tick = ZERO_BI;
