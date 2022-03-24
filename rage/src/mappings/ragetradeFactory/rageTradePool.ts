@@ -6,11 +6,14 @@ export function getRageTradePoolId(poolId: BigInt): string {
   return poolId.toHexString();
 }
 
-export function getRageTradePool(poolId: string) {
+export function getRageTradePool(poolId: string): RageTradePool {
   let rageTradePool = RageTradePool.load(poolId);
 
   if (rageTradePool === null) {
-    log.warning('custom_logs: getRageTradePool rageTradePool does not exist [[ poolId - {} ]]', [poolId]);
+    log.warning(
+      'custom_logs: getRageTradePool rageTradePool does not exist [[ poolId - {} ]]',
+      [poolId]
+    );
 
     rageTradePool = new RageTradePool(poolId);
 
