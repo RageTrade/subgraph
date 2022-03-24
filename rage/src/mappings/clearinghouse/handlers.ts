@@ -31,20 +31,15 @@ import { UniswapV3Pool } from '../../../generated/templates/UniswapV3Pool/Uniswa
 import { getPriceANDTick } from '../vPoolWrapper/utils';
 import { ZERO_BI } from '../../utils/constants';
 import { getCollateral } from './collateral';
+import {
+  getRageTradePool,
+  getRageTradePoolId,
+} from '../ragetradeFactory/rageTradePool';
 
 // @entity Account
 export function handleAccountCreated(event: AccountCreated): void {
   let account = getAccount(event.params.accountId);
 
-  if (account !== null) {
-    // this should ideally not happen
-    log.critical(
-      'customlogs: account {} already exists in handleAccountCreated',
-      [accountId]
-    );
-  }
-
-  account = new Account(accountId);
   account.timestamp = event.block.timestamp;
   account.owner = getOwner(event.params.ownerAddress).id;
 
@@ -373,19 +368,13 @@ export function handlePoolSettingsUpdated(event: PoolSettingsUpdated): void {
     [event.params.poolId.toHexString()]
   );
 
-  let rageTradePool = RageTradePool.load(event.params.poolId.toHexString());
-
-  if (rageTradePool == null) {
-    log.error(
-      'custom_logs: handlePoolSettingsUpdated - rageTradePool is null',
-      ['']
-    );
-    return;
-  }
+  let rageTradePoolId = getRageTradePoolId(event.params.poolId);
+  let rageTradePool = getRageTradePool(rageTradePoolId);
 
   rageTradePool.maintenanceMarginRatioBps = BigInt.fromI32(
     event.params.settings.maintainanceMarginRatioBps
   ).toBigDecimal();
+
   rageTradePool.save();
 }
 
