@@ -335,6 +335,76 @@ export function handleTokenPositionFundingPaymentRealized(
   fundingRateEntry.save();
 }
 
+export function handlePoolSettingsUpdated(event: PoolSettingsUpdated) {
+  log.debug(
+    'custom_logs: handlePoolSettingsUpdated triggered [ poolId - {} ]',
+    [event.params.poolId.toHexString()]
+  );
+
+  let rageTradePool = RageTradePool.load(event.params.poolId.toHexString());
+
+  if (rageTradePool == null) {
+    log.error(
+      'custom_logs: handlePoolSettingsUpdated - rageTradePool is null',
+      ['']
+    );
+    return;
+  }
+
+  rageTradePool.maintenanceMarginRatioBps = BigInt.fromI32(
+    event.params.settings.maintainanceMarginRatioBps
+  ).toBigDecimal();
+  rageTradePool.save();
+}
+
+export function handleTokenPositionLiquidated(event: TokenPositionLiquidated) {
+  log.debug('custom_logs: handleTokenPositionLiquidated triggered {}', [
+    event.params.poolId.toHexString(),
+  ]);
+
+  let tokenPosition = getTokenPosition(
+    event.params.accountId,
+    event.params.poolId
+  );
+
+  let lastTokenPositionChangeEntry = TokenPositionChangeEntry.load(
+    tokenPosition.lastTokenPositionChangeEntry
+  );
+
+  // id of TokenPositionLiquidatedEntry
+  let id = generateId([
+    event.params.accountId.toString(),
+    event.params.liquidatorAccountId.toString(),
+    event.params.poolId.toHexString(),
+    event.block.number.toHexString(),
+    event.logIndex.toHexString(),
+  ]);
+
+  // create new TokenPositionLiquidatedEntry
+  let entry = new TokenPositionLiquidatedEntry(id);
+
+  entry.timestamp = event.block.timestamp;
+  entry.transactionHash = event.transaction.hash;
+
+  entry.account = event.params.accountId.toString();
+  entry.liquidatorAccountId = event.params.liquidatorAccountId;
+  entry.rageTradePool = event.params.poolId.toHexString();
+
+  entry.side = lastTokenPositionChangeEntry.side;
+  entry.amountClosed = lastTokenPositionChangeEntry.vQuoteAmountOut;
+  entry.liquidationPrice = lastTokenPositionChangeEntry.executionPrice;
+
+  entry.feeKeeper = BigIntToBigDecimal(
+    event.params.keeperFee,
+    BigInt.fromI32(6)
+  );
+  entry.feeInsuranceFund = BigIntToBigDecimal(
+    event.params.insuranceFundFee,
+    BigInt.fromI32(6)
+  );
+
+  entry.save();
+}
 // @entity LiquidateRanges
 // export function handleLiquidateRanges(event: LiquidateRanges): void {}
 
