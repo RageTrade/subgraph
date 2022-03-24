@@ -422,7 +422,8 @@ export function handleTokenPositionLiquidated(
   entry.timestamp = event.block.timestamp;
   entry.transactionHash = event.transaction.hash;
 
-  entry.account = event.params.accountId.toString();
+  entry.tokenPosition = tokenPosition.id;
+  entry.account = generateAccountId(event.params.accountId);
   entry.liquidatorAccountId = event.params.liquidatorAccountId;
   entry.rageTradePool = event.params.poolId.toHexString();
 
