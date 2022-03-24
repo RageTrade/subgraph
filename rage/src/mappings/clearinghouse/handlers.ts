@@ -369,7 +369,7 @@ export function handleTokenPositionFundingPaymentRealized(
   fundingRateEntry.save();
 }
 
-export function handlePoolSettingsUpdated(event: PoolSettingsUpdated) {
+export function handlePoolSettingsUpdated(event: PoolSettingsUpdated): void {
   log.debug(
     'custom_logs: handlePoolSettingsUpdated triggered [ poolId - {} ]',
     [event.params.poolId.toHexString()]
@@ -391,7 +391,9 @@ export function handlePoolSettingsUpdated(event: PoolSettingsUpdated) {
   rageTradePool.save();
 }
 
-export function handleTokenPositionLiquidated(event: TokenPositionLiquidated) {
+export function handleTokenPositionLiquidated(
+  event: TokenPositionLiquidated
+): void {
   log.debug('custom_logs: handleTokenPositionLiquidated triggered {}', [
     event.params.poolId.toHexString(),
   ]);
