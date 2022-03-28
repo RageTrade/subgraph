@@ -53,14 +53,17 @@ export function handleAccountCreated(event: AccountCreated): void {
 
 // @entity TokenPosition
 export function handleTokenPositionChanged(event: TokenPositionChanged): void {
-  log.warning('custom_logs: handleTokenPositionChanged triggered {} {} {} {}', [
-    event.params.accountId.toHexString(),
-    event.params.poolId.toHexString(),
-    event.params.vTokenAmountOut.toString(),
-    event.params.vQuoteAmountOut.toString(),
-    event.params.sqrtPriceX96Start.toString(),
-    event.params.sqrtPriceX96End.toString(),
-  ]);
+  log.warning(
+    'custom_logs: handleTokenPositionChanged triggered {} {} {} {} {} {}',
+    [
+      event.params.accountId.toHexString(),
+      event.params.poolId.toHexString(),
+      event.params.vTokenAmountOut.toString(),
+      event.params.vQuoteAmountOut.toString(),
+      event.params.sqrtPriceX96Start.toString(),
+      event.params.sqrtPriceX96End.toString(),
+    ]
+  );
 
   // update token position
   let account = getAccount(event.params.accountId);
@@ -141,7 +144,7 @@ export function handleTokenPositionChanged(event: TokenPositionChanged): void {
   );
 
   log.debug(
-    'custom_logs: handleTokenPositionChanged pnl calc [ vTokenAmountOut - {} ] [ vQuoteAmountOut - {} ] [ buyVQuoteAmount - {} ] [ sellVQuoteAmount - {} ] [ buyVTokenAmount - {} ] [ sellVTokenAmount - {} ] [ buyAvgPrice - {} ] [ sellAvgPrice - {} ] [ realizedPnL - {} ]',
+    'custom_logs: handleTokenPositionChanged pnl calc [ vTokenAmountOut - {} ] [ vQuoteAmountOut - {} ] [ buyVQuoteAmount - {} ] [ sellVQuoteAmount - {} ] [ buyVTokenAmount - {} ] [ sellVTokenAmount - {} ] [ buyAvgPrice - {} ] [ sellAvgPrice - {} ]',
     [
       event.params.vTokenAmountOut.toString(),
       event.params.vQuoteAmountOut.toString(),
@@ -265,6 +268,14 @@ export function handleTokenPositionChanged(event: TokenPositionChanged): void {
         tokenPosition.netPosition.toBigDecimal()
       );
 
+      log.debug(
+        'custom_logs: handleTokenPositionChanged openPositionsIdArray.length == 0, entryValue - {} , entryPrice - {}',
+        [
+          tokenPosition.entryValue.toString(),
+          tokenPosition.entryPrice.toString(),
+        ]
+      );
+
       openPositionsIdArray.push(tokenPositionChangeEntry.id);
       tokenPosition.openPositionEntries = openPositionsIdArray;
 
@@ -287,6 +298,14 @@ export function handleTokenPositionChanged(event: TokenPositionChanged): void {
 
       openPositionsIdArray.push(tokenPositionChangeEntry.id);
       tokenPosition.openPositionEntries = openPositionsIdArray;
+
+      log.debug(
+        'custom_logs: handleTokenPositionChanged openPosition_0.side = tokenPositionChangeEntry.side entryValue - {} , entryPrice - {}',
+        [
+          tokenPosition.entryValue.toString(),
+          tokenPosition.entryPrice.toString(),
+        ]
+      );
 
       tokenPosition.save();
       return;
@@ -324,6 +343,13 @@ export function handleTokenPositionChanged(event: TokenPositionChanged): void {
       if (openPosition_00.vTokenQuantity.equals(ZERO_BD)) {
         openPositionsIdArray.shift(); // removes first element
         tokenPosition.openPositionEntries = openPositionsIdArray;
+        log.debug(
+          'custom_logs: handleTokenPositionChanged openPositionsIdArray.length == 0, entryValue - {} , entryPrice - {}',
+          [
+            tokenPosition.entryValue.toString(),
+            tokenPosition.entryPrice.toString(),
+          ]
+        );
       }
 
       tokenPosition.save();
