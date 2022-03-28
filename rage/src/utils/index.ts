@@ -276,3 +276,11 @@ export function parseSqrtPriceX96(val: BigInt): BigDecimal {
 
   return output;
 }
+
+export function min(a: BigDecimal, b: BigDecimal): BigDecimal {
+  return a.lt(b) ? a : b;
+}
+
+export function max(a: BigDecimal, b: BigDecimal): BigDecimal {
+  return a.gt(b) ? a : b;
+}
