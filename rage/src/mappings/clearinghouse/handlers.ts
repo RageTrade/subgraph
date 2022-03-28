@@ -250,109 +250,108 @@ export function handleTokenPositionChanged(event: TokenPositionChanged): void {
 
   // algorithm for open position
 
-  // if no open trades, or new trade is
-  if (tokenPosition.openPositionEntries.length == 0) {
-    tokenPosition.entryValue = tokenPosition.entryValue.plus(
-      tokenPositionChangeEntry.vTokenQuantity.times(
-        tokenPositionChangeEntry.entryPrice
-      )
-    );
+  let openPositionsIdArray = tokenPosition.openPositionEntries;
 
-    tokenPosition.entryPrice = safeDiv(
-      tokenPosition.entryValue,
-      tokenPosition.netPosition.toBigDecimal()
-    );
+  if (openPositionsIdArray !== null) {
+    if (openPositionsIdArray.length == 0) {
+      tokenPosition.entryValue = tokenPosition.entryValue.plus(
+        tokenPositionChangeEntry.vTokenQuantity.times(
+          tokenPositionChangeEntry.entryPrice
+        )
+      );
 
-    tokenPosition.openPositionEntries.push(tokenPositionChangeEntry.id);
+      tokenPosition.entryPrice = safeDiv(
+        tokenPosition.entryValue,
+        tokenPosition.netPosition.toBigDecimal()
+      );
 
-    tokenPosition.save();
-    return;
-  }
+      openPositionsIdArray.push(tokenPositionChangeEntry.id);
+      tokenPosition.openPositionEntries = openPositionsIdArray;
 
-  let openPosition_0 = TokenPositionChangeEntry.load(
-    tokenPosition.openPositionEntries[0]
-  );
-
-  if ((openPosition_0.side = tokenPositionChangeEntry.side)) {
-    tokenPosition.entryValue = tokenPosition.entryValue.plus(
-      tokenPositionChangeEntry.vTokenQuantity.times(openPosition_0.entryPrice)
-    );
-
-    tokenPosition.entryPrice = safeDiv(
-      tokenPosition.entryValue,
-      tokenPosition.netPosition.toBigDecimal()
-    );
-
-    tokenPosition.openPositionEntries.push(tokenPositionChangeEntry.id);
-
-    tokenPosition.save();
-    return;
-  }
-
-  while (
-    tokenPosition.openPositionEntries.length > 0 &&
-    tokenPositionChangeEntry.vTokenQuantity.gt(ZERO_BD)
-  ) {
-    let openPosition_00 = TokenPositionChangeEntry.load(
-      tokenPosition.openPositionEntries[0]
-    );
-
-    let vTokenQuantityMatched = min(
-      tokenPositionChangeEntry.vTokenQuantity,
-      openPosition_00.vTokenQuantity
-    );
-
-    // let realizedPnL =
-    //   vTokenQuantity * newPosition.entryPrice - openPositions[0].entryPrice;
-
-    // if (newPosition.order == 'short') {
-    //   realizedPnL = realizedPnL * -1;
-    // }
-
-    tokenPositionChangeEntry.vTokenQuantity = tokenPositionChangeEntry.vTokenQuantity.minus(
-      vTokenQuantityMatched
-    );
-
-    openPosition_00.vTokenQuantity = openPosition_00.vTokenQuantity.minus(
-      vTokenQuantityMatched
-    );
-
-    tokenPosition.entryValue = tokenPosition.entryValue.minus(
-      vTokenQuantityMatched.times(openPosition_00.entryPrice)
-    );
-
-    tokenPosition.entryPrice = safeDiv(
-      tokenPosition.entryValue,
-      tokenPosition.netPosition.toBigDecimal()
-    );
-
-    if (openPosition_00.vTokenQuantity.equals(ZERO_BD)) {
-      tokenPosition.openPositionEntries.shift(); // removes first element
+      tokenPosition.save();
+      return;
     }
 
-    tokenPosition.save();
-    tokenPositionChangeEntry.save();
-    openPosition_00.save();
-  }
+    let id_0 = openPositionsIdArray[0].toString();
+    let openPosition_0 = TokenPositionChangeEntry.load(id_0);
 
-  let openPosition_000 = TokenPositionChangeEntry.load(
-    tokenPosition.openPositionEntries[0]
-  );
+    if ((openPosition_0.side = tokenPositionChangeEntry.side)) {
+      tokenPosition.entryValue = tokenPosition.entryValue.plus(
+        tokenPositionChangeEntry.vTokenQuantity.times(openPosition_0.entryPrice)
+      );
 
-  if (tokenPositionChangeEntry.vTokenQuantity.gt(ZERO_BD)) {
-    tokenPosition.entryValue = tokenPosition.entryValue.plus(
-      tokenPositionChangeEntry.vTokenQuantity.times(openPosition_000.entryPrice)
-    );
+      tokenPosition.entryPrice = safeDiv(
+        tokenPosition.entryValue,
+        tokenPosition.netPosition.toBigDecimal()
+      );
 
-    tokenPosition.entryPrice = safeDiv(
-      tokenPosition.entryValue,
-      tokenPosition.netPosition.toBigDecimal()
-    );
+      openPositionsIdArray.push(tokenPositionChangeEntry.id);
+      tokenPosition.openPositionEntries = openPositionsIdArray;
 
-    tokenPosition.openPositionEntries.push(tokenPositionChangeEntry.id);
+      tokenPosition.save();
+      return;
+    }
 
-    tokenPosition.save();
-    return;
+    while (
+      openPositionsIdArray.length > 0 &&
+      tokenPositionChangeEntry.vTokenQuantity.gt(ZERO_BD)
+    ) {
+      let id_00 = openPositionsIdArray[0].toString();
+      let openPosition_00 = TokenPositionChangeEntry.load(id_00);
+
+      let vTokenQuantityMatched = min(
+        tokenPositionChangeEntry.vTokenQuantity,
+        openPosition_00.vTokenQuantity
+      );
+
+      tokenPositionChangeEntry.vTokenQuantity = tokenPositionChangeEntry.vTokenQuantity.minus(
+        vTokenQuantityMatched
+      );
+
+      openPosition_00.vTokenQuantity = openPosition_00.vTokenQuantity.minus(
+        vTokenQuantityMatched
+      );
+
+      tokenPosition.entryValue = tokenPosition.entryValue.minus(
+        vTokenQuantityMatched.times(openPosition_00.entryPrice)
+      );
+
+      tokenPosition.entryPrice = safeDiv(
+        tokenPosition.entryValue,
+        tokenPosition.netPosition.toBigDecimal()
+      );
+
+      if (openPosition_00.vTokenQuantity.equals(ZERO_BD)) {
+        openPositionsIdArray.shift(); // removes first element
+        tokenPosition.openPositionEntries = openPositionsIdArray;
+      }
+
+      tokenPosition.save();
+      tokenPositionChangeEntry.save();
+      openPosition_00.save();
+    }
+
+    let id_000 = openPositionsIdArray[0].toString();
+    let openPosition_000 = TokenPositionChangeEntry.load(id_000);
+
+    if (tokenPositionChangeEntry.vTokenQuantity.gt(ZERO_BD)) {
+      tokenPosition.entryValue = tokenPosition.entryValue.plus(
+        tokenPositionChangeEntry.vTokenQuantity.times(
+          openPosition_000.entryPrice
+        )
+      );
+
+      tokenPosition.entryPrice = safeDiv(
+        tokenPosition.entryValue,
+        tokenPosition.netPosition.toBigDecimal()
+      );
+
+      openPositionsIdArray.push(tokenPositionChangeEntry.id);
+      tokenPosition.openPositionEntries = openPositionsIdArray;
+
+      tokenPosition.save();
+      return;
+    }
   }
 }
 
