@@ -37,8 +37,10 @@ export function getTokenPosition(
     tokenPosition.sellVQuoteAmount = ZERO_BD;
     tokenPosition.sellVTokenAmount = ZERO_BD;
 
-    tokenPosition.realizedPnL = ZERO_BD;
-
+    tokenPosition.entryValue = ZERO_BD;
+    tokenPosition.entryPrice = ZERO_BD;
+    tokenPosition.openPositionEntries = new Array<string>(0);
+    
     tokenPosition.save();
   }
 
