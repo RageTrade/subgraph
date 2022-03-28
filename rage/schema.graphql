@@ -122,7 +122,8 @@ type TokenPosition @entity {
   fundingPaymentRealizedEntries: [FundingPaymentRealizedEntry!]!
     @derivedFrom(field: "tokenPosition")
 
-  openPositionEntries: [TokenPositionChangeEntry!]!
+  "array of id of the token position change entries, that are open positions"
+  openPositionEntries: [String!]!
 
   lastTokenPositionChangeEntry: TokenPositionChangeEntry!
   tokenPositionLiquidatedEntries: [TokenPositionLiquidatedEntry!]!
