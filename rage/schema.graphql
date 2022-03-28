@@ -122,6 +122,8 @@ type TokenPosition @entity {
   fundingPaymentRealizedEntries: [FundingPaymentRealizedEntry!]!
     @derivedFrom(field: "tokenPosition")
 
+  openPositionEntries: [TokenPositionChangeEntry!]!
+
   lastTokenPositionChangeEntry: TokenPositionChangeEntry!
   tokenPositionLiquidatedEntries: [TokenPositionLiquidatedEntry!]!
     @derivedFrom(field: "tokenPosition")
@@ -136,7 +138,8 @@ type TokenPosition @entity {
   sellVQuoteAmount: BigDecimal!
   sellVTokenAmount: BigDecimal!
 
-  realizedPnL: BigDecimal!
+  entryValue: BigDecimal!
+  entryPrice: BigDecimal! # entryPrice = abs(entryValue / netPosition)
 }
 
 enum MarginTransactionType {
@@ -185,6 +188,9 @@ type TokenPositionChangeEntry @entity {
   "baseAmountOut amount of base tokens that account received (positive) or paid (negative)"
   vQuoteAmountOut: BigDecimal!
 
+  vTokenQuantity: BigDecimal!
+
+  entryPrice: BigDecimal!
   executionPrice: BigDecimal!
   startPrice: BigDecimal!
   endPrice: BigDecimal!

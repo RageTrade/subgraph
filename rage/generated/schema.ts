@@ -583,6 +583,15 @@ export class TokenPosition extends Entity {
     this.set("fundingPaymentRealizedEntries", Value.fromStringArray(value));
   }
 
+  get openPositionEntries(): Array<string> {
+    let value = this.get("openPositionEntries");
+    return value.toStringArray();
+  }
+
+  set openPositionEntries(value: Array<string>) {
+    this.set("openPositionEntries", Value.fromStringArray(value));
+  }
+
   get lastTokenPositionChangeEntry(): string {
     let value = this.get("lastTokenPositionChangeEntry");
     return value.toString();
@@ -655,13 +664,22 @@ export class TokenPosition extends Entity {
     this.set("sellVTokenAmount", Value.fromBigDecimal(value));
   }
 
-  get realizedPnL(): BigDecimal {
-    let value = this.get("realizedPnL");
+  get entryValue(): BigDecimal {
+    let value = this.get("entryValue");
     return value.toBigDecimal();
   }
 
-  set realizedPnL(value: BigDecimal) {
-    this.set("realizedPnL", Value.fromBigDecimal(value));
+  set entryValue(value: BigDecimal) {
+    this.set("entryValue", Value.fromBigDecimal(value));
+  }
+
+  get entryPrice(): BigDecimal {
+    let value = this.get("entryPrice");
+    return value.toBigDecimal();
+  }
+
+  set entryPrice(value: BigDecimal) {
+    this.set("entryPrice", Value.fromBigDecimal(value));
   }
 }
 
@@ -838,6 +856,24 @@ export class TokenPositionChangeEntry extends Entity {
 
   set vQuoteAmountOut(value: BigDecimal) {
     this.set("vQuoteAmountOut", Value.fromBigDecimal(value));
+  }
+
+  get vTokenQuantity(): BigDecimal {
+    let value = this.get("vTokenQuantity");
+    return value.toBigDecimal();
+  }
+
+  set vTokenQuantity(value: BigDecimal) {
+    this.set("vTokenQuantity", Value.fromBigDecimal(value));
+  }
+
+  get entryPrice(): BigDecimal {
+    let value = this.get("entryPrice");
+    return value.toBigDecimal();
+  }
+
+  set entryPrice(value: BigDecimal) {
+    this.set("entryPrice", Value.fromBigDecimal(value));
   }
 
   get executionPrice(): BigDecimal {
