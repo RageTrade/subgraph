@@ -23,13 +23,14 @@ import {
   generateId,
   getFundingRate,
   getSumAX128,
+  min,
   parsePriceX128,
   parseSqrtPriceX96,
   safeDiv,
 } from '../../utils';
 import { UniswapV3Pool } from '../../../generated/templates/UniswapV3Pool/UniswapV3Pool';
 import { getPriceANDTick } from '../vPoolWrapper/utils';
-import { ZERO_BI } from '../../utils/constants';
+import { ONE_BD, ZERO_BD, ZERO_BI } from '../../utils/constants';
 import { getCollateral } from './collateral';
 import {
   getRageTradePool,
@@ -45,6 +46,10 @@ export function handleAccountCreated(event: AccountCreated): void {
 
   account.save();
 }
+
+// export function _handleTokenPositionChanged(event: TokenPositionChanged): void {
+
+// }
 
 // @entity TokenPosition
 export function handleTokenPositionChanged(event: TokenPositionChanged): void {
@@ -135,16 +140,6 @@ export function handleTokenPositionChanged(event: TokenPositionChanged): void {
     tokenPosition.sellVTokenAmount
   );
 
-  if (tokenPosition.buyVTokenAmount.gt(tokenPosition.sellVTokenAmount)) {
-    tokenPosition.realizedPnL = tokenPosition.sellVTokenAmount.times(
-      sellAvgPrice.minus(buyAvgPrice)
-    );
-  } else {
-    tokenPosition.realizedPnL = tokenPosition.buyVTokenAmount.times(
-      sellAvgPrice.minus(buyAvgPrice)
-    );
-  }
-
   log.debug(
     'custom_logs: handleTokenPositionChanged pnl calc [ vTokenAmountOut - {} ] [ vQuoteAmountOut - {} ] [ buyVQuoteAmount - {} ] [ sellVQuoteAmount - {} ] [ buyVTokenAmount - {} ] [ sellVTokenAmount - {} ] [ buyAvgPrice - {} ] [ sellAvgPrice - {} ] [ realizedPnL - {} ]',
     [
@@ -156,7 +151,6 @@ export function handleTokenPositionChanged(event: TokenPositionChanged): void {
       tokenPosition.sellVTokenAmount.toString(),
       buyAvgPrice.toString(),
       sellAvgPrice.toString(),
-      tokenPosition.realizedPnL.toString(),
     ]
   );
 
@@ -181,6 +175,9 @@ export function handleTokenPositionChanged(event: TokenPositionChanged): void {
 
   tokenPositionChangeEntry.account = event.params.accountId.toString();
   tokenPositionChangeEntry.rageTradePool = event.params.poolId.toHexString();
+  tokenPositionChangeEntry.vTokenQuantity = event.params.vTokenAmountOut
+    .abs()
+    .toBigDecimal();
 
   tokenPositionChangeEntry.side = event.params.vTokenAmountOut.gt(
     BigInt.fromI32(0)
@@ -204,6 +201,12 @@ export function handleTokenPositionChanged(event: TokenPositionChanged): void {
     event.params.sqrtPriceX96End
   );
 
+  tokenPositionChangeEntry.entryPrice = event.params.vTokenAmountOut
+    .div(event.params.vQuoteAmountOut)
+    .times(BigInt.fromI32(-1))
+    .toBigDecimal();
+
+  // entry price without fees
   tokenPositionChangeEntry.executionPrice = parsePriceX128(
     event.params.sqrtPriceX96End
       .times(event.params.sqrtPriceX96Start)
@@ -243,6 +246,113 @@ export function handleTokenPositionChanged(event: TokenPositionChanged): void {
     rageTradePool.liquidity = liquidity_result.value;
   } else {
     log.error('custom_logs: try_liquidity reverted {}', ['']);
+  }
+
+  // algorithm for open position
+
+  // if no open trades, or new trade is
+  if (tokenPosition.openPositionEntries.length == 0) {
+    tokenPosition.entryValue = tokenPosition.entryValue.plus(
+      tokenPositionChangeEntry.vTokenQuantity.times(
+        tokenPositionChangeEntry.entryPrice
+      )
+    );
+
+    tokenPosition.entryPrice = safeDiv(
+      tokenPosition.entryValue,
+      tokenPosition.netPosition.toBigDecimal()
+    );
+
+    tokenPosition.openPositionEntries.push(tokenPositionChangeEntry.id);
+
+    tokenPosition.save();
+    return;
+  }
+
+  let openPosition_0 = TokenPositionChangeEntry.load(
+    tokenPosition.openPositionEntries[0]
+  );
+
+  if ((openPosition_0.side = tokenPositionChangeEntry.side)) {
+    tokenPosition.entryValue = tokenPosition.entryValue.plus(
+      tokenPositionChangeEntry.vTokenQuantity.times(openPosition_0.entryPrice)
+    );
+
+    tokenPosition.entryPrice = safeDiv(
+      tokenPosition.entryValue,
+      tokenPosition.netPosition.toBigDecimal()
+    );
+
+    tokenPosition.openPositionEntries.push(tokenPositionChangeEntry.id);
+
+    tokenPosition.save();
+    return;
+  }
+
+  while (
+    tokenPosition.openPositionEntries.length > 0 &&
+    tokenPositionChangeEntry.vTokenQuantity.gt(ZERO_BD)
+  ) {
+    let openPosition_00 = TokenPositionChangeEntry.load(
+      tokenPosition.openPositionEntries[0]
+    );
+
+    let vTokenQuantityMatched = min(
+      tokenPositionChangeEntry.vTokenQuantity,
+      openPosition_00.vTokenQuantity
+    );
+
+    // let realizedPnL =
+    //   vTokenQuantity * newPosition.entryPrice - openPositions[0].entryPrice;
+
+    // if (newPosition.order == 'short') {
+    //   realizedPnL = realizedPnL * -1;
+    // }
+
+    tokenPositionChangeEntry.vTokenQuantity = tokenPositionChangeEntry.vTokenQuantity.minus(
+      vTokenQuantityMatched
+    );
+
+    openPosition_00.vTokenQuantity = openPosition_00.vTokenQuantity.minus(
+      vTokenQuantityMatched
+    );
+
+    tokenPosition.entryValue = tokenPosition.entryValue.minus(
+      vTokenQuantityMatched.times(openPosition_00.entryPrice)
+    );
+
+    tokenPosition.entryPrice = safeDiv(
+      tokenPosition.entryValue,
+      tokenPosition.netPosition.toBigDecimal()
+    );
+
+    if (openPosition_00.vTokenQuantity.equals(ZERO_BD)) {
+      tokenPosition.openPositionEntries.shift(); // removes first element
+    }
+
+    tokenPosition.save();
+    tokenPositionChangeEntry.save();
+    openPosition_00.save();
+  }
+
+  let openPosition_000 = TokenPositionChangeEntry.load(
+    tokenPosition.openPositionEntries[0]
+  );
+
+  if (tokenPositionChangeEntry.vTokenQuantity.gt(ZERO_BD)) {
+    tokenPosition.entryValue = tokenPosition.entryValue.plus(
+      tokenPositionChangeEntry.vTokenQuantity.times(openPosition_000.entryPrice)
+    );
+
+    tokenPosition.entryPrice = safeDiv(
+      tokenPosition.entryValue,
+      tokenPosition.netPosition.toBigDecimal()
+    );
+
+    tokenPosition.openPositionEntries.push(tokenPositionChangeEntry.id);
+
+    tokenPosition.save();
+    return;
   }
 }
 
@@ -350,7 +460,7 @@ export function handleTokenPositionFundingPaymentRealized(
   );
 
   fundingRateEntry.fundingRate = getFundingRate(event.params.poolId);
-  rageTradePool.fundingRate = fundingRateEntry.fundingRate
+  rageTradePool.fundingRate = fundingRateEntry.fundingRate;
 
   fundingRateEntry.side = tokenPosition.netPosition.gt(BigInt.fromI32(0))
     ? 'long'
@@ -362,7 +472,7 @@ export function handleTokenPositionFundingPaymentRealized(
 
   tokenPosition.save();
   fundingRateEntry.save();
-  rageTradePool.save()
+  rageTradePool.save();
 }
 
 export function handlePoolSettingsUpdated(event: PoolSettingsUpdated): void {
