@@ -475,15 +475,12 @@ export function handleTokenPositionFundingPaymentRealized(
   // usdc settlementToken
   fundingRateEntry.amount = BigIntToBigDecimal(event.params.amount, BI_6);
 
-  fundingRateEntry.vTokenPosition = BigIntToBigDecimal(
-    tokenPosition.netPosition,
-    BI_18
-  );
+  fundingRateEntry.vTokenPosition = tokenPosition.netPosition;
 
   fundingRateEntry.fundingRate = getFundingRate(event.params.poolId);
   rageTradePool.fundingRate = fundingRateEntry.fundingRate;
 
-  fundingRateEntry.side = tokenPosition.netPosition.gt(BigInt.fromI32(0))
+  fundingRateEntry.side = tokenPosition.netPosition.gt(ZERO_BD)
     ? 'long'
     : 'short';
 
