@@ -115,7 +115,7 @@ type TokenPosition @entity {
   "vToken address of token whose position was taken"
   rageTradePool: RageTradePool!
   "tokenAmountOut amount of tokens that account received (positive) or paid (negative)"
-  netPosition: BigInt!
+  netPosition: BigDecimal!
 
   liquidationPrice: BigDecimal!
 

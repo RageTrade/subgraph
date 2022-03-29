@@ -556,13 +556,13 @@ export class TokenPosition extends Entity {
     this.set("rageTradePool", Value.fromString(value));
   }
 
-  get netPosition(): BigInt {
+  get netPosition(): BigDecimal {
     let value = this.get("netPosition");
-    return value.toBigInt();
+    return value.toBigDecimal();
   }
 
-  set netPosition(value: BigInt) {
-    this.set("netPosition", Value.fromBigInt(value));
+  set netPosition(value: BigDecimal) {
+    this.set("netPosition", Value.fromBigDecimal(value));
   }
 
   get liquidationPrice(): BigDecimal {
