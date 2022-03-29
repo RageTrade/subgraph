@@ -29,8 +29,8 @@ import {
   safeDiv,
 } from '../../utils';
 import { UniswapV3Pool } from '../../../generated/templates/UniswapV3Pool/UniswapV3Pool';
-import { getPriceANDTick } from '../vPoolWrapper/utils';
-import { ONE_BD, ZERO_BD, ZERO_BI } from '../../utils/constants';
+import { absBigDecimal, getPriceANDTick } from '../vPoolWrapper/utils';
+import { BI_18, BI_6, ZERO_BD, ZERO_BI } from '../../utils/constants';
 import { getCollateral } from './collateral';
 import {
   getRageTradePool,
@@ -80,7 +80,7 @@ export function handleTokenPositionChanged(event: TokenPositionChanged): void {
   );
 
   account.vQuoteBalance = account.vQuoteBalance.plus(
-    BigIntToBigDecimal(event.params.vQuoteAmountOut, BigInt.fromI32(6))
+    BigIntToBigDecimal(event.params.vQuoteAmountOut, BI_6)
   );
 
   let result = getSumAX128(vPoolWrapperAddress);
@@ -93,17 +93,14 @@ export function handleTokenPositionChanged(event: TokenPositionChanged): void {
   }
 
   let tenPow4 = BigDecimal.fromString('10000');
-  let netPositionBD = BigIntToBigDecimal(
-    tokenPosition.netPosition,
-    BigInt.fromI32(18)
-  );
+  let netPositionBD = BigIntToBigDecimal(tokenPosition.netPosition, BI_18);
 
   if (event.params.vTokenAmountOut.gt(ZERO_BI)) {
     tokenPosition.buyVTokenAmount = tokenPosition.buyVTokenAmount.plus(
-      BigIntToBigDecimal(event.params.vTokenAmountOut.abs(), BigInt.fromI32(18))
+      BigIntToBigDecimal(event.params.vTokenAmountOut.abs(), BI_18)
     );
     tokenPosition.buyVQuoteAmount = tokenPosition.buyVQuoteAmount.plus(
-      BigIntToBigDecimal(event.params.vQuoteAmountOut.abs(), BigInt.fromI32(6))
+      BigIntToBigDecimal(event.params.vQuoteAmountOut.abs(), BI_6)
     );
 
     // Liquidation Price (Long Position) = - (vQuoteBalance + marginAmount)*1e4/(netPosition * (1e4 -maintenanceMarginRatioBps ))
@@ -118,10 +115,10 @@ export function handleTokenPositionChanged(event: TokenPositionChanged): void {
     );
   } else {
     tokenPosition.sellVTokenAmount = tokenPosition.sellVTokenAmount.plus(
-      BigIntToBigDecimal(event.params.vTokenAmountOut.abs(), BigInt.fromI32(18))
+      BigIntToBigDecimal(event.params.vTokenAmountOut.abs(), BI_18)
     );
     tokenPosition.sellVQuoteAmount = tokenPosition.sellVQuoteAmount.plus(
-      BigIntToBigDecimal(event.params.vQuoteAmountOut.abs(), BigInt.fromI32(6))
+      BigIntToBigDecimal(event.params.vQuoteAmountOut.abs(), BI_6)
     );
 
     // Liquidation Price (Short Position) = - (vQuoteBalance + marginAmount)*1e4/netPosition(1e4+maintenanceMarginRatioBps)
@@ -178,9 +175,6 @@ export function handleTokenPositionChanged(event: TokenPositionChanged): void {
 
   tokenPositionChangeEntry.account = event.params.accountId.toString();
   tokenPositionChangeEntry.rageTradePool = event.params.poolId.toHexString();
-  tokenPositionChangeEntry.vTokenQuantity = event.params.vTokenAmountOut
-    .abs()
-    .toBigDecimal();
 
   tokenPositionChangeEntry.side = event.params.vTokenAmountOut.gt(
     BigInt.fromI32(0)
@@ -190,11 +184,16 @@ export function handleTokenPositionChanged(event: TokenPositionChanged): void {
 
   tokenPositionChangeEntry.vTokenAmountOut = BigIntToBigDecimal(
     event.params.vTokenAmountOut,
-    BigInt.fromI32(18)
+    BI_18
   );
+
   tokenPositionChangeEntry.vQuoteAmountOut = BigIntToBigDecimal(
     event.params.vQuoteAmountOut,
-    BigInt.fromI32(6)
+    BI_6
+  );
+
+  tokenPositionChangeEntry.vTokenQuantity = absBigDecimal(
+    tokenPositionChangeEntry.vTokenAmountOut
   );
 
   tokenPositionChangeEntry.startPrice = parseSqrtPriceX96(
@@ -204,18 +203,20 @@ export function handleTokenPositionChanged(event: TokenPositionChanged): void {
     event.params.sqrtPriceX96End
   );
 
-  tokenPositionChangeEntry.entryPrice = event.params.vTokenAmountOut
-    .div(event.params.vQuoteAmountOut)
-    .times(BigInt.fromI32(-1))
-    .toBigDecimal();
+  tokenPositionChangeEntry.entryPrice = BigIntToBigDecimal(
+    event.params.vTokenAmountOut
+      .div(event.params.vQuoteAmountOut)
+      .times(BigInt.fromI32(-1)),
+    BI_6
+  );
 
   // entry price without fees
   tokenPositionChangeEntry.executionPrice = parsePriceX128(
     event.params.sqrtPriceX96End
       .times(event.params.sqrtPriceX96Start)
       .div(BigInt.fromI32(2).pow(64)),
-    BigInt.fromI32(18),
-    BigInt.fromI32(6)
+    BI_18,
+    BI_6
   );
 
   tokenPosition.lastTokenPositionChangeEntry = tokenPositionChangeEntry.id;
@@ -251,7 +252,9 @@ export function handleTokenPositionChanged(event: TokenPositionChanged): void {
     log.error('custom_logs: try_liquidity reverted {}', ['']);
   }
 
-  // algorithm for open position
+  //////////////////////////////////////////////////////////////////////////
+  ////////////////  algorithm for open position  ///////////////////////////
+  //////////////////////////////////////////////////////////////////////////
 
   let openPositionsIdArray = tokenPosition.openPositionEntries;
 
@@ -265,7 +268,7 @@ export function handleTokenPositionChanged(event: TokenPositionChanged): void {
 
       tokenPosition.entryPrice = safeDiv(
         tokenPosition.entryValue,
-        tokenPosition.netPosition.toBigDecimal()
+        BigIntToBigDecimal(tokenPosition.netPosition, BI_18)
       );
 
       log.debug(
@@ -293,7 +296,7 @@ export function handleTokenPositionChanged(event: TokenPositionChanged): void {
 
       tokenPosition.entryPrice = safeDiv(
         tokenPosition.entryValue,
-        tokenPosition.netPosition.toBigDecimal()
+        BigIntToBigDecimal(tokenPosition.netPosition, BI_18)
       );
 
       openPositionsIdArray.push(tokenPositionChangeEntry.id);
@@ -337,11 +340,12 @@ export function handleTokenPositionChanged(event: TokenPositionChanged): void {
 
       tokenPosition.entryPrice = safeDiv(
         tokenPosition.entryValue,
-        tokenPosition.netPosition.toBigDecimal()
+        BigIntToBigDecimal(tokenPosition.netPosition, BI_18)
       );
 
       if (openPosition_00.vTokenQuantity.equals(ZERO_BD)) {
         openPositionsIdArray.shift(); // removes first element
+
         tokenPosition.openPositionEntries = openPositionsIdArray;
         log.debug(
           'custom_logs: handleTokenPositionChanged openPositionsIdArray.length == 0, entryValue - {} , entryPrice - {}',
@@ -369,7 +373,7 @@ export function handleTokenPositionChanged(event: TokenPositionChanged): void {
 
       tokenPosition.entryPrice = safeDiv(
         tokenPosition.entryValue,
-        tokenPosition.netPosition.toBigDecimal()
+        BigIntToBigDecimal(tokenPosition.netPosition, BI_18)
       );
 
       openPositionsIdArray.push(tokenPositionChangeEntry.id);
@@ -396,7 +400,7 @@ export function handleMarginUpdated(event: MarginUpdated): void {
   collateral.amount = collateral.amount.plus(event.params.amount);
 
   account.marginBalance = account.marginBalance.plus(
-    BigIntToBigDecimal(event.params.amount, BigInt.fromI32(6))
+    BigIntToBigDecimal(event.params.amount, BI_6)
   );
 
   account.save();
@@ -419,10 +423,7 @@ export function handleMarginUpdated(event: MarginUpdated): void {
     ? 'deposit'
     : 'withdraw';
 
-  marginChangeEntry.amount = BigIntToBigDecimal(
-    event.params.amount,
-    BigInt.fromI32(6)
-  );
+  marginChangeEntry.amount = BigIntToBigDecimal(event.params.amount, BI_6);
 
   marginChangeEntry.save();
 }
@@ -474,14 +475,11 @@ export function handleTokenPositionFundingPaymentRealized(
 
   fundingRateEntry.tokenPosition = tokenPosition.id;
   // usdc settlementToken
-  fundingRateEntry.amount = BigIntToBigDecimal(
-    event.params.amount,
-    BigInt.fromI32(6)
-  );
+  fundingRateEntry.amount = BigIntToBigDecimal(event.params.amount, BI_6);
 
   fundingRateEntry.vTokenPosition = BigIntToBigDecimal(
     tokenPosition.netPosition,
-    BigInt.fromI32(18)
+    BI_18
   );
 
   fundingRateEntry.fundingRate = getFundingRate(event.params.poolId);
@@ -556,17 +554,15 @@ export function handleTokenPositionLiquidated(
   entry.amountClosed = lastTokenPositionChangeEntry.vQuoteAmountOut;
   entry.liquidationPrice = lastTokenPositionChangeEntry.executionPrice;
 
-  entry.feeKeeper = BigIntToBigDecimal(
-    event.params.keeperFee,
-    BigInt.fromI32(6)
-  );
+  entry.feeKeeper = BigIntToBigDecimal(event.params.keeperFee, BI_6);
   entry.feeInsuranceFund = BigIntToBigDecimal(
     event.params.insuranceFundFee,
-    BigInt.fromI32(6)
+    BI_6
   );
 
   entry.save();
 }
+
 // @entity LiquidateRanges
 // export function handleLiquidateRanges(event: LiquidateRanges): void {}
 
