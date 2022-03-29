@@ -90,7 +90,7 @@ export function getPriceANDTick(vPoolAddress: Address): PriceANDTick {
 
 // let candlePoolID = generateId([rageTradePool.hourData, timeIndex.toString()]);
 
-function absBigDecimal(num: BigDecimal): BigDecimal {
+export function absBigDecimal(num: BigDecimal): BigDecimal {
   if (num.gt(ZERO_BD)) {
     return num;
   } else {

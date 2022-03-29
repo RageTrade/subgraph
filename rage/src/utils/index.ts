@@ -1,13 +1,14 @@
 /* eslint-disable prefer-const */
-import {
-  BigInt,
-  BigDecimal,
-  ethereum,
-  log,
-  ByteArray,
-} from '@graphprotocol/graph-ts';
+import { BigInt, BigDecimal, ethereum, log } from '@graphprotocol/graph-ts';
 import { UniswapV3Transaction } from '../../generated/schema';
-import { ONE_BI, ZERO_BI, ZERO_BD, ONE_BD } from '../utils/constants';
+import {
+  ONE_BI,
+  ZERO_BI,
+  ZERO_BD,
+  ONE_BD,
+  BI_18,
+  BI_6,
+} from '../utils/constants';
 import { Address } from '@graphprotocol/graph-ts';
 
 import { ClearingHouse } from '../../generated/ClearingHouse/ClearingHouse';
@@ -106,7 +107,7 @@ export function convertTokenToDecimal(
 }
 
 export function convertEthToDecimal(eth: BigInt): BigDecimal {
-  return eth.toBigDecimal().div(exponentToBigDecimal(BigInt.fromI32(18)));
+  return eth.toBigDecimal().div(exponentToBigDecimal(BI_18));
 }
 
 export function loadTransaction(event: ethereum.Event): UniswapV3Transaction {
@@ -223,16 +224,8 @@ export function getFundingRate(poolId: BigInt): BigDecimal {
   );
 
   // TODO take decimals dynamically
-  let realPrice = parsePriceX128(
-    realPriceX128,
-    BigInt.fromI32(18),
-    BigInt.fromI32(6)
-  );
-  let virtualPrice = parsePriceX128(
-    virtualPriceX128,
-    BigInt.fromI32(18),
-    BigInt.fromI32(6)
-  );
+  let realPrice = parsePriceX128(realPriceX128, BI_18, BI_6);
+  let virtualPrice = parsePriceX128(virtualPriceX128, BI_18, BI_6);
 
   log.debug(
     'custom_logs: handleFundingPayment getFundingRate triggered realPrice - {} virtualPrice - {}',
@@ -265,8 +258,8 @@ export function getSumAX128(
 export function parseSqrtPriceX96(val: BigInt): BigDecimal {
   let output = parsePriceX128(
     val.times(val).div(BigInt.fromI32(2).pow(64)),
-    BigInt.fromI32(18),
-    BigInt.fromI32(6)
+    BI_18,
+    BI_6
   );
 
   log.debug(

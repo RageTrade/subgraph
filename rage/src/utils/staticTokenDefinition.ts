@@ -1,5 +1,6 @@
 /* eslint-disable prefer-const */
 import { Address, BigInt } from '@graphprotocol/graph-ts';
+import { BI_18, BI_6 } from './constants';
 
 // Initialize a Token Definition with the attributes
 export class StaticTokenDefinition {
@@ -30,7 +31,7 @@ export class StaticTokenDefinition {
       Address.fromString('0x82af49447d8a07e3bd95bd0d56f35241523fbab1'),
       'WETH',
       'Wrapped Ethereum',
-      BigInt.fromI32(18)
+      BI_18
     );
     staticDefinitions.push(tokenWETH);
 
@@ -39,7 +40,7 @@ export class StaticTokenDefinition {
       Address.fromString('0xff970a61a04b1ca14834a43f5de4533ebddb5cc8'),
       'USDC',
       'USD Coin',
-      BigInt.fromI32(6)
+      BI_6
     );
     staticDefinitions.push(tokenUSDC);
 

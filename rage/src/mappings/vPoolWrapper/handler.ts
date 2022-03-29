@@ -11,6 +11,7 @@ import {
   updateCandleData,
 } from './utils';
 import { BigIntToBigDecimal, generateId } from '../../utils';
+import { BI_18, BI_6 } from '../../utils/constants';
 
 export function handleSwap(event: Swap): void {
   log.debug(
@@ -67,11 +68,11 @@ export function handleSwap(event: Swap): void {
 
   let vTokenInBD = BigIntToBigDecimal(
     event.params.swapResult.vTokenIn,
-    BigInt.fromI32(18)
+    BI_18
   );
   let vQuoteInBD = BigIntToBigDecimal(
     event.params.swapResult.vQuoteIn,
-    BigInt.fromI32(6)
+    BI_6
   );
 
   // hourData
