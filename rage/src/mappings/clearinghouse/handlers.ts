@@ -76,7 +76,7 @@ export function handleTokenPositionChanged(event: TokenPositionChanged): void {
   let vPoolWrapperAddress = Address.fromString(rageTradePool.vPoolWrapper);
 
   tokenPosition.netPosition = tokenPosition.netPosition.plus(
-    event.params.vTokenAmountOut
+    BigIntToBigDecimal(event.params.vTokenAmountOut, BI_18)
   );
 
   account.vQuoteBalance = account.vQuoteBalance.plus(
@@ -93,7 +93,6 @@ export function handleTokenPositionChanged(event: TokenPositionChanged): void {
   }
 
   let tenPow4 = BigDecimal.fromString('10000');
-  let netPositionBD = BigIntToBigDecimal(tokenPosition.netPosition, BI_18);
 
   if (event.params.vTokenAmountOut.gt(ZERO_BI)) {
     tokenPosition.buyVTokenAmount = tokenPosition.buyVTokenAmount.plus(
@@ -109,7 +108,7 @@ export function handleTokenPositionChanged(event: TokenPositionChanged): void {
         .plus(account.marginBalance)
         .times(tenPow4)
         .neg(),
-      netPositionBD.times(
+      tokenPosition.netPosition.times(
         tenPow4.minus(rageTradePool.maintenanceMarginRatioBps)
       )
     );
@@ -127,7 +126,9 @@ export function handleTokenPositionChanged(event: TokenPositionChanged): void {
         .plus(account.marginBalance)
         .times(tenPow4)
         .neg(),
-      netPositionBD.times(tenPow4.plus(rageTradePool.maintenanceMarginRatioBps))
+      tokenPosition.netPosition.times(
+        tenPow4.plus(rageTradePool.maintenanceMarginRatioBps)
+      )
     );
   }
 
@@ -176,9 +177,7 @@ export function handleTokenPositionChanged(event: TokenPositionChanged): void {
   tokenPositionChangeEntry.account = event.params.accountId.toString();
   tokenPositionChangeEntry.rageTradePool = event.params.poolId.toHexString();
 
-  tokenPositionChangeEntry.side = event.params.vTokenAmountOut.gt(
-    BigInt.fromI32(0)
-  )
+  tokenPositionChangeEntry.side = event.params.vTokenAmountOut.gt(ZERO_BI)
     ? 'long'
     : 'short';
 
@@ -203,11 +202,10 @@ export function handleTokenPositionChanged(event: TokenPositionChanged): void {
     event.params.sqrtPriceX96End
   );
 
-  tokenPositionChangeEntry.entryPrice = BigIntToBigDecimal(
-    event.params.vTokenAmountOut
-      .div(event.params.vQuoteAmountOut)
-      .times(BigInt.fromI32(-1)),
-    BI_6
+  tokenPositionChangeEntry.entryPrice = absBigDecimal(
+    BigIntToBigDecimal(event.params.vQuoteAmountOut, BI_6).div(
+      BigIntToBigDecimal(event.params.vTokenAmountOut, BI_18)
+    )
   );
 
   // entry price without fees
@@ -268,7 +266,7 @@ export function handleTokenPositionChanged(event: TokenPositionChanged): void {
 
       tokenPosition.entryPrice = safeDiv(
         tokenPosition.entryValue,
-        BigIntToBigDecimal(tokenPosition.netPosition, BI_18)
+        tokenPosition.netPosition
       );
 
       log.debug(
@@ -296,7 +294,7 @@ export function handleTokenPositionChanged(event: TokenPositionChanged): void {
 
       tokenPosition.entryPrice = safeDiv(
         tokenPosition.entryValue,
-        BigIntToBigDecimal(tokenPosition.netPosition, BI_18)
+        tokenPosition.netPosition
       );
 
       openPositionsIdArray.push(tokenPositionChangeEntry.id);
@@ -340,7 +338,7 @@ export function handleTokenPositionChanged(event: TokenPositionChanged): void {
 
       tokenPosition.entryPrice = safeDiv(
         tokenPosition.entryValue,
-        BigIntToBigDecimal(tokenPosition.netPosition, BI_18)
+        tokenPosition.netPosition
       );
 
       if (openPosition_00.vTokenQuantity.equals(ZERO_BD)) {
@@ -373,7 +371,7 @@ export function handleTokenPositionChanged(event: TokenPositionChanged): void {
 
       tokenPosition.entryPrice = safeDiv(
         tokenPosition.entryValue,
-        BigIntToBigDecimal(tokenPosition.netPosition, BI_18)
+        tokenPosition.netPosition
       );
 
       openPositionsIdArray.push(tokenPositionChangeEntry.id);
