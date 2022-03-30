@@ -256,7 +256,7 @@ export function handleTokenPositionChanged(event: TokenPositionChanged): void {
 
   let openPositionsIdArray = tokenPosition.openPositionEntries;
 
-  if (openPositionsIdArray !== null) {
+  if (openPositionsIdArray != null) {
     if (openPositionsIdArray.length == 0) {
       tokenPosition.entryValue = tokenPosition.entryValue.plus(
         tokenPositionChangeEntry.vTokenQuantity.times(
@@ -264,9 +264,8 @@ export function handleTokenPositionChanged(event: TokenPositionChanged): void {
         )
       );
 
-      tokenPosition.entryPrice = safeDiv(
-        tokenPosition.entryValue,
-        tokenPosition.netPosition
+      tokenPosition.entryPrice = absBigDecimal(
+        safeDiv(tokenPosition.entryValue, tokenPosition.netPosition)
       );
 
       log.debug(
@@ -281,20 +280,22 @@ export function handleTokenPositionChanged(event: TokenPositionChanged): void {
       tokenPosition.openPositionEntries = openPositionsIdArray;
 
       tokenPosition.save();
+      log.debug('custom_logs: handleTokenPositionChanged return 0', ['']);
       return;
     }
 
     let id_0 = openPositionsIdArray[0].toString();
     let openPosition_0 = TokenPositionChangeEntry.load(id_0);
 
-    if ((openPosition_0.side = tokenPositionChangeEntry.side)) {
+    if (openPosition_0.side == tokenPositionChangeEntry.side) {
       tokenPosition.entryValue = tokenPosition.entryValue.plus(
-        tokenPositionChangeEntry.vTokenQuantity.times(openPosition_0.entryPrice)
+        tokenPositionChangeEntry.vTokenQuantity.times(
+          tokenPositionChangeEntry.entryPrice
+        )
       );
 
-      tokenPosition.entryPrice = safeDiv(
-        tokenPosition.entryValue,
-        tokenPosition.netPosition
+      tokenPosition.entryPrice = absBigDecimal(
+        safeDiv(tokenPosition.entryValue, tokenPosition.netPosition)
       );
 
       openPositionsIdArray.push(tokenPositionChangeEntry.id);
@@ -309,6 +310,9 @@ export function handleTokenPositionChanged(event: TokenPositionChanged): void {
       );
 
       tokenPosition.save();
+
+      log.debug('custom_logs: handleTokenPositionChanged return 1', ['']);
+
       return;
     }
 
@@ -318,6 +322,19 @@ export function handleTokenPositionChanged(event: TokenPositionChanged): void {
     ) {
       let id_00 = openPositionsIdArray[0].toString();
       let openPosition_00 = TokenPositionChangeEntry.load(id_00);
+
+      log.debug(
+        'custom_logs: handleTokenPositionChanged enter while loop account.id - {}, openPositionsIdArray.length - {}, openPositionId - {}, entryPrice - {}  vTokenQuantity - {}, tokenPositionChangeEntry.id - {}, tokenPositionChangeEntry.vTokenQuantity - {}',
+        [
+          account.id.toString(),
+          BigInt.fromI32(openPositionsIdArray.length).toString(),
+          openPosition_00.id.toString(),
+          openPosition_00.entryPrice.toString(),
+          openPosition_00.vTokenQuantity.toString(),
+          tokenPositionChangeEntry.id.toString(),
+          tokenPositionChangeEntry.vTokenQuantity.toString(),
+        ]
+      );
 
       let vTokenQuantityMatched = min(
         tokenPositionChangeEntry.vTokenQuantity,
@@ -336,13 +353,28 @@ export function handleTokenPositionChanged(event: TokenPositionChanged): void {
         vTokenQuantityMatched.times(openPosition_00.entryPrice)
       );
 
-      tokenPosition.entryPrice = safeDiv(
-        tokenPosition.entryValue,
-        tokenPosition.netPosition
+      tokenPosition.entryPrice = absBigDecimal(
+        safeDiv(tokenPosition.entryValue, tokenPosition.netPosition)
+      );
+
+      log.debug(
+        'custom_logs: handleTokenPositionChanged in while loop account.id - {}, vTokenQuantityMatched - {} , tokenPositionChangeEntry.vTokenQuantity - {}, openPosition_00.vTokenQuantity - {}, entryPrice - {}, entryValue - {}, netPosition - {}, ',
+        [
+          account.id,
+          vTokenQuantityMatched.toString(),
+          tokenPositionChangeEntry.vTokenQuantity.toString(),
+          openPosition_00.vTokenQuantity.toString(),
+          tokenPosition.entryPrice.toString(),
+          tokenPosition.entryValue.toString(),
+          tokenPosition.netPosition.toString(),
+        ]
       );
 
       if (openPosition_00.vTokenQuantity.equals(ZERO_BD)) {
         openPositionsIdArray.shift(); // removes first element
+        log.debug('custom_logs: handleTokenPositionChanged shift id - {}', [
+          id_00,
+        ]);
 
         tokenPosition.openPositionEntries = openPositionsIdArray;
         log.debug(
@@ -359,25 +391,22 @@ export function handleTokenPositionChanged(event: TokenPositionChanged): void {
       openPosition_00.save();
     }
 
-    let id_000 = openPositionsIdArray[0].toString();
-    let openPosition_000 = TokenPositionChangeEntry.load(id_000);
-
     if (tokenPositionChangeEntry.vTokenQuantity.gt(ZERO_BD)) {
       tokenPosition.entryValue = tokenPosition.entryValue.plus(
         tokenPositionChangeEntry.vTokenQuantity.times(
-          openPosition_000.entryPrice
+          tokenPositionChangeEntry.entryPrice
         )
       );
 
-      tokenPosition.entryPrice = safeDiv(
-        tokenPosition.entryValue,
-        tokenPosition.netPosition
+      tokenPosition.entryPrice = absBigDecimal(
+        safeDiv(tokenPosition.entryValue, tokenPosition.netPosition)
       );
 
       openPositionsIdArray.push(tokenPositionChangeEntry.id);
       tokenPosition.openPositionEntries = openPositionsIdArray;
 
       tokenPosition.save();
+      log.debug('custom_logs: handleTokenPositionChanged return 2', ['']);
       return;
     }
   }

@@ -30,3 +30,29 @@ Note: You will have to wait a little bit for the blocks to be indexed and ingest
 Open http://localhost:8000/ and view deployments following
 
 > Access deployed subgraphs by deployment ID at /subgraphs/id/<ID> or by name at /subgraphs/name/<NAME>
+
+
+test query
+```graphql
+{
+     account(id: "6") {
+      id
+      tokenPositions {
+        id
+        netPosition
+        entryValue
+        entryPrice
+      }
+    
+      tokenPositionChangeEntries(first: 100, orderBy: timestamp, orderDirection: desc) {
+        id
+        timestamp
+				side
+        vTokenQuantity
+        executionPrice
+        entryPrice
+      }
+    }
+}
+```
+
