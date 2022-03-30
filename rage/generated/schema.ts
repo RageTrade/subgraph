@@ -136,6 +136,15 @@ export class Account extends Entity {
     this.set("tokenPositions", Value.fromStringArray(value));
   }
 
+  get tokenPositionChangeEntriesCount(): BigInt {
+    let value = this.get("tokenPositionChangeEntriesCount");
+    return value.toBigInt();
+  }
+
+  set tokenPositionChangeEntriesCount(value: BigInt) {
+    this.set("tokenPositionChangeEntriesCount", Value.fromBigInt(value));
+  }
+
   get tokenPositionChangeEntries(): Array<string> {
     let value = this.get("tokenPositionChangeEntries");
     return value.toStringArray();
@@ -143,6 +152,15 @@ export class Account extends Entity {
 
   set tokenPositionChangeEntries(value: Array<string>) {
     this.set("tokenPositionChangeEntries", Value.fromStringArray(value));
+  }
+
+  get marginChangeEntriesCount(): BigInt {
+    let value = this.get("marginChangeEntriesCount");
+    return value.toBigInt();
+  }
+
+  set marginChangeEntriesCount(value: BigInt) {
+    this.set("marginChangeEntriesCount", Value.fromBigInt(value));
   }
 
   get marginChangeEntries(): Array<string> {
@@ -574,6 +592,15 @@ export class TokenPosition extends Entity {
     this.set("liquidationPrice", Value.fromBigDecimal(value));
   }
 
+  get fundingPaymentRealizedEntriesCount(): BigInt {
+    let value = this.get("fundingPaymentRealizedEntriesCount");
+    return value.toBigInt();
+  }
+
+  set fundingPaymentRealizedEntriesCount(value: BigInt) {
+    this.set("fundingPaymentRealizedEntriesCount", Value.fromBigInt(value));
+  }
+
   get fundingPaymentRealizedEntries(): Array<string> {
     let value = this.get("fundingPaymentRealizedEntries");
     return value.toStringArray();
@@ -599,6 +626,15 @@ export class TokenPosition extends Entity {
 
   set lastTokenPositionChangeEntry(value: string) {
     this.set("lastTokenPositionChangeEntry", Value.fromString(value));
+  }
+
+  get tokenPositionLiquidatedEntriesCount(): BigInt {
+    let value = this.get("tokenPositionLiquidatedEntriesCount");
+    return value.toBigInt();
+  }
+
+  set tokenPositionLiquidatedEntriesCount(value: BigInt) {
+    this.set("tokenPositionLiquidatedEntriesCount", Value.fromBigInt(value));
   }
 
   get tokenPositionLiquidatedEntries(): Array<string> {

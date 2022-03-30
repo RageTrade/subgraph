@@ -23,8 +23,12 @@ type Account @entity {
 
   margin: [Collateral!]! @derivedFrom(field: "account")
   tokenPositions: [TokenPosition!]! @derivedFrom(field: "account")
+
+  tokenPositionChangeEntriesCount: BigInt!
+
   tokenPositionChangeEntries: [TokenPositionChangeEntry!]!
     @derivedFrom(field: "account")
+  marginChangeEntriesCount: BigInt!
   marginChangeEntries: [MarginChangeEntry!]! @derivedFrom(field: "account")
 
   liquidateToken: [Collateral!]! @derivedFrom(field: "account")
@@ -119,6 +123,8 @@ type TokenPosition @entity {
 
   liquidationPrice: BigDecimal!
 
+  fundingPaymentRealizedEntriesCount: BigInt!
+
   fundingPaymentRealizedEntries: [FundingPaymentRealizedEntry!]!
     @derivedFrom(field: "tokenPosition")
 
@@ -126,6 +132,8 @@ type TokenPosition @entity {
   openPositionEntries: [String!]!
 
   lastTokenPositionChangeEntry: TokenPositionChangeEntry!
+
+  tokenPositionLiquidatedEntriesCount: BigInt!
   tokenPositionLiquidatedEntries: [TokenPositionLiquidatedEntry!]!
     @derivedFrom(field: "tokenPosition")
 
