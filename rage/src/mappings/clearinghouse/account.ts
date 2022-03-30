@@ -2,7 +2,7 @@ import { Account } from '../../../generated/schema';
 import { Address, BigInt, log } from '@graphprotocol/graph-ts';
 
 import { getOwner } from './owner';
-import { ZERO_BD } from '../../utils/constants';
+import { ZERO_BD, ZERO_BI } from '../../utils/constants';
 
 export function generateAccountId(accountNo: BigInt): string {
   return accountNo.toString();
@@ -26,6 +26,8 @@ export function getAccount(accountNo: BigInt): Account {
     account = new Account(accountId);
     account.marginBalance = ZERO_BD;
     account.vQuoteBalance = ZERO_BD;
+    account.tokenPositionChangeEntriesCount = ZERO_BI;
+    account.marginChangeEntriesCount = ZERO_BI;
 
     account.timestamp = BigInt.fromI32(0);
     account.owner = getOwner(Address.fromI32(0) as Address).id;

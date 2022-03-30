@@ -30,7 +30,7 @@ import {
 } from '../../utils';
 import { UniswapV3Pool } from '../../../generated/templates/UniswapV3Pool/UniswapV3Pool';
 import { absBigDecimal, getPriceANDTick } from '../vPoolWrapper/utils';
-import { BI_18, BI_6, ZERO_BD, ZERO_BI } from '../../utils/constants';
+import { BI_18, BI_6, ONE_BI, ZERO_BD, ZERO_BI } from '../../utils/constants';
 import { getCollateral } from './collateral';
 import {
   getRageTradePool,
@@ -77,6 +77,9 @@ export function handleTokenPositionChanged(event: TokenPositionChanged): void {
 
   tokenPosition.netPosition = tokenPosition.netPosition.plus(
     BigIntToBigDecimal(event.params.vTokenAmountOut, BI_18)
+  );
+  account.tokenPositionChangeEntriesCount = account.tokenPositionChangeEntriesCount.plus(
+    ONE_BI
   );
 
   account.vQuoteBalance = account.vQuoteBalance.plus(
@@ -426,6 +429,9 @@ export function handleMarginUpdated(event: MarginUpdated): void {
   collateral.timestamp = event.block.timestamp;
   collateral.amount = collateral.amount.plus(event.params.amount);
 
+  account.marginChangeEntriesCount = account.marginChangeEntriesCount.plus(
+    ONE_BI
+  );
   account.marginBalance = account.marginBalance.plus(
     BigIntToBigDecimal(event.params.amount, BI_6)
   );
@@ -517,6 +523,10 @@ export function handleTokenPositionFundingPaymentRealized(
     fundingRateEntry.amount
   );
 
+  tokenPosition.fundingPaymentRealizedEntriesCount = tokenPosition.fundingPaymentRealizedEntriesCount.plus(
+    ONE_BI
+  );
+
   tokenPosition.save();
   fundingRateEntry.save();
   rageTradePool.save();
@@ -549,6 +559,11 @@ export function handleTokenPositionLiquidated(
     event.params.accountId,
     event.params.poolId
   );
+
+  tokenPosition.tokenPositionLiquidatedEntriesCount = tokenPosition.tokenPositionLiquidatedEntriesCount.plus(
+    ONE_BI
+  );
+  tokenPosition.save();
 
   let lastTokenPositionChangeEntry = TokenPositionChangeEntry.load(
     tokenPosition.lastTokenPositionChangeEntry

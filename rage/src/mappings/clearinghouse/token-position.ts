@@ -27,6 +27,9 @@ export function getTokenPosition(
 
     tokenPosition.totalRealizedFundingPaymentAmount = ZERO_BD;
 
+    tokenPosition.fundingPaymentRealizedEntriesCount = ZERO_BI;
+    tokenPosition.tokenPositionLiquidatedEntriesCount = ZERO_BI;
+    
     // will get overridden in handleTokenPositionChanged
     tokenPosition.lastTokenPositionChangeEntry = "dummy_id";
     tokenPosition.sumAX128CheckPoint = ZERO_BI;
