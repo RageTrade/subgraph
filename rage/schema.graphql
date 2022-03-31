@@ -236,6 +236,8 @@ type TokenPositionLiquidatedEntry @entity {
   feeKeeper: BigDecimal!
 
   feeInsuranceFund: BigDecimal!
+
+  accountMarketValueFinal: BigDecimal!
 }
 
 """

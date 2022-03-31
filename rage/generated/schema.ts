@@ -1074,6 +1074,15 @@ export class TokenPositionLiquidatedEntry extends Entity {
   set feeInsuranceFund(value: BigDecimal) {
     this.set("feeInsuranceFund", Value.fromBigDecimal(value));
   }
+
+  get accountMarketValueFinal(): BigDecimal {
+    let value = this.get("accountMarketValueFinal");
+    return value.toBigDecimal();
+  }
+
+  set accountMarketValueFinal(value: BigDecimal) {
+    this.set("accountMarketValueFinal", Value.fromBigDecimal(value));
+  }
 }
 
 export class LiquidateRangePosition extends Entity {
