@@ -59,7 +59,7 @@ export function handlePoolInitialized(event: PoolInitialized): void {
 
   // vQUOTE
   let clearingHouse = ClearingHouse.bind(contracts.ClearingHouse);
-  let result = clearingHouse.try_protocolInfo();
+  let result = clearingHouse.try_getProtocolInfo();
 
   if (result.reverted) {
     log.error(
