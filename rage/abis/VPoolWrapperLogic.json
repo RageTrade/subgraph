@@ -133,6 +133,19 @@
     "inputs": [
       {
         "indexed": false,
+        "internalType": "int256",
+        "name": "fundingRateOverrideX128",
+        "type": "int256"
+      }
+    ],
+    "name": "FundingRateOverrideUpdated",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
         "internalType": "uint24",
         "name": "liquidityFeePips",
         "type": "uint24"
@@ -454,6 +467,19 @@
   },
   {
     "inputs": [],
+    "name": "fundingRateOverrideX128",
+    "outputs": [
+      {
+        "internalType": "int256",
+        "name": "",
+        "type": "int256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
     "name": "getExtrapolatedSumAX128",
     "outputs": [
       {
@@ -655,6 +681,19 @@
       }
     ],
     "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "int256",
+        "name": "fundingRateOverrideX128_",
+        "type": "int256"
+      }
+    ],
+    "name": "setFundingRateOverride",
+    "outputs": [],
+    "stateMutability": "nonpayable",
     "type": "function"
   },
   {

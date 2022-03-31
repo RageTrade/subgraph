@@ -12,7 +12,7 @@
     "deploy1": "graph deploy fr0ntenddev/rage-trade --ipfs https://api.thegraph.com/ipfs/ --node https://api.thegraph.com/deploy/",
     "format": "prettier --check '**/*'",
     "format:fix": "prettier --write '**/*'",
-    "update": "yarn add @ragetrade/sdk@latest && node update-subgraph.js"
+    "update": "pnpm add @ragetrade/sdk@latest && node update-subgraph.js"
   },
   "devDependencies": {
     "@graphprotocol/graph-cli": "^0.20.0",
@@ -27,7 +27,7 @@
     "yaml": "^1.10.2"
   },
   "dependencies": {
-    "@ragetrade/sdk": "^0.5.1",
+    "@ragetrade/sdk": "^0.5.9",
     "babel-polyfill": "^6.26.0",
     "babel-register": "^6.26.0",
     "truffle": "^5.0.4",
