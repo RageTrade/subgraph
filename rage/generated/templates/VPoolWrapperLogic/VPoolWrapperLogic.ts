@@ -62,6 +62,24 @@ export class Burn__Params {
   }
 }
 
+export class FundingRateOverrideUpdated extends ethereum.Event {
+  get params(): FundingRateOverrideUpdated__Params {
+    return new FundingRateOverrideUpdated__Params(this);
+  }
+}
+
+export class FundingRateOverrideUpdated__Params {
+  _event: FundingRateOverrideUpdated;
+
+  constructor(event: FundingRateOverrideUpdated) {
+    this._event = event;
+  }
+
+  get fundingRateOverrideX128(): BigInt {
+    return this._event.parameters[0].value.toBigInt();
+  }
+}
+
 export class LiquidityFeeUpdated extends ethereum.Event {
   get params(): LiquidityFeeUpdated__Params {
     return new LiquidityFeeUpdated__Params(this);
@@ -566,6 +584,29 @@ export class VPoolWrapperLogic extends ethereum.SmartContract {
         value[3].toBigInt()
       )
     );
+  }
+
+  fundingRateOverrideX128(): BigInt {
+    let result = super.call(
+      "fundingRateOverrideX128",
+      "fundingRateOverrideX128():(int256)",
+      []
+    );
+
+    return result[0].toBigInt();
+  }
+
+  try_fundingRateOverrideX128(): ethereum.CallResult<BigInt> {
+    let result = super.tryCall(
+      "fundingRateOverrideX128",
+      "fundingRateOverrideX128():(int256)",
+      []
+    );
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toBigInt());
   }
 
   getExtrapolatedSumAX128(): BigInt {
@@ -1133,6 +1174,36 @@ export class MintCallWrapperValuesInsideStruct extends ethereum.Tuple {
 
   get sumFeeInsideX128(): BigInt {
     return this[3].toBigInt();
+  }
+}
+
+export class SetFundingRateOverrideCall extends ethereum.Call {
+  get inputs(): SetFundingRateOverrideCall__Inputs {
+    return new SetFundingRateOverrideCall__Inputs(this);
+  }
+
+  get outputs(): SetFundingRateOverrideCall__Outputs {
+    return new SetFundingRateOverrideCall__Outputs(this);
+  }
+}
+
+export class SetFundingRateOverrideCall__Inputs {
+  _call: SetFundingRateOverrideCall;
+
+  constructor(call: SetFundingRateOverrideCall) {
+    this._call = call;
+  }
+
+  get fundingRateOverrideX128_(): BigInt {
+    return this._call.inputValues[0].value.toBigInt();
+  }
+}
+
+export class SetFundingRateOverrideCall__Outputs {
+  _call: SetFundingRateOverrideCall;
+
+  constructor(call: SetFundingRateOverrideCall) {
+    this._call = call;
   }
 }
 

@@ -444,6 +444,10 @@ export class LiquidityPositionsLiquidated__Params {
   get insuranceFundFee(): BigInt {
     return this._event.parameters[4].value.toBigInt();
   }
+
+  get accountMarketValueFinal(): BigInt {
+    return this._event.parameters[5].value.toBigInt();
+  }
 }
 
 export class MarginUpdated extends ethereum.Event {
@@ -649,6 +653,10 @@ export class TokenPositionLiquidated__Params {
 
   get insuranceFundFee(): BigInt {
     return this._event.parameters[4].value.toBigInt();
+  }
+
+  get accountMarketValueFinal(): BigInt {
+    return this._event.parameters[5].value.toBigInt();
   }
 }
 
@@ -887,34 +895,7 @@ export class ClearingHouse__getPoolInfoResultValue0SettingsStruct extends ethere
   }
 }
 
-export class ClearingHouse__getTwapPricesResult {
-  value0: BigInt;
-  value1: BigInt;
-
-  constructor(value0: BigInt, value1: BigInt) {
-    this.value0 = value0;
-    this.value1 = value1;
-  }
-
-  toMap(): TypedMap<string, ethereum.Value> {
-    let map = new TypedMap<string, ethereum.Value>();
-    map.set("value0", ethereum.Value.fromUnsignedBigInt(this.value0));
-    map.set("value1", ethereum.Value.fromUnsignedBigInt(this.value1));
-    return map;
-  }
-}
-
-export class ClearingHouse__multicallWithSingleMarginCheckInputOperationsStruct extends ethereum.Tuple {
-  get operationType(): i32 {
-    return this[0].toI32();
-  }
-
-  get data(): Bytes {
-    return this[1].toBytes();
-  }
-}
-
-export class ClearingHouse__protocolInfoResultLiquidationParamsStruct extends ethereum.Tuple {
+export class ClearingHouse__getProtocolInfoResultLiquidationParamsStruct extends ethereum.Tuple {
   get rangeLiquidationFeeFraction(): i32 {
     return this[0].toI32();
   }
@@ -948,10 +929,10 @@ export class ClearingHouse__protocolInfoResultLiquidationParamsStruct extends et
   }
 }
 
-export class ClearingHouse__protocolInfoResult {
+export class ClearingHouse__getProtocolInfoResult {
   value0: Address;
   value1: Address;
-  value2: ClearingHouse__protocolInfoResultLiquidationParamsStruct;
+  value2: ClearingHouse__getProtocolInfoResultLiquidationParamsStruct;
   value3: BigInt;
   value4: BigInt;
   value5: BigInt;
@@ -959,7 +940,7 @@ export class ClearingHouse__protocolInfoResult {
   constructor(
     value0: Address,
     value1: Address,
-    value2: ClearingHouse__protocolInfoResultLiquidationParamsStruct,
+    value2: ClearingHouse__getProtocolInfoResultLiquidationParamsStruct,
     value3: BigInt,
     value4: BigInt,
     value5: BigInt
@@ -981,6 +962,33 @@ export class ClearingHouse__protocolInfoResult {
     map.set("value4", ethereum.Value.fromUnsignedBigInt(this.value4));
     map.set("value5", ethereum.Value.fromUnsignedBigInt(this.value5));
     return map;
+  }
+}
+
+export class ClearingHouse__getTwapPricesResult {
+  value0: BigInt;
+  value1: BigInt;
+
+  constructor(value0: BigInt, value1: BigInt) {
+    this.value0 = value0;
+    this.value1 = value1;
+  }
+
+  toMap(): TypedMap<string, ethereum.Value> {
+    let map = new TypedMap<string, ethereum.Value>();
+    map.set("value0", ethereum.Value.fromUnsignedBigInt(this.value0));
+    map.set("value1", ethereum.Value.fromUnsignedBigInt(this.value1));
+    return map;
+  }
+}
+
+export class ClearingHouse__multicallWithSingleMarginCheckInputOperationsStruct extends ethereum.Tuple {
+  get operationType(): i32 {
+    return this[0].toI32();
+  }
+
+  get data(): Bytes {
+    return this[1].toBytes();
   }
 }
 
@@ -1361,6 +1369,47 @@ export class ClearingHouse extends ethereum.SmartContract {
     );
   }
 
+  getProtocolInfo(): ClearingHouse__getProtocolInfoResult {
+    let result = super.call(
+      "getProtocolInfo",
+      "getProtocolInfo():(address,address,(uint16,uint16,uint16,uint16,uint16,uint16,uint64,uint64),uint256,uint256,uint256)",
+      []
+    );
+
+    return new ClearingHouse__getProtocolInfoResult(
+      result[0].toAddress(),
+      result[1].toAddress(),
+      result[2].toTuple() as ClearingHouse__getProtocolInfoResultLiquidationParamsStruct,
+      result[3].toBigInt(),
+      result[4].toBigInt(),
+      result[5].toBigInt()
+    );
+  }
+
+  try_getProtocolInfo(): ethereum.CallResult<
+    ClearingHouse__getProtocolInfoResult
+  > {
+    let result = super.tryCall(
+      "getProtocolInfo",
+      "getProtocolInfo():(address,address,(uint16,uint16,uint16,uint16,uint16,uint16,uint64,uint64),uint256,uint256,uint256)",
+      []
+    );
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(
+      new ClearingHouse__getProtocolInfoResult(
+        value[0].toAddress(),
+        value[1].toAddress(),
+        value[2].toTuple() as ClearingHouse__getProtocolInfoResultLiquidationParamsStruct,
+        value[3].toBigInt(),
+        value[4].toBigInt(),
+        value[5].toBigInt()
+      )
+    );
+  }
+
   getTwapPrices(poolId: BigInt): ClearingHouse__getTwapPricesResult {
     let result = super.call(
       "getTwapPrices",
@@ -1550,45 +1599,6 @@ export class ClearingHouse extends ethereum.SmartContract {
     }
     let value = result.value;
     return ethereum.CallResult.fromValue(value[0].toBoolean());
-  }
-
-  protocolInfo(): ClearingHouse__protocolInfoResult {
-    let result = super.call(
-      "protocolInfo",
-      "protocolInfo():(address,address,(uint16,uint16,uint16,uint16,uint16,uint16,uint64,uint64),uint256,uint256,uint256)",
-      []
-    );
-
-    return new ClearingHouse__protocolInfoResult(
-      result[0].toAddress(),
-      result[1].toAddress(),
-      result[2].toTuple() as ClearingHouse__protocolInfoResultLiquidationParamsStruct,
-      result[3].toBigInt(),
-      result[4].toBigInt(),
-      result[5].toBigInt()
-    );
-  }
-
-  try_protocolInfo(): ethereum.CallResult<ClearingHouse__protocolInfoResult> {
-    let result = super.tryCall(
-      "protocolInfo",
-      "protocolInfo():(address,address,(uint16,uint16,uint16,uint16,uint16,uint16,uint64,uint64),uint256,uint256,uint256)",
-      []
-    );
-    if (result.reverted) {
-      return new ethereum.CallResult();
-    }
-    let value = result.value;
-    return ethereum.CallResult.fromValue(
-      new ClearingHouse__protocolInfoResult(
-        value[0].toAddress(),
-        value[1].toAddress(),
-        value[2].toTuple() as ClearingHouse__protocolInfoResultLiquidationParamsStruct,
-        value[3].toBigInt(),
-        value[4].toBigInt(),
-        value[5].toBigInt()
-      )
-    );
   }
 
   rageTradeFactoryAddress(): Address {
