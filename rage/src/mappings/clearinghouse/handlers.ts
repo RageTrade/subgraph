@@ -592,6 +592,10 @@ export function handleTokenPositionLiquidated(
   entry.side = lastTokenPositionChangeEntry.side;
   entry.amountClosed = lastTokenPositionChangeEntry.vQuoteAmountOut;
   entry.liquidationPrice = lastTokenPositionChangeEntry.executionPrice;
+  entry.accountMarketValueFinal = BigIntToBigDecimal(
+    event.params.accountMarketValueFinal,
+    BI_6
+  );
 
   entry.feeKeeper = BigIntToBigDecimal(event.params.keeperFee, BI_6);
   entry.feeInsuranceFund = BigIntToBigDecimal(
