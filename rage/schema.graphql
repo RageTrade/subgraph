@@ -1,6 +1,8 @@
 # ----------------------
-# Rage Perpswap Subgraph
+# Rage PerpSwap Subgraph
 #-----------------------
+
+# note: the word margin and collateral are used interchangeably
 
 type Owner @entity {
   "address of the owner"
@@ -13,22 +15,27 @@ type Owner @entity {
 new account creation
 """
 type Account @entity {
-  id: ID! # the accountNo
+  "id of the account, globally unique"
+  id: ID!
   "timestamp of the token position change"
   timestamp: BigInt!
   "ownerAddress wallet address of account owner"
   owner: Owner!
+  "total vQuote balance held by the account, across all pools"
   vQuoteBalance: BigDecimal!
+  "total margin/collateral deposited by the account"
   marginBalance: BigDecimal!
-
+  "list of all margin/collateral tokens deposited by the account, currently only USDC"
   margin: [Collateral!]! @derivedFrom(field: "account")
+  "list of all V-Token tokens positions held by the account, currently only ETH"
   tokenPositions: [TokenPosition!]! @derivedFrom(field: "account")
-
+  "Total number of swaps made by the account"
   tokenPositionChangeEntriesCount: BigInt!
-
-  tokenPositionChangeEntries: [TokenPositionChangeEntry!]!
-    @derivedFrom(field: "account")
+  "list all swaps made by the account"
+  tokenPositionChangeEntries: [TokenPositionChangeEntry!]! @derivedFrom(field: "account")
+  "total number of margin changes made by the account ie. withdraws and deposits"
   marginChangeEntriesCount: BigInt!
+  "list of all margin changes made by the account ie. withdraws and deposits"
   marginChangeEntries: [MarginChangeEntry!]! @derivedFrom(field: "account")
 
   liquidateToken: [Collateral!]! @derivedFrom(field: "account")
@@ -39,39 +46,43 @@ type Account @entity {
 }
 
 type VQuote @entity {
-  id: ID! # address
+  "address of the V-Quote, currently vUSDC"
+  id: ID!
+  "symbol of the token, eg. vUSDC"
   symbol: String!
+  "full name of the token, eg. Virtual USD Coin"
   name: String!
+  "decimals in the ERC20 token standard, eg. 18"
   decimals: BigInt!
 }
 
 """
-Data help by the protocol
+Data about the protocol
 """
 type Protocol @entity {
+  "id of the rage trade protocol, `rage_trade` only a single entity will exist"
   id: ID!
-
+  "total value locked in the protocol, denoted in USD"
   tvlUSDC: BigDecimal!
-
-  "fee earned by lps"
+  "total fee earned by liquidity providers, denoted in USD"
   lpFees: BigDecimal!
-
-  "fee earned by the protocol"
+  "total fee earned by the protocol, denoted in USD"
   protocolFees: BigDecimal!
-
+  "vQuote token used by the protocol, currently vUSDC"
   vQuote: VQuote!
 }
 
 """
-deposit/withdraw of margin
+deposit/withdraw of margin denoted in settlement token (USDC)
 """
 type Collateral @entity {
-  id: ID! # accountNo - rTokenAddress
+  "settlement token address"
+  id: ID!
   "timestamp of the token position change"
   timestamp: BigInt!
-  " accountNo serial number of the account"
+  " account where the deposit/withdraw occurred"
   account: Account!
-  " amount of tokens deposited"
+  "amount of tokens deposited/withdrawn"
   amount: BigInt!
   "total realized profit of the account"
   totalProfit: BigInt
@@ -79,6 +90,9 @@ type Collateral @entity {
   marginRatio: BigInt
 }
 
+"""
+order side, going long or short
+"""
 enum Side {
   long
   short
@@ -88,24 +102,20 @@ enum Side {
 funding rate
 """
 type FundingPaymentRealizedEntry @entity {
+  "id of the funding payment realized entry"
   id: ID!
-
   fundingRate: BigDecimal!
-
   "long or short"
   side: Side!
-
   "token Position on vToken"
   tokenPosition: TokenPosition!
-
   "timestamp of the funding rate"
   timestamp: BigInt!
-
+  "transaction hash of the event that triggered this funding payment realized entry"
   transactionHash: Bytes!
-
   "amount of base token in the funding rate, in settlementToken(USDC)"
   amount: BigDecimal!
-
+  "amount of vToken token held by the account, at the tome of the funding payment"
   vTokenPosition: BigDecimal!
 }
 
@@ -113,44 +123,49 @@ type FundingPaymentRealizedEntry @entity {
 token position change
 """
 type TokenPosition @entity {
-  id: ID! # accountNo - vToken - timestamp
-  "accountNo serial number of the account"
+  "id of position, derived by accountId and poolId"
+  id: ID!
+  "account that owns the token position"
   account: Account!
-  "vToken address of token whose position was taken"
+  "pool of vToken/vQuote pair whose position was taken"
   rageTradePool: RageTradePool!
   "tokenAmountOut amount of tokens that account received (positive) or paid (negative)"
   netPosition: BigDecimal!
-
+  "price at which the position will be liquidated"
   liquidationPrice: BigDecimal!
-
+  "total number time a funding payment realized entry was created for this position"
   fundingPaymentRealizedEntriesCount: BigInt!
-
-  fundingPaymentRealizedEntries: [FundingPaymentRealizedEntry!]!
-    @derivedFrom(field: "tokenPosition")
-
-  "array of id of the token position change entries, that are open positions"
+  "list of funding payment realized entries for this position"
+  fundingPaymentRealizedEntries: [FundingPaymentRealizedEntry!]! @derivedFrom(field: "tokenPosition")
+  "list of id(s) of the token position change entries, that are 'open' positions, used for calculating the pnl"
   openPositionEntries: [String!]!
-
+  "the latest token position change entry, used in calculation for TokenPositionLiquidated event"
   lastTokenPositionChangeEntry: TokenPositionChangeEntry!
-
+  "total number of liquidations that occurred for this position"
   tokenPositionLiquidatedEntriesCount: BigInt!
-  tokenPositionLiquidatedEntries: [TokenPositionLiquidatedEntry!]!
-    @derivedFrom(field: "tokenPosition")
-
+  "list of all liquidations that occurred for this position"
+  tokenPositionLiquidatedEntries: [TokenPositionLiquidatedEntry!]! @derivedFrom(field: "tokenPosition")
+  "total funding payment amount for this position"
   totalRealizedFundingPaymentAmount: BigDecimal!
-
+  "latest sum of all the A terms in the pool, at the time of the position change"
   sumAX128CheckPoint: BigInt!
-
+  "when_buying: sum of all vQuoteAmountOut.abs() across all tokenPositionChangeEntries"
   buyVQuoteAmount: BigDecimal!
+  "when_buying: sum of all vTokenAmountOut.abs() across all tokenPositionChangeEntries"
   buyVTokenAmount: BigDecimal!
-
+  "when_selling: sum of all vQuoteAmountOut.abs() across all tokenPositionChangeEntries"
   sellVQuoteAmount: BigDecimal!
+  "when_selling: sum of all vTokenAmountOut.abs() across all tokenPositionChangeEntries"
   sellVTokenAmount: BigDecimal!
-
+  "sum aff (vTokenQuantity * entryPrice), across all token position change entries"
   entryValue: BigDecimal!
-  entryPrice: BigDecimal! # entryPrice = abs(entryValue / netPosition)
+  "entryPrice = abs(entryValue / netPosition)"
+  entryPrice: BigDecimal! 
 }
 
+"""
+margin change type
+"""
 enum MarginTransactionType {
   deposit
   withdraw
@@ -160,18 +175,17 @@ enum MarginTransactionType {
 token position change
 """
 type MarginChangeEntry @entity {
-  id: ID! # accountNo - vToken - timestamp
-  "timestamp of the token position change"
+  "unique id of the margin change entry"
+  id: ID! 
+  "block.timestamp of the transaction of the margin change entry"
   timestamp: BigInt!
-
+  "transaction.hash of the event that triggered this margin change entry"
   transactionHash: Bytes!
-
-  "accountNo serial number of the account"
+  "account for which the margin change occurred"
   account: Account!
-
-  "settlement token"
+  "the amount deposited/withdrawn denoted in settlement token (USDC)"
   amount: BigDecimal!
-
+  "the type of margin change, deposit or withdraw"
   transactionType: MarginTransactionType!
 }
 
@@ -179,64 +193,63 @@ type MarginChangeEntry @entity {
 token position change
 """
 type TokenPositionChangeEntry @entity {
-  id: ID! # accountNo - vToken - timestamp
-  "timestamp of the token position change"
+  "unique id of the TokenPositionChangeEntry"
+  id: ID!
+  "block.timestamp of the transaction of the token position change"
   timestamp: BigInt!
-
+  "transaction.hash of the event that triggered this token position change entry"
   transactionHash: Bytes!
-
   "long or short"
   side: Side!
-
-  "accountNo serial number of the account"
+  "account for which the token position change occurred"
   account: Account!
-  "rageTradePool position was taken"
+  "rageTradePool for which the token position change occurred"
   rageTradePool: RageTradePool!
   "tokenAmountOut amount of tokens that account received (positive) or paid (negative)"
   vTokenAmountOut: BigDecimal!
   "baseAmountOut amount of base tokens that account received (positive) or paid (negative)"
   vQuoteAmountOut: BigDecimal!
-
+  "temporary value, vTokenAmountOut.abs(), used for calculating the pnl"
   vTokenQuantity: BigDecimal!
-
+  "vQuoteAmountOut / vTokenAmountOut - price of token without accounting for fees"
   entryPrice: BigDecimal!
+  "geometric mean of startPrice and endPrice - price of token with accounting for fees"
   executionPrice: BigDecimal!
+  "start price of the token before the position change"
   startPrice: BigDecimal!
+  "end price of the token after the position change"
   endPrice: BigDecimal!
 }
 
 """
-token liquidation
+token liquidation entry
 """
 type TokenPositionLiquidatedEntry @entity {
-  id: ID! # accountNo - vToken - timestamp
-  "timestamp of the token position change"
+  "unique id of the for the token liquidation event"
+  id: ID!
+  "block.timestamp of the transaction of the position liquidation event"
   timestamp: BigInt!
+  "transaction.hash of the event that triggered this token position liquidation event"
   transactionHash: Bytes!
-
-  "accountNo serial number of the account"
+  "account for which the token position liquidation occurred"
   account: Account!
-
+  "token position that was liquidated"
   tokenPosition: TokenPosition!
-
   "liquidatorAccountId account which performed the liquidation"
   liquidatorAccountId: BigInt!
-
-  "vToken address of token for whose position was liquidated"
+  "rageTradePool for which the token position liquidation occurred"
   rageTradePool: RageTradePool!
-
+  "side of of the lastTokenPositionChangeEntry"
   side: Side!
-
   "vQuote from most recent token position changes event"
   amountClosed: BigDecimal!
-
   "execution price for most recent token position changes event"
   liquidationPrice: BigDecimal!
-
+  "fee paid to the keeper, in settlementToken (USDC)"
   feeKeeper: BigDecimal!
-
+  "fee paid to/by the insurance fund, in settlementToken (USDC)"
   feeInsuranceFund: BigDecimal!
-
+  "total market value of all the positions (token ) and deposits"
   accountMarketValueFinal: BigDecimal!
 }
 
@@ -244,7 +257,8 @@ type TokenPositionLiquidatedEntry @entity {
 range liquidation
 """
 type LiquidateRangePosition @entity {
-  id: ID! # accountNo - keeperAddress - timestamp
+  "id of the range position"
+  id: ID!
   "timestamp of the token position change"
   timestamp: BigInt!
   "accountNo serial number of the account"
@@ -253,9 +267,9 @@ type LiquidateRangePosition @entity {
   keeperAddress: Bytes!
   "liquidationFee total liquidation fee charged to the account"
   liquidationFee: BigInt!
-  "keeperFee total liquidaiton fee paid to the keeper (positive only)"
+  "keeperFee total liquidation fee paid to the keeper (positive only)"
   keeperFee: BigInt!
-  "insuranceFundFee total liquidaiton fee paid to the insurance fund (can be negative in case the account is not enought to cover the fee)"
+  "insuranceFundFee total liquidation fee paid to the insurance fund (can be negative in case the account is not enough to cover the fee)"
   insuranceFundFee: BigInt!
 }
 
@@ -297,9 +311,9 @@ type LiquidityPosition @entity {
   keeperAddress: Bytes
   "liquidationFee Bytes liquidation fee charged to the account"
   liquidationFee: BigDecimal
-  "keeperFee total liquidaiton fee paid to the keeper (positive only)"
+  "keeperFee total liquidation fee paid to the keeper (positive only)"
   keeperFee: BigInt
-  "insuranceFundFee total liquidaiton fee paid to the insurance fund (can be negative in case the account is not enought to cover the fee)"
+  "insuranceFundFee total liquidation fee paid to the insurance fund (can be negative in case the account is not enough to cover the fee)"
   insuranceFundFee: BigInt
 }
 
@@ -330,86 +344,122 @@ type LiquidityPositionEntry @entity {
   feePayment: BigInt
   "liquidationFee Bytes liquidation fee charged to the account"
   liquidationFee: BigDecimal
-  "keeperFee total liquidaiton fee paid to the keeper (positive only)"
+  "keeperFee total liquidation fee paid to the keeper (positive only)"
   keeperFee: BigInt
-  "insuranceFundFee total liquidaiton fee paid to the insurance fund (can be negative in case the account is not enought to cover the fee)"
+  "insuranceFundFee total liquidation fee paid to the insurance fund (can be negative in case the account is not enough to cover the fee)"
   insuranceFundFee: BigInt
 }
 
 type RageTradeFactory @entity {
-  id: ID! # factory address
+  "address of the rage trade factory"
+  id: ID!
+  "list of all rage trade pools"
   pools: [RageTradePool!]! @derivedFrom(field: "factory")
 }
 
 type RageTradePool @entity {
-  id: ID! # vToken address
+  "poolId of the rage trade pool, derived from vToken address -  '0x' + address.slice(34, 42)"
+  id: ID!
+  "vToken for the rage trade pool"
   vToken: VToken!
-
+  "Uniswap V3 Pool for the token pair"
   vPool: Temp_UniswapV3_Pool!
+  "vPoolWrapper to which the rage trade pool belongs to"
   vPoolWrapper: VPoolWrapper!
-
-  factory: RageTradeFactory! # links to the factory
+  "rageTradeFactory to which the rage trade pool belongs"
+  factory: RageTradeFactory!
+  "price of the vToken, in USDC"
   price: BigDecimal!
+  "current tick "
   tick: BigInt!
+  "liquidity of the uniswap v3 pool"
   liquidity: BigInt!
-
-  "Total value locked in pool (in vQuote(USDC) tokens)"
+  "total value locked in pool in vQuote(USDC) tokens"
   vTotalValueLocked: BigDecimal!
+  "margin ratio (1e4) considered for liquidations by keeper"
   maintenanceMarginRatioBps: BigDecimal!
-
+  "funding rate over 24hrs -  (virtualPrice - realPrice) / (realPrice * 24)"
   fundingRate: BigDecimal!
+  "volume traded in 24hrs denoted in USDC"
   volume24H: BigInt!
+  "price change in the last 24 hours"
   priceChange24H: BigInt!
-
+  "sumA value that is recorded from global at some point in time"
   sumAX128: BigInt!
+  "sumB value that is recorded from global at same point in time as sumA"
   sumBX128: BigInt!
+  "sumFp value that is recorded from global at same point in time as sumA and sumB"
   sumFpX128: BigInt!
+  "latest sumA value (taken from global), used to extrapolate the sumFp"
   sumFeeX128: BigInt!
-
+  "list of collection of candles, recorded for each hour"
   hourData: Collection!
+  "list of collection of candles, recorded for each day"
   dayData: Collection!
 }
 
 type VToken @entity {
-  id: ID! # address
+  "address of the vToken"
+  id: ID!
+  "rageTradePool pair to which the vToken belongs to"
   pool: RageTradePool!
-
+  "symbol of the token, eg. vETH"
   symbol: String!
+  "full name of the token, eg. Virtual ETH Coin"
   name: String!
+  "decimals in the ERC20 token standard, eg. 6"
   decimals: BigInt!
 }
 
 type VPoolWrapper @entity {
-  id: ID! # wrapper address
+  "wrapper address"
+  id: ID!
+  "rageTradePool pair to which the wrapper belongs to"
   pool: RageTradePool!
 }
 
 type Collection @entity {
+  "unique id of the collection"
   id: ID!
+  "list of candles, recorded for some time frame"
   data: [Candle!]! @derivedFrom(field: "collection")
 }
 
+"""
+A candle is data of about trades for a given time frame
+"""
 type Candle @entity {
+  "unique id of the candle"
   id: ID!
+  "collection to which the candle belongs to, eg - hourData"
   collection: Collection!
+  "unix timestamp - start time of the time frame"
   periodStartUnix: Int!
-
+  "latest recorded tick for the time frame"
   tick: BigInt!
-
+  "opening price of vToken at the start the time frame"
   open: BigDecimal!
+  "highest price of vToken during the time frame"
   high: BigDecimal!
+  "lowest price of vToken during the time frame"
   low: BigDecimal!
+  "closing price of vToken at the start the time frame"
   close: BigDecimal!
-
+  "sumA value that is recorded from global at some point in time"
   sumAX128: BigInt!
+  "sumB value that is recorded from global at same point in time as sumA"
   sumBX128: BigInt!
+  "sumFp value that is recorded from global at same point in time as sumA and sumB"
   sumFpX128: BigInt!
+  "latest sumA value (taken from global), used to extrapolate the sumFp"
   sumFeeX128: BigInt!
-
+  "volume of vToken traded during the time frame"
   volumeVToken: BigDecimal!
+  "volume of vQuote(in USDC) traded during the time frame"
   volumeUSDC: BigDecimal!
+  "number of transactions during the time frame"
   txCount: BigInt!
-
+  "liquidity of the uniswap v3 pool"
   liquidity: BigInt!
 }
 
@@ -418,146 +468,146 @@ type Candle @entity {
 #--------------------
 
 type UniswapV3Factory @entity {
-  # factory address
+  "factory address"
   id: ID!
-  # amount of pools created
+  "amount of pools created"
   poolCount: BigInt!
-  # amoutn of transactions all time
+  "amoutn of transactions all time"
   txCount: BigInt!
-  # total volume all time in derived USD
+  "total volume all time in derived USD"
   totalVolumeUSD: BigDecimal!
-  # total volume all time in derived ETH
+  "total volume all time in derived ETH"
   totalVolumeETH: BigDecimal!
-  # total swap fees all time in USD
+  "total swap fees all time in USD"
   totalFeesUSD: BigDecimal!
-  # total swap fees all time in USD
+  "total swap fees all time in USD"
   totalFeesETH: BigDecimal!
-  # all volume even through less reliable USD values
+  "all volume even through less reliable USD values"
   untrackedVolumeUSD: BigDecimal!
-  # TVL derived in USD
+  "TVL derived in USD"
   totalValueLockedUSD: BigDecimal!
-  # TVL derived in ETH
+  "TVL derived in ETH"
   totalValueLockedETH: BigDecimal!
-  # TVL derived in USD untracked
+  "TVL derived in USD untracked"
   totalValueLockedUSDUntracked: BigDecimal!
-  # TVL derived in ETH untracked
+  "TVL derived in ETH untracked"
   totalValueLockedETHUntracked: BigDecimal!
-
-  # current owner of the factory
+  "current owner of the factory"
   owner: ID!
 }
 
 # stores for USD calculations
 type Bundle @entity {
   id: ID!
-  # price of ETH in usd
+  "price of ETH in usd"
   ethPriceUSD: BigDecimal!
 }
 
 type UniswapV3Token @entity {
-  # token address
+  "token address"
   id: ID!
-  # token symbol
+  "token symbol"
   symbol: String!
-  # token name
+  "token name"
   name: String!
-  # token decimals
+  "token decimals"
   decimals: BigInt!
-  # token total supply
+  "token total supply"
   totalSupply: BigInt!
-  # volume in token units
+  "volume in token units"
   volume: BigDecimal!
-  # volume in derived USD
+  "volume in derived USD"
   volumeUSD: BigDecimal!
-  # volume in USD even on pools with less reliable USD values
+  "volume in USD even on pools with less reliable USD values"
   untrackedVolumeUSD: BigDecimal!
-  # fees in USD
+  "fees in USD"
   feesUSD: BigDecimal!
-  # transactions across all pools that include this token
+  "transactions across all pools that include this token"
   txCount: BigInt!
-  # number of pools containing this token
+  "number of pools containing this token"
   poolCount: BigInt!
-  # liquidity across all pools in token units
+  "liquidity across all pools in token units"
   totalValueLocked: BigDecimal!
-  # liquidity across all pools in derived USD
+  "liquidity across all pools in derived USD"
   totalValueLockedUSD: BigDecimal!
-  # TVL derived in USD untracked
+  "TVL derived in USD untracked"
   totalValueLockedUSDUntracked: BigDecimal!
-  # derived price in ETH
+  "derived price in ETH"
   derivedETH: BigDecimal!
-  # pools token is in that are white listed for USD pricing
+  "pools token is in that are white listed for USD pricing"
   whitelistPools: [UniswapV3Pool!]!
-  # derived fields
+  "derived fields"
   tokenDayData: [TokenDayData!]! @derivedFrom(field: "token")
 }
 
 type Temp_UniswapV3_Pool @entity {
-  # pool address
+  "uniswap token pair pool id"
   id: ID!
 
+  "ragetrade token pair pool"
   rageTradePool: RageTradePool!
 }
 
 type UniswapV3Pool @entity {
-  # pool address
+  "pool address"
   id: ID!
-  # creation
+  "creation"
   createdAtTimestamp: BigInt!
-  # block pool was created at
+  "block pool was created at"
   createdAtBlockNumber: BigInt!
-  # token0
+  "token0"
   token0: UniswapV3Token!
-  # token1
+  "token1"
   token1: UniswapV3Token!
-  # fee amount
+  "fee amount"
   feeTier: BigInt!
-  # in range liquidity
+  "in range liquidity"
   liquidity: BigInt!
-  # current price tracker
+  "current price tracker"
   sqrtPrice: BigInt!
-  # token0 per token1
+  "token0 per token1"
   token0Price: BigDecimal!
-  # token1 per token0
+  "token1 per token0"
   token1Price: BigDecimal!
-  # current tick
+  "current tick"
   tick: BigInt
-  # current observation index
+  "current observation index"
   observationIndex: BigInt!
-  # all time token0 swapped
+  "all time token0 swapped"
   volumeToken0: BigDecimal!
-  # all time token1 swapped
+  "all time token1 swapped"
   volumeToken1: BigDecimal!
-  # all time USD swapped
+  "all time USD swapped"
   volumeUSD: BigDecimal!
-  # all time USD swapped, unfiltered for unreliable USD pools
+  "all time USD swapped, unfiltered for unreliable USD pools"
   untrackedVolumeUSD: BigDecimal!
-  # fees in USD
+  "fees in USD"
   feesUSD: BigDecimal!
-  # all time number of transactions
+  "all time number of transactions"
   txCount: BigInt!
-  # all time fees collected token0
+  "all time fees collected token0"
   collectedFeesToken0: BigDecimal!
-  # all time fees collected token1
+  "all time fees collected token1"
   collectedFeesToken1: BigDecimal!
-  # all time fees collected derived USD
+  "all time fees collected derived USD"
   collectedFeesUSD: BigDecimal!
-  # total token 0 across all ticks
+  "total token 0 across all ticks"
   totalValueLockedToken0: BigDecimal!
-  # total token 1 across all ticks
+  "total token 1 across all ticks"
   totalValueLockedToken1: BigDecimal!
-  # tvl derived ETH
+  "tvl derived ETH"
   totalValueLockedETH: BigDecimal!
-  # tvl USD
+  "tvl USD"
   totalValueLockedUSD: BigDecimal!
-  # TVL derived in USD untracked
+  "TVL derived in USD untracked"
   totalValueLockedUSDUntracked: BigDecimal!
-  # Fields used to help derived relationship
+  "Fields used to help derived relationship"
   liquidityProviderCount: BigInt! # used to detect new exchanges
-  # hourly snapshots of pool data
+  "hourly snapshots of pool data"
   poolHourData: [PoolHourData!]! @derivedFrom(field: "pool")
-  # daily snapshots of pool data
+  "daily snapshots of pool data"
   poolDayData: [PoolDayData!]! @derivedFrom(field: "pool")
-  # derived fields
+  "derived fields"
   mints: [UniswapV3Mint!]! @derivedFrom(field: "pool")
   burns: [UniswapV3Burn!]! @derivedFrom(field: "pool")
   swaps: [UniswapV3Swap!]! @derivedFrom(field: "pool")
@@ -566,421 +616,427 @@ type UniswapV3Pool @entity {
 }
 
 type UniswapV3Tick @entity {
-  # format: <pool address>#<tick index>
+  "format: <pool address>#<tick index>"
   id: ID!
-  # pool address
+  "pool address"
   poolAddress: String
-  # tick index
+  "tick index"
   tickIdx: BigInt!
-  # pointer to pool
+  "pointer to pool"
   pool: UniswapV3Pool!
-  # total liquidity pool has as tick lower or upper
+  "total liquidity pool has as tick lower or upper"
   liquidityGross: BigInt!
-  # how much liquidity changes when tick crossed
+  "how much liquidity changes when tick crossed"
   liquidityNet: BigInt!
-  # calculated price of token0 of tick within this pool - constant
+  "calculated price of token0 of tick within this pool - constant"
   price0: BigDecimal!
-  # calculated price of token1 of tick within this pool - constant
+  "calculated price of token1 of tick within this pool - constant"
   price1: BigDecimal!
-  # lifetime volume of token0 with this tick in range
+  "lifetime volume of token0 with this tick in range"
   volumeToken0: BigDecimal!
-  # lifetime volume of token1 with this tick in range
+  "lifetime volume of token1 with this tick in range"
   volumeToken1: BigDecimal!
-  # lifetime volume in derived USD with this tick in range
+  "lifetime volume in derived USD with this tick in range"
   volumeUSD: BigDecimal!
-  # lifetime volume in untracked USD with this tick in range
+  "lifetime volume in untracked USD with this tick in range"
   untrackedVolumeUSD: BigDecimal!
-  # fees in USD
+  "fees in USD"
   feesUSD: BigDecimal!
-  # all time collected fees in token0
+  "all time collected fees in token0"
   collectedFeesToken0: BigDecimal!
-  # all time collected fees in token1
+  "all time collected fees in token1"
   collectedFeesToken1: BigDecimal!
-  # all time collected fees in USD
+  "all time collected fees in USD"
   collectedFeesUSD: BigDecimal!
-  # created time
+  "created time"
   createdAtTimestamp: BigInt!
-  # created block
+  "created block"
   createdAtBlockNumber: BigInt!
-  # Fields used to help derived relationship
+  "Fields used to help derived relationship"
   liquidityProviderCount: BigInt! # used to detect new exchanges
 }
 
 type UniswapV3Transaction @entity {
   # txn hash
   id: ID!
-  # block txn was included in
+  "block txn was included in"
   blockNumber: BigInt!
-  # timestamp txn was confirmed
+  "timestamp txn was confirmed"
   timestamp: BigInt!
-  # gas used during txn execution
+  "gas used during txn execution"
   gasUsed: BigInt!
   gasPrice: BigInt!
-  # derived values
+  "derived values"
   mints: [UniswapV3Mint]! @derivedFrom(field: "transaction")
   burns: [UniswapV3Burn]! @derivedFrom(field: "transaction")
   collects: [UniswapV3Collect]! @derivedFrom(field: "transaction")
 }
 
 type UniswapV3Mint @entity {
-  # transaction hash + "#" + index in mints Transaction array
+  "transaction hash + "#" + index in mints Transaction array"
   id: ID!
-  # which txn the mint was included in
+  "which txn the mint was included in"
   transaction: UniswapV3Transaction!
-  # time of txn
+  "time of txn"
   timestamp: BigInt!
-  # pool position is within
+  "pool position is within"
   pool: UniswapV3Pool!
-  # allow indexing by tokens
+  "allow indexing by tokens"
   token0: UniswapV3Token!
-  # allow indexing by tokens
+  "allow indexing by tokens"
   token1: UniswapV3Token!
-  # owner of position where liquidity minted to
+  "owner of position where liquidity minted to"
   owner: Bytes!
-  # the address that minted the liquidity
+  "the address that minted the liquidity"
   sender: Bytes
-  # txn origin
-  origin: Bytes! # the EOA that initiated the txn
-  # amount of liquidity minted
+  "txn origin, the EOA that initiated the txn"
+  origin: Bytes!
+  "amount of liquidity minted"
   amount: BigInt!
-  # amount of token 0 minted
+  "amount of token 0 minted"
   amount0: BigDecimal!
-  # amount of token 1 minted
+  "amount of token 1 minted"
   amount1: BigDecimal!
-  # derived amount based on available prices of tokens
+  "derived amount based on available prices of tokens"
   amountUSD: BigDecimal
-  # lower tick of the position
+  "lower tick of the position"
   tickLower: BigInt!
-  # upper tick of the position
+  "upper tick of the position"
   tickUpper: BigInt!
-  # order within the txn
+  "order within the txn"
   logIndex: BigInt
 }
 
 type UniswapV3Burn @entity {
-  # transaction hash + "#" + index in mints Transaction array
+  "transaction hash + "#" + index in mints Transaction array"
   id: ID!
-  # txn burn was included in
+  "txn burn was included in"
   transaction: UniswapV3Transaction!
-  # pool position is within
+  "pool position is within"
   pool: UniswapV3Pool!
-  # allow indexing by tokens
+  "allow indexing by tokens"
   token0: UniswapV3Token!
-  # allow indexing by tokens
+  "allow indexing by tokens"
   token1: UniswapV3Token!
-  # need this to pull recent txns for specific token or pool
+  "need this to pull recent txns for specific token or pool"
   timestamp: BigInt!
-  # owner of position where liquidity was burned
+  "owner of position where liquidity was burned"
   owner: Bytes
-  # txn origin
+  "txn origin"
   origin: Bytes! # the EOA that initiated the txn
-  # amouny of liquidity burned
+  "amouny of liquidity burned"
   amount: BigInt!
-  # amount of token 0 burned
+  "amount of token 0 burned"
   amount0: BigDecimal!
-  # amount of token 1 burned
+  "amount of token 1 burned"
   amount1: BigDecimal!
-  # derived amount based on available prices of tokens
+  "derived amount based on available prices of tokens"
   amountUSD: BigDecimal
-  # lower tick of position
+  "lower tick of position"
   tickLower: BigInt!
-  # upper tick of position
+  "upper tick of position"
   tickUpper: BigInt!
-  # position within the transactions
+  "position within the transactions"
   logIndex: BigInt
 }
 
 type UniswapV3Swap @entity {
-  # transaction hash + "#" + index in swaps Transaction array
+  "transaction hash + "#" + index in swaps Transaction array"
   id: ID!
-  # pointer to transaction
+  "pointer to transaction"
   transaction: UniswapV3Transaction!
-  # timestamp of transaction
+  "timestamp of transaction"
   timestamp: BigInt!
-  # pool swap occured within
+  "pool swap occured within"
   pool: UniswapV3Pool!
-  # allow indexing by tokens
+  "allow indexing by tokens"
   token0: UniswapV3Token!
-  # allow indexing by tokens
+  "allow indexing by tokens"
   token1: UniswapV3Token!
-  # sender of the swap
+  "sender of the swap"
   sender: Bytes!
-  # recipient of the swap
+  "recipient of the swap"
   recipient: Bytes!
-  # txn origin
+  "txn origin"
   origin: Bytes! # the EOA that initiated the txn
-  # delta of token0 swapped
+  "delta of token0 swapped"
   amount0: BigDecimal!
-  # delta of token1 swapped
+  "delta of token1 swapped"
   amount1: BigDecimal!
-  # derived info
+  "derived info"
   amountUSD: BigDecimal!
-  # The sqrt(price) of the pool after the swap, as a Q64.96
+  "The sqrt(price) of the pool after the swap, as a Q64.96"
   sqrtPriceX96: BigInt!
-  # the tick after the swap
+  "the tick after the swap"
   tick: BigInt!
-  # index within the txn
+  "index within the txn"
   logIndex: BigInt
 }
 
 type UniswapV3Collect @entity {
-  # transaction hash + "#" + index in collect Transaction array
+  "transaction hash + "#" + index in collect Transaction array"
   id: ID!
-  # pointer to txn
+  "pointer to txn"
   transaction: UniswapV3Transaction!
-  # timestamp of event
+  "timestamp of event"
   timestamp: BigInt!
-  # pool collect occured within
+  "pool collect occured within"
   pool: UniswapV3Pool!
-  # owner of position collect was performed on
+  "owner of position collect was performed on"
   owner: Bytes
-  # amount of token0 collected
+  "amount of token0 collected"
   amount0: BigDecimal!
-  # amount of token1 collected
+  "amount of token1 collected"
   amount1: BigDecimal!
-  # derived amount based on available prices of tokens
+  "derived amount based on available prices of tokens"
   amountUSD: BigDecimal
-  # lower tick of position
+  "lower tick of position"
   tickLower: BigInt!
-  # uppper tick of position
+  "uppper tick of position"
   tickUpper: BigInt!
-  # index within the txn
+  "index within the txn"
   logIndex: BigInt
 }
 
 type UniswapV3Flash @entity {
-  # transaction hash + "-" + index in collect Transaction array
+  "transaction hash + `-` + index in collect Transaction array"
   id: ID!
-  # pointer to txn
+  "pointer to txn"
   transaction: UniswapV3Transaction!
-  # timestamp of event
+  "timestamp of event"
   timestamp: BigInt!
-  # pool collect occured within
+  "pool collect occured within"
   pool: UniswapV3Pool!
-  # sender of the flash
+  "sender of the flash"
   sender: Bytes!
-  # recipient of the flash
+  "recipient of the flash"
   recipient: Bytes!
-  # amount of token0 flashed
+  "amount of token0 flashed"
   amount0: BigDecimal!
-  # amount of token1 flashed
+  "amount of token1 flashed"
   amount1: BigDecimal!
-  # derived amount based on available prices of tokens
+  "derived amount based on available prices of tokens"
   amountUSD: BigDecimal!
-  # amount token0 paid for flash
+  "amount token0 paid for flash"
   amount0Paid: BigDecimal!
-  # amount token1 paid for flash
+  "amount token1 paid for flash"
   amount1Paid: BigDecimal!
-  # index within the txn
+  "index within the txn"
   logIndex: BigInt
 }
 
 # Data accumulated and condensed into day stats for all of Uniswap
 type UniswapDayData @entity {
-  # timestamp rounded to current day by dividing by 86400
+  "timestamp rounded to current day by dividing by 86400"
   id: ID!
-  # timestamp rounded to current day by dividing by 86400
+  "timestamp rounded to current day by dividing by 86400"
   date: Int!
-  # total daily volume in Uniswap derived in terms of ETH
+  "total daily volume in Uniswap derived in terms of ETH"
   volumeETH: BigDecimal!
-  # total daily volume in Uniswap derived in terms of USD
+  "total daily volume in Uniswap derived in terms of USD"
   volumeUSD: BigDecimal!
-  # total daily volume in Uniswap derived in terms of USD untracked
+  "total daily volume in Uniswap derived in terms of USD untracked"
   volumeUSDUntracked: BigDecimal!
-  # fees in USD
+  "fees in USD"
   feesUSD: BigDecimal!
-  # number of daily transactions
+  "number of daily transactions"
   txCount: BigInt!
-  # tvl in terms of USD
+  "tvl in terms of USD"
   tvlUSD: BigDecimal!
 }
 
-# Data accumulated and condensed into day stats for each pool
+"""
+Data accumulated and condensed into day stats for each pool
+"""
 type PoolDayData @entity {
-  # timestamp rounded to current day by dividing by 86400
+  "timestamp rounded to current day by dividing by 86400"
   id: ID!
-  # timestamp rounded to current day by dividing by 86400
+  "timestamp rounded to current day by dividing by 86400"
   date: Int!
-  # pointer to pool
+  "pointer to pool"
   pool: UniswapV3Pool!
-  # in range liquidity at end of period
+  "in range liquidity at end of period"
   liquidity: BigInt!
-  # current price tracker at end of period
+  "current price tracker at end of period"
   sqrtPrice: BigInt!
-  # price of token0 - derived from sqrtPrice
+  "price of token0 - derived from sqrtPrice"
   token0Price: BigDecimal!
-  # price of token1 - derived from sqrtPrice
+  "price of token1 - derived from sqrtPrice"
   token1Price: BigDecimal!
-  # current tick at end of period
+  "current tick at end of period"
   tick: BigInt
-  # tvl derived in USD at end of period
+  "tvl derived in USD at end of period"
   tvlUSD: BigDecimal!
-  # volume in token0
+  "volume in token0"
   volumeToken0: BigDecimal!
-  # volume in token1
+  "volume in token1"
   volumeToken1: BigDecimal!
-  # volume in USD
+  "volume in USD"
   volumeUSD: BigDecimal!
-  # fees in USD
+  "fees in USD"
   feesUSD: BigDecimal!
-  # numebr of transactions during period
+  "numebr of transactions during period"
   txCount: BigInt!
-  # opening price of token0
+  "opening price of token0"
   open: BigDecimal!
-  # high price of token0
+  "high price of token0"
   high: BigDecimal!
-  # low price of token0
+  "low price of token0"
   low: BigDecimal!
-  # close price of token0
+  "close price of token0"
   close: BigDecimal!
 }
 
-# hourly stats tracker for pool
+"""
+hourly stats tracker for pool
+"""
 type PoolHourData @entity {
-  # format: <pool address>-<timestamp>
+  "format: <pool address>-<timestamp>"
   id: ID!
-  # unix timestamp for start of hour
+  "unix timestamp for start of hour"
   periodStartUnix: Int!
-  # pointer to pool
+  "pointer to pool"
   pool: UniswapV3Pool!
-  # in range liquidity at end of period
+  "in range liquidity at end of period"
   liquidity: BigInt!
-  # current price tracker at end of period
+  "current price tracker at end of period"
   sqrtPrice: BigInt!
-  # price of token0 - derived from sqrtPrice
+  "price of token0 - derived from sqrtPrice"
   token0Price: BigDecimal!
-  # price of token1 - derived from sqrtPrice
+  "price of token1 - derived from sqrtPrice"
   token1Price: BigDecimal!
-  # current tick at end of period
+  "current tick at end of period"
   tick: BigInt
-  # tvl derived in USD at end of period
+  "tvl derived in USD at end of period"
   tvlUSD: BigDecimal!
-  # volume in token0
+  "volume in token0"
   volumeToken0: BigDecimal!
-  # volume in token1
+  "volume in token1"
   volumeToken1: BigDecimal!
-  # volume in USD
+  "volume in USD"
   volumeUSD: BigDecimal!
-  # fees in USD
+  "fees in USD"
   feesUSD: BigDecimal!
-  # numebr of transactions during period
+  "numebr of transactions during period"
   txCount: BigInt!
-  # opening price of token0
+  "opening price of token0"
   open: BigDecimal!
-  # high price of token0
+  "high price of token0"
   high: BigDecimal!
-  # low price of token0
+  "low price of token0"
   low: BigDecimal!
-  # close price of token0
+  "close price of token0"
   close: BigDecimal!
 }
 
 type TickHourData @entity {
-  # format: <pool address>-<tick index>-<timestamp>
+  "format: <pool address>-<tick index>-<timestamp>"
   id: ID!
-  # unix timestamp for start of hour
+  "unix timestamp for start of hour"
   periodStartUnix: Int!
-  # pointer to pool
+  "pointer to pool"
   pool: UniswapV3Pool!
-  # pointer to tick
+  "pointer to tick"
   tick: UniswapV3Tick!
-  # total liquidity pool has as tick lower or upper at end of period
+  "total liquidity pool has as tick lower or upper at end of period"
   liquidityGross: BigInt!
-  # how much liquidity changes when tick crossed at end of period
+  "how much liquidity changes when tick crossed at end of period"
   liquidityNet: BigInt!
-  # hourly volume of token0 with this tick in range
+  "hourly volume of token0 with this tick in range"
   volumeToken0: BigDecimal!
-  # hourly volume of token1 with this tick in range
+  "hourly volume of token1 with this tick in range"
   volumeToken1: BigDecimal!
-  # hourly volume in derived USD with this tick in range
+  "hourly volume in derived USD with this tick in range"
   volumeUSD: BigDecimal!
-  # fees in USD
+  "fees in USD"
   feesUSD: BigDecimal!
 }
 
-# Data accumulated and condensed into day stats for each exchange
-# Note: this entity gets saved only if there is a change during the day
+"""
+Data accumulated and condensed into day stats for each exchange
+Note: this entity gets saved only if there is a change during the day
+"""
 type TickDayData @entity {
-  # format: <pool address>-<tick index>-<timestamp>
+  "format: <pool address>-<tick index>-<timestamp>"
   id: ID!
-  # timestamp rounded to current day by dividing by 86400
+  "timestamp rounded to current day by dividing by 86400"
   date: Int!
-  # pointer to pool
+  "pointer to pool"
   pool: UniswapV3Pool!
-  # pointer to tick
+  "pointer to tick"
   tick: UniswapV3Tick!
-  # total liquidity pool has as tick lower or upper at end of period
+  "total liquidity pool has as tick lower or upper at end of period"
   liquidityGross: BigInt!
-  # how much liquidity changes when tick crossed at end of period
+  "how much liquidity changes when tick crossed at end of period"
   liquidityNet: BigInt!
-  # hourly volume of token0 with this tick in range
+  "hourly volume of token0 with this tick in range"
   volumeToken0: BigDecimal!
-  # hourly volume of token1 with this tick in range
+  "hourly volume of token1 with this tick in range"
   volumeToken1: BigDecimal!
-  # hourly volume in derived USD with this tick in range
+  "hourly volume in derived USD with this tick in range"
   volumeUSD: BigDecimal!
-  # fees in USD
+  "fees in USD"
   feesUSD: BigDecimal!
 }
 
 type TokenDayData @entity {
-  # token address concatendated with date
+  "token address concatendated with date"
   id: ID!
-  # timestamp rounded to current day by dividing by 86400
+  "timestamp rounded to current day by dividing by 86400"
   date: Int!
-  # pointer to token
+  "pointer to token"
   token: UniswapV3Token!
-  # volume in token units
+  "volume in token units"
   volume: BigDecimal!
-  # volume in derived USD
+  "volume in derived USD"
   volumeUSD: BigDecimal!
-  # volume in USD even on pools with less reliable USD values
+  "volume in USD even on pools with less reliable USD values"
   untrackedVolumeUSD: BigDecimal!
-  # liquidity across all pools in token units
+  "liquidity across all pools in token units"
   totalValueLocked: BigDecimal!
-  # liquidity across all pools in derived USD
+  "liquidity across all pools in derived USD"
   totalValueLockedUSD: BigDecimal!
-  # price at end of period in USD
+  "price at end of period in USD"
   priceUSD: BigDecimal!
-  # fees in USD
+  "fees in USD"
   feesUSD: BigDecimal!
-  # opening price USD
+  "opening price USD"
   open: BigDecimal!
-  # high price USD
+  "high price USD"
   high: BigDecimal!
-  # low price USD
+  "low price USD"
   low: BigDecimal!
-  # close price USD
+  "close price USD"
   close: BigDecimal!
 }
 
 type TokenHourData @entity {
-  # token address concatendated with date
+  "token address concatendated with date"
   id: ID!
-  # unix timestamp for start of hour
+  "unix timestamp for start of hour"
   periodStartUnix: Int!
-  # pointer to token
+  "pointer to token"
   token: UniswapV3Token!
-  # volume in token units
+  "volume in token units"
   volume: BigDecimal!
-  # volume in derived USD
+  "volume in derived USD"
   volumeUSD: BigDecimal!
-  # volume in USD even on pools with less reliable USD values
+  "volume in USD even on pools with less reliable USD values"
   untrackedVolumeUSD: BigDecimal!
-  # liquidity across all pools in token units
+  "liquidity across all pools in token units"
   totalValueLocked: BigDecimal!
-  # liquidity across all pools in derived USD
+  "liquidity across all pools in derived USD"
   totalValueLockedUSD: BigDecimal!
-  # price at end of period in USD
+  "price at end of period in USD"
   priceUSD: BigDecimal!
-  # fees in USD
+  "fees in USD"
   feesUSD: BigDecimal!
-  # opening price USD
+  "opening price USD"
   open: BigDecimal!
-  # high price USD
+  "high price USD"
   high: BigDecimal!
-  # low price USD
+  "low price USD"
   low: BigDecimal!
-  # close price USD
+  "close price USD"
   close: BigDecimal!
 }
