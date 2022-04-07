@@ -217,7 +217,7 @@ export function handleTokenPositionChanged(event: TokenPositionChanged): void {
   );
 
   // entry price without fees
-  tokenPositionChangeEntry.executionPrice = parsePriceX128(
+  tokenPositionChangeEntry.geometricMeanPrice = parsePriceX128(
     event.params.sqrtPriceX96End
       .times(event.params.sqrtPriceX96Start)
       .div(BigInt.fromI32(2).pow(64)),
@@ -606,7 +606,7 @@ export function handleTokenPositionLiquidated(
 
   entry.side = lastTokenPositionChangeEntry.side;
   entry.amountClosed = lastTokenPositionChangeEntry.vQuoteAmountOut;
-  entry.liquidationPrice = lastTokenPositionChangeEntry.executionPrice;
+  entry.liquidationPrice = lastTokenPositionChangeEntry.geometricMeanPrice;
   entry.accountMarketValueFinal = BigIntToBigDecimal(
     event.params.accountMarketValueFinal,
     BI_6
