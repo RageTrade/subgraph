@@ -605,7 +605,8 @@ export function handleTokenPositionLiquidated(
   entry.rageTradePool = event.params.poolId.toHexString();
 
   entry.side = lastTokenPositionChangeEntry.side;
-  entry.amountClosed = lastTokenPositionChangeEntry.vQuoteAmountOut;
+  entry.vTokenClosed = lastTokenPositionChangeEntry.vTokenAmountOut;
+  entry.vQuoteClosed = lastTokenPositionChangeEntry.vQuoteAmountOut;
   entry.liquidationPrice = lastTokenPositionChangeEntry.geometricMeanPrice;
   entry.accountMarketValueFinal = BigIntToBigDecimal(
     event.params.accountMarketValueFinal,
