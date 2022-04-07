@@ -25,14 +25,22 @@ type Account @entity {
   vQuoteBalance: BigDecimal!
   "total margin/collateral deposited by the account"
   marginBalance: BigDecimal!
-  "list of all margin/collateral tokens deposited by the account, currently only USDC"
-  margin: [Collateral!]! @derivedFrom(field: "account")
-  "list of all V-Token tokens positions held by the account, currently only ETH"
-  tokenPositions: [TokenPosition!]! @derivedFrom(field: "account")
   "Total number of swaps made by the account"
   tokenPositionChangeEntriesCount: BigInt!
   "list all swaps made by the account"
   tokenPositionChangeEntries: [TokenPositionChangeEntry!]! @derivedFrom(field: "account")
+  "list of all margin/collateral tokens deposited by the account, currently only USDC"
+  margin: [Collateral!]! @derivedFrom(field: "account")
+  "total number time a funding payment realized for an account"
+  fundingPaymentRealizedEntriesCount: BigInt!
+  "list of funding payment realized entries for an account"
+  fundingPaymentRealizedEntries: [FundingPaymentRealizedEntry!]! @derivedFrom(field: "account")
+  "total number of liquidations that occurred for this account"
+  tokenPositionLiquidatedEntriesCount: BigInt!
+  "list of all liquidations that occurred for this account"
+  tokenPositionLiquidatedEntries: [TokenPositionLiquidatedEntry!]! @derivedFrom(field: "account")
+  "list of all V-Token tokens positions held by the account, currently only ETH"
+  tokenPositions: [TokenPosition!]! @derivedFrom(field: "account")
   "total number of margin changes made by the account ie. withdraws and deposits"
   marginChangeEntriesCount: BigInt!
   "list of all margin changes made by the account ie. withdraws and deposits"
@@ -107,6 +115,8 @@ type FundingPaymentRealizedEntry @entity {
   fundingRate: BigDecimal!
   "long or short"
   side: Side!
+  "account for which the funding payment was realized"
+  account: Account!
   "token Position on vToken"
   tokenPosition: TokenPosition!
   "timestamp of the funding rate"
@@ -133,6 +143,10 @@ type TokenPosition @entity {
   netPosition: BigDecimal!
   "price at which the position will be liquidated"
   liquidationPrice: BigDecimal!
+  "Total number of swaps made by the account, for this pool"
+  tokenPositionChangeEntriesCount: BigInt!
+  "list all swaps made by the account, for this pool"
+  tokenPositionChangeEntries: [TokenPositionChangeEntry!]! @derivedFrom(field: "tokenPosition")
   "total number time a funding payment realized entry was created for this position"
   fundingPaymentRealizedEntriesCount: BigInt!
   "list of funding payment realized entries for this position"
@@ -203,6 +217,8 @@ type TokenPositionChangeEntry @entity {
   side: Side!
   "account for which the token position change occurred"
   account: Account!
+  "the token position which was updated"
+  tokenPosition: TokenPosition!
   "rageTradePool for which the token position change occurred"
   rageTradePool: RageTradePool!
   "tokenAmountOut amount of tokens that account received (positive) or paid (negative)"

@@ -118,24 +118,6 @@ export class Account extends Entity {
     this.set("marginBalance", Value.fromBigDecimal(value));
   }
 
-  get margin(): Array<string> {
-    let value = this.get("margin");
-    return value.toStringArray();
-  }
-
-  set margin(value: Array<string>) {
-    this.set("margin", Value.fromStringArray(value));
-  }
-
-  get tokenPositions(): Array<string> {
-    let value = this.get("tokenPositions");
-    return value.toStringArray();
-  }
-
-  set tokenPositions(value: Array<string>) {
-    this.set("tokenPositions", Value.fromStringArray(value));
-  }
-
   get tokenPositionChangeEntriesCount(): BigInt {
     let value = this.get("tokenPositionChangeEntriesCount");
     return value.toBigInt();
@@ -152,6 +134,60 @@ export class Account extends Entity {
 
   set tokenPositionChangeEntries(value: Array<string>) {
     this.set("tokenPositionChangeEntries", Value.fromStringArray(value));
+  }
+
+  get margin(): Array<string> {
+    let value = this.get("margin");
+    return value.toStringArray();
+  }
+
+  set margin(value: Array<string>) {
+    this.set("margin", Value.fromStringArray(value));
+  }
+
+  get fundingPaymentRealizedEntriesCount(): BigInt {
+    let value = this.get("fundingPaymentRealizedEntriesCount");
+    return value.toBigInt();
+  }
+
+  set fundingPaymentRealizedEntriesCount(value: BigInt) {
+    this.set("fundingPaymentRealizedEntriesCount", Value.fromBigInt(value));
+  }
+
+  get fundingPaymentRealizedEntries(): Array<string> {
+    let value = this.get("fundingPaymentRealizedEntries");
+    return value.toStringArray();
+  }
+
+  set fundingPaymentRealizedEntries(value: Array<string>) {
+    this.set("fundingPaymentRealizedEntries", Value.fromStringArray(value));
+  }
+
+  get tokenPositionLiquidatedEntriesCount(): BigInt {
+    let value = this.get("tokenPositionLiquidatedEntriesCount");
+    return value.toBigInt();
+  }
+
+  set tokenPositionLiquidatedEntriesCount(value: BigInt) {
+    this.set("tokenPositionLiquidatedEntriesCount", Value.fromBigInt(value));
+  }
+
+  get tokenPositionLiquidatedEntries(): Array<string> {
+    let value = this.get("tokenPositionLiquidatedEntries");
+    return value.toStringArray();
+  }
+
+  set tokenPositionLiquidatedEntries(value: Array<string>) {
+    this.set("tokenPositionLiquidatedEntries", Value.fromStringArray(value));
+  }
+
+  get tokenPositions(): Array<string> {
+    let value = this.get("tokenPositions");
+    return value.toStringArray();
+  }
+
+  set tokenPositions(value: Array<string>) {
+    this.set("tokenPositions", Value.fromStringArray(value));
   }
 
   get marginChangeEntriesCount(): BigInt {
@@ -480,6 +516,15 @@ export class FundingPaymentRealizedEntry extends Entity {
     this.set("side", Value.fromString(value));
   }
 
+  get account(): string {
+    let value = this.get("account");
+    return value.toString();
+  }
+
+  set account(value: string) {
+    this.set("account", Value.fromString(value));
+  }
+
   get tokenPosition(): string {
     let value = this.get("tokenPosition");
     return value.toString();
@@ -590,6 +635,24 @@ export class TokenPosition extends Entity {
 
   set liquidationPrice(value: BigDecimal) {
     this.set("liquidationPrice", Value.fromBigDecimal(value));
+  }
+
+  get tokenPositionChangeEntriesCount(): BigInt {
+    let value = this.get("tokenPositionChangeEntriesCount");
+    return value.toBigInt();
+  }
+
+  set tokenPositionChangeEntriesCount(value: BigInt) {
+    this.set("tokenPositionChangeEntriesCount", Value.fromBigInt(value));
+  }
+
+  get tokenPositionChangeEntries(): Array<string> {
+    let value = this.get("tokenPositionChangeEntries");
+    return value.toStringArray();
+  }
+
+  set tokenPositionChangeEntries(value: Array<string>) {
+    this.set("tokenPositionChangeEntries", Value.fromStringArray(value));
   }
 
   get fundingPaymentRealizedEntriesCount(): BigInt {
@@ -865,6 +928,15 @@ export class TokenPositionChangeEntry extends Entity {
 
   set account(value: string) {
     this.set("account", Value.fromString(value));
+  }
+
+  get tokenPosition(): string {
+    let value = this.get("tokenPosition");
+    return value.toString();
+  }
+
+  set tokenPosition(value: string) {
+    this.set("tokenPosition", Value.fromString(value));
   }
 
   get rageTradePool(): string {
