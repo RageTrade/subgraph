@@ -78,7 +78,11 @@ export function handleTokenPositionChanged(event: TokenPositionChanged): void {
   tokenPosition.netPosition = tokenPosition.netPosition.plus(
     BigIntToBigDecimal(event.params.vTokenAmountOut, BI_18)
   );
+
   account.tokenPositionChangeEntriesCount = account.tokenPositionChangeEntriesCount.plus(
+    ONE_BI
+  );
+  tokenPosition.tokenPositionChangeEntriesCount = tokenPosition.tokenPositionChangeEntriesCount.plus(
     ONE_BI
   );
 
@@ -174,11 +178,12 @@ export function handleTokenPositionChanged(event: TokenPositionChanged): void {
     tokenPositionChangeEntryId
   );
 
+  tokenPositionChangeEntry.account = account.id;
+  tokenPositionChangeEntry.tokenPosition = tokenPosition.id;
+  tokenPositionChangeEntry.rageTradePool = rageTradePool.id;
+
   tokenPositionChangeEntry.timestamp = event.block.timestamp;
   tokenPositionChangeEntry.transactionHash = event.transaction.hash;
-
-  tokenPositionChangeEntry.account = event.params.accountId.toString();
-  tokenPositionChangeEntry.rageTradePool = event.params.poolId.toHexString();
 
   tokenPositionChangeEntry.side = event.params.vTokenAmountOut.gt(ZERO_BI)
     ? 'long'
@@ -471,6 +476,7 @@ export function handleTokenPositionFundingPaymentRealized(
     event.params.poolId.toHexString(),
   ]);
 
+  let account = getAccount(event.params.accountId);
   let tokenPosition = getTokenPosition(
     event.params.accountId,
     event.params.poolId
@@ -506,6 +512,7 @@ export function handleTokenPositionFundingPaymentRealized(
   fundingRateEntry.timestamp = event.block.timestamp;
   fundingRateEntry.transactionHash = event.transaction.hash;
 
+  fundingRateEntry.account = account.id;
   fundingRateEntry.tokenPosition = tokenPosition.id;
   // usdc settlementToken
   fundingRateEntry.amount = BigIntToBigDecimal(event.params.amount, BI_6);
@@ -526,7 +533,11 @@ export function handleTokenPositionFundingPaymentRealized(
   tokenPosition.fundingPaymentRealizedEntriesCount = tokenPosition.fundingPaymentRealizedEntriesCount.plus(
     ONE_BI
   );
+  account.fundingPaymentRealizedEntriesCount = account.fundingPaymentRealizedEntriesCount.plus(
+    ONE_BI
+  );
 
+  account.save();
   tokenPosition.save();
   fundingRateEntry.save();
   rageTradePool.save();
@@ -555,15 +566,18 @@ export function handleTokenPositionLiquidated(
     event.params.poolId.toHexString(),
   ]);
 
+  let account = getAccount(event.params.accountId);
   let tokenPosition = getTokenPosition(
     event.params.accountId,
     event.params.poolId
   );
 
+  account.tokenPositionLiquidatedEntriesCount = account.tokenPositionLiquidatedEntriesCount.plus(
+    ONE_BI
+  );
   tokenPosition.tokenPositionLiquidatedEntriesCount = tokenPosition.tokenPositionLiquidatedEntriesCount.plus(
     ONE_BI
   );
-  tokenPosition.save();
 
   let lastTokenPositionChangeEntry = TokenPositionChangeEntry.load(
     tokenPosition.lastTokenPositionChangeEntry
@@ -584,6 +598,7 @@ export function handleTokenPositionLiquidated(
   entry.timestamp = event.block.timestamp;
   entry.transactionHash = event.transaction.hash;
 
+  entry.account = account.id;
   entry.tokenPosition = tokenPosition.id;
   entry.account = generateAccountId(event.params.accountId);
   entry.liquidatorAccountId = event.params.liquidatorAccountId;
@@ -603,6 +618,8 @@ export function handleTokenPositionLiquidated(
     BI_6
   );
 
+  account.save();
+  tokenPosition.save();
   entry.save();
 }
 

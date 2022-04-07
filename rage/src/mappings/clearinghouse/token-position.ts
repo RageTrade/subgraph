@@ -26,7 +26,7 @@ export function getTokenPosition(
     tokenPosition.liquidationPrice = ZERO_BD;
 
     tokenPosition.totalRealizedFundingPaymentAmount = ZERO_BD;
-
+    tokenPosition.tokenPositionChangeEntriesCount = ZERO_BI;
     tokenPosition.fundingPaymentRealizedEntriesCount = ZERO_BI;
     tokenPosition.tokenPositionLiquidatedEntriesCount = ZERO_BI;
     
