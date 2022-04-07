@@ -230,7 +230,7 @@ type TokenPositionChangeEntry @entity {
   "vQuoteAmountOut / vTokenAmountOut - price of token without accounting for fees"
   entryPrice: BigDecimal!
   "geometric mean of startPrice and endPrice - price of token with accounting for fees"
-  executionPrice: BigDecimal!
+  geometricMeanPrice: BigDecimal!
   "start price of the token before the position change"
   startPrice: BigDecimal!
   "end price of the token after the position change"

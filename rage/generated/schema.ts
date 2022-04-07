@@ -984,13 +984,13 @@ export class TokenPositionChangeEntry extends Entity {
     this.set("entryPrice", Value.fromBigDecimal(value));
   }
 
-  get executionPrice(): BigDecimal {
-    let value = this.get("executionPrice");
+  get geometricMeanPrice(): BigDecimal {
+    let value = this.get("geometricMeanPrice");
     return value.toBigDecimal();
   }
 
-  set executionPrice(value: BigDecimal) {
-    this.set("executionPrice", Value.fromBigDecimal(value));
+  set geometricMeanPrice(value: BigDecimal) {
+    this.set("geometricMeanPrice", Value.fromBigDecimal(value));
   }
 
   get startPrice(): BigDecimal {
