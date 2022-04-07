@@ -257,8 +257,10 @@ type TokenPositionLiquidatedEntry @entity {
   rageTradePool: RageTradePool!
   "side of of the lastTokenPositionChangeEntry"
   side: Side!
+  "vToken from most recent token position changes event"
+  vTokenClosed: BigDecimal!
   "vQuote from most recent token position changes event"
-  amountClosed: BigDecimal!
+  vQuoteClosed: BigDecimal!
   "execution price for most recent token position changes event"
   liquidationPrice: BigDecimal!
   "fee paid to the keeper, in settlementToken (USDC)"

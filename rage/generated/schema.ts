@@ -1111,13 +1111,22 @@ export class TokenPositionLiquidatedEntry extends Entity {
     this.set("side", Value.fromString(value));
   }
 
-  get amountClosed(): BigDecimal {
-    let value = this.get("amountClosed");
+  get vTokenClosed(): BigDecimal {
+    let value = this.get("vTokenClosed");
     return value.toBigDecimal();
   }
 
-  set amountClosed(value: BigDecimal) {
-    this.set("amountClosed", Value.fromBigDecimal(value));
+  set vTokenClosed(value: BigDecimal) {
+    this.set("vTokenClosed", Value.fromBigDecimal(value));
+  }
+
+  get vQuoteClosed(): BigDecimal {
+    let value = this.get("vQuoteClosed");
+    return value.toBigDecimal();
+  }
+
+  set vQuoteClosed(value: BigDecimal) {
+    this.set("vQuoteClosed", Value.fromBigDecimal(value));
   }
 
   get liquidationPrice(): BigDecimal {
