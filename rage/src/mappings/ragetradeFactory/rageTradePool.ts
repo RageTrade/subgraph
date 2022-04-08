@@ -19,6 +19,7 @@ export function getRageTradePool(poolId: string): RageTradePool {
 
     // empty values, overridden in handlePoolInitialized
     rageTradePool.vToken = 'vToken.id';
+    rageTradePool.vQuote = 'vQuote.id';
     rageTradePool.vPool = 'vPool.id';
     rageTradePool.vPoolWrapper = 'vPoolWrapper.id';
     rageTradePool.factory = 'rageTradeFactory.id';

@@ -105,6 +105,7 @@ export function handlePoolInitialized(event: PoolInitialized): void {
   vPool.save();
   vPoolWrapper.save();
 
+  rageTradePool.vQuote = vQuote.id;
   rageTradePool.vToken = vToken.id;
   rageTradePool.vPool = vPool.id;
   rageTradePool.vPoolWrapper = vPoolWrapper.id;
