@@ -380,6 +380,8 @@ type RageTradePool @entity {
   id: ID!
   "vToken for the rage trade pool"
   vToken: VToken!
+  "vQuote for the rage trade pool"
+  vQuote: VQuote!
   "Uniswap V3 Pool for the token pair"
   vPool: Temp_UniswapV3_Pool!
   "vPoolWrapper to which the rage trade pool belongs to"
