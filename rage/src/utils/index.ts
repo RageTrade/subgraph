@@ -210,9 +210,21 @@ export function tenPower(power: BigInt): BigDecimal {
 export function getFundingRate(poolId: BigInt): BigDecimal {
   let clearingHouseContract = ClearingHouse.bind(contracts.ClearingHouse);
 
-  let result = clearingHouseContract.getTwapPrices(poolId);
-  let realPriceX128 = result.value0;
-  let virtualPriceX128 = result.value1;
+  let realPriceX128 = ZERO_BI;
+  let virtualPriceX128 = ZERO_BI;
+
+  let realResult = clearingHouseContract.try_getRealTwapPriceX128(poolId);
+  let virtualResult = clearingHouseContract.try_getVirtualTwapPriceX128(poolId);
+
+  if (!realResult.reverted || !virtualResult.reverted) {
+    realPriceX128 = realResult.value;
+    virtualPriceX128 = virtualResult.value;
+  } else {
+    log.error(
+      'custom_logs: getFundingRate realResult or virtualResult reverted',
+      ['']
+    );
+  }
 
   log.debug(
     'custom_logs: handleFundingPayment getFundingRate triggered {} {} {}',
