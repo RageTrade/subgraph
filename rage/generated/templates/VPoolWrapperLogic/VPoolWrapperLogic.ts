@@ -281,6 +281,23 @@ export class VPoolWrapperLogic__getExtrapolatedValuesInsideResultWrapperValuesIn
   }
 }
 
+export class VPoolWrapperLogic__getFundingRateAndVirtualPriceResult {
+  value0: BigInt;
+  value1: BigInt;
+
+  constructor(value0: BigInt, value1: BigInt) {
+    this.value0 = value0;
+    this.value1 = value1;
+  }
+
+  toMap(): TypedMap<string, ethereum.Value> {
+    let map = new TypedMap<string, ethereum.Value>();
+    map.set("value0", ethereum.Value.fromSignedBigInt(this.value0));
+    map.set("value1", ethereum.Value.fromUnsignedBigInt(this.value1));
+    return map;
+  }
+}
+
 export class VPoolWrapperLogic__getValuesInsideResultWrapperValuesInsideStruct extends ethereum.Tuple {
   get sumAX128(): BigInt {
     return this[0].toBigInt();
@@ -665,6 +682,39 @@ export class VPoolWrapperLogic extends ethereum.SmartContract {
     );
   }
 
+  getFundingRateAndVirtualPrice(): VPoolWrapperLogic__getFundingRateAndVirtualPriceResult {
+    let result = super.call(
+      "getFundingRateAndVirtualPrice",
+      "getFundingRateAndVirtualPrice():(int256,uint256)",
+      []
+    );
+
+    return new VPoolWrapperLogic__getFundingRateAndVirtualPriceResult(
+      result[0].toBigInt(),
+      result[1].toBigInt()
+    );
+  }
+
+  try_getFundingRateAndVirtualPrice(): ethereum.CallResult<
+    VPoolWrapperLogic__getFundingRateAndVirtualPriceResult
+  > {
+    let result = super.tryCall(
+      "getFundingRateAndVirtualPrice",
+      "getFundingRateAndVirtualPrice():(int256,uint256)",
+      []
+    );
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(
+      new VPoolWrapperLogic__getFundingRateAndVirtualPriceResult(
+        value[0].toBigInt(),
+        value[1].toBigInt()
+      )
+    );
+  }
+
   getSumAX128(): BigInt {
     let result = super.call("getSumAX128", "getSumAX128():(int256)", []);
 
@@ -955,62 +1005,6 @@ export class VPoolWrapperLogic extends ethereum.SmartContract {
   }
 }
 
-export class __initialize_VPoolWrapperCall extends ethereum.Call {
-  get inputs(): __initialize_VPoolWrapperCall__Inputs {
-    return new __initialize_VPoolWrapperCall__Inputs(this);
-  }
-
-  get outputs(): __initialize_VPoolWrapperCall__Outputs {
-    return new __initialize_VPoolWrapperCall__Outputs(this);
-  }
-}
-
-export class __initialize_VPoolWrapperCall__Inputs {
-  _call: __initialize_VPoolWrapperCall;
-
-  constructor(call: __initialize_VPoolWrapperCall) {
-    this._call = call;
-  }
-
-  get params(): __initialize_VPoolWrapperCallParamsStruct {
-    return this._call.inputValues[0].value.toTuple() as __initialize_VPoolWrapperCallParamsStruct;
-  }
-}
-
-export class __initialize_VPoolWrapperCall__Outputs {
-  _call: __initialize_VPoolWrapperCall;
-
-  constructor(call: __initialize_VPoolWrapperCall) {
-    this._call = call;
-  }
-}
-
-export class __initialize_VPoolWrapperCallParamsStruct extends ethereum.Tuple {
-  get clearingHouse(): Address {
-    return this[0].toAddress();
-  }
-
-  get vToken(): Address {
-    return this[1].toAddress();
-  }
-
-  get vQuote(): Address {
-    return this[2].toAddress();
-  }
-
-  get vPool(): Address {
-    return this[3].toAddress();
-  }
-
-  get liquidityFeePips(): i32 {
-    return this[4].toI32();
-  }
-
-  get protocolFeePips(): i32 {
-    return this[5].toI32();
-  }
-}
-
 export class BurnCall extends ethereum.Call {
   get inputs(): BurnCall__Inputs {
     return new BurnCall__Inputs(this);
@@ -1106,6 +1100,62 @@ export class CollectAccruedProtocolFeeCall__Outputs {
 
   get accruedProtocolFeeLast(): BigInt {
     return this._call.outputValues[0].value.toBigInt();
+  }
+}
+
+export class InitializeCall extends ethereum.Call {
+  get inputs(): InitializeCall__Inputs {
+    return new InitializeCall__Inputs(this);
+  }
+
+  get outputs(): InitializeCall__Outputs {
+    return new InitializeCall__Outputs(this);
+  }
+}
+
+export class InitializeCall__Inputs {
+  _call: InitializeCall;
+
+  constructor(call: InitializeCall) {
+    this._call = call;
+  }
+
+  get params(): InitializeCallParamsStruct {
+    return this._call.inputValues[0].value.toTuple() as InitializeCallParamsStruct;
+  }
+}
+
+export class InitializeCall__Outputs {
+  _call: InitializeCall;
+
+  constructor(call: InitializeCall) {
+    this._call = call;
+  }
+}
+
+export class InitializeCallParamsStruct extends ethereum.Tuple {
+  get clearingHouse(): Address {
+    return this[0].toAddress();
+  }
+
+  get vToken(): Address {
+    return this[1].toAddress();
+  }
+
+  get vQuote(): Address {
+    return this[2].toAddress();
+  }
+
+  get vPool(): Address {
+    return this[3].toAddress();
+  }
+
+  get liquidityFeePips(): i32 {
+    return this[4].toI32();
+  }
+
+  get protocolFeePips(): i32 {
+    return this[5].toI32();
   }
 }
 
@@ -1432,12 +1482,8 @@ export class UpdateGlobalFundingStateCall__Inputs {
     this._call = call;
   }
 
-  get realPriceX128(): BigInt {
-    return this._call.inputValues[0].value.toBigInt();
-  }
-
-  get virtualPriceX128(): BigInt {
-    return this._call.inputValues[1].value.toBigInt();
+  get useZeroFundingRate(): boolean {
+    return this._call.inputValues[0].value.toBoolean();
   }
 }
 
