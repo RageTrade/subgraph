@@ -3,7 +3,7 @@ lockfileVersion: 5.3
 specifiers:
   '@graphprotocol/graph-cli': ^0.20.0
   '@graphprotocol/graph-ts': ^0.20.0
-  '@ragetrade/sdk': ^0.5.9
+  '@ragetrade/sdk': ^0.6.0
   '@typescript-eslint/eslint-plugin': ^2.0.0
   '@typescript-eslint/parser': ^2.0.0
   babel-polyfill: ^6.26.0
@@ -19,7 +19,7 @@ specifiers:
   yaml: ^1.10.2
 
 dependencies:
-  '@ragetrade/sdk': 0.5.9
+  '@ragetrade/sdk': 0.6.0
   babel-polyfill: 6.26.0
   babel-register: 6.26.0
   truffle: 5.5.6
@@ -723,13 +723,14 @@ packages:
   /@protobufjs/utf8/1.1.0:
     resolution: {integrity: sha1-p3c2C1s5oaLlEG+OhY8v0tBgxXA=}
 
-  /@ragetrade/sdk/0.5.9:
-    resolution: {integrity: sha512-+afQU15eUgw2RXNwGBXgDTMF3APm8TaQUQNu7KB/P/h626zHzGg/uqMwMpUoxe0OR1qTxMZ3ZTiQFFy7P1XUvQ==}
+  /@ragetrade/sdk/0.6.0:
+    resolution: {integrity: sha512-ZD7uJjD+3oPfqSMonXRm8mU9gS9H2UKjs2BSGf6zsLxwkpV1Ndx2J6RNzLYUnFiEV//Y0x/fS5TAz+RbqEJlFw==}
     engines: {node: '>=10'}
     hasBin: true
     dependencies:
       '@uniswap/v3-sdk': 3.8.2
       ethers: 5.6.2
+      ethers-repl: 1.0.3_ethers@5.6.2
     transitivePeerDependencies:
       - bufferutil
       - hardhat
@@ -4084,6 +4085,16 @@ packages:
       rlp: 2.2.7
     dev: false
 
+  /ethers-repl/1.0.3_ethers@5.6.2:
+    resolution: {integrity: sha512-Pdq6hzTEqoEAf56gEtaCwrYTP2Xz4SgP0A1G3zPVO/GVh9/BedxGynClH4kUOPljztS3WsewppdlXBpf/0vBlQ==}
+    hasBin: true
+    peerDependencies:
+      ethers: '>=5'
+    dependencies:
+      ethers: 5.6.2
+      fs-extra: 10.0.1
+    dev: false
+
   /ethers/4.0.0-beta.3:
     resolution: {integrity: sha512-YYPogooSknTwvHg3+Mv71gM/3Wcrx+ZpCzarBj3mqs9njjRkrOo2/eufzhHloOCo3JSoNI4TQJJ6yU5ABm3Uog==}
     dependencies:
@@ -4506,7 +4517,6 @@ packages:
       graceful-fs: 4.2.9
       jsonfile: 6.1.0
       universalify: 2.0.0
-    dev: true
 
   /fs-extra/4.0.3:
     resolution: {integrity: sha512-q6rbdDd1o2mAnQreO7YADIxf/Whx4AHBiRf6d+/cVT8h44ss+lHgxf1FemcqDnQt9X3ct4McHr+JMGlYSsK7Cg==}
