@@ -43,8 +43,6 @@ dataSources:
           handler: handleTokenPositionChanged
         - event: MarginUpdated(indexed uint256,indexed uint32,int256)
           handler: handleMarginUpdated
-        - event: ProfitUpdated(indexed uint256,int256)
-          handler: handleProfitUpdated
         - event: PoolSettingsUpdated(uint32,(uint16,uint16,uint16,uint32,bool,bool,address))
           handler: handlePoolSettingsUpdated
         - event: TokenPositionLiquidated(indexed uint256,indexed uint256,indexed
