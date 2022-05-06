@@ -3,7 +3,7 @@ lockfileVersion: 5.3
 specifiers:
   '@graphprotocol/graph-cli': ^0.20.0
   '@graphprotocol/graph-ts': ^0.20.0
-  '@ragetrade/sdk': ^0.7.12
+  '@ragetrade/sdk': ^0.7.14
   '@typescript-eslint/eslint-plugin': ^2.0.0
   '@typescript-eslint/parser': ^2.0.0
   babel-polyfill: ^6.26.0
@@ -19,7 +19,7 @@ specifiers:
   yaml: ^1.10.2
 
 dependencies:
-  '@ragetrade/sdk': 0.7.12
+  '@ragetrade/sdk': 0.7.14
   babel-polyfill: 6.26.0
   babel-register: 6.26.0
   truffle: 5.5.6
@@ -723,8 +723,8 @@ packages:
   /@protobufjs/utf8/1.1.0:
     resolution: {integrity: sha1-p3c2C1s5oaLlEG+OhY8v0tBgxXA=}
 
-  /@ragetrade/sdk/0.7.12:
-    resolution: {integrity: sha512-5d3oJ8mKxlUfDJz5qQlZNhPu1wFi4BwGVCX4BXXvfxL77FzBhquPNYVrxJca7wZkBzPP2Zct9GXbeOgIc685pw==}
+  /@ragetrade/sdk/0.7.14:
+    resolution: {integrity: sha512-irkKZqRNNBV5i9KHy3fBDkflNSyKSCq2nprRdx+/1gJnefn9A/lpxt8Lx9LPRHAtwkcX6gXxZeKAeDyQpy+esA==}
     engines: {node: '>=10'}
     hasBin: true
     dependencies:
