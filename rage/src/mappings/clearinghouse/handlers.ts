@@ -544,11 +544,12 @@ export function handleTokenPositionFundingPaymentRealized(
     fundingRateEntry.amount
   );
 
+  let toAdd = event.params.amount.isZero() ? ZERO_BI : ONE_BI;
   tokenPosition.fundingPaymentRealizedEntriesCount = tokenPosition.fundingPaymentRealizedEntriesCount.plus(
-    ONE_BI
+    toAdd
   );
   account.fundingPaymentRealizedEntriesCount = account.fundingPaymentRealizedEntriesCount.plus(
-    ONE_BI
+    toAdd
   );
 
   account.save();
