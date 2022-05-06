@@ -950,5 +950,52 @@
     ],
     "stateMutability": "view",
     "type": "function"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "components": [
+          {
+            "internalType": "int256",
+            "name": "sumAX128",
+            "type": "int256"
+          },
+          {
+            "internalType": "int256",
+            "name": "sumBX128",
+            "type": "int256"
+          },
+          {
+            "internalType": "int256",
+            "name": "sumFpX128",
+            "type": "int256"
+          },
+          {
+            "internalType": "uint48",
+            "name": "timestampLast",
+            "type": "uint48"
+          }
+        ],
+        "indexed": false,
+        "internalType": "struct FundingPayment.Info",
+        "name": "fundingPayment",
+        "type": "tuple"
+      },
+      {
+        "indexed": false,
+        "internalType": "int256",
+        "name": "fundingRateX128",
+        "type": "int256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "virtualPriceX128",
+        "type": "uint256"
+      }
+    ],
+    "name": "FundingPaymentStateUpdated",
+    "type": "event"
   }
 ]
