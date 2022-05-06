@@ -422,7 +422,7 @@ export function handleTokenPositionChanged(event: TokenPositionChanged): void {
 
 // @entity Margin
 export function handleMarginUpdated(event: MarginUpdated): void {
-  log.warning('custom_logs: handleMarginAdded triggered {} {} {}', [
+  log.debug('custom_logs: handleMarginAdded triggered {} {} {}', [
     event.params.accountId.toString(),
     event.params.collateralId.toString(),
     event.params.amount.toString(),
