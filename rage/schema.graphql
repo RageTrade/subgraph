@@ -201,6 +201,8 @@ type MarginChangeEntry @entity {
   amount: BigDecimal!
   "the type of margin change, deposit or withdraw"
   transactionType: MarginTransactionType!
+  "false - the margin was changed by deposit/withdraw, true - the margin was changed by trade"
+  isSettleProfit: Boolean!
 }
 
 """

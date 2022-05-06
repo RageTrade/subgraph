@@ -856,6 +856,15 @@ export class MarginChangeEntry extends Entity {
   set transactionType(value: string) {
     this.set("transactionType", Value.fromString(value));
   }
+
+  get isSettleProfit(): boolean {
+    let value = this.get("isSettleProfit");
+    return value.toBoolean();
+  }
+
+  set isSettleProfit(value: boolean) {
+    this.set("isSettleProfit", Value.fromBoolean(value));
+  }
 }
 
 export class TokenPositionChangeEntry extends Entity {
