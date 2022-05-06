@@ -68,7 +68,7 @@ function updateSubgraphYaml(
 }
 
 async function updateAbi(name) {
-  const deployment = await sdk.getDeployment(networkNameIn.sdk, name);
+  const deployment = await sdk.getDeployment('core', networkNameIn.sdk, name);
   await fs.writeJSON(`./abis/${name}.json`, deployment.abi, { spaces: 2 });
 
   console.log(`Updated ${name}.json`);
