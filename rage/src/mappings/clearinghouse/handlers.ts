@@ -139,6 +139,17 @@ export function handleTokenPositionChanged(event: TokenPositionChanged): void {
     );
   }
 
+  log.debug(
+    'custom_logs: tokenPosition.liquidationPrice [liquidationPrice - {}] [vQuoteBalance - {}] [marginBalance - {}] [netPosition - {}] [maintenanceMarginRatioBps - {}]',
+    [
+      tokenPosition.liquidationPrice.toString(),
+      account.vQuoteBalance.toString(),
+      account.marginBalance.toString(),
+      tokenPosition.netPosition.toString(),
+      rageTradePool.maintenanceMarginRatioBps.toString(),
+    ]
+  );
+
   let buyAvgPrice = safeDiv(
     tokenPosition.buyVQuoteAmount,
     tokenPosition.buyVTokenAmount
@@ -434,8 +445,10 @@ export function handleMarginUpdated(event: MarginUpdated): void {
   collateral.timestamp = event.block.timestamp;
   collateral.amount = collateral.amount.plus(event.params.amount);
 
+  // TODO: put trade margin changes in a separate table ?
+  let toAdd = event.params.isSettleProfit ? ZERO_BI : ONE_BI;
   account.marginChangeEntriesCount = account.marginChangeEntriesCount.plus(
-    ONE_BI
+    toAdd
   );
   account.marginBalance = account.marginBalance.plus(
     BigIntToBigDecimal(event.params.amount, BI_6)
@@ -455,6 +468,7 @@ export function handleMarginUpdated(event: MarginUpdated): void {
   let marginChangeEntry = new MarginChangeEntry(marginChangeEntryId);
 
   marginChangeEntry.timestamp = event.block.timestamp;
+  marginChangeEntry.isSettleProfit = event.params.isSettleProfit;
   marginChangeEntry.transactionHash = event.transaction.hash;
   marginChangeEntry.account = account.id;
   marginChangeEntry.transactionType = event.params.amount.gt(ZERO_BI)
