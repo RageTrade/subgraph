@@ -478,6 +478,10 @@ export class MarginUpdated__Params {
   get amount(): BigInt {
     return this._event.parameters[2].value.toBigInt();
   }
+
+  get isSettleProfit(): boolean {
+    return this._event.parameters[3].value.toBoolean();
+  }
 }
 
 export class ProfitUpdated extends ethereum.Event {
@@ -661,50 +665,6 @@ export class TokenPositionLiquidated__Params {
 
   get accountMarketValueFinal(): BigInt {
     return this._event.parameters[5].value.toBigInt();
-  }
-}
-
-export class FundingPaymentStateUpdated extends ethereum.Event {
-  get params(): FundingPaymentStateUpdated__Params {
-    return new FundingPaymentStateUpdated__Params(this);
-  }
-}
-
-export class FundingPaymentStateUpdated__Params {
-  _event: FundingPaymentStateUpdated;
-
-  constructor(event: FundingPaymentStateUpdated) {
-    this._event = event;
-  }
-
-  get fundingPayment(): FundingPaymentStateUpdatedFundingPaymentStruct {
-    return this._event.parameters[0].value.toTuple() as FundingPaymentStateUpdatedFundingPaymentStruct;
-  }
-
-  get fundingRateX128(): BigInt {
-    return this._event.parameters[1].value.toBigInt();
-  }
-
-  get virtualPriceX128(): BigInt {
-    return this._event.parameters[2].value.toBigInt();
-  }
-}
-
-export class FundingPaymentStateUpdatedFundingPaymentStruct extends ethereum.Tuple {
-  get sumAX128(): BigInt {
-    return this[0].toBigInt();
-  }
-
-  get sumBX128(): BigInt {
-    return this[1].toBigInt();
-  }
-
-  get sumFpX128(): BigInt {
-    return this[2].toBigInt();
-  }
-
-  get timestampLast(): BigInt {
-    return this[3].toBigInt();
   }
 }
 
