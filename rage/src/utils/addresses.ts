@@ -8,8 +8,8 @@ class Contracts {
 }
 
 export let contracts: Contracts = { 
-  ClearingHouse: Address.fromString("0xB9F870bfe77982a9956D9D155b2A26f7B2a01E8F"),
-  RageTradeFactory: Address.fromString("0x2650401380dF7D243Bc26b249F1c85920767b7bd"),
-  InsuranceFund: Address.fromString("0x8be0ca6Ac3C5b09577119C4Bb31eD0337811A540"),
-  VPoolWrapper: Address.fromString("0x35a46d039aC2Ce174a948E3399ec1819877E320F"),
+  ClearingHouse: Address.fromString("0x50dAAC4F57F2F58f0Db2819f94954F3A1DBB90eC"),
+  RageTradeFactory: Address.fromString("0x986e8e144e7bE47bcC4c5E22d2E0D3e2cbb7F7Cb"),
+  InsuranceFund: Address.fromString("0xfb7ADB15a3d03aa6d3e8167B1d0aFFa374D1e7ce"),
+  VPoolWrapper: Address.fromString("0xBa7A7a37d1246eb5ef7682835C96cfefa9114f19"),
  };

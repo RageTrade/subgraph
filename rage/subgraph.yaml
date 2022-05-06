@@ -8,9 +8,9 @@ dataSources:
     name: ClearingHouse
     network: arbitrum-rinkeby
     source:
-      address: "0xB9F870bfe77982a9956D9D155b2A26f7B2a01E8F"
+      address: "0x50dAAC4F57F2F58f0Db2819f94954F3A1DBB90eC"
       abi: ClearingHouse
-      startBlock: 11107217
+      startBlock: 11729932
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.4
@@ -41,7 +41,7 @@ dataSources:
         - event: TokenPositionChanged(indexed uint256,indexed
             uint32,int256,int256,uint160,uint160)
           handler: handleTokenPositionChanged
-        - event: MarginUpdated(indexed uint256,indexed uint32,int256)
+        - event: MarginUpdated(indexed uint256,indexed uint32,int256,bool)
           handler: handleMarginUpdated
         - event: PoolSettingsUpdated(uint32,(uint16,uint16,uint16,uint32,bool,bool,address))
           handler: handlePoolSettingsUpdated
@@ -52,9 +52,9 @@ dataSources:
     name: RageTradeFactory
     network: arbitrum-rinkeby
     source:
-      address: "0x2650401380dF7D243Bc26b249F1c85920767b7bd"
+      address: "0x986e8e144e7bE47bcC4c5E22d2E0D3e2cbb7F7Cb"
       abi: RageTradeFactory
-      startBlock: 11107217
+      startBlock: 11729932
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.4
