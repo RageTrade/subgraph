@@ -540,7 +540,7 @@ export function handleTokenPositionFundingPaymentRealized(
     ? 'long'
     : 'short';
 
-  tokenPosition.totalRealizedFundingPaymentAmount = tokenPosition.totalRealizedFundingPaymentAmount.plus(
+  tokenPosition.totalRealizedFundingPaymentAmount = tokenPosition.totalRealizedFundingPaymentAmount.minus(
     fundingRateEntry.amount
   );
 
