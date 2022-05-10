@@ -11,7 +11,9 @@ import {
   Account,
   FundingPaymentRealizedEntry,
   MarginChangeEntry,
+  Protocol,
   RageTradePool,
+  TokenPosition,
   TokenPositionChangeEntry,
   TokenPositionLiquidatedEntry,
 } from '../../../generated/schema';
@@ -43,6 +45,7 @@ import {
   getRageTradePool,
   getRageTradePoolId,
 } from '../ragetradeFactory/rageTradePool';
+import { getLiquidationPrice } from './liquidationPrice';
 
 // @entity Account
 export function handleAccountCreated(event: AccountCreated): void {
@@ -106,7 +109,12 @@ export function handleTokenPositionChanged(event: TokenPositionChanged): void {
     ]);
   }
 
-  let tenPow4 = BigDecimal.fromString('10000');
+  tokenPosition.liquidationPrice = getLiquidationPrice(
+    tokenPosition,
+    account,
+    rageTradePool,
+    event.params.vTokenAmountOut
+  );
 
   if (event.params.vTokenAmountOut.gt(ZERO_BI)) {
     tokenPosition.buyVTokenAmount = tokenPosition.buyVTokenAmount.plus(
@@ -115,17 +123,6 @@ export function handleTokenPositionChanged(event: TokenPositionChanged): void {
     tokenPosition.buyVQuoteAmount = tokenPosition.buyVQuoteAmount.plus(
       BigIntToBigDecimal(event.params.vQuoteAmountOut.abs(), BI_6)
     );
-
-    // Liquidation Price (Long Position) = - (vQuoteBalance + marginAmount)*1e4/(netPosition * (1e4 -maintenanceMarginRatioBps ))
-    tokenPosition.liquidationPrice = safeDiv(
-      account.vQuoteBalance
-        .plus(account.marginBalance)
-        .times(tenPow4)
-        .neg(),
-      tokenPosition.netPosition.times(
-        tenPow4.minus(rageTradePool.maintenanceMarginRatioBps)
-      )
-    );
   } else {
     tokenPosition.sellVTokenAmount = tokenPosition.sellVTokenAmount.plus(
       BigIntToBigDecimal(event.params.vTokenAmountOut.abs(), BI_18)
@@ -133,29 +130,7 @@ export function handleTokenPositionChanged(event: TokenPositionChanged): void {
     tokenPosition.sellVQuoteAmount = tokenPosition.sellVQuoteAmount.plus(
       BigIntToBigDecimal(event.params.vQuoteAmountOut.abs(), BI_6)
     );
-
-    // Liquidation Price (Short Position) = - (vQuoteBalance + marginAmount)*1e4/netPosition(1e4+maintenanceMarginRatioBps)
-    tokenPosition.liquidationPrice = safeDiv(
-      account.vQuoteBalance
-        .plus(account.marginBalance)
-        .times(tenPow4)
-        .neg(),
-      tokenPosition.netPosition.times(
-        tenPow4.plus(rageTradePool.maintenanceMarginRatioBps)
-      )
-    );
   }
-
-  log.debug(
-    'custom_logs: tokenPosition.liquidationPrice [liquidationPrice - {}] [vQuoteBalance - {}] [marginBalance - {}] [netPosition - {}] [maintenanceMarginRatioBps - {}]',
-    [
-      tokenPosition.liquidationPrice.toString(),
-      account.vQuoteBalance.toString(),
-      account.marginBalance.toString(),
-      tokenPosition.netPosition.toString(),
-      rageTradePool.maintenanceMarginRatioBps.toString(),
-    ]
-  );
 
   let buyAvgPrice = safeDiv(
     tokenPosition.buyVQuoteAmount,
@@ -460,6 +435,39 @@ export function handleMarginUpdated(event: MarginUpdated): void {
   account.marginBalance = account.marginBalance.plus(
     BigIntToBigDecimal(event.params.amount, BI_6)
   );
+
+  let protocol = Protocol.load('rage_trade');
+  let rageTradePools = protocol.rageTradePools;
+
+  rageTradePools.forEach(poolId => {
+    let rageTradePool = RageTradePool.load(poolId);
+
+    if (rageTradePool == null) {
+      log.error('custom_logs: handleMarginUpdated rageTradePool == null {}', [
+        poolId,
+      ]);
+      return;
+    }
+
+    let tokenPositionId = generateId([account.id, poolId]);
+    let tokenPosition = TokenPosition.load(tokenPositionId);
+
+    if (tokenPosition == null) {
+      log.error('custom_logs: handleMarginUpdated tokenPosition == null {}', [
+        tokenPositionId,
+      ]);
+      return;
+    }
+
+    tokenPosition.liquidationPrice = getLiquidationPrice(
+      tokenPosition,
+      account,
+      rageTradePool,
+      event.params.amount
+    );
+
+    tokenPosition.save();
+  });
 
   account.save();
   collateral.save();
