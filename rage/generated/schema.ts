@@ -368,6 +368,15 @@ export class Protocol extends Entity {
   set vQuote(value: string) {
     this.set("vQuote", Value.fromString(value));
   }
+
+  get rageTradePools(): Array<string> {
+    let value = this.get("rageTradePools");
+    return value.toStringArray();
+  }
+
+  set rageTradePools(value: Array<string>) {
+    this.set("rageTradePools", Value.fromStringArray(value));
+  }
 }
 
 export class Collateral extends Entity {

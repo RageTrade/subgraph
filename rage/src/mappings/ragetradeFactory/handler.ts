@@ -90,9 +90,13 @@ export function handlePoolInitialized(event: PoolInitialized): void {
     protocol.lpFees = ZERO_BD;
     protocol.protocolFees = ZERO_BD;
     protocol.vQuote = vQuote.id;
+    protocol.rageTradePools = new Array<string>(0);
 
     protocol.save();
   }
+
+  protocol.rageTradePools.push(rageTradePool.id);
+  protocol.save();
 
   let vPool = Temp_UniswapV3_Pool.load(event.params.vPool.toHexString());
   if (vPool == null) {

@@ -78,6 +78,8 @@ type Protocol @entity {
   protocolFees: BigDecimal!
   "vQuote token used by the protocol, currently vUSDC"
   vQuote: VQuote!
+  "list of ids of all ragetrade pools"
+  rageTradePools: [String!]!
 }
 
 """
