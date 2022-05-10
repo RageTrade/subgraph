@@ -30,7 +30,14 @@ import {
 } from '../../utils';
 import { UniswapV3Pool } from '../../../generated/templates/UniswapV3Pool/UniswapV3Pool';
 import { absBigDecimal, getPriceANDTick } from '../vPoolWrapper/utils';
-import { BI_18, BI_6, ONE_BI, ZERO_BD, ZERO_BI } from '../../utils/constants';
+import {
+  BI_18,
+  BI_6,
+  ONE_BD,
+  ONE_BI,
+  ZERO_BD,
+  ZERO_BI,
+} from '../../utils/constants';
 import { getCollateral } from './collateral';
 import {
   getRageTradePool,
@@ -540,9 +547,16 @@ export function handleTokenPositionFundingPaymentRealized(
     ? 'long'
     : 'short';
 
-  tokenPosition.totalRealizedFundingPaymentAmount = tokenPosition.totalRealizedFundingPaymentAmount.minus(
-    fundingRateEntry.amount
-  );
+  let paymentSign = ONE_BD;
+  if (fundingRateEntry.fundingRate.gt(ZERO_BD)) {
+    paymentSign = fundingRateEntry.side == 'long' ? ONE_BD : ONE_BD.neg();
+  } else {
+    paymentSign = fundingRateEntry.side == 'long' ? ONE_BD.neg() : ONE_BD;
+  }
+
+  tokenPosition.totalRealizedFundingPaymentAmount = tokenPosition.totalRealizedFundingPaymentAmount
+    .plus(fundingRateEntry.amount)
+    .times(paymentSign);
 
   let toAdd = event.params.amount.isZero() ? ZERO_BI : ONE_BI;
   tokenPosition.fundingPaymentRealizedEntriesCount = tokenPosition.fundingPaymentRealizedEntriesCount.plus(
