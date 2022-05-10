@@ -1,4 +1,4 @@
-import { Address, log, BigInt, BigDecimal } from '@graphprotocol/graph-ts';
+import { Address, log, BigInt } from '@graphprotocol/graph-ts';
 import {
   AccountCreated,
   TokenPositionFundingPaymentRealized,
@@ -112,7 +112,7 @@ export function handleTokenPositionChanged(event: TokenPositionChanged): void {
   tokenPosition.liquidationPrice = getLiquidationPrice(
     tokenPosition,
     account,
-    rageTradePool,
+    rageTradePool as RageTradePool,
     event.params.vTokenAmountOut
   );
 
@@ -436,10 +436,14 @@ export function handleMarginUpdated(event: MarginUpdated): void {
     BigIntToBigDecimal(event.params.amount, BI_6)
   );
 
+  account.save();
+  collateral.save();
+
   let protocol = Protocol.load('rage_trade');
   let rageTradePools = protocol.rageTradePools;
 
-  rageTradePools.forEach(poolId => {
+  for (let i = 0; i < rageTradePools.length; ++i) {
+    let poolId = rageTradePools[i];
     let rageTradePool = RageTradePool.load(poolId);
 
     if (rageTradePool == null) {
@@ -460,17 +464,15 @@ export function handleMarginUpdated(event: MarginUpdated): void {
     }
 
     tokenPosition.liquidationPrice = getLiquidationPrice(
-      tokenPosition,
+      tokenPosition as TokenPosition,
       account,
-      rageTradePool,
+      rageTradePool as RageTradePool,
       event.params.amount
     );
 
     tokenPosition.save();
-  });
+  }
 
-  account.save();
-  collateral.save();
   /////////////////////////////////////////////////////////////////////
 
   let marginChangeEntryId = generateId([
