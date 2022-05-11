@@ -546,28 +546,25 @@ export function handleTokenPositionFundingPaymentRealized(
 
   fundingRateEntry.account = account.id;
   fundingRateEntry.tokenPosition = tokenPosition.id;
-  // usdc settlementToken
-  fundingRateEntry.amount = BigIntToBigDecimal(event.params.amount, BI_6);
 
   fundingRateEntry.vTokenPosition = tokenPosition.netPosition;
 
-  fundingRateEntry.fundingRate = getFundingRate(event.params.poolId);
-  rageTradePool.fundingRate = fundingRateEntry.fundingRate;
+  fundingRateEntry.amount = BigIntToBigDecimal(event.params.amount, BI_6);
+
+  fundingRateEntry.fundingRate = safeDiv(
+    fundingRateEntry.amount,
+    tokenPosition.netPosition
+  ).neg();
+
+  rageTradePool.fundingRate = getFundingRate(event.params.poolId);
 
   fundingRateEntry.side = tokenPosition.netPosition.gt(ZERO_BD)
     ? 'long'
     : 'short';
 
-  let paymentSign = ONE_BD;
-  if (fundingRateEntry.fundingRate.gt(ZERO_BD)) {
-    paymentSign = fundingRateEntry.side == 'long' ? ONE_BD.neg() : ONE_BD;
-  } else {
-    paymentSign = fundingRateEntry.side == 'long' ? ONE_BD : ONE_BD.neg();
-  }
-
-  tokenPosition.totalRealizedFundingPaymentAmount = tokenPosition.totalRealizedFundingPaymentAmount
-    .plus(fundingRateEntry.amount)
-    .times(paymentSign);
+  tokenPosition.totalRealizedFundingPaymentAmount = tokenPosition.totalRealizedFundingPaymentAmount.plus(
+    fundingRateEntry.amount
+  );
 
   let toAdd = event.params.amount.isZero() ? ZERO_BI : ONE_BI;
   tokenPosition.fundingPaymentRealizedEntriesCount = tokenPosition.fundingPaymentRealizedEntriesCount.plus(
