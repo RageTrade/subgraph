@@ -95,8 +95,17 @@ export function handlePoolInitialized(event: PoolInitialized): void {
     protocol.save();
   }
 
-  protocol.rageTradePools.push(rageTradePool.id);
+  // direct push and save doesn't work
+  let _rageTradePools = protocol.rageTradePools;
+  _rageTradePools.push(rageTradePool.id);
+  protocol.rageTradePools = _rageTradePools;
+
   protocol.save();
+
+  log.debug(
+    'custom_logs: protocol.rageTradePools.push - {} protocol.rageTradePools[0] - {}',
+    [rageTradePool.id, protocol.rageTradePools[0]]
+  );
 
   let vPool = Temp_UniswapV3_Pool.load(event.params.vPool.toHexString());
   if (vPool == null) {
