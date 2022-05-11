@@ -109,13 +109,11 @@ export function handleTokenPositionChanged(event: TokenPositionChanged): void {
     ]);
   }
 
-  tokenPosition.save();
-  account.save();
-
   tokenPosition.liquidationPrice = getLiquidationPrice(
-    tokenPosition,
-    account,
-    rageTradePool as RageTradePool
+    tokenPosition.netPosition,
+    account.vQuoteBalance,
+    account.marginBalance,
+    rageTradePool.maintenanceMarginRatioBps
   );
 
   if (event.params.vTokenAmountOut.gt(ZERO_BI)) {
@@ -444,6 +442,10 @@ export function handleMarginUpdated(event: MarginUpdated): void {
   let protocol = Protocol.load('rage_trade');
   let rageTradePools = protocol.rageTradePools;
 
+  log.debug('custom_logs: handleMarginUpdated rageTradePools.length - {} ', [
+    rageTradePools.length.toString(),
+  ]);
+
   for (let i = 0; i < rageTradePools.length; ++i) {
     let poolId = rageTradePools[i];
     let rageTradePool = RageTradePool.load(poolId);
@@ -466,9 +468,10 @@ export function handleMarginUpdated(event: MarginUpdated): void {
     }
 
     tokenPosition.liquidationPrice = getLiquidationPrice(
-      tokenPosition as TokenPosition,
-      account,
-      rageTradePool as RageTradePool
+      tokenPosition.netPosition,
+      account.vQuoteBalance,
+      account.marginBalance,
+      rageTradePool.maintenanceMarginRatioBps
     );
 
     tokenPosition.save();
