@@ -559,9 +559,9 @@ export function handleTokenPositionFundingPaymentRealized(
 
   let paymentSign = ONE_BD;
   if (fundingRateEntry.fundingRate.gt(ZERO_BD)) {
-    paymentSign = fundingRateEntry.side == 'long' ? ONE_BD : ONE_BD.neg();
-  } else {
     paymentSign = fundingRateEntry.side == 'long' ? ONE_BD.neg() : ONE_BD;
+  } else {
+    paymentSign = fundingRateEntry.side == 'long' ? ONE_BD : ONE_BD.neg();
   }
 
   tokenPosition.totalRealizedFundingPaymentAmount = tokenPosition.totalRealizedFundingPaymentAmount
