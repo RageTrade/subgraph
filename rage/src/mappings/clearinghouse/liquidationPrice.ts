@@ -11,13 +11,12 @@ export function getLiquidationPrice(
   tokenPosition: TokenPosition,
   account: Account,
   rageTradePool: RageTradePool,
-  vTokenAmountOut: BigInt
 ): BigDecimal {
   let tenPow4 = BigDecimal.fromString('10000');
 
   let liquidationPrice = ZERO_BD;
 
-  if (vTokenAmountOut.gt(ZERO_BI)) {
+  if (tokenPosition.netPosition.gt(ZERO_BD)) {
     // Liquidation Price (Long Position) = - (vQuoteBalance + marginAmount)*1e4/(netPosition * (1e4 -maintenanceMarginRatioBps ))
     liquidationPrice = safeDiv(
       account.vQuoteBalance
