@@ -443,7 +443,7 @@ export function handleMarginUpdated(event: MarginUpdated): void {
   let rageTradePools = protocol.rageTradePools;
 
   log.debug('custom_logs: handleMarginUpdated rageTradePools.length - {} ', [
-    rageTradePools.length.toString(),
+    BigInt.fromI32(rageTradePools.length).toString(),
   ]);
 
   for (let i = 0; i < rageTradePools.length; ++i) {

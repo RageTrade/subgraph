@@ -102,10 +102,9 @@ export function handlePoolInitialized(event: PoolInitialized): void {
 
   protocol.save();
 
-  log.debug(
-    'custom_logs: protocol.rageTradePools.push - {} protocol.rageTradePools[0] - {}',
-    [rageTradePool.id, protocol.rageTradePools[0]]
-  );
+  log.debug('custom_logs: protocol.rageTradePools.push - {}', [
+    rageTradePool.id,
+  ]);
 
   let vPool = Temp_UniswapV3_Pool.load(event.params.vPool.toHexString());
   if (vPool == null) {
