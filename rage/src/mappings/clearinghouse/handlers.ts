@@ -109,11 +109,13 @@ export function handleTokenPositionChanged(event: TokenPositionChanged): void {
     ]);
   }
 
+  tokenPosition.save();
+  account.save();
+
   tokenPosition.liquidationPrice = getLiquidationPrice(
     tokenPosition,
     account,
-    rageTradePool as RageTradePool,
-    event.params.vTokenAmountOut
+    rageTradePool as RageTradePool
   );
 
   if (event.params.vTokenAmountOut.gt(ZERO_BI)) {
@@ -466,8 +468,7 @@ export function handleMarginUpdated(event: MarginUpdated): void {
     tokenPosition.liquidationPrice = getLiquidationPrice(
       tokenPosition as TokenPosition,
       account,
-      rageTradePool as RageTradePool,
-      event.params.amount
+      rageTradePool as RageTradePool
     );
 
     tokenPosition.save();
