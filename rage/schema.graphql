@@ -151,6 +151,8 @@ type TokenPosition @entity {
   tokenPositionChangeEntries: [TokenPositionChangeEntry!]! @derivedFrom(field: "tokenPosition")
   "total number time a funding payment realized entry was created for this position"
   fundingPaymentRealizedEntriesCount: BigInt!
+  "timestamp of the last funding payment realized entry for this position"
+  lastFundingPaymentRealizedEntryTimestamp: BigInt!
   "list of funding payment realized entries for this position"
   fundingPaymentRealizedEntries: [FundingPaymentRealizedEntry!]! @derivedFrom(field: "tokenPosition")
   "list of id(s) of the token position change entries, that are 'open' positions, used for calculating the pnl"
