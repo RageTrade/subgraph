@@ -1,6 +1,12 @@
-import { BigDecimal, log } from '@graphprotocol/graph-ts';
+import { BigDecimal, BigInt, log } from '@graphprotocol/graph-ts';
+import {
+  Account,
+  Protocol,
+  RageTradePool,
+  TokenPosition,
+} from '../../../generated/schema';
 
-import { safeDiv } from '../../utils';
+import { generateId, safeDiv } from '../../utils';
 import { ZERO_BD } from '../../utils/constants';
 
 export function getLiquidationPrice(
@@ -45,4 +51,47 @@ export function getLiquidationPrice(
   );
 
   return liquidationPrice;
+}
+
+/**
+ * Updated all liquidation prices for all RageTradePools
+ */
+export function updateAllLiquidationPrices(account: Account) {
+  let protocol = Protocol.load('rage_trade');
+  let rageTradePools = protocol.rageTradePools;
+
+  log.debug('custom_logs: handleMarginUpdated rageTradePools.length - {} ', [
+    BigInt.fromI32(rageTradePools.length).toString(),
+  ]);
+
+  for (let i = 0; i < rageTradePools.length; ++i) {
+    let poolId = rageTradePools[i];
+    let rageTradePool = RageTradePool.load(poolId);
+
+    if (rageTradePool == null) {
+      log.error('custom_logs: handleMarginUpdated rageTradePool == null {}', [
+        poolId,
+      ]);
+      return;
+    }
+
+    let tokenPositionId = generateId([account.id, poolId]);
+    let tokenPosition = TokenPosition.load(tokenPositionId);
+
+    if (tokenPosition == null) {
+      log.error('custom_logs: handleMarginUpdated tokenPosition == null {}', [
+        tokenPositionId,
+      ]);
+      return;
+    }
+
+    tokenPosition.liquidationPrice = getLiquidationPrice(
+      tokenPosition.netPosition,
+      account.vQuoteBalance,
+      account.marginBalance,
+      rageTradePool.maintenanceMarginRatioBps
+    );
+
+    tokenPosition.save();
+  }
 }
