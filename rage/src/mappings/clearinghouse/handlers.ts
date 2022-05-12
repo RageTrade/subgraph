@@ -6,14 +6,12 @@ import {
   TokenPositionChanged,
   PoolSettingsUpdated,
   TokenPositionLiquidated,
+  ProfitUpdated,
 } from '../../../generated/ClearingHouse/ClearingHouse';
 import {
-  Account,
   FundingPaymentRealizedEntry,
   MarginChangeEntry,
-  Protocol,
   RageTradePool,
-  TokenPosition,
   TokenPositionChangeEntry,
   TokenPositionLiquidatedEntry,
 } from '../../../generated/schema';
@@ -35,7 +33,6 @@ import { absBigDecimal, getPriceANDTick } from '../vPoolWrapper/utils';
 import {
   BI_18,
   BI_6,
-  ONE_BD,
   ONE_BI,
   ZERO_BD,
   ZERO_BI,
@@ -45,7 +42,10 @@ import {
   getRageTradePool,
   getRageTradePoolId,
 } from '../ragetradeFactory/rageTradePool';
-import { getLiquidationPrice } from './liquidationPrice';
+import {
+  getLiquidationPrice,
+  updateAllLiquidationPrices,
+} from './liquidationPrice';
 
 // @entity Account
 export function handleAccountCreated(event: AccountCreated): void {
@@ -439,43 +439,7 @@ export function handleMarginUpdated(event: MarginUpdated): void {
   account.save();
   collateral.save();
 
-  let protocol = Protocol.load('rage_trade');
-  let rageTradePools = protocol.rageTradePools;
-
-  log.debug('custom_logs: handleMarginUpdated rageTradePools.length - {} ', [
-    BigInt.fromI32(rageTradePools.length).toString(),
-  ]);
-
-  for (let i = 0; i < rageTradePools.length; ++i) {
-    let poolId = rageTradePools[i];
-    let rageTradePool = RageTradePool.load(poolId);
-
-    if (rageTradePool == null) {
-      log.error('custom_logs: handleMarginUpdated rageTradePool == null {}', [
-        poolId,
-      ]);
-      return;
-    }
-
-    let tokenPositionId = generateId([account.id, poolId]);
-    let tokenPosition = TokenPosition.load(tokenPositionId);
-
-    if (tokenPosition == null) {
-      log.error('custom_logs: handleMarginUpdated tokenPosition == null {}', [
-        tokenPositionId,
-      ]);
-      return;
-    }
-
-    tokenPosition.liquidationPrice = getLiquidationPrice(
-      tokenPosition.netPosition,
-      account.vQuoteBalance,
-      account.marginBalance,
-      rageTradePool.maintenanceMarginRatioBps
-    );
-
-    tokenPosition.save();
-  }
+  updateAllLiquidationPrices(account);
 
   /////////////////////////////////////////////////////////////////////
 
@@ -554,10 +518,15 @@ export function handleTokenPositionFundingPaymentRealized(
 
   fundingRateEntry.amount = BigIntToBigDecimal(event.params.amount, BI_6);
 
+  // timeDifference = fundingRateEntry.timestamp - previousFundingRateEntry.timestamp
+
+  // TODO
   fundingRateEntry.fundingRate = safeDiv(
     fundingRateEntry.amount,
     tokenPosition.netPosition
-  ).neg();
+  )
+    // .div(timeDifference)
+    .neg();
 
   rageTradePool.fundingRate = getFundingRate(event.params.poolId);
 
@@ -662,6 +631,22 @@ export function handleTokenPositionLiquidated(
   account.save();
   tokenPosition.save();
   entry.save();
+}
+
+export function handleProfitUpdated(event: ProfitUpdated): void {
+  log.debug('custom_logs: handleProfitUpdated triggered {} {}', [
+    event.params.accountId.toString(),
+    event.params.amount.toString(),
+  ]);
+
+  let account = getAccount(event.params.accountId);
+
+  account.vQuoteBalance = account.vQuoteBalance.plus(
+    BigIntToBigDecimal(event.params.amount, BI_6)
+  );
+
+  account.save();
+  updateAllLiquidationPrices(account);
 }
 
 // @entity LiquidateRanges
