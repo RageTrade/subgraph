@@ -516,9 +516,14 @@ export function handleTokenPositionFundingPaymentRealized(
     .minus(tokenPosition.lastFundingPaymentRealizedEntryTimestamp)
     .toBigDecimal();
 
-  entry.fundingRate = safeDiv(entry.amount, tokenPosition.netPosition)
-    .div(timeDifference)
-    .neg();
+  log.debug('custom_logs: handleFundingPayment timeDifference - {}', [
+    timeDifference.toString(),
+  ]);
+
+  entry.fundingRate = safeDiv(
+    safeDiv(entry.amount, tokenPosition.netPosition).neg(),
+    timeDifference
+  );
 
   rageTradePool.fundingRate = getFundingRate(event.params.poolId);
 
