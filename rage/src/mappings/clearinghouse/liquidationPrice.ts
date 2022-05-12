@@ -56,7 +56,7 @@ export function getLiquidationPrice(
 /**
  * Updated all liquidation prices for all RageTradePools
  */
-export function updateAllLiquidationPrices(account: Account) {
+export function updateAllLiquidationPrices(account: Account): void {
   let protocol = Protocol.load('rage_trade');
   let rageTradePools = protocol.rageTradePools;
 
