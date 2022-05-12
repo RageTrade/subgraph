@@ -30,13 +30,7 @@ import {
 } from '../../utils';
 import { UniswapV3Pool } from '../../../generated/templates/UniswapV3Pool/UniswapV3Pool';
 import { absBigDecimal, getPriceANDTick } from '../vPoolWrapper/utils';
-import {
-  BI_18,
-  BI_6,
-  ONE_BI,
-  ZERO_BD,
-  ZERO_BI,
-} from '../../utils/constants';
+import { BI_18, BI_6, ONE_BI, ZERO_BD, ZERO_BI } from '../../utils/constants';
 import { getCollateral } from './collateral';
 import {
   getRageTradePool,
@@ -506,36 +500,33 @@ export function handleTokenPositionFundingPaymentRealized(
     event.logIndex.toHexString(),
   ]);
 
-  let fundingRateEntry = new FundingPaymentRealizedEntry(fundingRateId);
+  let entry = new FundingPaymentRealizedEntry(fundingRateId);
 
-  fundingRateEntry.timestamp = event.block.timestamp;
-  fundingRateEntry.transactionHash = event.transaction.hash;
+  entry.timestamp = event.block.timestamp;
+  entry.transactionHash = event.transaction.hash;
 
-  fundingRateEntry.account = account.id;
-  fundingRateEntry.tokenPosition = tokenPosition.id;
+  entry.account = account.id;
+  entry.tokenPosition = tokenPosition.id;
 
-  fundingRateEntry.vTokenPosition = tokenPosition.netPosition;
+  entry.vTokenPosition = tokenPosition.netPosition;
 
-  fundingRateEntry.amount = BigIntToBigDecimal(event.params.amount, BI_6);
+  entry.amount = BigIntToBigDecimal(event.params.amount, BI_6);
 
-  // timeDifference = fundingRateEntry.timestamp - previousFundingRateEntry.timestamp
+  let timeDifference = entry.timestamp
+    .minus(tokenPosition.lastFundingPaymentRealizedEntryTimestamp)
+    .toBigDecimal();
 
-  // TODO
-  fundingRateEntry.fundingRate = safeDiv(
-    fundingRateEntry.amount,
-    tokenPosition.netPosition
-  )
-    // .div(timeDifference)
+  entry.fundingRate = safeDiv(entry.amount, tokenPosition.netPosition)
+    .div(timeDifference)
     .neg();
 
   rageTradePool.fundingRate = getFundingRate(event.params.poolId);
 
-  fundingRateEntry.side = tokenPosition.netPosition.gt(ZERO_BD)
-    ? 'long'
-    : 'short';
+  entry.side = tokenPosition.netPosition.gt(ZERO_BD) ? 'long' : 'short';
 
+  tokenPosition.lastFundingPaymentRealizedEntryTimestamp = entry.timestamp;
   tokenPosition.totalRealizedFundingPaymentAmount = tokenPosition.totalRealizedFundingPaymentAmount.plus(
-    fundingRateEntry.amount
+    entry.amount
   );
 
   let toAdd = event.params.amount.isZero() ? ZERO_BI : ONE_BI;
@@ -548,7 +539,7 @@ export function handleTokenPositionFundingPaymentRealized(
 
   account.save();
   tokenPosition.save();
-  fundingRateEntry.save();
+  entry.save();
   rageTradePool.save();
 }
 

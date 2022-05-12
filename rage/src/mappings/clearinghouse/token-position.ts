@@ -28,6 +28,7 @@ export function getTokenPosition(
     tokenPosition.totalRealizedFundingPaymentAmount = ZERO_BD;
     tokenPosition.tokenPositionChangeEntriesCount = ZERO_BI;
     tokenPosition.fundingPaymentRealizedEntriesCount = ZERO_BI;
+    tokenPosition.lastFundingPaymentRealizedEntryTimestamp = ZERO_BI;
     tokenPosition.tokenPositionLiquidatedEntriesCount = ZERO_BI;
     
     // will get overridden in handleTokenPositionChanged
