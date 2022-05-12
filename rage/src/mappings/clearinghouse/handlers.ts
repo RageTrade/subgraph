@@ -476,6 +476,17 @@ export function handleTokenPositionFundingPaymentRealized(
   );
   let rageTradePool = RageTradePool.load(event.params.poolId.toHexString());
 
+  account.vQuoteBalance = account.vQuoteBalance.plus(
+    BigIntToBigDecimal(event.params.amount, BI_6)
+  );
+
+  tokenPosition.liquidationPrice = getLiquidationPrice(
+    tokenPosition.netPosition,
+    account.vQuoteBalance,
+    account.marginBalance,
+    rageTradePool.maintenanceMarginRatioBps
+  );
+
   if (rageTradePool === null) {
     log.error('custom_logs: handleFundingPayment - rageTradePool is null', [
       '',
@@ -572,9 +583,24 @@ export function handleTokenPositionLiquidated(
   ]);
 
   let account = getAccount(event.params.accountId);
+  let rageTradePool = getRageTradePool(event.params.poolId.toHexString());
   let tokenPosition = getTokenPosition(
     event.params.accountId,
     event.params.poolId
+  );
+
+  account.vQuoteBalance = account.vQuoteBalance.minus(
+    BigIntToBigDecimal(
+      event.params.keeperFee.plus(event.params.insuranceFundFee),
+      BI_6
+    )
+  );
+
+  tokenPosition.liquidationPrice = getLiquidationPrice(
+    tokenPosition.netPosition,
+    account.vQuoteBalance,
+    account.marginBalance,
+    rageTradePool.maintenanceMarginRatioBps
   );
 
   account.tokenPositionLiquidatedEntriesCount = account.tokenPositionLiquidatedEntriesCount.plus(
