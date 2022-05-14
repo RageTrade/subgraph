@@ -28,17 +28,20 @@ type Account @entity {
   "Total number of swaps made by the account"
   tokenPositionChangeEntriesCount: BigInt!
   "list all swaps made by the account"
-  tokenPositionChangeEntries: [TokenPositionChangeEntry!]! @derivedFrom(field: "account")
+  tokenPositionChangeEntries: [TokenPositionChangeEntry!]!
+    @derivedFrom(field: "account")
   "list of all margin/collateral tokens deposited by the account, currently only USDC"
   margin: [Collateral!]! @derivedFrom(field: "account")
   "total number time a funding payment realized for an account"
   fundingPaymentRealizedEntriesCount: BigInt!
   "list of funding payment realized entries for an account"
-  fundingPaymentRealizedEntries: [FundingPaymentRealizedEntry!]! @derivedFrom(field: "account")
+  fundingPaymentRealizedEntries: [FundingPaymentRealizedEntry!]!
+    @derivedFrom(field: "account")
   "total number of liquidations that occurred for this account"
   tokenPositionLiquidatedEntriesCount: BigInt!
   "list of all liquidations that occurred for this account"
-  tokenPositionLiquidatedEntries: [TokenPositionLiquidatedEntry!]! @derivedFrom(field: "account")
+  tokenPositionLiquidatedEntries: [TokenPositionLiquidatedEntry!]!
+    @derivedFrom(field: "account")
   "list of all V-Token tokens positions held by the account, currently only ETH"
   tokenPositions: [TokenPosition!]! @derivedFrom(field: "account")
   "total number of margin changes made by the account ie. withdraws and deposits"
@@ -148,13 +151,15 @@ type TokenPosition @entity {
   "Total number of swaps made by the account, for this pool"
   tokenPositionChangeEntriesCount: BigInt!
   "list all swaps made by the account, for this pool"
-  tokenPositionChangeEntries: [TokenPositionChangeEntry!]! @derivedFrom(field: "tokenPosition")
+  tokenPositionChangeEntries: [TokenPositionChangeEntry!]!
+    @derivedFrom(field: "tokenPosition")
   "total number time a funding payment realized entry was created for this position"
   fundingPaymentRealizedEntriesCount: BigInt!
   "timestamp of the last funding payment realized entry for this position"
   lastFundingPaymentRealizedEntryTimestamp: BigInt!
   "list of funding payment realized entries for this position"
-  fundingPaymentRealizedEntries: [FundingPaymentRealizedEntry!]! @derivedFrom(field: "tokenPosition")
+  fundingPaymentRealizedEntries: [FundingPaymentRealizedEntry!]!
+    @derivedFrom(field: "tokenPosition")
   "list of id(s) of the token position change entries, that are 'open' positions, used for calculating the pnl"
   openPositionEntries: [String!]!
   "the latest token position change entry, used in calculation for TokenPositionLiquidated event"
@@ -162,7 +167,8 @@ type TokenPosition @entity {
   "total number of liquidations that occurred for this position"
   tokenPositionLiquidatedEntriesCount: BigInt!
   "list of all liquidations that occurred for this position"
-  tokenPositionLiquidatedEntries: [TokenPositionLiquidatedEntry!]! @derivedFrom(field: "tokenPosition")
+  tokenPositionLiquidatedEntries: [TokenPositionLiquidatedEntry!]!
+    @derivedFrom(field: "tokenPosition")
   "total funding payment amount for this position"
   totalRealizedFundingPaymentAmount: BigDecimal!
   "latest sum of all the A terms in the pool, at the time of the position change"
@@ -178,7 +184,7 @@ type TokenPosition @entity {
   "sum aff (vTokenQuantity * entryPrice), across all token position change entries"
   entryValue: BigDecimal!
   "entryPrice = abs(entryValue / netPosition)"
-  entryPrice: BigDecimal! 
+  entryPrice: BigDecimal!
 }
 
 """
@@ -194,7 +200,7 @@ token position change
 """
 type MarginChangeEntry @entity {
   "unique id of the margin change entry"
-  id: ID! 
+  id: ID!
   "block.timestamp of the transaction of the margin change entry"
   timestamp: BigInt!
   "transaction.hash of the event that triggered this margin change entry"
@@ -422,6 +428,8 @@ type RageTradePool @entity {
   hourData: Collection!
   "list of collection of candles, recorded for each day"
   dayData: Collection!
+  "list of funding observations"
+  fundingObservations: [FundingObservation!]! @derivedFrom(field: "pool")
 }
 
 type VToken @entity {
@@ -441,6 +449,16 @@ type VPoolWrapper @entity {
   "wrapper address"
   id: ID!
   "rageTradePool pair to which the wrapper belongs to"
+  pool: RageTradePool!
+}
+
+type FundingObservation @entity {
+  id: ID!
+  "timestamp of the observation"
+  timestamp: BigInt!
+  "funding rate over 24hrs -  (virtualPrice - realPrice) / (realPrice * 24)"
+  fundingRate: BigDecimal!
+  "pool to which the observation belongs to"
   pool: RageTradePool!
 }
 
@@ -699,7 +717,7 @@ type UniswapV3Transaction @entity {
 }
 
 type UniswapV3Mint @entity {
-  "transaction hash + "#" + index in mints Transaction array"
+  "transaction hash + " #" + index in mints Transaction array"
   id: ID!
   "which txn the mint was included in"
   transaction: UniswapV3Transaction!
@@ -734,7 +752,7 @@ type UniswapV3Mint @entity {
 }
 
 type UniswapV3Burn @entity {
-  "transaction hash + "#" + index in mints Transaction array"
+  "transaction hash + " #" + index in mints Transaction array"
   id: ID!
   "txn burn was included in"
   transaction: UniswapV3Transaction!
@@ -767,7 +785,7 @@ type UniswapV3Burn @entity {
 }
 
 type UniswapV3Swap @entity {
-  "transaction hash + "#" + index in swaps Transaction array"
+  "transaction hash + " #" + index in swaps Transaction array"
   id: ID!
   "pointer to transaction"
   transaction: UniswapV3Transaction!
@@ -800,7 +818,7 @@ type UniswapV3Swap @entity {
 }
 
 type UniswapV3Collect @entity {
-  "transaction hash + "#" + index in collect Transaction array"
+  "transaction hash + " #" + index in collect Transaction array"
   id: ID!
   "pointer to txn"
   transaction: UniswapV3Transaction!

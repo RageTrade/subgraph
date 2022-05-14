@@ -1958,6 +1958,15 @@ export class RageTradePool extends Entity {
   set dayData(value: string) {
     this.set("dayData", Value.fromString(value));
   }
+
+  get fundingObservations(): Array<string> {
+    let value = this.get("fundingObservations");
+    return value.toStringArray();
+  }
+
+  set fundingObservations(value: Array<string>) {
+    this.set("fundingObservations", Value.fromStringArray(value));
+  }
 }
 
 export class VToken extends Entity {
@@ -2055,6 +2064,64 @@ export class VPoolWrapper extends Entity {
 
   set id(value: string) {
     this.set("id", Value.fromString(value));
+  }
+
+  get pool(): string {
+    let value = this.get("pool");
+    return value.toString();
+  }
+
+  set pool(value: string) {
+    this.set("pool", Value.fromString(value));
+  }
+}
+
+export class FundingObservation extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id !== null, "Cannot save FundingObservation entity without an ID");
+    assert(
+      id.kind == ValueKind.STRING,
+      "Cannot save FundingObservation entity with non-string ID. " +
+        'Considering using .toHex() to convert the "id" to a string.'
+    );
+    store.set("FundingObservation", id.toString(), this);
+  }
+
+  static load(id: string): FundingObservation | null {
+    return store.get("FundingObservation", id) as FundingObservation | null;
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    return value.toString();
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get timestamp(): BigInt {
+    let value = this.get("timestamp");
+    return value.toBigInt();
+  }
+
+  set timestamp(value: BigInt) {
+    this.set("timestamp", Value.fromBigInt(value));
+  }
+
+  get fundingRate(): BigDecimal {
+    let value = this.get("fundingRate");
+    return value.toBigDecimal();
+  }
+
+  set fundingRate(value: BigDecimal) {
+    this.set("fundingRate", Value.fromBigDecimal(value));
   }
 
   get pool(): string {
