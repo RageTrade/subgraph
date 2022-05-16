@@ -2273,6 +2273,119 @@ export class Candle extends Entity {
   }
 }
 
+export class Vault extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id !== null, "Cannot save Vault entity without an ID");
+    assert(
+      id.kind == ValueKind.STRING,
+      "Cannot save Vault entity with non-string ID. " +
+        'Considering using .toHex() to convert the "id" to a string.'
+    );
+    store.set("Vault", id.toString(), this);
+  }
+
+  static load(id: string): Vault | null {
+    return store.get("Vault", id) as Vault | null;
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    return value.toString();
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+}
+
+export class VaultDepositWithdrawEntry extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(
+      id !== null,
+      "Cannot save VaultDepositWithdrawEntry entity without an ID"
+    );
+    assert(
+      id.kind == ValueKind.STRING,
+      "Cannot save VaultDepositWithdrawEntry entity with non-string ID. " +
+        'Considering using .toHex() to convert the "id" to a string.'
+    );
+    store.set("VaultDepositWithdrawEntry", id.toString(), this);
+  }
+
+  static load(id: string): VaultDepositWithdrawEntry | null {
+    return store.get(
+      "VaultDepositWithdrawEntry",
+      id
+    ) as VaultDepositWithdrawEntry | null;
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    return value.toString();
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get timestamp(): BigInt {
+    let value = this.get("timestamp");
+    return value.toBigInt();
+  }
+
+  set timestamp(value: BigInt) {
+    this.set("timestamp", Value.fromBigInt(value));
+  }
+
+  get account(): string {
+    let value = this.get("account");
+    return value.toString();
+  }
+
+  set account(value: string) {
+    this.set("account", Value.fromString(value));
+  }
+
+  get vault(): string {
+    let value = this.get("vault");
+    return value.toString();
+  }
+
+  set vault(value: string) {
+    this.set("vault", Value.fromString(value));
+  }
+
+  get transactionHash(): Bytes {
+    let value = this.get("transactionHash");
+    return value.toBytes();
+  }
+
+  set transactionHash(value: Bytes) {
+    this.set("transactionHash", Value.fromBytes(value));
+  }
+
+  get amount(): BigInt {
+    let value = this.get("amount");
+    return value.toBigInt();
+  }
+
+  set amount(value: BigInt) {
+    this.set("amount", Value.fromBigInt(value));
+  }
+}
+
 export class UniswapV3Factory extends Entity {
   constructor(id: string) {
     super();
