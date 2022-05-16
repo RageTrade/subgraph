@@ -10,11 +10,13 @@ async function main() {
     chDeployment,
     ifDeployment,
     vpwDeployment,
+    cysDeployment,
   ] = await Promise.all([
-    updateAbi('RageTradeFactory'),
-    updateAbi('ClearingHouse'),
-    updateAbi('InsuranceFund'),
-    updateAbi('VPoolWrapperLogic'),
+    updateAbi('core', 'RageTradeFactory'),
+    updateAbi('core', 'ClearingHouse'),
+    updateAbi('core', 'InsuranceFund'),
+    updateAbi('core', 'VPoolWrapperLogic'),
+    updateAbi('vaults', 'CurveYieldStrategy'),
   ]);
 
   const StartBlockNumber = rtfDeployment.receipt.blockNumber;
@@ -33,6 +35,12 @@ async function main() {
     'RageTradeFactory',
     rtfDeployment,
     StartBlockNumber
+  );
+  updateSubgraphYaml(
+    subgraphYaml,
+    'CurveYieldStrategy',
+    cysDeployment,
+    cysDeployment.receipt.blockNumber
   );
 
   // subgraphYaml
@@ -67,8 +75,8 @@ function updateSubgraphYaml(
   dataSources.source.address = contractDeployment.address;
 }
 
-async function updateAbi(name) {
-  const deployment = await sdk.getDeployment('core', networkNameIn.sdk, name);
+async function updateAbi(repo, name) {
+  const deployment = await sdk.getDeployment(repo, networkNameIn.sdk, name);
   await fs.writeJSON(`./abis/${name}.json`, deployment.abi, { spaces: 2 });
 
   console.log(`Updated ${name}.json`);
