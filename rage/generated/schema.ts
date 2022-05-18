@@ -254,6 +254,64 @@ export class Account extends Entity {
   }
 }
 
+export class ERC20Token extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id !== null, "Cannot save ERC20Token entity without an ID");
+    assert(
+      id.kind == ValueKind.STRING,
+      "Cannot save ERC20Token entity with non-string ID. " +
+        'Considering using .toHex() to convert the "id" to a string.'
+    );
+    store.set("ERC20Token", id.toString(), this);
+  }
+
+  static load(id: string): ERC20Token | null {
+    return store.get("ERC20Token", id) as ERC20Token | null;
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    return value.toString();
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get symbol(): string {
+    let value = this.get("symbol");
+    return value.toString();
+  }
+
+  set symbol(value: string) {
+    this.set("symbol", Value.fromString(value));
+  }
+
+  get name(): string {
+    let value = this.get("name");
+    return value.toString();
+  }
+
+  set name(value: string) {
+    this.set("name", Value.fromString(value));
+  }
+
+  get decimals(): BigInt {
+    let value = this.get("decimals");
+    return value.toBigInt();
+  }
+
+  set decimals(value: BigInt) {
+    this.set("decimals", Value.fromBigInt(value));
+  }
+}
+
 export class VQuote extends Entity {
   constructor(id: string) {
     super();
@@ -2385,31 +2443,40 @@ export class VaultDepositWithdrawEntry extends Entity {
     this.set("transactionHash", Value.fromBytes(value));
   }
 
-  get tokenAmount(): BigInt {
-    let value = this.get("tokenAmount");
-    return value.toBigInt();
-  }
-
-  set tokenAmount(value: BigInt) {
-    this.set("tokenAmount", Value.fromBigInt(value));
-  }
-
-  get tokenName(): string {
-    let value = this.get("tokenName");
+  get token(): string {
+    let value = this.get("token");
     return value.toString();
   }
 
-  set tokenName(value: string) {
-    this.set("tokenName", Value.fromString(value));
+  set token(value: string) {
+    this.set("token", Value.fromString(value));
   }
 
-  get sharesTokenAmount(): BigInt {
+  get tokenAmount(): BigDecimal {
+    let value = this.get("tokenAmount");
+    return value.toBigDecimal();
+  }
+
+  set tokenAmount(value: BigDecimal) {
+    this.set("tokenAmount", Value.fromBigDecimal(value));
+  }
+
+  get assetsTokenAmount(): BigDecimal {
+    let value = this.get("assetsTokenAmount");
+    return value.toBigDecimal();
+  }
+
+  set assetsTokenAmount(value: BigDecimal) {
+    this.set("assetsTokenAmount", Value.fromBigDecimal(value));
+  }
+
+  get sharesTokenAmount(): BigDecimal {
     let value = this.get("sharesTokenAmount");
-    return value.toBigInt();
+    return value.toBigDecimal();
   }
 
-  set sharesTokenAmount(value: BigInt) {
-    this.set("sharesTokenAmount", Value.fromBigInt(value));
+  set sharesTokenAmount(value: BigDecimal) {
+    this.set("sharesTokenAmount", Value.fromBigDecimal(value));
   }
 
   get action(): string {
