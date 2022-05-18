@@ -59,6 +59,18 @@ type Account @entity {
     @derivedFrom(field: "account")
 }
 
+type ERC20Token @entity {
+  "address of the token"
+  id: ID!
+  "symbol of the token, eg. vUSDC"
+  symbol: String!
+  "full name of the token, eg. Virtual USD Coin"
+  name: String!
+  "decimals in the ERC20 token standard, eg. 18"
+  decimals: BigInt!
+}
+
+# TODO: refactor to ERC20Token
 type VQuote @entity {
   "address of the V-Quote, currently vUSDC"
   id: ID!
@@ -520,12 +532,14 @@ type VaultDepositWithdrawEntry @entity {
   vault: Vault!
   "transaction.hash of the event that triggered this token position liquidation event"
   transactionHash: Bytes!
+  "token that was deposited/withdrawn"
+  token: ERC20Token!
   "amount of tokens deposited/withdrawn"
-  tokenAmount: BigInt!
-  "name of the token that was deposited/withdrawn"
-  tokenName: String!
+  tokenAmount: BigDecimal!
+  "amount of assets token(3CRV) received/sent"
+  assetsTokenAmount: BigDecimal!
   "amount of shares token(TCS) received/sent"
-  sharesTokenAmount: BigInt!
+  sharesTokenAmount: BigDecimal!
   "is it a deposit or a withdraw action"
   action: MarginTransactionType!
 }
