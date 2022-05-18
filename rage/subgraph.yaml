@@ -8,7 +8,7 @@ dataSources:
     name: ClearingHouse
     network: arbitrum-rinkeby
     source:
-      address: '0x655315A4115AE42dAa0670DcB3eb377E207749c3'
+      address: "0x655315A4115AE42dAa0670DcB3eb377E207749c3"
       abi: ClearingHouse
       startBlock: 11951409
     mapping:
@@ -54,7 +54,7 @@ dataSources:
     name: CurveYieldStrategy
     network: arbitrum-rinkeby
     source:
-      address: '0xAC81Ec44483CD8D36A62a5d88a7C4C93967BA0e4'
+      address: "0xAC81Ec44483CD8D36A62a5d88a7C4C93967BA0e4"
       abi: CurveYieldStrategy
       startBlock: 11952210
     mapping:
@@ -85,7 +85,7 @@ dataSources:
     name: VaultPeriphery
     network: arbitrum-rinkeby
     source:
-      address: '0x212f250163B890198B382223b8825B7875f9B790'
+      address: "0x212f250163B890198B382223b8825B7875f9B790"
       abi: VaultPeriphery
       startBlock: 11952225
     mapping:
@@ -110,12 +110,11 @@ dataSources:
       eventHandlers:
         - event: DepositPeriphery(indexed address,indexed address,uint256,uint256,uint256)
           handler: handleDepositPeriphery
-
   - kind: ethereum/contract
     name: RageTradeFactory
     network: arbitrum-rinkeby
     source:
-      address: '0x36b2F5440780B36d80d9235F0D4c64EB6692B5ab'
+      address: "0x36b2F5440780B36d80d9235F0D4c64EB6692B5ab"
       abi: RageTradeFactory
       startBlock: 11951409
     mapping:
@@ -147,7 +146,7 @@ dataSources:
     name: UniswapV3Factory
     network: arbitrum-rinkeby
     source:
-      address: '0x1F98431c8aD98523631AE4a59f267346ea31F984'
+      address: "0x1F98431c8aD98523631AE4a59f267346ea31F984"
       abi: UniswapV3Factory
       startBlock: 10139574
     mapping:
