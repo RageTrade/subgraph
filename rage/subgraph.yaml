@@ -74,6 +74,27 @@ dataSources:
         - event: Withdraw(indexed address,indexed address,indexed address,uint256,uint256)
           handler: handleWithdraw
   - kind: ethereum/contract
+    name: VaultPeriphery
+    network: arbitrum-rinkeby
+    source:
+      address: "0x212f250163B890198B382223b8825B7875f9B790"
+      abi: VaultPeriphery
+      startBlock: 11952225
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.4
+      language: wasm/assemblyscript
+      entities:
+        - VaultDepositWithdrawEntry
+        - Vault
+      abis:
+        - name: VaultPeriphery
+          file: ./abis/VaultPeriphery.json
+      file: ./src/mappings/VaultPeriphery/handler.ts
+      eventHandlers:
+        - event: DepositPeriphery(indexed address,indexed address,uint256,uint256,uint256)
+          handler: handleDepositPeriphery
+  - kind: ethereum/contract
     name: RageTradeFactory
     network: arbitrum-rinkeby
     source:
