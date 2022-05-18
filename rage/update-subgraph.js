@@ -11,12 +11,14 @@ async function main() {
     ifDeployment,
     vpwDeployment,
     cysDeployment,
+    vpDeployment,
   ] = await Promise.all([
     updateAbi('core', 'RageTradeFactory'),
     updateAbi('core', 'ClearingHouse'),
     updateAbi('core', 'InsuranceFund'),
     updateAbi('core', 'VPoolWrapperLogic'),
     updateAbi('vaults', 'CurveYieldStrategy'),
+    updateAbi('vaults', 'VaultPeriphery'),
   ]);
 
   const StartBlockNumber = rtfDeployment.receipt.blockNumber;
@@ -42,6 +44,12 @@ async function main() {
     cysDeployment,
     cysDeployment.receipt.blockNumber
   );
+  updateSubgraphYaml(
+    subgraphYaml,
+    'VaultPeriphery',
+    vpDeployment,
+    vpDeployment.receipt.blockNumber
+  );
 
   // subgraphYaml
   fs.writeFile('./subgraph.yaml', yaml.stringify(subgraphYaml, { indent: 2 }));
@@ -51,6 +59,8 @@ async function main() {
     rageTradeFactoryAddress: rtfDeployment.address,
     insuranceFundAddress: ifDeployment.address,
     vPoolWrapperAddress: vpwDeployment.address,
+    curveYearStrategyAddress: cysDeployment.address,
+    vaultPeripheryAddress: vpDeployment.address,
   });
 
   console.log('Updated subgraph.yaml');
@@ -88,6 +98,8 @@ function writeContractAddress({
   rageTradeFactoryAddress,
   insuranceFundAddress,
   vPoolWrapperAddress,
+  curveYearStrategyAddress,
+  vaultPeripheryAddress
 }) {
   const file = `import { Address } from '@graphprotocol/graph-ts'
 
@@ -96,6 +108,8 @@ class Contracts {
   RageTradeFactory: Address;
   InsuranceFund: Address;
   VPoolWrapper: Address;
+  CurveYieldStrategy: Address;
+  VaultPeriphery: Address;
 }
 
 export let contracts: Contracts = { 
@@ -103,6 +117,8 @@ export let contracts: Contracts = {
   RageTradeFactory: Address.fromString("${rageTradeFactoryAddress}"),
   InsuranceFund: Address.fromString("${insuranceFundAddress}"),
   VPoolWrapper: Address.fromString("${vPoolWrapperAddress}"),
+  CurveYieldStrategy: Address.fromString("${curveYearStrategyAddress}"),
+  VaultPeriphery: Address.fromString("${vaultPeripheryAddress}")
  };`;
 
   fs.writeFile('./src/utils/addresses.ts', file, {
