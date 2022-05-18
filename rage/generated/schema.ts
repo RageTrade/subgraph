@@ -51,6 +51,15 @@ export class Owner extends Entity {
     this.set("accounts", Value.fromStringArray(value));
   }
 
+  get vaultDepositWithdrawEntriesCount(): BigInt {
+    let value = this.get("vaultDepositWithdrawEntriesCount");
+    return value.toBigInt();
+  }
+
+  set vaultDepositWithdrawEntriesCount(value: BigInt) {
+    this.set("vaultDepositWithdrawEntriesCount", Value.fromBigInt(value));
+  }
+
   get vaultDepositWithdrawEntries(): Array<string> {
     let value = this.get("vaultDepositWithdrawEntries");
     return value.toStringArray();

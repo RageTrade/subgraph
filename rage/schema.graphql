@@ -9,6 +9,8 @@ type Owner @entity {
   id: ID!
   "list of accounts"
   accounts: [Account!]! @derivedFrom(field: "owner")
+  "total count of all vaultDepositWithdrawEntries"
+  vaultDepositWithdrawEntriesCount: BigInt!
   "list of vault deposits and withdraws"
   vaultDepositWithdrawEntries: [VaultDepositWithdrawEntry!]!
     @derivedFrom(field: "owner")
