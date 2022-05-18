@@ -44,8 +44,8 @@ export function handleDepositPeriphery(event: DepositPeriphery): void {
   entry.action = 'deposit';
 
   entry.tokenAmount = BigIntToBigDecimal(event.params.amount, token.decimals);
-  entry.assetsTokenAmount = BigIntToBigDecimal(event.params.amount, BI_18);
-  entry.sharesTokenAmount = BigIntToBigDecimal(event.params.amount, BI_18);
+  entry.assetsTokenAmount = BigIntToBigDecimal(event.params.asset, BI_18);
+  entry.sharesTokenAmount = BigIntToBigDecimal(event.params.shares, BI_18);
 
   entry.save();
 }
