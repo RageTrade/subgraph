@@ -27,7 +27,7 @@ export function handleWithdraw(event: Withdraw): void {
 
   let vault = getVault(contracts.CurveYieldStrategy);
   let owner = getOwner(event.params.owner);
-  let token = getERC20Token(contracts.CurveYieldStrategy);
+  let token = getERC20Token(contracts.CurveTriCryptoLpTokenAddress);
 
   let vaultDepositWithdrawEntryId = generateId([
     vault.id,
@@ -50,7 +50,7 @@ export function handleWithdraw(event: Withdraw): void {
 
   entry.assetsTokenAmount = BigIntToBigDecimal(event.params.assets, BI_18);
   entry.sharesTokenAmount = BigIntToBigDecimal(event.params.shares, BI_18);
-  entry.tokenAmount = entry.sharesTokenAmount;
+  entry.tokenAmount = entry.assetsTokenAmount;
 
   owner.vaultDepositWithdrawEntriesCount = owner.vaultDepositWithdrawEntriesCount.plus(
     ONE_BI
