@@ -9,6 +9,9 @@ type Owner @entity {
   id: ID!
   "list of accounts"
   accounts: [Account!]! @derivedFrom(field: "owner")
+  "list of vault deposits and withdraws"
+  vaultDepositWithdrawEntries: [VaultDepositWithdrawEntry!]!
+    @derivedFrom(field: "owner")
 }
 
 """
@@ -511,14 +514,20 @@ type VaultDepositWithdrawEntry @entity {
   id: ID!
   "timestamp of the token position change"
   timestamp: BigInt!
-  " account where the deposit/withdraw occurred"
-  account: Account!
+  " owner where the deposit/withdraw occurred"
+  owner: Owner!
   "vault where the deposit/withdraw occurred"
   vault: Vault!
   "transaction.hash of the event that triggered this token position liquidation event"
   transactionHash: Bytes!
   "amount of tokens deposited/withdrawn"
-  amount: BigInt!
+  tokenAmount: BigInt!
+  "name of the token that was deposited/withdrawn"
+  tokenName: String!
+  "amount of shares token(TCS) received/sent"
+  sharesTokenAmount: BigInt!
+  "is it a deposit or a withdraw action"
+  action: MarginTransactionType!
 }
 
 # -------------------

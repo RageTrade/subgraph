@@ -50,6 +50,15 @@ export class Owner extends Entity {
   set accounts(value: Array<string>) {
     this.set("accounts", Value.fromStringArray(value));
   }
+
+  get vaultDepositWithdrawEntries(): Array<string> {
+    let value = this.get("vaultDepositWithdrawEntries");
+    return value.toStringArray();
+  }
+
+  set vaultDepositWithdrawEntries(value: Array<string>) {
+    this.set("vaultDepositWithdrawEntries", Value.fromStringArray(value));
+  }
 }
 
 export class Account extends Entity {
@@ -2349,13 +2358,13 @@ export class VaultDepositWithdrawEntry extends Entity {
     this.set("timestamp", Value.fromBigInt(value));
   }
 
-  get account(): string {
-    let value = this.get("account");
+  get owner(): string {
+    let value = this.get("owner");
     return value.toString();
   }
 
-  set account(value: string) {
-    this.set("account", Value.fromString(value));
+  set owner(value: string) {
+    this.set("owner", Value.fromString(value));
   }
 
   get vault(): string {
@@ -2376,13 +2385,40 @@ export class VaultDepositWithdrawEntry extends Entity {
     this.set("transactionHash", Value.fromBytes(value));
   }
 
-  get amount(): BigInt {
-    let value = this.get("amount");
+  get tokenAmount(): BigInt {
+    let value = this.get("tokenAmount");
     return value.toBigInt();
   }
 
-  set amount(value: BigInt) {
-    this.set("amount", Value.fromBigInt(value));
+  set tokenAmount(value: BigInt) {
+    this.set("tokenAmount", Value.fromBigInt(value));
+  }
+
+  get tokenName(): string {
+    let value = this.get("tokenName");
+    return value.toString();
+  }
+
+  set tokenName(value: string) {
+    this.set("tokenName", Value.fromString(value));
+  }
+
+  get sharesTokenAmount(): BigInt {
+    let value = this.get("sharesTokenAmount");
+    return value.toBigInt();
+  }
+
+  set sharesTokenAmount(value: BigInt) {
+    this.set("sharesTokenAmount", Value.fromBigInt(value));
+  }
+
+  get action(): string {
+    let value = this.get("action");
+    return value.toString();
+  }
+
+  set action(value: string) {
+    this.set("action", Value.fromString(value));
   }
 }
 
