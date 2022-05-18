@@ -11,5 +11,5 @@ export function getVault(vaultAddress: Address): Vault {
     vault.save();
   }
 
-  return vault;
+  return vault as Vault;
 }
