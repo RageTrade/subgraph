@@ -1,5 +1,6 @@
 import { Address } from '@graphprotocol/graph-ts';
 import { Owner } from '../../../generated/schema';
+import { ZERO_BI } from '../../utils/constants';
 
 export function generateOwnerId(ownerAddress: Address): string {
   return ownerAddress.toHexString();
@@ -16,6 +17,7 @@ export function getOwner(ownerAddress: Address): Owner {
   if (owner === null) {
     // creating empty account for other code to work
     owner = new Owner(ownerId);
+    owner.vaultDepositWithdrawEntriesCount = ZERO_BI;
     owner.save();
   }
 

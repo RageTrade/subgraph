@@ -6,7 +6,7 @@ import { contracts } from '../../utils/addresses';
 import { getVault } from './getVault';
 import { getOwner } from '../clearinghouse/owner';
 import { getERC20Token } from './getERC20Token';
-import { BI_18 } from '../../utils/constants';
+import { BI_18, ONE_BI } from '../../utils/constants';
 
 export function handleDepositPeriphery(event: DepositPeriphery): void {
   log.debug(
@@ -47,5 +47,9 @@ export function handleDepositPeriphery(event: DepositPeriphery): void {
   entry.assetsTokenAmount = BigIntToBigDecimal(event.params.asset, BI_18);
   entry.sharesTokenAmount = BigIntToBigDecimal(event.params.shares, BI_18);
 
+  owner.vaultDepositWithdrawEntriesCount = owner.vaultDepositWithdrawEntriesCount.plus(
+    ONE_BI
+  );
+  owner.save();
   entry.save();
 }

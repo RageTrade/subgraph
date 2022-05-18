@@ -6,7 +6,7 @@ import {
 import { VaultDepositWithdrawEntry } from '../../../generated/schema';
 import { generateId, BigIntToBigDecimal } from '../../utils';
 import { contracts } from '../../utils/addresses';
-import { BI_18 } from '../../utils/constants';
+import { BI_18, ONE_BI } from '../../utils/constants';
 import { getOwner } from '../clearinghouse/owner';
 import { getERC20Token } from '../VaultPeriphery/getERC20Token';
 import { getVault } from '../VaultPeriphery/getVault';
@@ -52,5 +52,9 @@ export function handleWithdraw(event: Withdraw): void {
   entry.sharesTokenAmount = BigIntToBigDecimal(event.params.shares, BI_18);
   entry.tokenAmount = entry.sharesTokenAmount;
 
+  owner.vaultDepositWithdrawEntriesCount = owner.vaultDepositWithdrawEntriesCount.plus(
+    ONE_BI
+  );
+  owner.save();
   entry.save();
 }
