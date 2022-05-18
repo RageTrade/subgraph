@@ -12,6 +12,7 @@ async function main() {
     vpwDeployment,
     cysDeployment,
     vpDeployment,
+    ctcLpTokenDeployment,
   ] = await Promise.all([
     updateAbi('core', 'RageTradeFactory'),
     updateAbi('core', 'ClearingHouse'),
@@ -19,6 +20,7 @@ async function main() {
     updateAbi('core', 'VPoolWrapperLogic'),
     updateAbi('vaults', 'CurveYieldStrategy'),
     updateAbi('vaults', 'VaultPeriphery'),
+    updateAbi('vaults', 'CurveTriCryptoLpToken'),
   ]);
 
   const StartBlockNumber = rtfDeployment.receipt.blockNumber;
@@ -61,6 +63,7 @@ async function main() {
     vPoolWrapperAddress: vpwDeployment.address,
     curveYearStrategyAddress: cysDeployment.address,
     vaultPeripheryAddress: vpDeployment.address,
+    curveTriCryptoLpTokenAddress: ctcLpTokenDeployment.address,
   });
 
   console.log('Updated subgraph.yaml');
@@ -99,7 +102,8 @@ function writeContractAddress({
   insuranceFundAddress,
   vPoolWrapperAddress,
   curveYearStrategyAddress,
-  vaultPeripheryAddress
+  vaultPeripheryAddress,
+  curveTriCryptoLpTokenAddress,
 }) {
   const file = `import { Address } from '@graphprotocol/graph-ts'
 
@@ -110,6 +114,7 @@ class Contracts {
   VPoolWrapper: Address;
   CurveYieldStrategy: Address;
   VaultPeriphery: Address;
+  CurveTriCryptoLpTokenAddress: Address;
 }
 
 export let contracts: Contracts = { 
@@ -118,7 +123,8 @@ export let contracts: Contracts = {
   InsuranceFund: Address.fromString("${insuranceFundAddress}"),
   VPoolWrapper: Address.fromString("${vPoolWrapperAddress}"),
   CurveYieldStrategy: Address.fromString("${curveYearStrategyAddress}"),
-  VaultPeriphery: Address.fromString("${vaultPeripheryAddress}")
+  VaultPeriphery: Address.fromString("${vaultPeripheryAddress}"),
+  CurveTriCryptoLpTokenAddress: Address.fromString("${curveTriCryptoLpTokenAddress}")
  };`;
 
   fs.writeFile('./src/utils/addresses.ts', file, {
