@@ -35,7 +35,7 @@ export function handleDepositPeriphery(event: DepositPeriphery): void {
   let entry = new VaultDepositWithdrawEntry(vaultDepositWithdrawEntryId);
 
   entry.timestamp = event.block.timestamp;
-  entry.transactionHash = event.block.hash;
+  entry.transactionHash = event.transaction.hash;
 
   entry.owner = owner.id;
   entry.vault = vault.id;
