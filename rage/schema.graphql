@@ -143,6 +143,8 @@ type FundingPaymentRealizedEntry @entity {
   tokenPosition: TokenPosition!
   "timestamp of the funding rate"
   timestamp: BigInt!
+  "price of the token pair at the time of the funding rate entry"
+  price: BigDecimal!
   "transaction hash of the event that triggered this funding payment realized entry"
   transactionHash: Bytes!
   "amount of base token in the funding rate, in settlementToken(USDC)"

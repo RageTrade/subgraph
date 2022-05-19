@@ -628,6 +628,15 @@ export class FundingPaymentRealizedEntry extends Entity {
     this.set("timestamp", Value.fromBigInt(value));
   }
 
+  get price(): BigDecimal {
+    let value = this.get("price");
+    return value.toBigDecimal();
+  }
+
+  set price(value: BigDecimal) {
+    this.set("price", Value.fromBigDecimal(value));
+  }
+
   get transactionHash(): Bytes {
     let value = this.get("transactionHash");
     return value.toBytes();
