@@ -522,6 +522,7 @@ export function handleTokenPositionFundingPaymentRealized(
   entry.vTokenPosition = tokenPosition.netPosition;
 
   entry.amount = BigIntToBigDecimal(event.params.amount, BI_6);
+  entry.price = rageTradePool.price;
 
   let timeDifference = entry.timestamp
     .minus(tokenPosition.lastFundingPaymentRealizedEntryTimestamp)
