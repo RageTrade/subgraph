@@ -447,6 +447,8 @@ type RageTradePool @entity {
   hourData: Collection!
   "list of collection of candles, recorded for each day"
   dayData: Collection!
+  "list of funding observations"
+  fundingObservations: [FundingObservation!]! @derivedFrom(field: "pool")
 }
 
 type VToken @entity {
@@ -466,6 +468,16 @@ type VPoolWrapper @entity {
   "wrapper address"
   id: ID!
   "rageTradePool pair to which the wrapper belongs to"
+  pool: RageTradePool!
+}
+
+type FundingObservation @entity {
+  id: ID!
+  "timestamp of the observation"
+  timestamp: BigInt!
+  "funding rate over 24hrs -  (virtualPrice - realPrice) / (realPrice * 24)"
+  fundingRate: BigDecimal!
+  "pool to which the observation belongs to"
   pool: RageTradePool!
 }
 

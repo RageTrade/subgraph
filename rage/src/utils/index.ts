@@ -1,6 +1,9 @@
 /* eslint-disable prefer-const */
 import { BigInt, BigDecimal, ethereum, log } from '@graphprotocol/graph-ts';
-import { UniswapV3Transaction } from '../../generated/schema';
+import {
+  FundingObservation,
+  UniswapV3Transaction,
+} from '../../generated/schema';
 import {
   ONE_BI,
   ZERO_BI,
@@ -14,6 +17,7 @@ import { Address } from '@graphprotocol/graph-ts';
 import { ClearingHouse } from '../../generated/ClearingHouse/ClearingHouse';
 import { VPoolWrapperLogic } from '../../generated/templates/VPoolWrapperLogic/VPoolWrapperLogic';
 import { contracts } from './addresses';
+import { getRageTradePoolId } from '../mappings/ragetradeFactory/rageTradePool';
 
 export function exponentToBigDecimal(decimals: BigInt): BigDecimal {
   let bd = BigDecimal.fromString('1');
@@ -288,4 +292,19 @@ export function min(a: BigDecimal, b: BigDecimal): BigDecimal {
 
 export function max(a: BigDecimal, b: BigDecimal): BigDecimal {
   return a.gt(b) ? a : b;
+}
+
+export function recordFundingObservation(
+  poolId: BigInt,
+  timestamp: BigInt,
+  fundingRate: BigDecimal
+): void {
+  let observationId = generateId([poolId.toHexString(), timestamp.toString()]);
+  if (!FundingObservation.load(observationId)) {
+    let observation = new FundingObservation(observationId);
+    observation.pool = getRageTradePoolId(poolId);
+    observation.timestamp = timestamp;
+    observation.fundingRate = fundingRate;
+    observation.save();
+  }
 }

@@ -26,6 +26,7 @@ import {
   min,
   parsePriceX128,
   parseSqrtPriceX96,
+  recordFundingObservation,
   safeDiv,
 } from '../../utils';
 import { UniswapV3Pool } from '../../../generated/templates/UniswapV3Pool/UniswapV3Pool';
@@ -67,6 +68,12 @@ export function handleTokenPositionChanged(event: TokenPositionChanged): void {
       event.params.sqrtPriceX96Start.toString(),
       event.params.sqrtPriceX96End.toString(),
     ]
+  );
+
+  recordFundingObservation(
+    event.params.poolId,
+    event.block.timestamp,
+    getFundingRate(event.params.poolId)
   );
 
   // update token position
@@ -538,6 +545,12 @@ export function handleTokenPositionFundingPaymentRealized(
   );
 
   rageTradePool.fundingRate = getFundingRate(event.params.poolId);
+
+  recordFundingObservation(
+    event.params.poolId,
+    event.block.timestamp,
+    rageTradePool.fundingRate
+  );
 
   entry.side = tokenPosition.netPosition.gt(ZERO_BD) ? 'long' : 'short';
 
