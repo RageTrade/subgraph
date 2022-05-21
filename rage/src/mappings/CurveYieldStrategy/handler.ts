@@ -53,9 +53,9 @@ export function handleWithdraw(event: Withdraw): void {
 
   entry.action = 'withdraw';
 
-  let sharesPriceResult = curveYieldStrategyContract.try_getPriceX128();
+  let assetPriceResult = curveYieldStrategyContract.try_getPriceX128();
 
-  if (sharesPriceResult.reverted) {
+  if (assetPriceResult.reverted) {
     log.error('custom_logs: getPriceX128 handleDepositPeriphery reverted {}', [
       '',
     ]);
@@ -66,11 +66,9 @@ export function handleWithdraw(event: Withdraw): void {
   entry.tokenAmount = entry.assetsTokenAmount;
 
   entry.sharesTokenAmount = BigIntToBigDecimal(event.params.shares, BI_18);
-  entry.sharesTokenDollarValue = parsePriceX128(
-    sharesPriceResult.value.times(event.params.shares),
-    BI_18,
-    BI_6
-  );
+
+  let priceOfAsset = parsePriceX128(assetPriceResult.value, BI_18, BI_6);
+  entry.sharesTokenDollarValue = entry.assetsTokenAmount.times(priceOfAsset);
 
   owner.vaultDepositWithdrawEntriesCount = owner.vaultDepositWithdrawEntriesCount.plus(
     ONE_BI

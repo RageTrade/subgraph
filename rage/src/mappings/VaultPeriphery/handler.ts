@@ -47,9 +47,9 @@ export function handleDepositPeriphery(event: DepositPeriphery): void {
 
   entry.action = 'deposit';
 
-  let sharesPriceResult = curveYieldStrategyContract.try_getPriceX128();
+  let assetPriceResult = curveYieldStrategyContract.try_getPriceX128();
 
-  if (sharesPriceResult.reverted) {
+  if (assetPriceResult.reverted) {
     log.error('custom_logs: getPriceX128 handleDepositPeriphery reverted {}', [
       '',
     ]);
@@ -59,11 +59,9 @@ export function handleDepositPeriphery(event: DepositPeriphery): void {
   entry.tokenAmount = BigIntToBigDecimal(event.params.amount, token.decimals);
   entry.assetsTokenAmount = BigIntToBigDecimal(event.params.asset, BI_18);
   entry.sharesTokenAmount = BigIntToBigDecimal(event.params.shares, BI_18);
-  entry.sharesTokenDollarValue = parsePriceX128(
-    sharesPriceResult.value.times(event.params.shares),
-    BI_18,
-    BI_6
-  );
+
+  let priceOfAsset = parsePriceX128(assetPriceResult.value, BI_18, BI_6);
+  entry.sharesTokenDollarValue = entry.assetsTokenAmount.times(priceOfAsset);
 
   owner.vaultDepositWithdrawEntriesCount = owner.vaultDepositWithdrawEntriesCount.plus(
     ONE_BI
