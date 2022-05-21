@@ -100,6 +100,8 @@ dataSources:
       abis:
         - name: VaultPeriphery
           file: ./abis/VaultPeriphery.json
+        - name: CurveYieldStrategy
+          file: ./abis/CurveYieldStrategy.json
         - name: ERC20
           file: ./abis/ERC20.json
         - name: ERC20SymbolBytes
