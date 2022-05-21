@@ -544,6 +544,8 @@ type VaultDepositWithdrawEntry @entity {
   assetsTokenAmount: BigDecimal!
   "amount of shares token(TCS) received/sent"
   sharesTokenAmount: BigDecimal!
+  "dollar value of token(TCS) received/sent"
+  sharesTokenDollarValue: BigDecimal!
   "is it a deposit or a withdraw action"
   action: MarginTransactionType!
 }
