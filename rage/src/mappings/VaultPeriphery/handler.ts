@@ -1,12 +1,13 @@
 import { log } from '@graphprotocol/graph-ts';
 import { VaultDepositWithdrawEntry } from '../../../generated/schema';
 import { DepositPeriphery } from '../../../generated/VaultPeriphery/VaultPeriphery';
-import { BigIntToBigDecimal, generateId } from '../../utils';
+import { BigIntToBigDecimal, generateId, parsePriceX128 } from '../../utils';
 import { contracts } from '../../utils/addresses';
 import { getVault } from './getVault';
 import { getOwner } from '../clearinghouse/owner';
 import { getERC20Token } from './getERC20Token';
-import { BI_18, ONE_BI } from '../../utils/constants';
+import { BI_18, BI_6, ONE_BI } from '../../utils/constants';
+import { CurveYieldStrategy } from '../../../generated/CurveYieldStrategy/CurveYieldStrategy';
 
 export function handleDepositPeriphery(event: DepositPeriphery): void {
   log.debug(
@@ -18,6 +19,9 @@ export function handleDepositPeriphery(event: DepositPeriphery): void {
       event.params.asset.toString(),
       event.params.shares.toString(),
     ]
+  );
+  let curveYieldStrategyContract = CurveYieldStrategy.bind(
+    contracts.CurveYieldStrategy
   );
 
   let vault = getVault(contracts.CurveYieldStrategy);
@@ -43,13 +47,28 @@ export function handleDepositPeriphery(event: DepositPeriphery): void {
 
   entry.action = 'deposit';
 
+  let sharesPriceResult = curveYieldStrategyContract.try_getPriceX128();
+
+  if (sharesPriceResult.reverted) {
+    log.error('custom_logs: getPriceX128 handleDepositPeriphery reverted {}', [
+      '',
+    ]);
+    return;
+  }
+
   entry.tokenAmount = BigIntToBigDecimal(event.params.amount, token.decimals);
   entry.assetsTokenAmount = BigIntToBigDecimal(event.params.asset, BI_18);
   entry.sharesTokenAmount = BigIntToBigDecimal(event.params.shares, BI_18);
+  entry.sharesTokenDollarValue = parsePriceX128(
+    sharesPriceResult.value.times(event.params.shares),
+    BI_18,
+    BI_6
+  );
 
   owner.vaultDepositWithdrawEntriesCount = owner.vaultDepositWithdrawEntriesCount.plus(
     ONE_BI
   );
+
   owner.save();
   entry.save();
 }

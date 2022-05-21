@@ -1,12 +1,13 @@
 import { log } from '@graphprotocol/graph-ts';
 import {
+  CurveYieldStrategy,
   Deposit,
   Withdraw,
 } from '../../../generated/CurveYieldStrategy/CurveYieldStrategy';
 import { VaultDepositWithdrawEntry } from '../../../generated/schema';
-import { generateId, BigIntToBigDecimal } from '../../utils';
+import { generateId, BigIntToBigDecimal, parsePriceX128 } from '../../utils';
 import { contracts } from '../../utils/addresses';
-import { BI_18, ONE_BI } from '../../utils/constants';
+import { BI_18, BI_6, ONE_BI } from '../../utils/constants';
 import { getOwner } from '../clearinghouse/owner';
 import { getERC20Token } from '../VaultPeriphery/getERC20Token';
 import { getVault } from '../VaultPeriphery/getVault';
@@ -29,6 +30,10 @@ export function handleWithdraw(event: Withdraw): void {
   let owner = getOwner(event.params.owner);
   let token = getERC20Token(contracts.CurveTriCryptoLpTokenAddress);
 
+  let curveYieldStrategyContract = CurveYieldStrategy.bind(
+    contracts.CurveYieldStrategy
+  );
+
   let vaultDepositWithdrawEntryId = generateId([
     vault.id,
     owner.id,
@@ -48,9 +53,24 @@ export function handleWithdraw(event: Withdraw): void {
 
   entry.action = 'withdraw';
 
+  let sharesPriceResult = curveYieldStrategyContract.try_getPriceX128();
+
+  if (sharesPriceResult.reverted) {
+    log.error('custom_logs: getPriceX128 handleDepositPeriphery reverted {}', [
+      '',
+    ]);
+    return;
+  }
+
   entry.assetsTokenAmount = BigIntToBigDecimal(event.params.assets, BI_18);
-  entry.sharesTokenAmount = BigIntToBigDecimal(event.params.shares, BI_18);
   entry.tokenAmount = entry.assetsTokenAmount;
+
+  entry.sharesTokenAmount = BigIntToBigDecimal(event.params.shares, BI_18);
+  entry.sharesTokenDollarValue = parsePriceX128(
+    sharesPriceResult.value.times(event.params.shares),
+    BI_18,
+    BI_6
+  );
 
   owner.vaultDepositWithdrawEntriesCount = owner.vaultDepositWithdrawEntriesCount.plus(
     ONE_BI
