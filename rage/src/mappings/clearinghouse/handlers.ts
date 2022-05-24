@@ -524,23 +524,11 @@ export function handleTokenPositionFundingPaymentRealized(
   entry.amount = BigIntToBigDecimal(event.params.amount, BI_6);
   entry.price = rageTradePool.price;
 
-  let timeDifference = entry.timestamp
-    .minus(tokenPosition.lastFundingPaymentRealizedEntryTimestamp)
-    .toBigDecimal();
-
-  log.debug('custom_logs: handleFundingPayment timeDifference - {}', [
-    timeDifference.toString(),
-  ]);
-
-  entry.fundingRate = safeDiv(
-    safeDiv(entry.amount, tokenPosition.netPosition).neg(),
-    timeDifference
-  );
-
   entry.virtualPriceAccumulator = rageTradePool.virtualPriceAccumulator;
   entry.checkpointTimestamp = rageTradePool.checkpointTimestamp;
 
   rageTradePool.fundingRate = getFundingRate(event.params.poolId);
+  entry.fundingRate = rageTradePool.fundingRate;
 
   entry.side = tokenPosition.netPosition.gt(ZERO_BD) ? 'long' : 'short';
 
