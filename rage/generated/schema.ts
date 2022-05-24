@@ -663,6 +663,24 @@ export class FundingPaymentRealizedEntry extends Entity {
   set vTokenPosition(value: BigDecimal) {
     this.set("vTokenPosition", Value.fromBigDecimal(value));
   }
+
+  get virtualPriceAccumulator(): BigDecimal {
+    let value = this.get("virtualPriceAccumulator");
+    return value.toBigDecimal();
+  }
+
+  set virtualPriceAccumulator(value: BigDecimal) {
+    this.set("virtualPriceAccumulator", Value.fromBigDecimal(value));
+  }
+
+  get checkpointTimestamp(): BigInt {
+    let value = this.get("checkpointTimestamp");
+    return value.toBigInt();
+  }
+
+  set checkpointTimestamp(value: BigInt) {
+    this.set("checkpointTimestamp", Value.fromBigInt(value));
+  }
 }
 
 export class TokenPosition extends Entity {
@@ -2042,6 +2060,24 @@ export class RageTradePool extends Entity {
 
   set dayData(value: string) {
     this.set("dayData", Value.fromString(value));
+  }
+
+  get virtualPriceAccumulator(): BigDecimal {
+    let value = this.get("virtualPriceAccumulator");
+    return value.toBigDecimal();
+  }
+
+  set virtualPriceAccumulator(value: BigDecimal) {
+    this.set("virtualPriceAccumulator", Value.fromBigDecimal(value));
+  }
+
+  get checkpointTimestamp(): BigInt {
+    let value = this.get("checkpointTimestamp");
+    return value.toBigInt();
+  }
+
+  set checkpointTimestamp(value: BigInt) {
+    this.set("checkpointTimestamp", Value.fromBigInt(value));
   }
 }
 

@@ -151,6 +151,10 @@ type FundingPaymentRealizedEntry @entity {
   amount: BigDecimal!
   "amount of vToken token held by the account, at the tome of the funding payment"
   vTokenPosition: BigDecimal!
+  "virtual price of the rage trade pool accumulated over time"
+  virtualPriceAccumulator: BigDecimal!
+  "timestamp of the last entry when the rage trade pool was updated"
+  checkpointTimestamp: BigInt!
 }
 
 """
@@ -447,6 +451,10 @@ type RageTradePool @entity {
   hourData: Collection!
   "list of collection of candles, recorded for each day"
   dayData: Collection!
+  "virtual price of the rage trade pool accumulated over time"
+  virtualPriceAccumulator: BigDecimal!
+  "timestamp of the last entry when the rage trade pool was updated"
+  checkpointTimestamp: BigInt!
 }
 
 type VToken @entity {
