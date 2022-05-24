@@ -181,3 +181,17 @@ export function getRageTradePoolTvl(
   // vToken * price + vQuote
   return vQuoteBalance.plus(vTokenBalance.times(price));
 }
+
+export function getRageTradeVirtualPriceAccumulator(
+  rageTradePool: RageTradePool,
+  currentPrice: BigDecimal,
+  currentTimeStamp: BigInt
+): BigDecimal {
+  let timeDifference = currentTimeStamp
+    .minus(rageTradePool.checkpointTimestamp)
+    .toBigDecimal();
+
+  return rageTradePool.virtualPriceAccumulator.plus(
+    currentPrice.times(timeDifference)
+  );
+}
