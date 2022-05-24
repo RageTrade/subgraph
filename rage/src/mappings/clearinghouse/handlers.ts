@@ -537,6 +537,9 @@ export function handleTokenPositionFundingPaymentRealized(
     timeDifference
   );
 
+  entry.virtualPriceAccumulator = rageTradePool.virtualPriceAccumulator;
+  entry.checkpointTimestamp = rageTradePool.checkpointTimestamp;
+
   rageTradePool.fundingRate = getFundingRate(event.params.poolId);
 
   entry.side = tokenPosition.netPosition.gt(ZERO_BD) ? 'long' : 'short';
