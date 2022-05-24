@@ -42,6 +42,9 @@ export function getRageTradePool(poolId: string): RageTradePool {
     rageTradePool.sumFpX128 = ZERO_BI;
     rageTradePool.sumFeeX128 = ZERO_BI;
 
+    rageTradePool.checkpointTimestamp = ZERO_BI;
+    rageTradePool.virtualPriceAccumulator = ZERO_BD;
+
     rageTradePool.save();
   }
 

@@ -9,6 +9,7 @@ import {
   getPriceANDTick,
   getRageTradePoolTvl,
   updateCandleData,
+  getRageTradeVirtualPriceAccumulator,
 } from './utils';
 import { BigIntToBigDecimal, generateId } from '../../utils';
 import { BI_18, BI_6 } from '../../utils/constants';
@@ -61,19 +62,20 @@ export function handleSwap(event: Swap): void {
     rageTradePool as RageTradePool,
     price_tick.price
   );
+  rageTradePool.virtualPriceAccumulator = getRageTradeVirtualPriceAccumulator(
+    rageTradePool as RageTradePool,
+    price_tick.price,
+    event.block.timestamp
+  );
+  rageTradePool.checkpointTimestamp = event.block.timestamp;
+
   rageTradePool.save();
 
   let hourPoolID = generateId([rageTradePool.hourData, hourIndex.toString()]);
   let dayPoolID = generateId([rageTradePool.dayData, dayIndex.toString()]);
 
-  let vTokenInBD = BigIntToBigDecimal(
-    event.params.swapResult.vTokenIn,
-    BI_18
-  );
-  let vQuoteInBD = BigIntToBigDecimal(
-    event.params.swapResult.vQuoteIn,
-    BI_6
-  );
+  let vTokenInBD = BigIntToBigDecimal(event.params.swapResult.vTokenIn, BI_18);
+  let vQuoteInBD = BigIntToBigDecimal(event.params.swapResult.vQuoteIn, BI_6);
 
   // hourData
   updateCandleData(
@@ -130,6 +132,14 @@ export function handleMint(event: Mint): void {
     rageTradePool as RageTradePool,
     price_tick.price
   );
+
+  rageTradePool.virtualPriceAccumulator = getRageTradeVirtualPriceAccumulator(
+    rageTradePool as RageTradePool,
+    price_tick.price,
+    event.block.timestamp
+  );
+  rageTradePool.checkpointTimestamp = event.block.timestamp;
+
   rageTradePool.save();
 }
 
@@ -166,5 +176,12 @@ export function handleBurn(event: Burn): void {
     rageTradePool as RageTradePool,
     price_tick.price
   );
+  rageTradePool.virtualPriceAccumulator = getRageTradeVirtualPriceAccumulator(
+    rageTradePool as RageTradePool,
+    price_tick.price,
+    event.block.timestamp
+  );
+  rageTradePool.checkpointTimestamp = event.block.timestamp;
+
   rageTradePool.save();
 }
