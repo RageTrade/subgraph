@@ -1,4 +1,4 @@
-import { Address, log, BigInt } from '@graphprotocol/graph-ts';
+import { Address, log, BigInt, BigDecimal } from '@graphprotocol/graph-ts';
 import {
   AccountCreated,
   TokenPositionFundingPaymentRealized,
@@ -528,11 +528,42 @@ export function handleTokenPositionFundingPaymentRealized(
   entry.checkpointTimestamp = rageTradePool.checkpointTimestamp;
 
   rageTradePool.fundingRate = getFundingRate(event.params.poolId);
-  entry.fundingRate = rageTradePool.fundingRate;
+
+  let lastFundingEntry = FundingPaymentRealizedEntry.load(
+    tokenPosition.lastFundingPaymentRealizedEntry
+  );
+
+  if (lastFundingEntry == null) {
+    entry.fundingRate = rageTradePool.fundingRate;
+  } else {
+    let timeDifference = entry.checkpointTimestamp.minus(
+      lastFundingEntry.checkpointTimestamp
+    );
+
+    if (timeDifference.le(ZERO_BI)) {
+      entry.fundingRate = rageTradePool.fundingRate;
+    } else {
+      let twapPriceDifference = entry.virtualPriceAccumulator.minus(
+        lastFundingEntry.virtualPriceAccumulator
+      );
+
+
+      // avgPrice = twapPriceDifference / (time current - time previous)
+      // funding amount * 3600 * 100 / ( (time current - time previous) * avgPrice * net token position )
+
+      let numerator = entry.amount.times(BigDecimal.fromString('360000'));
+
+      let denominator = twapPriceDifference.times(entry.vTokenPosition);
+
+      entry.fundingRate = denominator.equals(ZERO_BD)
+        ? rageTradePool.fundingRate
+        : numerator.div(denominator);
+    }
+  }
 
   entry.side = tokenPosition.netPosition.gt(ZERO_BD) ? 'long' : 'short';
 
-  tokenPosition.lastFundingPaymentRealizedEntryTimestamp = entry.timestamp;
+  tokenPosition.lastFundingPaymentRealizedEntry = entry.id;
   tokenPosition.totalRealizedFundingPaymentAmount = tokenPosition.totalRealizedFundingPaymentAmount.plus(
     entry.amount
   );
