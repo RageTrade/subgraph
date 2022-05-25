@@ -535,21 +535,28 @@ export function handleTokenPositionFundingPaymentRealized(
 
   if (lastFundingEntry == null) {
     entry.fundingRate = rageTradePool.fundingRate;
+    entry.timeElapsed = ZERO_BI;
+    entry.avgTwapPrice = entry.price;
   } else {
     let timeDifference = entry.checkpointTimestamp.minus(
       lastFundingEntry.checkpointTimestamp
     );
+    entry.timeElapsed = timeDifference;
 
     if (timeDifference.le(ZERO_BI)) {
       entry.fundingRate = rageTradePool.fundingRate;
+      entry.avgTwapPrice = entry.price;
     } else {
       let twapPriceDifference = entry.virtualPriceAccumulator.minus(
         lastFundingEntry.virtualPriceAccumulator
       );
 
+      entry.avgTwapPrice = twapPriceDifference.div(
+        timeDifference.toBigDecimal()
+      );
 
-      // avgPrice = twapPriceDifference / (time current - time previous)
-      // funding amount * 3600 * 100 / ( (time current - time previous) * avgPrice * net token position )
+      // avgTwapPrice = twapPriceDifference / (time current - time previous)
+      // funding amount * 3600 * 100 / ( (time current - time previous) * avgTwapPrice * net token position )
 
       let numerator = entry.amount.times(BigDecimal.fromString('360000'));
 
