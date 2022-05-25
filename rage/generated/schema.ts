@@ -776,16 +776,13 @@ export class TokenPosition extends Entity {
     this.set("fundingPaymentRealizedEntriesCount", Value.fromBigInt(value));
   }
 
-  get lastFundingPaymentRealizedEntryTimestamp(): BigInt {
-    let value = this.get("lastFundingPaymentRealizedEntryTimestamp");
-    return value.toBigInt();
+  get lastFundingPaymentRealizedEntry(): string {
+    let value = this.get("lastFundingPaymentRealizedEntry");
+    return value.toString();
   }
 
-  set lastFundingPaymentRealizedEntryTimestamp(value: BigInt) {
-    this.set(
-      "lastFundingPaymentRealizedEntryTimestamp",
-      Value.fromBigInt(value)
-    );
+  set lastFundingPaymentRealizedEntry(value: string) {
+    this.set("lastFundingPaymentRealizedEntry", Value.fromString(value));
   }
 
   get fundingPaymentRealizedEntries(): Array<string> {
