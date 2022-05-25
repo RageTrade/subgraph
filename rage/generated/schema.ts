@@ -681,6 +681,24 @@ export class FundingPaymentRealizedEntry extends Entity {
   set checkpointTimestamp(value: BigInt) {
     this.set("checkpointTimestamp", Value.fromBigInt(value));
   }
+
+  get timeElapsed(): BigInt {
+    let value = this.get("timeElapsed");
+    return value.toBigInt();
+  }
+
+  set timeElapsed(value: BigInt) {
+    this.set("timeElapsed", Value.fromBigInt(value));
+  }
+
+  get avgTwapPrice(): BigDecimal {
+    let value = this.get("avgTwapPrice");
+    return value.toBigDecimal();
+  }
+
+  set avgTwapPrice(value: BigDecimal) {
+    this.set("avgTwapPrice", Value.fromBigDecimal(value));
+  }
 }
 
 export class TokenPosition extends Entity {
