@@ -153,7 +153,8 @@ export function handleWithdraw(event: Withdraw): void {
   let fakeDepositShares = owner.tryCryptoVaultSharesEntryPrice_Denominator.minus(
     event.params.shares.toBigDecimal()
   );
-  let fakeDepositSharePriceD6 = owner.tryCryptoVaultSharesEntryPrice_Numerator.div(
+  let fakeDepositSharePriceD6 = safeDiv(
+    owner.tryCryptoVaultSharesEntryPrice_Numerator,
     owner.tryCryptoVaultSharesEntryPrice_Denominator
   ); // existing w-avg share price
   // resetting numerator
