@@ -67,6 +67,8 @@ dataSources:
         - Owner
         - ERC20Token
       abis:
+        - name: CurveQuoter
+          file: ./abis/CurveQuoter.json
         - name: CurveYieldStrategy
           file: ./abis/CurveYieldStrategy.json
         - name: ERC20
