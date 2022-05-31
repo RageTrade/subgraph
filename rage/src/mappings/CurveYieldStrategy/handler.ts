@@ -76,7 +76,7 @@ export function handleDeposit(event: Deposit): void {
     contracts.VaultPeriphery.toHexString() == event.params.caller.toHexString()
   ) {
     log.error(
-      'custom_logs: handleDeposit event came from VaultPeriphery - {} | caller - {}',
+      'custom_logs: handleDeposCompilingit event came from VaultPeriphery - {} | caller - {}',
       [
         contracts.VaultPeriphery.toHexString(),
         event.params.caller.toHexString(),
@@ -150,10 +150,10 @@ export function handleWithdraw(event: Withdraw): void {
 
   //...........................................................................//
 
-  const fakeDepositShares = owner.tryCryptoVaultSharesEntryPrice_Denominator.minus(
+  let fakeDepositShares = owner.tryCryptoVaultSharesEntryPrice_Denominator.minus(
     event.params.shares.toBigDecimal()
   );
-  const fakeDepositSharePriceD6 = owner.tryCryptoVaultSharesEntryPrice_Numerator.div(
+  let fakeDepositSharePriceD6 = owner.tryCryptoVaultSharesEntryPrice_Numerator.div(
     owner.tryCryptoVaultSharesEntryPrice_Denominator
   ); // existing w-avg share price
   // resetting numerator
