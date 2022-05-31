@@ -1,6 +1,6 @@
 import { Address } from '@graphprotocol/graph-ts';
 import { Owner } from '../../../generated/schema';
-import { ZERO_BI } from '../../utils/constants';
+import { ZERO_BI, ZERO_BD } from '../../utils/constants';
 
 export function generateOwnerId(ownerAddress: Address): string {
   return ownerAddress.toHexString();
@@ -18,6 +18,10 @@ export function getOwner(ownerAddress: Address): Owner {
     // creating empty account for other code to work
     owner = new Owner(ownerId);
     owner.vaultDepositWithdrawEntriesCount = ZERO_BI;
+    
+    owner.tryCryptoVaultSharesEntryPrice = ZERO_BD;
+    owner.tryCryptoVaultSharesEntryPrice_Numerator = ZERO_BD;
+    owner.tryCryptoVaultSharesEntryPrice_Denominator = ZERO_BD;
     owner.save();
   }
 

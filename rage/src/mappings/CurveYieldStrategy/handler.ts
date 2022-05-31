@@ -1,11 +1,17 @@
-import { log } from '@graphprotocol/graph-ts';
+import { BigInt, log } from '@graphprotocol/graph-ts';
 import {
   CurveYieldStrategy,
   Deposit,
   Withdraw,
 } from '../../../generated/CurveYieldStrategy/CurveYieldStrategy';
+import { CurveQuoter } from '../../../generated/CurveYieldStrategy/CurveQuoter';
 import { VaultDepositWithdrawEntry } from '../../../generated/schema';
-import { generateId, BigIntToBigDecimal, parsePriceX128 } from '../../utils';
+import {
+  generateId,
+  BigIntToBigDecimal,
+  parsePriceX128,
+  safeDiv,
+} from '../../utils';
 import { contracts } from '../../utils/addresses';
 import { BI_18, BI_6, ONE_BI } from '../../utils/constants';
 import { getOwner } from '../clearinghouse/owner';
@@ -23,6 +29,47 @@ export function handleDeposit(event: Deposit): void {
     ]
   );
 
+  let vault = getVault(contracts.CurveYieldStrategy);
+  let owner = getOwner(event.params.owner);
+  let token = getERC20Token(contracts.CurveTriCryptoLpTokenAddress);
+
+  let curveYieldStrategyContract = CurveYieldStrategy.bind(
+    contracts.CurveYieldStrategy
+  );
+
+  //...........................................................................//
+
+  let curveQuoterContract = CurveQuoter.bind(contracts.CurveQuoter);
+
+  let lpPriceResult = curveQuoterContract.try_lp_price();
+
+  let shareAssetsResult = curveYieldStrategyContract.try_convertToAssets(
+    BigInt.fromI32(1).pow(18)
+  );
+
+  if (shareAssetsResult.reverted || lpPriceResult.reverted) {
+    log.debug('custom_logs: lpPriceResult or shareAssetsResult reverted', ['']);
+  } else {
+    let assetToken18D = lpPriceResult.value;
+    let sharesAssets = shareAssetsResult.value;
+
+    let sharePriceD6 = assetToken18D
+      .times(sharesAssets)
+      .div(BigInt.fromI32(10).pow(30));
+
+    owner.tryCryptoVaultSharesEntryPrice_Numerator = owner.tryCryptoVaultSharesEntryPrice_Numerator.plus(
+      sharePriceD6.times(event.params.shares).toBigDecimal()
+    );
+    owner.tryCryptoVaultSharesEntryPrice_Denominator = owner.tryCryptoVaultSharesEntryPrice_Denominator.plus(
+      event.params.shares.toBigDecimal()
+    );
+
+    owner.tryCryptoVaultSharesEntryPrice = safeDiv(
+      owner.tryCryptoVaultSharesEntryPrice_Numerator,
+      owner.tryCryptoVaultSharesEntryPrice_Denominator
+    );
+  }
+
   //...........................................................................//
 
   if (
@@ -37,14 +84,6 @@ export function handleDeposit(event: Deposit): void {
     );
     return;
   }
-
-  let vault = getVault(contracts.CurveYieldStrategy);
-  let owner = getOwner(event.params.owner);
-  let token = getERC20Token(contracts.CurveTriCryptoLpTokenAddress);
-
-  let curveYieldStrategyContract = CurveYieldStrategy.bind(
-    contracts.CurveYieldStrategy
-  );
 
   let vaultDepositWithdrawEntryId = generateId([
     vault.id,
@@ -108,6 +147,28 @@ export function handleWithdraw(event: Withdraw): void {
   let curveYieldStrategyContract = CurveYieldStrategy.bind(
     contracts.CurveYieldStrategy
   );
+
+  //...........................................................................//
+
+  const fakeDepositShares = owner.tryCryptoVaultSharesEntryPrice_Denominator.minus(
+    event.params.shares.toBigDecimal()
+  );
+  const fakeDepositSharePriceD6 = owner.tryCryptoVaultSharesEntryPrice_Numerator.div(
+    owner.tryCryptoVaultSharesEntryPrice_Denominator
+  ); // existing w-avg share price
+  // resetting numerator
+
+  owner.tryCryptoVaultSharesEntryPrice_Numerator = fakeDepositShares.times(
+    fakeDepositSharePriceD6
+  );
+  owner.tryCryptoVaultSharesEntryPrice_Denominator = fakeDepositShares;
+
+  owner.tryCryptoVaultSharesEntryPrice = safeDiv(
+    owner.tryCryptoVaultSharesEntryPrice_Numerator,
+    owner.tryCryptoVaultSharesEntryPrice_Denominator
+  );
+
+  //...........................................................................//
 
   let vaultDepositWithdrawEntryId = generateId([
     vault.id,
