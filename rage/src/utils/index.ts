@@ -245,7 +245,7 @@ export function getFundingRate(poolId: BigInt): BigDecimal {
   );
 
   let fundingRate = safeDiv(
-    realPrice.minus(virtualPrice),
+    virtualPrice.minus(realPrice),
     realPrice.times(BigDecimal.fromString('24'))
   );
   return fundingRate;
