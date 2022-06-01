@@ -29,46 +29,56 @@ export function handleDeposit(event: Deposit): void {
     ]
   );
 
+
   let vault = getVault(contracts.CurveYieldStrategy);
   let owner = getOwner(event.params.owner);
   let token = getERC20Token(contracts.CurveTriCryptoLpTokenAddress);
 
-  let curveYieldStrategyContract = CurveYieldStrategy.bind(
-    contracts.CurveYieldStrategy
-  );
+  let sharesInBigDecimal = BigIntToBigDecimal(event.params.shares, BI_18);
+  let assetsInBigDecimal = BigIntToBigDecimal(event.params.assets, BI_18);
 
   //...........................................................................//
 
   let curveQuoterContract = CurveQuoter.bind(contracts.CurveQuoter);
 
+  // dollars per asset - formatted with 18 decimals
   let lpPriceResult = curveQuoterContract.try_lp_price();
+  if (lpPriceResult.reverted) {
+    log.debug('custom_logs: lpPriceResult reverted', ['']);
+    return;
+  }
 
-  let shareAssetsResult = curveYieldStrategyContract.try_convertToAssets(
-    BigInt.fromI32(1).pow(18)
+  let assetsPerShare = safeDiv(assetsInBigDecimal, sharesInBigDecimal);
+
+  let assetsPrice = BigIntToBigDecimal(lpPriceResult.value, BI_18);
+
+  let sharePrice = assetsPrice.times(assetsPerShare);
+
+  owner.tryCryptoVaultSharesEntryPrice_Numerator = owner.tryCryptoVaultSharesEntryPrice_Numerator.plus(
+    sharePrice.times(sharesInBigDecimal)
+  );
+  owner.tryCryptoVaultSharesEntryPrice_Denominator = owner.tryCryptoVaultSharesEntryPrice_Denominator.plus(
+    sharesInBigDecimal
   );
 
-  if (shareAssetsResult.reverted || lpPriceResult.reverted) {
-    log.debug('custom_logs: lpPriceResult or shareAssetsResult reverted', ['']);
-  } else {
-    let assetToken18D = lpPriceResult.value;
-    let sharesAssets = shareAssetsResult.value;
+  owner.tryCryptoVaultSharesEntryPrice = safeDiv(
+    owner.tryCryptoVaultSharesEntryPrice_Numerator,
+    owner.tryCryptoVaultSharesEntryPrice_Denominator
+  );
 
-    let sharePriceD6 = assetToken18D
-      .times(sharesAssets)
-      .div(BigInt.fromI32(10).pow(30));
+  log.debug(
+    'custom_logs: handleDeposit owner - {} tryCryptoVaultSharesEntryPrice_Numerator - {} tryCryptoVaultSharesEntryPrice_Denominator - {} tryCryptoVaultSharesEntryPrice - {} sharePrice - {} sharesInBigDecimal - {}',
+    [
+      event.params.owner.toHexString(),
+      owner.tryCryptoVaultSharesEntryPrice_Numerator.toString(),
+      owner.tryCryptoVaultSharesEntryPrice_Denominator.toString(),
+      owner.tryCryptoVaultSharesEntryPrice.toString(),
+      sharePrice.toString(),
+      sharesInBigDecimal.toString(),
+    ]
+  );
 
-    owner.tryCryptoVaultSharesEntryPrice_Numerator = owner.tryCryptoVaultSharesEntryPrice_Numerator.plus(
-      sharePriceD6.times(event.params.shares).toBigDecimal()
-    );
-    owner.tryCryptoVaultSharesEntryPrice_Denominator = owner.tryCryptoVaultSharesEntryPrice_Denominator.plus(
-      event.params.shares.toBigDecimal()
-    );
-
-    owner.tryCryptoVaultSharesEntryPrice = safeDiv(
-      owner.tryCryptoVaultSharesEntryPrice_Numerator,
-      owner.tryCryptoVaultSharesEntryPrice_Denominator
-    );
-  }
+  owner.save();
 
   //...........................................................................//
 
@@ -104,22 +114,11 @@ export function handleDeposit(event: Deposit): void {
 
   entry.action = 'deposit';
 
-  let assetPriceResult = curveYieldStrategyContract.try_getPriceX128();
-
-  if (assetPriceResult.reverted) {
-    log.error('custom_logs: getPriceX128 handleDepositPeriphery reverted {}', [
-      '',
-    ]);
-    return;
-  }
-
-  entry.assetsTokenAmount = BigIntToBigDecimal(event.params.assets, BI_18);
+  entry.assetsTokenAmount = assetsInBigDecimal;
   entry.tokenAmount = entry.assetsTokenAmount;
 
-  entry.sharesTokenAmount = BigIntToBigDecimal(event.params.shares, BI_18);
-
-  let priceOfAsset = parsePriceX128(assetPriceResult.value, BI_18, BI_6);
-  entry.sharesTokenDollarValue = entry.assetsTokenAmount.times(priceOfAsset);
+  entry.sharesTokenAmount = sharesInBigDecimal;
+  entry.sharesTokenDollarValue = entry.sharesTokenAmount.times(sharePrice);
 
   owner.vaultDepositWithdrawEntriesCount = owner.vaultDepositWithdrawEntriesCount.plus(
     ONE_BI
@@ -144,6 +143,8 @@ export function handleWithdraw(event: Withdraw): void {
   let owner = getOwner(event.params.owner);
   let token = getERC20Token(contracts.CurveTriCryptoLpTokenAddress);
 
+  let sharesInBigDecimal = BigIntToBigDecimal(event.params.shares, BI_18);
+
   let curveYieldStrategyContract = CurveYieldStrategy.bind(
     contracts.CurveYieldStrategy
   );
@@ -151,7 +152,7 @@ export function handleWithdraw(event: Withdraw): void {
   //...........................................................................//
 
   let fakeDepositShares = owner.tryCryptoVaultSharesEntryPrice_Denominator.minus(
-    event.params.shares.toBigDecimal()
+    sharesInBigDecimal
   );
   let fakeDepositSharePriceD6 = safeDiv(
     owner.tryCryptoVaultSharesEntryPrice_Numerator,
@@ -167,6 +168,19 @@ export function handleWithdraw(event: Withdraw): void {
   owner.tryCryptoVaultSharesEntryPrice = safeDiv(
     owner.tryCryptoVaultSharesEntryPrice_Numerator,
     owner.tryCryptoVaultSharesEntryPrice_Denominator
+  );
+
+  log.debug(
+    'custom_logs: handleWithdraw owner - {} tryCryptoVaultSharesEntryPrice_Numerator - {} tryCryptoVaultSharesEntryPrice_Denominator - {} tryCryptoVaultSharesEntryPrice - {} fakeDepositShares - {} fakeDepositSharePriceD6 - {} sharesInBigDecimal - {}',
+    [
+      event.params.owner.toHexString(),
+      owner.tryCryptoVaultSharesEntryPrice_Numerator.toString(),
+      owner.tryCryptoVaultSharesEntryPrice_Denominator.toString(),
+      owner.tryCryptoVaultSharesEntryPrice.toString(),
+      fakeDepositShares.toString(),
+      fakeDepositSharePriceD6.toString(),
+      sharesInBigDecimal.toString(),
+    ]
   );
 
   //...........................................................................//
@@ -202,7 +216,7 @@ export function handleWithdraw(event: Withdraw): void {
   entry.assetsTokenAmount = BigIntToBigDecimal(event.params.assets, BI_18);
   entry.tokenAmount = entry.assetsTokenAmount;
 
-  entry.sharesTokenAmount = BigIntToBigDecimal(event.params.shares, BI_18);
+  entry.sharesTokenAmount = sharesInBigDecimal;
 
   let priceOfAsset = parsePriceX128(assetPriceResult.value, BI_18, BI_6);
   entry.sharesTokenDollarValue = entry.assetsTokenAmount.times(priceOfAsset);
