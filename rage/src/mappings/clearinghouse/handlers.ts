@@ -19,6 +19,7 @@ import { generateAccountId, getAccount } from './account';
 import { getOwner } from './owner';
 import { getTokenPosition } from './token-position';
 import {
+  abs,
   BigIntToBigDecimal,
   generateId,
   getFundingRate,
@@ -30,7 +31,14 @@ import {
 } from '../../utils';
 import { UniswapV3Pool } from '../../../generated/templates/UniswapV3Pool/UniswapV3Pool';
 import { absBigDecimal, getPriceANDTick } from '../vPoolWrapper/utils';
-import { BI_18, BI_6, ONE_BI, ZERO_BD, ZERO_BI } from '../../utils/constants';
+import {
+  BI_18,
+  BI_6,
+  ONE_BD,
+  ONE_BI,
+  ZERO_BD,
+  ZERO_BI,
+} from '../../utils/constants';
 import { getCollateral } from './collateral';
 import {
   getRageTradePool,
@@ -533,7 +541,7 @@ export function handleTokenPositionFundingPaymentRealized(
     tokenPosition.lastFundingPaymentRealizedEntry
   );
 
-  if (lastFundingEntry == null) {
+  if (lastFundingEntry == null || entry.amount == ZERO_BD) {
     entry.fundingRate = rageTradePool.fundingRate;
     entry.timeElapsed = ZERO_BI;
     entry.avgTwapPrice = entry.price;
@@ -562,9 +570,29 @@ export function handleTokenPositionFundingPaymentRealized(
 
       let denominator = twapPriceDifference.times(entry.vTokenPosition);
 
-      entry.fundingRate = denominator.equals(ZERO_BD)
-        ? rageTradePool.fundingRate
-        : numerator.div(denominator);
+      if (denominator.equals(ZERO_BD)) {
+        entry.fundingRate = rageTradePool.fundingRate;
+      } else {
+        // If vTokenPos = +ve && fundingAmount = +ve
+        //    then fundingRate = -ve
+        // If vTokenPos = -ve && fundingAmount = +ve
+        //    then fundingRate = +ve
+
+        // If vTokenPos = +ve && fundingAmount = -ve
+        //    then fundingRate = +ve
+        // If vTokenPos = -ve && fundingAmount = -ve
+        //    then fundingRate = -ve
+
+        let sign = ONE_BD;
+
+        if (entry.amount.gt(ZERO_BD)) {
+          sign = entry.vTokenPosition.gt(ZERO_BD) ? ONE_BD.neg() : ONE_BD;
+        } else {
+          sign = entry.vTokenPosition.gt(ZERO_BD) ? ONE_BD : ONE_BD.neg();
+        }
+
+        entry.fundingRate = abs(numerator.div(denominator)).times(sign);
+      }
     }
   }
 
