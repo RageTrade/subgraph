@@ -289,3 +289,8 @@ export function min(a: BigDecimal, b: BigDecimal): BigDecimal {
 export function max(a: BigDecimal, b: BigDecimal): BigDecimal {
   return a.gt(b) ? a : b;
 }
+
+
+export function abs(a: BigDecimal): BigDecimal {
+  return a.lt(ZERO_BD) ? a.neg() : a;
+}
