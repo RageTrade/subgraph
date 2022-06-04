@@ -17,7 +17,7 @@ export let contracts: Contracts = {
   InsuranceFund: Address.fromString("0xA2423321c854a37F002D3c276DE1CA9E88935bf2"),
   VPoolWrapper: Address.fromString("0x2A13e9fE24fd6aa1736120Dc83138E3c182551FB"),
   CurveYieldStrategy: Address.fromString("0xAC81Ec44483CD8D36A62a5d88a7C4C93967BA0e4"),
-  VaultPeriphery: Address.fromString("0x212f250163B890198B382223b8825B7875f9B790"),
+  VaultPeriphery: Address.fromString("0x0DdfAE475bE01dF65cBE0C4d514A73fe90c0C7Fc"),
   CurveTriCryptoLpTokenAddress: Address.fromString("0xeA78216e422A623aF359D69d6Ef88B703F15a78B"),
   CurveQuoter: Address.fromString("0x95b54EC06660eC35978f9c279e3c1EdFD16e64db") 
  };
