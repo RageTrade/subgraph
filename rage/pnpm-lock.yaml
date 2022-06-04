@@ -3,7 +3,7 @@ lockfileVersion: 5.3
 specifiers:
   '@graphprotocol/graph-cli': ^0.20.0
   '@graphprotocol/graph-ts': ^0.20.0
-  '@ragetrade/sdk': ^0.7.19
+  '@ragetrade/sdk': ^0.7.24
   '@typescript-eslint/eslint-plugin': ^2.0.0
   '@typescript-eslint/parser': ^2.0.0
   babel-polyfill: ^6.26.0
@@ -19,7 +19,7 @@ specifiers:
   yaml: ^1.10.2
 
 dependencies:
-  '@ragetrade/sdk': 0.7.19
+  '@ragetrade/sdk': 0.7.24
   babel-polyfill: 6.26.0
   babel-register: 6.26.0
   truffle: 5.5.6
@@ -723,8 +723,8 @@ packages:
   /@protobufjs/utf8/1.1.0:
     resolution: {integrity: sha1-p3c2C1s5oaLlEG+OhY8v0tBgxXA=}
 
-  /@ragetrade/sdk/0.7.19:
-    resolution: {integrity: sha512-nONTm0hjnxTL9lDTCGZsLO18DKPjaKbsIS8llyILnSDE9lKKjOch8nm6w+fnVJ07sIMZ8GhRdVrj2hzMSgzHPA==}
+  /@ragetrade/sdk/0.7.24:
+    resolution: {integrity: sha512-1AEuu0PaXNVDp34f5voWH8CqZ7EfJtFMdUxe0CkVWTZujG0+srFNPDNDu4Saab7bdfggLtghGa5AmZhFvCFSzA==}
     engines: {node: '>=10'}
     hasBin: true
     dependencies:
@@ -3383,7 +3383,7 @@ packages:
     engines: {node: '>=6'}
     dependencies:
       abstract-leveldown: 6.0.3
-      inherits: 2.0.3
+      inherits: 2.0.4
     dev: false
     optional: true
 
@@ -5100,7 +5100,7 @@ packages:
       wrappy: 1.0.2
 
   /inherits/2.0.1:
-    resolution: {integrity: sha1-sX0I0ya0Qj5Wjv9xn5GwscvfafE=}
+    resolution: {integrity: sha512-8nWq2nLTAwd02jTqJExUYFSD/fKq6VH9Y/oG2accc/kdI0V98Bag8d5a4gi3XHz73rDWa2PvTtvcWYquKqSENA==}
     dev: false
     optional: true
 
@@ -5927,7 +5927,7 @@ packages:
     resolution: {integrity: sha1-peZUwuWi3rXyAdls77yoDA7y9RM=}
 
   /jsdom/7.2.2:
-    resolution: {integrity: sha1-QLQCdwwr2iNGkJa+6Rq2deOx/G4=}
+    resolution: {integrity: sha512-kYeYuos/pYp0V/V8VAoGnUc0va0UZjTjwCsldBFZNBrOi9Q5kUXrvsw6W5/lQllB7hKXBARC4HRk1Sfk4dPFtA==}
     requiresBuild: true
     dependencies:
       abab: 1.0.4
