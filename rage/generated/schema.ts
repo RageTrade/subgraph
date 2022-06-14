@@ -1191,6 +1191,15 @@ export class TokenPositionChangeEntry extends Entity {
   set endPrice(value: BigDecimal) {
     this.set("endPrice", Value.fromBigDecimal(value));
   }
+
+  get realizedPnL(): BigDecimal {
+    let value = this.get("realizedPnL");
+    return value.toBigDecimal();
+  }
+
+  set realizedPnL(value: BigDecimal) {
+    this.set("realizedPnL", Value.fromBigDecimal(value));
+  }
 }
 
 export class TokenPositionLiquidatedEntry extends Entity {

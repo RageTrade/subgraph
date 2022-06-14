@@ -271,14 +271,16 @@ type TokenPositionChangeEntry @entity {
   vQuoteAmountOut: BigDecimal!
   "temporary value, vTokenAmountOut.abs(), used for calculating the pnl"
   vTokenQuantity: BigDecimal!
-  "vQuoteAmountOut / vTokenAmountOut - price of token without accounting for fees"
+  "vQuoteAmountOut / vTokenAmountOut - price of token with accounting for fees"
   entryPrice: BigDecimal!
-  "geometric mean of startPrice and endPrice - price of token with accounting for fees"
+  "geometric mean of startPrice and endPrice - price of token without accounting for fees"
   geometricMeanPrice: BigDecimal!
   "start price of the token before the position change"
   startPrice: BigDecimal!
   "end price of the token after the position change"
   endPrice: BigDecimal!
+  "realized PnL for that particular trade"
+  realizedPnL: BigDecimal!
 }
 
 """
