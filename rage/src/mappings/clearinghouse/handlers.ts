@@ -364,11 +364,15 @@ export function handleTokenPositionChanged(event: TokenPositionChanged): void {
         safeDiv(tokenPosition.entryValue, tokenPosition.netPosition)
       );
 
-      // let realizedPnL = vTokenQuantity * newPosition.endPrice - openPositions[0].endPrice
+      // let realizedPnL = vTokenQuantity * (newPosition.endPrice - openPositions[0].endPrice)
 
-      tokenPositionChangeEntry.realizedPnL = vTokenQuantityMatched
-        .times(tokenPositionChangeEntry.entryPrice)
-        .minus(openPosition_00.entryPrice);
+      tokenPositionChangeEntry.realizedPnL = vTokenQuantityMatched.times(
+        tokenPositionChangeEntry.entryPrice.minus(openPosition_00.entryPrice)
+      );
+
+      if (openPosition_00.side == 'short') {
+        tokenPositionChangeEntry.realizedPnL = tokenPositionChangeEntry.realizedPnL.neg();
+      }
 
       log.debug(
         'custom_logs: handleTokenPositionChanged in while loop account.id - {}, vTokenQuantityMatched - {} , tokenPositionChangeEntry.vTokenQuantity - {}, openPosition_00.vTokenQuantity - {}, entryPrice - {}, entryValue - {}, netPosition - {}, ',
