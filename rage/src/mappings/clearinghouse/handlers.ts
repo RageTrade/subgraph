@@ -220,6 +220,8 @@ export function handleTokenPositionChanged(event: TokenPositionChanged): void {
     BI_6
   );
 
+  tokenPositionChangeEntry.realizedPnL = ZERO_BD;
+
   tokenPosition.lastTokenPositionChangeEntry = tokenPositionChangeEntry.id;
   tokenPosition.save();
   tokenPositionChangeEntry.save();
@@ -258,6 +260,8 @@ export function handleTokenPositionChanged(event: TokenPositionChanged): void {
   //////////////////////////////////////////////////////////////////////////
 
   let openPositionsIdArray = tokenPosition.openPositionEntries;
+
+  // let realizedPnL = vTokenQuantity * newPosition.endPrice - openPositions[0].endPrice
 
   if (openPositionsIdArray != null) {
     if (openPositionsIdArray.length == 0) {
@@ -359,6 +363,12 @@ export function handleTokenPositionChanged(event: TokenPositionChanged): void {
       tokenPosition.entryPrice = absBigDecimal(
         safeDiv(tokenPosition.entryValue, tokenPosition.netPosition)
       );
+
+      // let realizedPnL = vTokenQuantity * newPosition.endPrice - openPositions[0].endPrice
+
+      tokenPositionChangeEntry.realizedPnL = vTokenQuantityMatched
+        .times(tokenPositionChangeEntry.entryPrice)
+        .minus(openPosition_00.entryPrice);
 
       log.debug(
         'custom_logs: handleTokenPositionChanged in while loop account.id - {}, vTokenQuantityMatched - {} , tokenPositionChangeEntry.vTokenQuantity - {}, openPosition_00.vTokenQuantity - {}, entryPrice - {}, entryValue - {}, netPosition - {}, ',
