@@ -42,8 +42,19 @@
     "type": "error"
   },
   {
+    "inputs": [
+      {
+        "internalType": "string",
+        "name": "reason",
+        "type": "string"
+      }
+    ],
+    "name": "CYS_EXTERAL_CALL_FAILED",
+    "type": "error"
+  },
+  {
     "inputs": [],
-    "name": "CYS_INVALID_FEES",
+    "name": "CYS_INVALID_SETTER_VALUE",
     "type": "error"
   },
   {
@@ -105,6 +116,19 @@
       }
     ],
     "name": "Deposit",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "uint8",
+        "name": "version",
+        "type": "uint8"
+      }
+    ],
+    "name": "Initialized",
     "type": "event"
   },
   {
@@ -334,16 +358,16 @@
     "type": "function"
   },
   {
-    "inputs": [
+    "inputs": [],
+    "name": "closePositionSlippageSqrtToleranceBps",
+    "outputs": [
       {
-        "internalType": "uint256",
-        "name": "bps",
-        "type": "uint256"
+        "internalType": "uint16",
+        "name": "",
+        "type": "uint16"
       }
     ],
-    "name": "changeFee",
-    "outputs": [],
-    "stateMutability": "nonpayable",
+    "stateMutability": "view",
     "type": "function"
   },
   {
@@ -460,6 +484,19 @@
         "internalType": "uint256",
         "name": "",
         "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "ethPoolId",
+    "outputs": [
+      {
+        "internalType": "uint32",
+        "name": "",
+        "type": "uint32"
       }
     ],
     "stateMutability": "view",
@@ -616,7 +653,17 @@
                   },
                   {
                     "internalType": "address",
+                    "name": "swapSimulator",
+                    "type": "address"
+                  },
+                  {
+                    "internalType": "address",
                     "name": "rageClearingHouse",
+                    "type": "address"
+                  },
+                  {
+                    "internalType": "address",
+                    "name": "clearingHouseLens",
                     "type": "address"
                   },
                   {
@@ -840,6 +887,19 @@
     "type": "function"
   },
   {
+    "inputs": [],
+    "name": "minNotionalPositionToCloseThreshold",
+    "outputs": [
+      {
+        "internalType": "uint64",
+        "name": "",
+        "type": "uint64"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
     "inputs": [
       {
         "internalType": "uint256",
@@ -980,6 +1040,32 @@
   },
   {
     "inputs": [],
+    "name": "rageClearingHouse",
+    "outputs": [
+      {
+        "internalType": "contract IClearingHouse",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "rageVPool",
+    "outputs": [
+      {
+        "internalType": "contract IUniswapV3Pool",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
     "name": "rebalance",
     "outputs": [],
     "stateMutability": "nonpayable",
@@ -1050,32 +1136,6 @@
   {
     "inputs": [
       {
-        "internalType": "contract AggregatorV3Interface",
-        "name": "_crvOracle",
-        "type": "address"
-      }
-    ],
-    "name": "setCrvOracle",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "_slippageTolerance",
-        "type": "uint256"
-      }
-    ],
-    "name": "setCrvSwapSlippageTolerance",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
         "internalType": "uint16",
         "name": "_closePositionSlippageSqrtToleranceBps",
         "type": "uint16"
@@ -1097,47 +1157,16 @@
     "type": "function"
   },
   {
-    "inputs": [
+    "inputs": [],
+    "name": "swapSimulator",
+    "outputs": [
       {
-        "internalType": "address",
-        "name": "newKeeperAddress",
+        "internalType": "contract ISwapSimulator",
+        "name": "",
         "type": "address"
       }
     ],
-    "name": "setKeeper",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "_notionalCrvHarvestThreshold",
-        "type": "uint256"
-      }
-    ],
-    "name": "setNotionalCrvHarvestThreshold",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint32",
-        "name": "_rebalanceTimeThreshold",
-        "type": "uint32"
-      },
-      {
-        "internalType": "uint16",
-        "name": "_rebalancePriceThresholdBps",
-        "type": "uint16"
-      }
-    ],
-    "name": "setRebalanceThreshold",
-    "outputs": [],
-    "stateMutability": "nonpayable",
+    "stateMutability": "view",
     "type": "function"
   },
   {
@@ -1251,9 +1280,57 @@
         "internalType": "uint256",
         "name": "newDepositCap",
         "type": "uint256"
+      },
+      {
+        "internalType": "address",
+        "name": "newKeeperAddress",
+        "type": "address"
+      },
+      {
+        "internalType": "uint32",
+        "name": "_rebalanceTimeThreshold",
+        "type": "uint32"
+      },
+      {
+        "internalType": "uint16",
+        "name": "_rebalancePriceThresholdBps",
+        "type": "uint16"
       }
     ],
-    "name": "updateDepositCap",
+    "name": "updateBaseParams",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "_feeBps",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_stablecoinSlippage",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_crvHarvestThreshold",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_crvSlippageTolerance",
+        "type": "uint256"
+      },
+      {
+        "internalType": "contract AggregatorV3Interface",
+        "name": "_crvOracle",
+        "type": "address"
+      }
+    ],
+    "name": "updateCurveParams",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
@@ -1308,39 +1385,81 @@
     "anonymous": false,
     "inputs": [
       {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "newDepositCap",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "newKeeperAddress",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint32",
+        "name": "rebalanceTimeThreshold",
+        "type": "uint32"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint16",
+        "name": "rebalancePriceThresholdBps",
+        "type": "uint16"
+      }
+    ],
+    "name": "BaseParamsUpdated",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "crvSlippageTolerance",
+        "type": "uint256"
+      }
+    ],
+    "name": "CrvSwapFailedDueToSlippage",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "feeBps",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "stablecoinSlippage",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "crvHarvestThreshold",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "crvSlippageTolerance",
+        "type": "uint256"
+      },
+      {
         "indexed": true,
         "internalType": "address",
-        "name": "oracle",
+        "name": "crvOracle",
         "type": "address"
       }
     ],
-    "name": "CrvOracleUpdated",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "tolerance",
-        "type": "uint256"
-      }
-    ],
-    "name": "CrvSwapSlippageToleranceUpdated",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "depositCap",
-        "type": "uint256"
-      }
-    ],
-    "name": "DepositCapUpdated",
+    "name": "CurveParamsUpdated",
     "type": "event"
   },
   {
@@ -1409,53 +1528,8 @@
   },
   {
     "anonymous": false,
-    "inputs": [
-      {
-        "indexed": false,
-        "internalType": "address",
-        "name": "keeper",
-        "type": "address"
-      }
-    ],
-    "name": "KeeperUpdated",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "threshold",
-        "type": "uint256"
-      }
-    ],
-    "name": "NotionalCrvHarvestThresholdUpdated",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
     "inputs": [],
     "name": "Rebalance",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": false,
-        "internalType": "uint32",
-        "name": "rebalanceTimeThreshold",
-        "type": "uint32"
-      },
-      {
-        "indexed": false,
-        "internalType": "uint16",
-        "name": "rebalancePriceThresholdBps",
-        "type": "uint16"
-      }
-    ],
-    "name": "RebalanceThresholdUpdated",
     "type": "event"
   },
   {

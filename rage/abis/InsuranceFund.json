@@ -229,7 +229,7 @@
         "type": "address"
       },
       {
-        "internalType": "contract IClearingHouse",
+        "internalType": "address",
         "name": "_clearingHouse",
         "type": "address"
       },

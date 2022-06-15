@@ -2,6 +2,17 @@
   {
     "inputs": [
       {
+        "internalType": "uint256",
+        "name": "errorCode",
+        "type": "uint256"
+      }
+    ],
+    "name": "InvalidSetting",
+    "type": "error"
+  },
+  {
+    "inputs": [
+      {
         "internalType": "uint160",
         "name": "sqrtPriceLimitX96",
         "type": "uint160"
@@ -34,6 +45,11 @@
   {
     "inputs": [],
     "name": "NotGovernance",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "NotGovernanceOrTeamMultisig",
     "type": "error"
   },
   {
@@ -574,7 +590,7 @@
       {
         "components": [
           {
-            "internalType": "contract IClearingHouse",
+            "internalType": "address",
             "name": "clearingHouse",
             "type": "address"
           },
@@ -997,5 +1013,32 @@
     ],
     "name": "FundingPaymentStateUpdated",
     "type": "event"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint160",
+        "name": "sqrtPriceX96",
+        "type": "uint160"
+      }
+    ],
+    "name": "IllegalSqrtPrice",
+    "type": "error"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "value",
+        "type": "uint256"
+      }
+    ],
+    "name": "SafeCast_UInt224Overflow",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "UV3PH_OracleConsultFailed",
+    "type": "error"
   }
 ]

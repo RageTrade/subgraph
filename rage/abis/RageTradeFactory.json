@@ -20,6 +20,11 @@
         "internalType": "contract IERC20Metadata",
         "name": "settlementToken",
         "type": "address"
+      },
+      {
+        "internalType": "contract IOracle",
+        "name": "settlementTokenOracle",
+        "type": "address"
       }
     ],
     "stateMutability": "nonpayable",
@@ -73,6 +78,25 @@
       {
         "indexed": true,
         "internalType": "address",
+        "name": "previousGovernancePending",
+        "type": "address"
+      },
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "newGovernancePending",
+        "type": "address"
+      }
+    ],
+    "name": "GovernancePending",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
         "name": "previousGovernance",
         "type": "address"
       },
@@ -117,6 +141,25 @@
       {
         "indexed": true,
         "internalType": "address",
+        "name": "previousTeamMultisigPending",
+        "type": "address"
+      },
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "newTeamMultisigPending",
+        "type": "address"
+      }
+    ],
+    "name": "TeamMultisigPending",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
         "name": "previousTeamMultisig",
         "type": "address"
       },
@@ -129,6 +172,20 @@
     ],
     "name": "TeamMultisigTransferred",
     "type": "event"
+  },
+  {
+    "inputs": [],
+    "name": "acceptGovernanceTransfer",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "acceptTeamMultisigTransfer",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
   },
   {
     "inputs": [],
@@ -146,6 +203,19 @@
   {
     "inputs": [],
     "name": "governance",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "governancePending",
     "outputs": [
       {
         "internalType": "address",
@@ -251,6 +321,32 @@
     "type": "function"
   },
   {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "newGovernancePending",
+        "type": "address"
+      }
+    ],
+    "name": "initiateGovernanceTransfer",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "newTeamMultisigPending",
+        "type": "address"
+      }
+    ],
+    "name": "initiateTeamMultisigTransfer",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
     "inputs": [],
     "name": "proxyAdmin",
     "outputs": [
@@ -290,29 +386,16 @@
     "type": "function"
   },
   {
-    "inputs": [
+    "inputs": [],
+    "name": "teamMultisigPending",
+    "outputs": [
       {
         "internalType": "address",
-        "name": "newGovernance",
+        "name": "",
         "type": "address"
       }
     ],
-    "name": "transferGovernance",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "newTeamMultisig",
-        "type": "address"
-      }
-    ],
-    "name": "transferTeamMultisig",
-    "outputs": [],
-    "stateMutability": "nonpayable",
+    "stateMutability": "view",
     "type": "function"
   },
   {

@@ -62,6 +62,38 @@
       {
         "indexed": true,
         "internalType": "address",
+        "name": "oldEthOracle",
+        "type": "address"
+      },
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "newEthOracle",
+        "type": "address"
+      }
+    ],
+    "name": "EthOracleUpdated",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "uint8",
+        "name": "version",
+        "type": "uint8"
+      }
+    ],
+    "name": "Initialized",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
         "name": "previousOwner",
         "type": "address"
       },
@@ -81,36 +113,63 @@
       {
         "indexed": false,
         "internalType": "uint256",
-        "name": "balance",
+        "name": "oldTolerance",
         "type": "uint256"
       },
       {
         "indexed": false,
         "internalType": "uint256",
-        "name": "breforeSwapLpPrice",
-        "type": "uint256"
-      },
-      {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "amount",
-        "type": "uint256"
-      },
-      {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "MAX_BPS",
-        "type": "uint256"
-      },
-      {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "MAX_TOLERANCE",
+        "name": "newTolerance",
         "type": "uint256"
       }
     ],
-    "name": "SlippageToleranceBreachedEvent",
+    "name": "SlippageToleranceUpdated",
     "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "oldSwapRouter",
+        "type": "address"
+      },
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "newSwapRouter",
+        "type": "address"
+      }
+    ],
+    "name": "SwapRouterUpdated",
+    "type": "event"
+  },
+  {
+    "inputs": [],
+    "name": "MAX_BPS",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "MAX_TOLERANCE",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
   },
   {
     "inputs": [],
@@ -176,7 +235,7 @@
         "type": "address"
       },
       {
-        "internalType": "contract IERC20",
+        "internalType": "contract IWETH9",
         "name": "_weth",
         "type": "address"
       },
@@ -384,7 +443,7 @@
     "name": "weth",
     "outputs": [
       {
-        "internalType": "contract IERC20",
+        "internalType": "contract IWETH9",
         "name": "",
         "type": "address"
       }
