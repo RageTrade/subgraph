@@ -2,6 +2,7 @@ import { Address } from '@graphprotocol/graph-ts'
 
 class Contracts {
   ClearingHouse: Address;
+  clearingHouseLens: Address;
   RageTradeFactory: Address;
   InsuranceFund: Address;
   VPoolWrapper: Address;
@@ -13,6 +14,7 @@ class Contracts {
 
 export let contracts: Contracts = { 
   ClearingHouse: Address.fromString("0xe3B8eF0C2Ed6d8318F0b1b50A072e0cB508CDB04"),
+  clearingHouseLens: Address.fromString("0xFAEb252014eaE82e7954E33B16CCdbd058a1D89F"),
   RageTradeFactory: Address.fromString("0x172b070dc24D8f0a3Cd665e601a398419c5272E6"),
   InsuranceFund: Address.fromString("0xb84f7ACe7a6a5e54F84824605f7539aeD4A3e871"),
   VPoolWrapper: Address.fromString("0x80Fe2ca9c7D5e77934CdAaF6f2eAe002991cb679"),

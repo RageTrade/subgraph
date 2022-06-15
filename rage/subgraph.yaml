@@ -45,7 +45,8 @@ dataSources:
           handler: handleMarginUpdated
         - event: PoolSettingsUpdated(uint32,(uint16,uint16,uint16,uint32,bool,bool,address))
           handler: handlePoolSettingsUpdated
-        - event: TokenPositionLiquidated(indexed uint256,indexed uint32,int256,int256,int256)
+        - event: TokenPositionLiquidated(indexed uint256,indexed
+            uint32,int256,int256,int256)
           handler: handleTokenPositionLiquidated
         - event: ProfitUpdated(indexed uint256,int256)
           handler: handleProfitUpdated
@@ -129,6 +130,8 @@ dataSources:
       abis:
         - name: ClearingHouse
           file: ./abis/ClearingHouse.json
+        - name: ClearingHouseLens
+          file: ./abis/ClearingHouseLens.json
         - name: RageTradeFactory
           file: ./abis/RageTradeFactory.json
         - name: VPoolWrapperLogic
