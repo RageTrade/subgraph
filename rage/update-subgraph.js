@@ -8,6 +8,7 @@ async function main() {
   const [
     rtfDeployment,
     chDeployment,
+    chlDeployment,
     ifDeployment,
     vpwDeployment,
     cysDeployment,
@@ -17,6 +18,7 @@ async function main() {
   ] = await Promise.all([
     updateAbi('core', 'RageTradeFactory'),
     updateAbi('core', 'ClearingHouse'),
+    updateAbi('core', 'ClearingHouseLens'),
     updateAbi('core', 'InsuranceFund'),
     updateAbi('core', 'VPoolWrapperLogic'),
     updateAbi('vaults', 'CurveYieldStrategy'),
@@ -60,6 +62,7 @@ async function main() {
 
   writeContractAddress({
     clearingHouseAddress: chDeployment.address,
+    clearingHouseLensAddress: chlDeployment.address,
     rageTradeFactoryAddress: rtfDeployment.address,
     insuranceFundAddress: ifDeployment.address,
     vPoolWrapperAddress: vpwDeployment.address,
@@ -101,6 +104,7 @@ async function updateAbi(repo, name) {
 
 function writeContractAddress({
   clearingHouseAddress,
+  clearingHouseLensAddress,
   rageTradeFactoryAddress,
   insuranceFundAddress,
   vPoolWrapperAddress,
@@ -113,6 +117,7 @@ function writeContractAddress({
 
 class Contracts {
   ClearingHouse: Address;
+  clearingHouseLens: Address;
   RageTradeFactory: Address;
   InsuranceFund: Address;
   VPoolWrapper: Address;
@@ -124,6 +129,7 @@ class Contracts {
 
 export let contracts: Contracts = { 
   ClearingHouse: Address.fromString("${clearingHouseAddress}"),
+  clearingHouseLens: Address.fromString("${clearingHouseLensAddress}"),
   RageTradeFactory: Address.fromString("${rageTradeFactoryAddress}"),
   InsuranceFund: Address.fromString("${insuranceFundAddress}"),
   VPoolWrapper: Address.fromString("${vPoolWrapperAddress}"),
