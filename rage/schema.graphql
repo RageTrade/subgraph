@@ -297,8 +297,6 @@ type TokenPositionLiquidatedEntry @entity {
   account: Account!
   "token position that was liquidated"
   tokenPosition: TokenPosition!
-  "liquidatorAccountId account which performed the liquidation"
-  liquidatorAccountId: BigInt!
   "rageTradePool for which the token position liquidation occurred"
   rageTradePool: RageTradePool!
   "side of of the lastTokenPositionChangeEntry"
