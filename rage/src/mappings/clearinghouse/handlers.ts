@@ -689,7 +689,6 @@ export function handleTokenPositionLiquidated(
   // id of TokenPositionLiquidatedEntry
   let id = generateId([
     event.params.accountId.toString(),
-    event.params.liquidatorAccountId.toString(),
     event.params.poolId.toHexString(),
     event.block.number.toHexString(),
     event.logIndex.toHexString(),
@@ -704,7 +703,6 @@ export function handleTokenPositionLiquidated(
   entry.account = account.id;
   entry.tokenPosition = tokenPosition.id;
   entry.account = generateAccountId(event.params.accountId);
-  entry.liquidatorAccountId = event.params.liquidatorAccountId;
   entry.rageTradePool = event.params.poolId.toHexString();
 
   entry.side = lastTokenPositionChangeEntry.side;
