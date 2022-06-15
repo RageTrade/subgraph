@@ -68,6 +68,28 @@ export class CollateralSettingsUpdatedCTokenInfoStruct extends ethereum.Tuple {
   }
 }
 
+export class GovernancePending extends ethereum.Event {
+  get params(): GovernancePending__Params {
+    return new GovernancePending__Params(this);
+  }
+}
+
+export class GovernancePending__Params {
+  _event: GovernancePending;
+
+  constructor(event: GovernancePending) {
+    this._event = event;
+  }
+
+  get previousGovernancePending(): Address {
+    return this._event.parameters[0].value.toAddress();
+  }
+
+  get newGovernancePending(): Address {
+    return this._event.parameters[1].value.toAddress();
+  }
+}
+
 export class GovernanceTransferred extends ethereum.Event {
   get params(): GovernanceTransferred__Params {
     return new GovernanceTransferred__Params(this);
@@ -242,6 +264,28 @@ export class ProtocolSettingsUpdatedLiquidationParamsStruct extends ethereum.Tup
   }
 }
 
+export class TeamMultisigPending extends ethereum.Event {
+  get params(): TeamMultisigPending__Params {
+    return new TeamMultisigPending__Params(this);
+  }
+}
+
+export class TeamMultisigPending__Params {
+  _event: TeamMultisigPending;
+
+  constructor(event: TeamMultisigPending) {
+    this._event = event;
+  }
+
+  get previousTeamMultisigPending(): Address {
+    return this._event.parameters[0].value.toAddress();
+  }
+
+  get newTeamMultisigPending(): Address {
+    return this._event.parameters[1].value.toAddress();
+  }
+}
+
 export class TeamMultisigTransferred extends ethereum.Event {
   get params(): TeamMultisigTransferred__Params {
     return new TeamMultisigTransferred__Params(this);
@@ -279,6 +323,130 @@ export class Unpaused__Params {
 
   get account(): Address {
     return this._event.parameters[0].value.toAddress();
+  }
+}
+
+export class LiquidityPositionsLiquidated extends ethereum.Event {
+  get params(): LiquidityPositionsLiquidated__Params {
+    return new LiquidityPositionsLiquidated__Params(this);
+  }
+}
+
+export class LiquidityPositionsLiquidated__Params {
+  _event: LiquidityPositionsLiquidated;
+
+  constructor(event: LiquidityPositionsLiquidated) {
+    this._event = event;
+  }
+
+  get accountId(): BigInt {
+    return this._event.parameters[0].value.toBigInt();
+  }
+
+  get keeperAddress(): Address {
+    return this._event.parameters[1].value.toAddress();
+  }
+
+  get liquidationFee(): BigInt {
+    return this._event.parameters[2].value.toBigInt();
+  }
+
+  get keeperFee(): BigInt {
+    return this._event.parameters[3].value.toBigInt();
+  }
+
+  get insuranceFundFee(): BigInt {
+    return this._event.parameters[4].value.toBigInt();
+  }
+
+  get accountMarketValueFinal(): BigInt {
+    return this._event.parameters[5].value.toBigInt();
+  }
+}
+
+export class MarginUpdated extends ethereum.Event {
+  get params(): MarginUpdated__Params {
+    return new MarginUpdated__Params(this);
+  }
+}
+
+export class MarginUpdated__Params {
+  _event: MarginUpdated;
+
+  constructor(event: MarginUpdated) {
+    this._event = event;
+  }
+
+  get accountId(): BigInt {
+    return this._event.parameters[0].value.toBigInt();
+  }
+
+  get collateralId(): BigInt {
+    return this._event.parameters[1].value.toBigInt();
+  }
+
+  get amount(): BigInt {
+    return this._event.parameters[2].value.toBigInt();
+  }
+
+  get isSettleProfit(): boolean {
+    return this._event.parameters[3].value.toBoolean();
+  }
+}
+
+export class ProfitUpdated extends ethereum.Event {
+  get params(): ProfitUpdated__Params {
+    return new ProfitUpdated__Params(this);
+  }
+}
+
+export class ProfitUpdated__Params {
+  _event: ProfitUpdated;
+
+  constructor(event: ProfitUpdated) {
+    this._event = event;
+  }
+
+  get accountId(): BigInt {
+    return this._event.parameters[0].value.toBigInt();
+  }
+
+  get amount(): BigInt {
+    return this._event.parameters[1].value.toBigInt();
+  }
+}
+
+export class TokenPositionLiquidated extends ethereum.Event {
+  get params(): TokenPositionLiquidated__Params {
+    return new TokenPositionLiquidated__Params(this);
+  }
+}
+
+export class TokenPositionLiquidated__Params {
+  _event: TokenPositionLiquidated;
+
+  constructor(event: TokenPositionLiquidated) {
+    this._event = event;
+  }
+
+  get accountId(): BigInt {
+    return this._event.parameters[0].value.toBigInt();
+  }
+
+  get poolId(): BigInt {
+    return this._event.parameters[1].value.toBigInt();
+  }
+
+  get keeperFee(): BigInt {
+    return this._event.parameters[2].value.toBigInt();
+  }
+
+  get insuranceFundFee(): BigInt {
+    return this._event.parameters[3].value.toBigInt();
+  }
+
+  get accountMarketValueFinal(): BigInt {
+    return this._event.parameters[4].value.toBigInt();
   }
 }
 
@@ -416,16 +584,16 @@ export class LiquidityPositionFundingPaymentRealized__Params {
   }
 }
 
-export class LiquidityPositionsLiquidated extends ethereum.Event {
-  get params(): LiquidityPositionsLiquidated__Params {
-    return new LiquidityPositionsLiquidated__Params(this);
+export class TokenPositionChangedDueToLiquidityChanged extends ethereum.Event {
+  get params(): TokenPositionChangedDueToLiquidityChanged__Params {
+    return new TokenPositionChangedDueToLiquidityChanged__Params(this);
   }
 }
 
-export class LiquidityPositionsLiquidated__Params {
-  _event: LiquidityPositionsLiquidated;
+export class TokenPositionChangedDueToLiquidityChanged__Params {
+  _event: TokenPositionChangedDueToLiquidityChanged;
 
-  constructor(event: LiquidityPositionsLiquidated) {
+  constructor(event: TokenPositionChangedDueToLiquidityChanged) {
     this._event = event;
   }
 
@@ -433,98 +601,20 @@ export class LiquidityPositionsLiquidated__Params {
     return this._event.parameters[0].value.toBigInt();
   }
 
-  get keeperAddress(): Address {
-    return this._event.parameters[1].value.toAddress();
+  get poolId(): BigInt {
+    return this._event.parameters[1].value.toBigInt();
   }
 
-  get liquidationFee(): BigInt {
-    return this._event.parameters[2].value.toBigInt();
+  get tickLower(): i32 {
+    return this._event.parameters[2].value.toI32();
   }
 
-  get keeperFee(): BigInt {
-    return this._event.parameters[3].value.toBigInt();
+  get tickUpper(): i32 {
+    return this._event.parameters[3].value.toI32();
   }
 
-  get insuranceFundFee(): BigInt {
+  get vTokenAmountOut(): BigInt {
     return this._event.parameters[4].value.toBigInt();
-  }
-
-  get accountMarketValueFinal(): BigInt {
-    return this._event.parameters[5].value.toBigInt();
-  }
-}
-
-export class MarginUpdated extends ethereum.Event {
-  get params(): MarginUpdated__Params {
-    return new MarginUpdated__Params(this);
-  }
-}
-
-export class MarginUpdated__Params {
-  _event: MarginUpdated;
-
-  constructor(event: MarginUpdated) {
-    this._event = event;
-  }
-
-  get accountId(): BigInt {
-    return this._event.parameters[0].value.toBigInt();
-  }
-
-  get collateralId(): BigInt {
-    return this._event.parameters[1].value.toBigInt();
-  }
-
-  get amount(): BigInt {
-    return this._event.parameters[2].value.toBigInt();
-  }
-
-  get isSettleProfit(): boolean {
-    return this._event.parameters[3].value.toBoolean();
-  }
-}
-
-export class ProfitUpdated extends ethereum.Event {
-  get params(): ProfitUpdated__Params {
-    return new ProfitUpdated__Params(this);
-  }
-}
-
-export class ProfitUpdated__Params {
-  _event: ProfitUpdated;
-
-  constructor(event: ProfitUpdated) {
-    this._event = event;
-  }
-
-  get accountId(): BigInt {
-    return this._event.parameters[0].value.toBigInt();
-  }
-
-  get amount(): BigInt {
-    return this._event.parameters[1].value.toBigInt();
-  }
-}
-
-export class ProtocolFeesWithdrawn extends ethereum.Event {
-  get params(): ProtocolFeesWithdrawn__Params {
-    return new ProtocolFeesWithdrawn__Params(this);
-  }
-}
-
-export class ProtocolFeesWithdrawn__Params {
-  _event: ProtocolFeesWithdrawn;
-
-  constructor(event: ProtocolFeesWithdrawn) {
-    this._event = event;
-  }
-
-  get wrapperAddress(): Address {
-    return this._event.parameters[0].value.toAddress();
-  }
-
-  get feeAmount(): BigInt {
-    return this._event.parameters[1].value.toBigInt();
   }
 }
 
@@ -566,40 +656,6 @@ export class TokenPositionChanged__Params {
   }
 }
 
-export class TokenPositionChangedDueToLiquidityChanged extends ethereum.Event {
-  get params(): TokenPositionChangedDueToLiquidityChanged__Params {
-    return new TokenPositionChangedDueToLiquidityChanged__Params(this);
-  }
-}
-
-export class TokenPositionChangedDueToLiquidityChanged__Params {
-  _event: TokenPositionChangedDueToLiquidityChanged;
-
-  constructor(event: TokenPositionChangedDueToLiquidityChanged) {
-    this._event = event;
-  }
-
-  get accountId(): BigInt {
-    return this._event.parameters[0].value.toBigInt();
-  }
-
-  get poolId(): BigInt {
-    return this._event.parameters[1].value.toBigInt();
-  }
-
-  get tickLower(): i32 {
-    return this._event.parameters[2].value.toI32();
-  }
-
-  get tickUpper(): i32 {
-    return this._event.parameters[3].value.toI32();
-  }
-
-  get vTokenAmountOut(): BigInt {
-    return this._event.parameters[4].value.toBigInt();
-  }
-}
-
 export class TokenPositionFundingPaymentRealized extends ethereum.Event {
   get params(): TokenPositionFundingPaymentRealized__Params {
     return new TokenPositionFundingPaymentRealized__Params(this);
@@ -630,146 +686,6 @@ export class TokenPositionFundingPaymentRealized__Params {
   }
 }
 
-export class TokenPositionLiquidated extends ethereum.Event {
-  get params(): TokenPositionLiquidated__Params {
-    return new TokenPositionLiquidated__Params(this);
-  }
-}
-
-export class TokenPositionLiquidated__Params {
-  _event: TokenPositionLiquidated;
-
-  constructor(event: TokenPositionLiquidated) {
-    this._event = event;
-  }
-
-  get accountId(): BigInt {
-    return this._event.parameters[0].value.toBigInt();
-  }
-
-  get liquidatorAccountId(): BigInt {
-    return this._event.parameters[1].value.toBigInt();
-  }
-
-  get poolId(): BigInt {
-    return this._event.parameters[2].value.toBigInt();
-  }
-
-  get keeperFee(): BigInt {
-    return this._event.parameters[3].value.toBigInt();
-  }
-
-  get insuranceFundFee(): BigInt {
-    return this._event.parameters[4].value.toBigInt();
-  }
-
-  get accountMarketValueFinal(): BigInt {
-    return this._event.parameters[5].value.toBigInt();
-  }
-}
-
-export class ClearingHouse__getAccountInfoResultCollateralDepositsStruct extends ethereum.Tuple {
-  get collateral(): Address {
-    return this[0].toAddress();
-  }
-
-  get balance(): BigInt {
-    return this[1].toBigInt();
-  }
-}
-
-export class ClearingHouse__getAccountInfoResultTokenPositionsStruct extends ethereum.Tuple {
-  get poolId(): BigInt {
-    return this[0].toBigInt();
-  }
-
-  get balance(): BigInt {
-    return this[1].toBigInt();
-  }
-
-  get netTraderPosition(): BigInt {
-    return this[2].toBigInt();
-  }
-
-  get sumALastX128(): BigInt {
-    return this[3].toBigInt();
-  }
-
-  get liquidityPositions(): Array<
-    ClearingHouse__getAccountInfoResultTokenPositionsLiquidityPositionsStruct
-  > {
-    return this[4].toTupleArray<
-      ClearingHouse__getAccountInfoResultTokenPositionsLiquidityPositionsStruct
-    >();
-  }
-}
-
-export class ClearingHouse__getAccountInfoResultTokenPositionsLiquidityPositionsStruct extends ethereum.Tuple {
-  get tickLower(): i32 {
-    return this[0].toI32();
-  }
-
-  get tickUpper(): i32 {
-    return this[1].toI32();
-  }
-
-  get liquidity(): BigInt {
-    return this[2].toBigInt();
-  }
-
-  get vTokenAmountIn(): BigInt {
-    return this[3].toBigInt();
-  }
-
-  get sumALastX128(): BigInt {
-    return this[4].toBigInt();
-  }
-
-  get sumBInsideLastX128(): BigInt {
-    return this[5].toBigInt();
-  }
-
-  get sumFpInsideLastX128(): BigInt {
-    return this[6].toBigInt();
-  }
-
-  get sumFeeInsideLastX128(): BigInt {
-    return this[7].toBigInt();
-  }
-
-  get limitOrderType(): i32 {
-    return this[8].toI32();
-  }
-}
-
-export class ClearingHouse__getAccountInfoResult {
-  value0: Address;
-  value1: BigInt;
-  value2: Array<ClearingHouse__getAccountInfoResultCollateralDepositsStruct>;
-  value3: Array<ClearingHouse__getAccountInfoResultTokenPositionsStruct>;
-
-  constructor(
-    value0: Address,
-    value1: BigInt,
-    value2: Array<ClearingHouse__getAccountInfoResultCollateralDepositsStruct>,
-    value3: Array<ClearingHouse__getAccountInfoResultTokenPositionsStruct>
-  ) {
-    this.value0 = value0;
-    this.value1 = value1;
-    this.value2 = value2;
-    this.value3 = value3;
-  }
-
-  toMap(): TypedMap<string, ethereum.Value> {
-    let map = new TypedMap<string, ethereum.Value>();
-    map.set("value0", ethereum.Value.fromAddress(this.value0));
-    map.set("value1", ethereum.Value.fromSignedBigInt(this.value1));
-    map.set("value2", ethereum.Value.fromTupleArray(this.value2));
-    map.set("value3", ethereum.Value.fromTupleArray(this.value3));
-    return map;
-  }
-}
-
 export class ClearingHouse__getAccountMarketValueAndRequiredMarginResult {
   value0: BigInt;
   value1: BigInt;
@@ -783,148 +699,6 @@ export class ClearingHouse__getAccountMarketValueAndRequiredMarginResult {
     let map = new TypedMap<string, ethereum.Value>();
     map.set("value0", ethereum.Value.fromSignedBigInt(this.value0));
     map.set("value1", ethereum.Value.fromSignedBigInt(this.value1));
-    return map;
-  }
-}
-
-export class ClearingHouse__getCollateralInfoResultValue0Struct extends ethereum.Tuple {
-  get token(): Address {
-    return this[0].toAddress();
-  }
-
-  get settings(): ClearingHouse__getCollateralInfoResultValue0SettingsStruct {
-    return this[1].toTuple() as ClearingHouse__getCollateralInfoResultValue0SettingsStruct;
-  }
-}
-
-export class ClearingHouse__getCollateralInfoResultValue0SettingsStruct extends ethereum.Tuple {
-  get oracle(): Address {
-    return this[0].toAddress();
-  }
-
-  get twapDuration(): BigInt {
-    return this[1].toBigInt();
-  }
-
-  get isAllowedForDeposit(): boolean {
-    return this[2].toBoolean();
-  }
-}
-
-export class ClearingHouse__getPoolInfoResultValue0Struct extends ethereum.Tuple {
-  get vToken(): Address {
-    return this[0].toAddress();
-  }
-
-  get vPool(): Address {
-    return this[1].toAddress();
-  }
-
-  get vPoolWrapper(): Address {
-    return this[2].toAddress();
-  }
-
-  get settings(): ClearingHouse__getPoolInfoResultValue0SettingsStruct {
-    return this[3].toTuple() as ClearingHouse__getPoolInfoResultValue0SettingsStruct;
-  }
-}
-
-export class ClearingHouse__getPoolInfoResultValue0SettingsStruct extends ethereum.Tuple {
-  get initialMarginRatioBps(): i32 {
-    return this[0].toI32();
-  }
-
-  get maintainanceMarginRatioBps(): i32 {
-    return this[1].toI32();
-  }
-
-  get maxVirtualPriceDeviationRatioBps(): i32 {
-    return this[2].toI32();
-  }
-
-  get twapDuration(): BigInt {
-    return this[3].toBigInt();
-  }
-
-  get isAllowedForTrade(): boolean {
-    return this[4].toBoolean();
-  }
-
-  get isCrossMargined(): boolean {
-    return this[5].toBoolean();
-  }
-
-  get oracle(): Address {
-    return this[6].toAddress();
-  }
-}
-
-export class ClearingHouse__getProtocolInfoResultLiquidationParamsStruct extends ethereum.Tuple {
-  get rangeLiquidationFeeFraction(): i32 {
-    return this[0].toI32();
-  }
-
-  get tokenLiquidationFeeFraction(): i32 {
-    return this[1].toI32();
-  }
-
-  get closeFactorMMThresholdBps(): i32 {
-    return this[2].toI32();
-  }
-
-  get partialLiquidationCloseFactorBps(): i32 {
-    return this[3].toI32();
-  }
-
-  get insuranceFundFeeShareBps(): i32 {
-    return this[4].toI32();
-  }
-
-  get liquidationSlippageSqrtToleranceBps(): i32 {
-    return this[5].toI32();
-  }
-
-  get maxRangeLiquidationFees(): BigInt {
-    return this[6].toBigInt();
-  }
-
-  get minNotionalLiquidatable(): BigInt {
-    return this[7].toBigInt();
-  }
-}
-
-export class ClearingHouse__getProtocolInfoResult {
-  value0: Address;
-  value1: Address;
-  value2: ClearingHouse__getProtocolInfoResultLiquidationParamsStruct;
-  value3: BigInt;
-  value4: BigInt;
-  value5: BigInt;
-
-  constructor(
-    value0: Address,
-    value1: Address,
-    value2: ClearingHouse__getProtocolInfoResultLiquidationParamsStruct,
-    value3: BigInt,
-    value4: BigInt,
-    value5: BigInt
-  ) {
-    this.value0 = value0;
-    this.value1 = value1;
-    this.value2 = value2;
-    this.value3 = value3;
-    this.value4 = value4;
-    this.value5 = value5;
-  }
-
-  toMap(): TypedMap<string, ethereum.Value> {
-    let map = new TypedMap<string, ethereum.Value>();
-    map.set("value0", ethereum.Value.fromAddress(this.value0));
-    map.set("value1", ethereum.Value.fromAddress(this.value1));
-    map.set("value2", ethereum.Value.fromTuple(this.value2));
-    map.set("value3", ethereum.Value.fromUnsignedBigInt(this.value3));
-    map.set("value4", ethereum.Value.fromUnsignedBigInt(this.value4));
-    map.set("value5", ethereum.Value.fromUnsignedBigInt(this.value5));
     return map;
   }
 }
@@ -1123,51 +897,6 @@ export class ClearingHouse extends ethereum.SmartContract {
     return ethereum.CallResult.fromValue(value[0].toBytesArray());
   }
 
-  getAccountInfo(accountId: BigInt): ClearingHouse__getAccountInfoResult {
-    let result = super.call(
-      "getAccountInfo",
-      "getAccountInfo(uint256):(address,int256,(address,uint256)[],(uint32,int256,int256,int256,(int24,int24,uint128,int256,int256,int256,int256,uint256,uint8)[])[])",
-      [ethereum.Value.fromUnsignedBigInt(accountId)]
-    );
-
-    return new ClearingHouse__getAccountInfoResult(
-      result[0].toAddress(),
-      result[1].toBigInt(),
-      result[2].toTupleArray<
-        ClearingHouse__getAccountInfoResultCollateralDepositsStruct
-      >(),
-      result[3].toTupleArray<
-        ClearingHouse__getAccountInfoResultTokenPositionsStruct
-      >()
-    );
-  }
-
-  try_getAccountInfo(
-    accountId: BigInt
-  ): ethereum.CallResult<ClearingHouse__getAccountInfoResult> {
-    let result = super.tryCall(
-      "getAccountInfo",
-      "getAccountInfo(uint256):(address,int256,(address,uint256)[],(uint32,int256,int256,int256,(int24,int24,uint128,int256,int256,int256,int256,uint256,uint8)[])[])",
-      [ethereum.Value.fromUnsignedBigInt(accountId)]
-    );
-    if (result.reverted) {
-      return new ethereum.CallResult();
-    }
-    let value = result.value;
-    return ethereum.CallResult.fromValue(
-      new ClearingHouse__getAccountInfoResult(
-        value[0].toAddress(),
-        value[1].toBigInt(),
-        value[2].toTupleArray<
-          ClearingHouse__getAccountInfoResultCollateralDepositsStruct
-        >(),
-        value[3].toTupleArray<
-          ClearingHouse__getAccountInfoResultTokenPositionsStruct
-        >()
-      )
-    );
-  }
-
   getAccountMarketValueAndRequiredMargin(
     accountId: BigInt,
     isInitialMargin: boolean
@@ -1268,103 +997,6 @@ export class ClearingHouse extends ethereum.SmartContract {
     return ethereum.CallResult.fromValue(value[0].toBigInt());
   }
 
-  getCollateralInfo(
-    collateralId: BigInt
-  ): ClearingHouse__getCollateralInfoResultValue0Struct {
-    let result = super.call(
-      "getCollateralInfo",
-      "getCollateralInfo(uint32):((address,(address,uint32,bool)))",
-      [ethereum.Value.fromUnsignedBigInt(collateralId)]
-    );
-
-    return result[0].toTuple() as ClearingHouse__getCollateralInfoResultValue0Struct;
-  }
-
-  try_getCollateralInfo(
-    collateralId: BigInt
-  ): ethereum.CallResult<ClearingHouse__getCollateralInfoResultValue0Struct> {
-    let result = super.tryCall(
-      "getCollateralInfo",
-      "getCollateralInfo(uint32):((address,(address,uint32,bool)))",
-      [ethereum.Value.fromUnsignedBigInt(collateralId)]
-    );
-    if (result.reverted) {
-      return new ethereum.CallResult();
-    }
-    let value = result.value;
-    return ethereum.CallResult.fromValue(
-      value[0].toTuple() as ClearingHouse__getCollateralInfoResultValue0Struct
-    );
-  }
-
-  getPoolInfo(poolId: BigInt): ClearingHouse__getPoolInfoResultValue0Struct {
-    let result = super.call(
-      "getPoolInfo",
-      "getPoolInfo(uint32):((address,address,address,(uint16,uint16,uint16,uint32,bool,bool,address)))",
-      [ethereum.Value.fromUnsignedBigInt(poolId)]
-    );
-
-    return result[0].toTuple() as ClearingHouse__getPoolInfoResultValue0Struct;
-  }
-
-  try_getPoolInfo(
-    poolId: BigInt
-  ): ethereum.CallResult<ClearingHouse__getPoolInfoResultValue0Struct> {
-    let result = super.tryCall(
-      "getPoolInfo",
-      "getPoolInfo(uint32):((address,address,address,(uint16,uint16,uint16,uint32,bool,bool,address)))",
-      [ethereum.Value.fromUnsignedBigInt(poolId)]
-    );
-    if (result.reverted) {
-      return new ethereum.CallResult();
-    }
-    let value = result.value;
-    return ethereum.CallResult.fromValue(
-      value[0].toTuple() as ClearingHouse__getPoolInfoResultValue0Struct
-    );
-  }
-
-  getProtocolInfo(): ClearingHouse__getProtocolInfoResult {
-    let result = super.call(
-      "getProtocolInfo",
-      "getProtocolInfo():(address,address,(uint16,uint16,uint16,uint16,uint16,uint16,uint64,uint64),uint256,uint256,uint256)",
-      []
-    );
-
-    return new ClearingHouse__getProtocolInfoResult(
-      result[0].toAddress(),
-      result[1].toAddress(),
-      result[2].toTuple() as ClearingHouse__getProtocolInfoResultLiquidationParamsStruct,
-      result[3].toBigInt(),
-      result[4].toBigInt(),
-      result[5].toBigInt()
-    );
-  }
-
-  try_getProtocolInfo(): ethereum.CallResult<
-    ClearingHouse__getProtocolInfoResult
-  > {
-    let result = super.tryCall(
-      "getProtocolInfo",
-      "getProtocolInfo():(address,address,(uint16,uint16,uint16,uint16,uint16,uint16,uint64,uint64),uint256,uint256,uint256)",
-      []
-    );
-    if (result.reverted) {
-      return new ethereum.CallResult();
-    }
-    let value = result.value;
-    return ethereum.CallResult.fromValue(
-      new ClearingHouse__getProtocolInfoResult(
-        value[0].toAddress(),
-        value[1].toAddress(),
-        value[2].toTuple() as ClearingHouse__getProtocolInfoResultLiquidationParamsStruct,
-        value[3].toBigInt(),
-        value[4].toBigInt(),
-        value[5].toBigInt()
-      )
-    );
-  }
-
   getRealTwapPriceX128(poolId: BigInt): BigInt {
     let result = super.call(
       "getRealTwapPriceX128",
@@ -1426,6 +1058,29 @@ export class ClearingHouse extends ethereum.SmartContract {
     return ethereum.CallResult.fromValue(value[0].toAddress());
   }
 
+  governancePending(): Address {
+    let result = super.call(
+      "governancePending",
+      "governancePending():(address)",
+      []
+    );
+
+    return result[0].toAddress();
+  }
+
+  try_governancePending(): ethereum.CallResult<Address> {
+    let result = super.tryCall(
+      "governancePending",
+      "governancePending():(address)",
+      []
+    );
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toAddress());
+  }
+
   insuranceFund(): Address {
     let result = super.call("insuranceFund", "insuranceFund():(address)", []);
 
@@ -1443,29 +1098,6 @@ export class ClearingHouse extends ethereum.SmartContract {
     }
     let value = result.value;
     return ethereum.CallResult.fromValue(value[0].toAddress());
-  }
-
-  isPoolIdAvailable(poolId: BigInt): boolean {
-    let result = super.call(
-      "isPoolIdAvailable",
-      "isPoolIdAvailable(uint32):(bool)",
-      [ethereum.Value.fromUnsignedBigInt(poolId)]
-    );
-
-    return result[0].toBoolean();
-  }
-
-  try_isPoolIdAvailable(poolId: BigInt): ethereum.CallResult<boolean> {
-    let result = super.tryCall(
-      "isPoolIdAvailable",
-      "isPoolIdAvailable(uint32):(bool)",
-      [ethereum.Value.fromUnsignedBigInt(poolId)]
-    );
-    if (result.reverted) {
-      return new ethereum.CallResult();
-    }
-    let value = result.value;
-    return ethereum.CallResult.fromValue(value[0].toBoolean());
   }
 
   liquidateTokenPosition(targetAccountId: BigInt, poolId: BigInt): BigInt {
@@ -1654,6 +1286,29 @@ export class ClearingHouse extends ethereum.SmartContract {
     return ethereum.CallResult.fromValue(value[0].toAddress());
   }
 
+  teamMultisigPending(): Address {
+    let result = super.call(
+      "teamMultisigPending",
+      "teamMultisigPending():(address)",
+      []
+    );
+
+    return result[0].toAddress();
+  }
+
+  try_teamMultisigPending(): ethereum.CallResult<Address> {
+    let result = super.tryCall(
+      "teamMultisigPending",
+      "teamMultisigPending():(address)",
+      []
+    );
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toAddress());
+  }
+
   updateRangeOrder(
     accountId: BigInt,
     poolId: BigInt,
@@ -1699,6 +1354,58 @@ export class ClearingHouse extends ethereum.SmartContract {
         value[1].toBigInt()
       )
     );
+  }
+}
+
+export class AcceptGovernanceTransferCall extends ethereum.Call {
+  get inputs(): AcceptGovernanceTransferCall__Inputs {
+    return new AcceptGovernanceTransferCall__Inputs(this);
+  }
+
+  get outputs(): AcceptGovernanceTransferCall__Outputs {
+    return new AcceptGovernanceTransferCall__Outputs(this);
+  }
+}
+
+export class AcceptGovernanceTransferCall__Inputs {
+  _call: AcceptGovernanceTransferCall;
+
+  constructor(call: AcceptGovernanceTransferCall) {
+    this._call = call;
+  }
+}
+
+export class AcceptGovernanceTransferCall__Outputs {
+  _call: AcceptGovernanceTransferCall;
+
+  constructor(call: AcceptGovernanceTransferCall) {
+    this._call = call;
+  }
+}
+
+export class AcceptTeamMultisigTransferCall extends ethereum.Call {
+  get inputs(): AcceptTeamMultisigTransferCall__Inputs {
+    return new AcceptTeamMultisigTransferCall__Inputs(this);
+  }
+
+  get outputs(): AcceptTeamMultisigTransferCall__Outputs {
+    return new AcceptTeamMultisigTransferCall__Outputs(this);
+  }
+}
+
+export class AcceptTeamMultisigTransferCall__Inputs {
+  _call: AcceptTeamMultisigTransferCall;
+
+  constructor(call: AcceptTeamMultisigTransferCall) {
+    this._call = call;
+  }
+}
+
+export class AcceptTeamMultisigTransferCall__Outputs {
+  _call: AcceptTeamMultisigTransferCall;
+
+  constructor(call: AcceptTeamMultisigTransferCall) {
+    this._call = call;
   }
 }
 
@@ -1791,20 +1498,28 @@ export class InitializeCall__Inputs {
     return this._call.inputValues[0].value.toAddress();
   }
 
-  get _defaultCollateralToken(): Address {
+  get initialGovernance(): Address {
     return this._call.inputValues[1].value.toAddress();
   }
 
-  get _defaultCollateralTokenOracle(): Address {
+  get initialTeamMultisig(): Address {
     return this._call.inputValues[2].value.toAddress();
   }
 
-  get _insuranceFund(): Address {
+  get _defaultCollateralToken(): Address {
     return this._call.inputValues[3].value.toAddress();
   }
 
-  get _vQuote(): Address {
+  get _defaultCollateralTokenOracle(): Address {
     return this._call.inputValues[4].value.toAddress();
+  }
+
+  get _insuranceFund(): Address {
+    return this._call.inputValues[5].value.toAddress();
+  }
+
+  get _vQuote(): Address {
+    return this._call.inputValues[6].value.toAddress();
   }
 }
 
@@ -1812,6 +1527,66 @@ export class InitializeCall__Outputs {
   _call: InitializeCall;
 
   constructor(call: InitializeCall) {
+    this._call = call;
+  }
+}
+
+export class InitiateGovernanceTransferCall extends ethereum.Call {
+  get inputs(): InitiateGovernanceTransferCall__Inputs {
+    return new InitiateGovernanceTransferCall__Inputs(this);
+  }
+
+  get outputs(): InitiateGovernanceTransferCall__Outputs {
+    return new InitiateGovernanceTransferCall__Outputs(this);
+  }
+}
+
+export class InitiateGovernanceTransferCall__Inputs {
+  _call: InitiateGovernanceTransferCall;
+
+  constructor(call: InitiateGovernanceTransferCall) {
+    this._call = call;
+  }
+
+  get newGovernancePending(): Address {
+    return this._call.inputValues[0].value.toAddress();
+  }
+}
+
+export class InitiateGovernanceTransferCall__Outputs {
+  _call: InitiateGovernanceTransferCall;
+
+  constructor(call: InitiateGovernanceTransferCall) {
+    this._call = call;
+  }
+}
+
+export class InitiateTeamMultisigTransferCall extends ethereum.Call {
+  get inputs(): InitiateTeamMultisigTransferCall__Inputs {
+    return new InitiateTeamMultisigTransferCall__Inputs(this);
+  }
+
+  get outputs(): InitiateTeamMultisigTransferCall__Outputs {
+    return new InitiateTeamMultisigTransferCall__Outputs(this);
+  }
+}
+
+export class InitiateTeamMultisigTransferCall__Inputs {
+  _call: InitiateTeamMultisigTransferCall;
+
+  constructor(call: InitiateTeamMultisigTransferCall) {
+    this._call = call;
+  }
+
+  get newTeamMultisigPending(): Address {
+    return this._call.inputValues[0].value.toAddress();
+  }
+}
+
+export class InitiateTeamMultisigTransferCall__Outputs {
+  _call: InitiateTeamMultisigTransferCall;
+
+  constructor(call: InitiateTeamMultisigTransferCall) {
     this._call = call;
   }
 }
@@ -1985,8 +1760,8 @@ export class PauseCall__Inputs {
     this._call = call;
   }
 
-  get allPoolIds(): Array<BigInt> {
-    return this._call.inputValues[0].value.toBigIntArray();
+  get numberOfPoolsToUpdateInThisTx(): BigInt {
+    return this._call.inputValues[0].value.toBigInt();
   }
 }
 
@@ -2216,66 +1991,6 @@ export class SwapTokenCallSwapParamsStruct extends ethereum.Tuple {
   }
 }
 
-export class TransferGovernanceCall extends ethereum.Call {
-  get inputs(): TransferGovernanceCall__Inputs {
-    return new TransferGovernanceCall__Inputs(this);
-  }
-
-  get outputs(): TransferGovernanceCall__Outputs {
-    return new TransferGovernanceCall__Outputs(this);
-  }
-}
-
-export class TransferGovernanceCall__Inputs {
-  _call: TransferGovernanceCall;
-
-  constructor(call: TransferGovernanceCall) {
-    this._call = call;
-  }
-
-  get newGovernance(): Address {
-    return this._call.inputValues[0].value.toAddress();
-  }
-}
-
-export class TransferGovernanceCall__Outputs {
-  _call: TransferGovernanceCall;
-
-  constructor(call: TransferGovernanceCall) {
-    this._call = call;
-  }
-}
-
-export class TransferTeamMultisigCall extends ethereum.Call {
-  get inputs(): TransferTeamMultisigCall__Inputs {
-    return new TransferTeamMultisigCall__Inputs(this);
-  }
-
-  get outputs(): TransferTeamMultisigCall__Outputs {
-    return new TransferTeamMultisigCall__Outputs(this);
-  }
-}
-
-export class TransferTeamMultisigCall__Inputs {
-  _call: TransferTeamMultisigCall;
-
-  constructor(call: TransferTeamMultisigCall) {
-    this._call = call;
-  }
-
-  get newTeamMultisig(): Address {
-    return this._call.inputValues[0].value.toAddress();
-  }
-}
-
-export class TransferTeamMultisigCall__Outputs {
-  _call: TransferTeamMultisigCall;
-
-  constructor(call: TransferTeamMultisigCall) {
-    this._call = call;
-  }
-}
-
 export class UnpauseCall extends ethereum.Call {
   get inputs(): UnpauseCall__Inputs {
     return new UnpauseCall__Inputs(this);
@@ -2293,8 +2008,8 @@ export class UnpauseCall__Inputs {
     this._call = call;
   }
 
-  get allPoolIds(): Array<BigInt> {
-    return this._call.inputValues[0].value.toBigIntArray();
+  get numberOfPoolsToUpdateInThisTx(): BigInt {
+    return this._call.inputValues[0].value.toBigInt();
   }
 }
 
@@ -2663,8 +2378,8 @@ export class WithdrawProtocolFeeCall__Inputs {
     this._call = call;
   }
 
-  get wrapperAddresses(): Array<Address> {
-    return this._call.inputValues[0].value.toAddressArray();
+  get numberOfPoolsToUpdateInThisTx(): BigInt {
+    return this._call.inputValues[0].value.toBigInt();
   }
 }
 

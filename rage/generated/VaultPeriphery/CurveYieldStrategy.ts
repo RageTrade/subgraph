@@ -66,6 +66,24 @@ export class Deposit__Params {
   }
 }
 
+export class Initialized extends ethereum.Event {
+  get params(): Initialized__Params {
+    return new Initialized__Params(this);
+  }
+}
+
+export class Initialized__Params {
+  _event: Initialized;
+
+  constructor(event: Initialized) {
+    this._event = event;
+  }
+
+  get version(): i32 {
+    return this._event.parameters[0].value.toI32();
+  }
+}
+
 export class OwnershipTransferred extends ethereum.Event {
   get params(): OwnershipTransferred__Params {
     return new OwnershipTransferred__Params(this);
@@ -148,57 +166,85 @@ export class Withdraw__Params {
   }
 }
 
-export class CrvOracleUpdated extends ethereum.Event {
-  get params(): CrvOracleUpdated__Params {
-    return new CrvOracleUpdated__Params(this);
+export class BaseParamsUpdated extends ethereum.Event {
+  get params(): BaseParamsUpdated__Params {
+    return new BaseParamsUpdated__Params(this);
   }
 }
 
-export class CrvOracleUpdated__Params {
-  _event: CrvOracleUpdated;
+export class BaseParamsUpdated__Params {
+  _event: BaseParamsUpdated;
 
-  constructor(event: CrvOracleUpdated) {
+  constructor(event: BaseParamsUpdated) {
     this._event = event;
   }
 
-  get oracle(): Address {
-    return this._event.parameters[0].value.toAddress();
+  get newDepositCap(): BigInt {
+    return this._event.parameters[0].value.toBigInt();
+  }
+
+  get newKeeperAddress(): Address {
+    return this._event.parameters[1].value.toAddress();
+  }
+
+  get rebalanceTimeThreshold(): BigInt {
+    return this._event.parameters[2].value.toBigInt();
+  }
+
+  get rebalancePriceThresholdBps(): i32 {
+    return this._event.parameters[3].value.toI32();
   }
 }
 
-export class CrvSwapSlippageToleranceUpdated extends ethereum.Event {
-  get params(): CrvSwapSlippageToleranceUpdated__Params {
-    return new CrvSwapSlippageToleranceUpdated__Params(this);
+export class CrvSwapFailedDueToSlippage extends ethereum.Event {
+  get params(): CrvSwapFailedDueToSlippage__Params {
+    return new CrvSwapFailedDueToSlippage__Params(this);
   }
 }
 
-export class CrvSwapSlippageToleranceUpdated__Params {
-  _event: CrvSwapSlippageToleranceUpdated;
+export class CrvSwapFailedDueToSlippage__Params {
+  _event: CrvSwapFailedDueToSlippage;
 
-  constructor(event: CrvSwapSlippageToleranceUpdated) {
+  constructor(event: CrvSwapFailedDueToSlippage) {
     this._event = event;
   }
 
-  get tolerance(): BigInt {
+  get crvSlippageTolerance(): BigInt {
     return this._event.parameters[0].value.toBigInt();
   }
 }
 
-export class DepositCapUpdated extends ethereum.Event {
-  get params(): DepositCapUpdated__Params {
-    return new DepositCapUpdated__Params(this);
+export class CurveParamsUpdated extends ethereum.Event {
+  get params(): CurveParamsUpdated__Params {
+    return new CurveParamsUpdated__Params(this);
   }
 }
 
-export class DepositCapUpdated__Params {
-  _event: DepositCapUpdated;
+export class CurveParamsUpdated__Params {
+  _event: CurveParamsUpdated;
 
-  constructor(event: DepositCapUpdated) {
+  constructor(event: CurveParamsUpdated) {
     this._event = event;
   }
 
-  get depositCap(): BigInt {
+  get feeBps(): BigInt {
     return this._event.parameters[0].value.toBigInt();
+  }
+
+  get stablecoinSlippage(): BigInt {
+    return this._event.parameters[1].value.toBigInt();
+  }
+
+  get crvHarvestThreshold(): BigInt {
+    return this._event.parameters[2].value.toBigInt();
+  }
+
+  get crvSlippageTolerance(): BigInt {
+    return this._event.parameters[3].value.toBigInt();
+  }
+
+  get crvOracle(): Address {
+    return this._event.parameters[4].value.toAddress();
   }
 }
 
@@ -282,42 +328,6 @@ export class Harvested__Params {
   }
 }
 
-export class KeeperUpdated extends ethereum.Event {
-  get params(): KeeperUpdated__Params {
-    return new KeeperUpdated__Params(this);
-  }
-}
-
-export class KeeperUpdated__Params {
-  _event: KeeperUpdated;
-
-  constructor(event: KeeperUpdated) {
-    this._event = event;
-  }
-
-  get keeper(): Address {
-    return this._event.parameters[0].value.toAddress();
-  }
-}
-
-export class NotionalCrvHarvestThresholdUpdated extends ethereum.Event {
-  get params(): NotionalCrvHarvestThresholdUpdated__Params {
-    return new NotionalCrvHarvestThresholdUpdated__Params(this);
-  }
-}
-
-export class NotionalCrvHarvestThresholdUpdated__Params {
-  _event: NotionalCrvHarvestThresholdUpdated;
-
-  constructor(event: NotionalCrvHarvestThresholdUpdated) {
-    this._event = event;
-  }
-
-  get threshold(): BigInt {
-    return this._event.parameters[0].value.toBigInt();
-  }
-}
-
 export class Rebalance extends ethereum.Event {
   get params(): Rebalance__Params {
     return new Rebalance__Params(this);
@@ -329,28 +339,6 @@ export class Rebalance__Params {
 
   constructor(event: Rebalance) {
     this._event = event;
-  }
-}
-
-export class RebalanceThresholdUpdated extends ethereum.Event {
-  get params(): RebalanceThresholdUpdated__Params {
-    return new RebalanceThresholdUpdated__Params(this);
-  }
-}
-
-export class RebalanceThresholdUpdated__Params {
-  _event: RebalanceThresholdUpdated;
-
-  constructor(event: RebalanceThresholdUpdated) {
-    this._event = event;
-  }
-
-  get rebalanceTimeThreshold(): BigInt {
-    return this._event.parameters[0].value.toBigInt();
-  }
-
-  get rebalancePriceThresholdBps(): i32 {
-    return this._event.parameters[1].value.toI32();
   }
 }
 
@@ -570,6 +558,29 @@ export class CurveYieldStrategy extends ethereum.SmartContract {
     return ethereum.CallResult.fromValue(value[0].toI32());
   }
 
+  closePositionSlippageSqrtToleranceBps(): i32 {
+    let result = super.call(
+      "closePositionSlippageSqrtToleranceBps",
+      "closePositionSlippageSqrtToleranceBps():(uint16)",
+      []
+    );
+
+    return result[0].toI32();
+  }
+
+  try_closePositionSlippageSqrtToleranceBps(): ethereum.CallResult<i32> {
+    let result = super.tryCall(
+      "closePositionSlippageSqrtToleranceBps",
+      "closePositionSlippageSqrtToleranceBps():(uint16)",
+      []
+    );
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toI32());
+  }
+
   convertToAssets(shares: BigInt): BigInt {
     let result = super.call(
       "convertToAssets",
@@ -696,6 +707,21 @@ export class CurveYieldStrategy extends ethereum.SmartContract {
 
   try_depositCap(): ethereum.CallResult<BigInt> {
     let result = super.tryCall("depositCap", "depositCap():(uint256)", []);
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toBigInt());
+  }
+
+  ethPoolId(): BigInt {
+    let result = super.call("ethPoolId", "ethPoolId():(uint32)", []);
+
+    return result[0].toBigInt();
+  }
+
+  try_ethPoolId(): ethereum.CallResult<BigInt> {
+    let result = super.tryCall("ethPoolId", "ethPoolId():(uint32)", []);
     if (result.reverted) {
       return new ethereum.CallResult();
     }
@@ -988,6 +1014,29 @@ export class CurveYieldStrategy extends ethereum.SmartContract {
     return ethereum.CallResult.fromValue(value[0].toBigInt());
   }
 
+  minNotionalPositionToCloseThreshold(): BigInt {
+    let result = super.call(
+      "minNotionalPositionToCloseThreshold",
+      "minNotionalPositionToCloseThreshold():(uint64)",
+      []
+    );
+
+    return result[0].toBigInt();
+  }
+
+  try_minNotionalPositionToCloseThreshold(): ethereum.CallResult<BigInt> {
+    let result = super.tryCall(
+      "minNotionalPositionToCloseThreshold",
+      "minNotionalPositionToCloseThreshold():(uint64)",
+      []
+    );
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toBigInt());
+  }
+
   mint(shares: BigInt, to: Address): BigInt {
     let result = super.call("mint", "mint(uint256,address):(uint256)", [
       ethereum.Value.fromUnsignedBigInt(shares),
@@ -1148,6 +1197,44 @@ export class CurveYieldStrategy extends ethereum.SmartContract {
     return ethereum.CallResult.fromValue(value[0].toBigInt());
   }
 
+  rageClearingHouse(): Address {
+    let result = super.call(
+      "rageClearingHouse",
+      "rageClearingHouse():(address)",
+      []
+    );
+
+    return result[0].toAddress();
+  }
+
+  try_rageClearingHouse(): ethereum.CallResult<Address> {
+    let result = super.tryCall(
+      "rageClearingHouse",
+      "rageClearingHouse():(address)",
+      []
+    );
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toAddress());
+  }
+
+  rageVPool(): Address {
+    let result = super.call("rageVPool", "rageVPool():(address)", []);
+
+    return result[0].toAddress();
+  }
+
+  try_rageVPool(): ethereum.CallResult<Address> {
+    let result = super.tryCall("rageVPool", "rageVPool():(address)", []);
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toAddress());
+  }
+
   rebalancePriceThresholdBps(): i32 {
     let result = super.call(
       "rebalancePriceThresholdBps",
@@ -1227,6 +1314,25 @@ export class CurveYieldStrategy extends ethereum.SmartContract {
     }
     let value = result.value;
     return ethereum.CallResult.fromValue(value[0].toBigInt());
+  }
+
+  swapSimulator(): Address {
+    let result = super.call("swapSimulator", "swapSimulator():(address)", []);
+
+    return result[0].toAddress();
+  }
+
+  try_swapSimulator(): ethereum.CallResult<Address> {
+    let result = super.tryCall(
+      "swapSimulator",
+      "swapSimulator():(address)",
+      []
+    );
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toAddress());
   }
 
   symbol(): string {
@@ -1401,36 +1507,6 @@ export class ApproveCall__Outputs {
 
   get value0(): boolean {
     return this._call.outputValues[0].value.toBoolean();
-  }
-}
-
-export class ChangeFeeCall extends ethereum.Call {
-  get inputs(): ChangeFeeCall__Inputs {
-    return new ChangeFeeCall__Inputs(this);
-  }
-
-  get outputs(): ChangeFeeCall__Outputs {
-    return new ChangeFeeCall__Outputs(this);
-  }
-}
-
-export class ChangeFeeCall__Inputs {
-  _call: ChangeFeeCall;
-
-  constructor(call: ChangeFeeCall) {
-    this._call = call;
-  }
-
-  get bps(): BigInt {
-    return this._call.inputValues[0].value.toBigInt();
-  }
-}
-
-export class ChangeFeeCall__Outputs {
-  _call: ChangeFeeCall;
-
-  constructor(call: ChangeFeeCall) {
-    this._call = call;
   }
 }
 
@@ -1695,16 +1771,24 @@ export class InitializeCallCurveYieldStrategyInitParamsEightyTwentyRangeStrategy
     return this[1].toBigInt();
   }
 
-  get rageClearingHouse(): Address {
+  get swapSimulator(): Address {
     return this[2].toAddress();
   }
 
-  get rageCollateralToken(): Address {
+  get rageClearingHouse(): Address {
     return this[3].toAddress();
   }
 
-  get rageSettlementToken(): Address {
+  get clearingHouseLens(): Address {
     return this[4].toAddress();
+  }
+
+  get rageCollateralToken(): Address {
+    return this[5].toAddress();
+  }
+
+  get rageSettlementToken(): Address {
+    return this[6].toAddress();
   }
 }
 
@@ -1854,66 +1938,6 @@ export class RenounceOwnershipCall__Outputs {
   }
 }
 
-export class SetCrvOracleCall extends ethereum.Call {
-  get inputs(): SetCrvOracleCall__Inputs {
-    return new SetCrvOracleCall__Inputs(this);
-  }
-
-  get outputs(): SetCrvOracleCall__Outputs {
-    return new SetCrvOracleCall__Outputs(this);
-  }
-}
-
-export class SetCrvOracleCall__Inputs {
-  _call: SetCrvOracleCall;
-
-  constructor(call: SetCrvOracleCall) {
-    this._call = call;
-  }
-
-  get _crvOracle(): Address {
-    return this._call.inputValues[0].value.toAddress();
-  }
-}
-
-export class SetCrvOracleCall__Outputs {
-  _call: SetCrvOracleCall;
-
-  constructor(call: SetCrvOracleCall) {
-    this._call = call;
-  }
-}
-
-export class SetCrvSwapSlippageToleranceCall extends ethereum.Call {
-  get inputs(): SetCrvSwapSlippageToleranceCall__Inputs {
-    return new SetCrvSwapSlippageToleranceCall__Inputs(this);
-  }
-
-  get outputs(): SetCrvSwapSlippageToleranceCall__Outputs {
-    return new SetCrvSwapSlippageToleranceCall__Outputs(this);
-  }
-}
-
-export class SetCrvSwapSlippageToleranceCall__Inputs {
-  _call: SetCrvSwapSlippageToleranceCall;
-
-  constructor(call: SetCrvSwapSlippageToleranceCall) {
-    this._call = call;
-  }
-
-  get _slippageTolerance(): BigInt {
-    return this._call.inputValues[0].value.toBigInt();
-  }
-}
-
-export class SetCrvSwapSlippageToleranceCall__Outputs {
-  _call: SetCrvSwapSlippageToleranceCall;
-
-  constructor(call: SetCrvSwapSlippageToleranceCall) {
-    this._call = call;
-  }
-}
-
 export class SetEightTwentyParamsCall extends ethereum.Call {
   get inputs(): SetEightTwentyParamsCall__Inputs {
     return new SetEightTwentyParamsCall__Inputs(this);
@@ -1948,100 +1972,6 @@ export class SetEightTwentyParamsCall__Outputs {
   _call: SetEightTwentyParamsCall;
 
   constructor(call: SetEightTwentyParamsCall) {
-    this._call = call;
-  }
-}
-
-export class SetKeeperCall extends ethereum.Call {
-  get inputs(): SetKeeperCall__Inputs {
-    return new SetKeeperCall__Inputs(this);
-  }
-
-  get outputs(): SetKeeperCall__Outputs {
-    return new SetKeeperCall__Outputs(this);
-  }
-}
-
-export class SetKeeperCall__Inputs {
-  _call: SetKeeperCall;
-
-  constructor(call: SetKeeperCall) {
-    this._call = call;
-  }
-
-  get newKeeperAddress(): Address {
-    return this._call.inputValues[0].value.toAddress();
-  }
-}
-
-export class SetKeeperCall__Outputs {
-  _call: SetKeeperCall;
-
-  constructor(call: SetKeeperCall) {
-    this._call = call;
-  }
-}
-
-export class SetNotionalCrvHarvestThresholdCall extends ethereum.Call {
-  get inputs(): SetNotionalCrvHarvestThresholdCall__Inputs {
-    return new SetNotionalCrvHarvestThresholdCall__Inputs(this);
-  }
-
-  get outputs(): SetNotionalCrvHarvestThresholdCall__Outputs {
-    return new SetNotionalCrvHarvestThresholdCall__Outputs(this);
-  }
-}
-
-export class SetNotionalCrvHarvestThresholdCall__Inputs {
-  _call: SetNotionalCrvHarvestThresholdCall;
-
-  constructor(call: SetNotionalCrvHarvestThresholdCall) {
-    this._call = call;
-  }
-
-  get _notionalCrvHarvestThreshold(): BigInt {
-    return this._call.inputValues[0].value.toBigInt();
-  }
-}
-
-export class SetNotionalCrvHarvestThresholdCall__Outputs {
-  _call: SetNotionalCrvHarvestThresholdCall;
-
-  constructor(call: SetNotionalCrvHarvestThresholdCall) {
-    this._call = call;
-  }
-}
-
-export class SetRebalanceThresholdCall extends ethereum.Call {
-  get inputs(): SetRebalanceThresholdCall__Inputs {
-    return new SetRebalanceThresholdCall__Inputs(this);
-  }
-
-  get outputs(): SetRebalanceThresholdCall__Outputs {
-    return new SetRebalanceThresholdCall__Outputs(this);
-  }
-}
-
-export class SetRebalanceThresholdCall__Inputs {
-  _call: SetRebalanceThresholdCall;
-
-  constructor(call: SetRebalanceThresholdCall) {
-    this._call = call;
-  }
-
-  get _rebalanceTimeThreshold(): BigInt {
-    return this._call.inputValues[0].value.toBigInt();
-  }
-
-  get _rebalancePriceThresholdBps(): i32 {
-    return this._call.inputValues[1].value.toI32();
-  }
-}
-
-export class SetRebalanceThresholdCall__Outputs {
-  _call: SetRebalanceThresholdCall;
-
-  constructor(call: SetRebalanceThresholdCall) {
     this._call = call;
   }
 }
@@ -2156,32 +2086,90 @@ export class TransferOwnershipCall__Outputs {
   }
 }
 
-export class UpdateDepositCapCall extends ethereum.Call {
-  get inputs(): UpdateDepositCapCall__Inputs {
-    return new UpdateDepositCapCall__Inputs(this);
+export class UpdateBaseParamsCall extends ethereum.Call {
+  get inputs(): UpdateBaseParamsCall__Inputs {
+    return new UpdateBaseParamsCall__Inputs(this);
   }
 
-  get outputs(): UpdateDepositCapCall__Outputs {
-    return new UpdateDepositCapCall__Outputs(this);
+  get outputs(): UpdateBaseParamsCall__Outputs {
+    return new UpdateBaseParamsCall__Outputs(this);
   }
 }
 
-export class UpdateDepositCapCall__Inputs {
-  _call: UpdateDepositCapCall;
+export class UpdateBaseParamsCall__Inputs {
+  _call: UpdateBaseParamsCall;
 
-  constructor(call: UpdateDepositCapCall) {
+  constructor(call: UpdateBaseParamsCall) {
     this._call = call;
   }
 
   get newDepositCap(): BigInt {
     return this._call.inputValues[0].value.toBigInt();
   }
+
+  get newKeeperAddress(): Address {
+    return this._call.inputValues[1].value.toAddress();
+  }
+
+  get _rebalanceTimeThreshold(): BigInt {
+    return this._call.inputValues[2].value.toBigInt();
+  }
+
+  get _rebalancePriceThresholdBps(): i32 {
+    return this._call.inputValues[3].value.toI32();
+  }
 }
 
-export class UpdateDepositCapCall__Outputs {
-  _call: UpdateDepositCapCall;
+export class UpdateBaseParamsCall__Outputs {
+  _call: UpdateBaseParamsCall;
 
-  constructor(call: UpdateDepositCapCall) {
+  constructor(call: UpdateBaseParamsCall) {
+    this._call = call;
+  }
+}
+
+export class UpdateCurveParamsCall extends ethereum.Call {
+  get inputs(): UpdateCurveParamsCall__Inputs {
+    return new UpdateCurveParamsCall__Inputs(this);
+  }
+
+  get outputs(): UpdateCurveParamsCall__Outputs {
+    return new UpdateCurveParamsCall__Outputs(this);
+  }
+}
+
+export class UpdateCurveParamsCall__Inputs {
+  _call: UpdateCurveParamsCall;
+
+  constructor(call: UpdateCurveParamsCall) {
+    this._call = call;
+  }
+
+  get _feeBps(): BigInt {
+    return this._call.inputValues[0].value.toBigInt();
+  }
+
+  get _stablecoinSlippage(): BigInt {
+    return this._call.inputValues[1].value.toBigInt();
+  }
+
+  get _crvHarvestThreshold(): BigInt {
+    return this._call.inputValues[2].value.toBigInt();
+  }
+
+  get _crvSlippageTolerance(): BigInt {
+    return this._call.inputValues[3].value.toBigInt();
+  }
+
+  get _crvOracle(): Address {
+    return this._call.inputValues[4].value.toAddress();
+  }
+}
+
+export class UpdateCurveParamsCall__Outputs {
+  _call: UpdateCurveParamsCall;
+
+  constructor(call: UpdateCurveParamsCall) {
     this._call = call;
   }
 }

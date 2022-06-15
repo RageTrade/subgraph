@@ -10,6 +10,28 @@ import {
   BigInt
 } from "@graphprotocol/graph-ts";
 
+export class GovernancePending extends ethereum.Event {
+  get params(): GovernancePending__Params {
+    return new GovernancePending__Params(this);
+  }
+}
+
+export class GovernancePending__Params {
+  _event: GovernancePending;
+
+  constructor(event: GovernancePending) {
+    this._event = event;
+  }
+
+  get previousGovernancePending(): Address {
+    return this._event.parameters[0].value.toAddress();
+  }
+
+  get newGovernancePending(): Address {
+    return this._event.parameters[1].value.toAddress();
+  }
+}
+
 export class GovernanceTransferred extends ethereum.Event {
   get params(): GovernanceTransferred__Params {
     return new GovernanceTransferred__Params(this);
@@ -55,6 +77,28 @@ export class PoolInitialized__Params {
 
   get vPoolWrapper(): Address {
     return this._event.parameters[2].value.toAddress();
+  }
+}
+
+export class TeamMultisigPending extends ethereum.Event {
+  get params(): TeamMultisigPending__Params {
+    return new TeamMultisigPending__Params(this);
+  }
+}
+
+export class TeamMultisigPending__Params {
+  _event: TeamMultisigPending;
+
+  constructor(event: TeamMultisigPending) {
+    this._event = event;
+  }
+
+  get previousTeamMultisigPending(): Address {
+    return this._event.parameters[0].value.toAddress();
+  }
+
+  get newTeamMultisigPending(): Address {
+    return this._event.parameters[1].value.toAddress();
   }
 }
 
@@ -119,6 +163,29 @@ export class RageTradeFactory extends ethereum.SmartContract {
     return ethereum.CallResult.fromValue(value[0].toAddress());
   }
 
+  governancePending(): Address {
+    let result = super.call(
+      "governancePending",
+      "governancePending():(address)",
+      []
+    );
+
+    return result[0].toAddress();
+  }
+
+  try_governancePending(): ethereum.CallResult<Address> {
+    let result = super.tryCall(
+      "governancePending",
+      "governancePending():(address)",
+      []
+    );
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toAddress());
+  }
+
   proxyAdmin(): Address {
     let result = super.call("proxyAdmin", "proxyAdmin():(address)", []);
 
@@ -142,6 +209,29 @@ export class RageTradeFactory extends ethereum.SmartContract {
 
   try_teamMultisig(): ethereum.CallResult<Address> {
     let result = super.tryCall("teamMultisig", "teamMultisig():(address)", []);
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toAddress());
+  }
+
+  teamMultisigPending(): Address {
+    let result = super.call(
+      "teamMultisigPending",
+      "teamMultisigPending():(address)",
+      []
+    );
+
+    return result[0].toAddress();
+  }
+
+  try_teamMultisigPending(): ethereum.CallResult<Address> {
+    let result = super.tryCall(
+      "teamMultisigPending",
+      "teamMultisigPending():(address)",
+      []
+    );
     if (result.reverted) {
       return new ethereum.CallResult();
     }
@@ -220,12 +310,68 @@ export class ConstructorCall__Inputs {
   get settlementToken(): Address {
     return this._call.inputValues[3].value.toAddress();
   }
+
+  get settlementTokenOracle(): Address {
+    return this._call.inputValues[4].value.toAddress();
+  }
 }
 
 export class ConstructorCall__Outputs {
   _call: ConstructorCall;
 
   constructor(call: ConstructorCall) {
+    this._call = call;
+  }
+}
+
+export class AcceptGovernanceTransferCall extends ethereum.Call {
+  get inputs(): AcceptGovernanceTransferCall__Inputs {
+    return new AcceptGovernanceTransferCall__Inputs(this);
+  }
+
+  get outputs(): AcceptGovernanceTransferCall__Outputs {
+    return new AcceptGovernanceTransferCall__Outputs(this);
+  }
+}
+
+export class AcceptGovernanceTransferCall__Inputs {
+  _call: AcceptGovernanceTransferCall;
+
+  constructor(call: AcceptGovernanceTransferCall) {
+    this._call = call;
+  }
+}
+
+export class AcceptGovernanceTransferCall__Outputs {
+  _call: AcceptGovernanceTransferCall;
+
+  constructor(call: AcceptGovernanceTransferCall) {
+    this._call = call;
+  }
+}
+
+export class AcceptTeamMultisigTransferCall extends ethereum.Call {
+  get inputs(): AcceptTeamMultisigTransferCall__Inputs {
+    return new AcceptTeamMultisigTransferCall__Inputs(this);
+  }
+
+  get outputs(): AcceptTeamMultisigTransferCall__Outputs {
+    return new AcceptTeamMultisigTransferCall__Outputs(this);
+  }
+}
+
+export class AcceptTeamMultisigTransferCall__Inputs {
+  _call: AcceptTeamMultisigTransferCall;
+
+  constructor(call: AcceptTeamMultisigTransferCall) {
+    this._call = call;
+  }
+}
+
+export class AcceptTeamMultisigTransferCall__Outputs {
+  _call: AcceptTeamMultisigTransferCall;
+
+  constructor(call: AcceptTeamMultisigTransferCall) {
     this._call = call;
   }
 }
@@ -326,6 +472,66 @@ export class InitializePoolCallInitializePoolParamsPoolInitialSettingsStruct ext
   }
 }
 
+export class InitiateGovernanceTransferCall extends ethereum.Call {
+  get inputs(): InitiateGovernanceTransferCall__Inputs {
+    return new InitiateGovernanceTransferCall__Inputs(this);
+  }
+
+  get outputs(): InitiateGovernanceTransferCall__Outputs {
+    return new InitiateGovernanceTransferCall__Outputs(this);
+  }
+}
+
+export class InitiateGovernanceTransferCall__Inputs {
+  _call: InitiateGovernanceTransferCall;
+
+  constructor(call: InitiateGovernanceTransferCall) {
+    this._call = call;
+  }
+
+  get newGovernancePending(): Address {
+    return this._call.inputValues[0].value.toAddress();
+  }
+}
+
+export class InitiateGovernanceTransferCall__Outputs {
+  _call: InitiateGovernanceTransferCall;
+
+  constructor(call: InitiateGovernanceTransferCall) {
+    this._call = call;
+  }
+}
+
+export class InitiateTeamMultisigTransferCall extends ethereum.Call {
+  get inputs(): InitiateTeamMultisigTransferCall__Inputs {
+    return new InitiateTeamMultisigTransferCall__Inputs(this);
+  }
+
+  get outputs(): InitiateTeamMultisigTransferCall__Outputs {
+    return new InitiateTeamMultisigTransferCall__Outputs(this);
+  }
+}
+
+export class InitiateTeamMultisigTransferCall__Inputs {
+  _call: InitiateTeamMultisigTransferCall;
+
+  constructor(call: InitiateTeamMultisigTransferCall) {
+    this._call = call;
+  }
+
+  get newTeamMultisigPending(): Address {
+    return this._call.inputValues[0].value.toAddress();
+  }
+}
+
+export class InitiateTeamMultisigTransferCall__Outputs {
+  _call: InitiateTeamMultisigTransferCall;
+
+  constructor(call: InitiateTeamMultisigTransferCall) {
+    this._call = call;
+  }
+}
+
 export class SetVPoolWrapperLogicAddressCall extends ethereum.Call {
   get inputs(): SetVPoolWrapperLogicAddressCall__Inputs {
     return new SetVPoolWrapperLogicAddressCall__Inputs(this);
@@ -352,66 +558,6 @@ export class SetVPoolWrapperLogicAddressCall__Outputs {
   _call: SetVPoolWrapperLogicAddressCall;
 
   constructor(call: SetVPoolWrapperLogicAddressCall) {
-    this._call = call;
-  }
-}
-
-export class TransferGovernanceCall extends ethereum.Call {
-  get inputs(): TransferGovernanceCall__Inputs {
-    return new TransferGovernanceCall__Inputs(this);
-  }
-
-  get outputs(): TransferGovernanceCall__Outputs {
-    return new TransferGovernanceCall__Outputs(this);
-  }
-}
-
-export class TransferGovernanceCall__Inputs {
-  _call: TransferGovernanceCall;
-
-  constructor(call: TransferGovernanceCall) {
-    this._call = call;
-  }
-
-  get newGovernance(): Address {
-    return this._call.inputValues[0].value.toAddress();
-  }
-}
-
-export class TransferGovernanceCall__Outputs {
-  _call: TransferGovernanceCall;
-
-  constructor(call: TransferGovernanceCall) {
-    this._call = call;
-  }
-}
-
-export class TransferTeamMultisigCall extends ethereum.Call {
-  get inputs(): TransferTeamMultisigCall__Inputs {
-    return new TransferTeamMultisigCall__Inputs(this);
-  }
-
-  get outputs(): TransferTeamMultisigCall__Outputs {
-    return new TransferTeamMultisigCall__Outputs(this);
-  }
-}
-
-export class TransferTeamMultisigCall__Inputs {
-  _call: TransferTeamMultisigCall;
-
-  constructor(call: TransferTeamMultisigCall) {
-    this._call = call;
-  }
-
-  get newTeamMultisig(): Address {
-    return this._call.inputValues[0].value.toAddress();
-  }
-}
-
-export class TransferTeamMultisigCall__Outputs {
-  _call: TransferTeamMultisigCall;
-
-  constructor(call: TransferTeamMultisigCall) {
     this._call = call;
   }
 }

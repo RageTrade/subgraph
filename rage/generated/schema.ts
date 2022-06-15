@@ -1274,15 +1274,6 @@ export class TokenPositionLiquidatedEntry extends Entity {
     this.set("tokenPosition", Value.fromString(value));
   }
 
-  get liquidatorAccountId(): BigInt {
-    let value = this.get("liquidatorAccountId");
-    return value.toBigInt();
-  }
-
-  set liquidatorAccountId(value: BigInt) {
-    this.set("liquidatorAccountId", Value.fromBigInt(value));
-  }
-
   get rageTradePool(): string {
     let value = this.get("rageTradePool");
     return value.toString();

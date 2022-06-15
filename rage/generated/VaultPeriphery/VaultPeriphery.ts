@@ -44,6 +44,46 @@ export class DepositPeriphery__Params {
   }
 }
 
+export class EthOracleUpdated extends ethereum.Event {
+  get params(): EthOracleUpdated__Params {
+    return new EthOracleUpdated__Params(this);
+  }
+}
+
+export class EthOracleUpdated__Params {
+  _event: EthOracleUpdated;
+
+  constructor(event: EthOracleUpdated) {
+    this._event = event;
+  }
+
+  get oldEthOracle(): Address {
+    return this._event.parameters[0].value.toAddress();
+  }
+
+  get newEthOracle(): Address {
+    return this._event.parameters[1].value.toAddress();
+  }
+}
+
+export class Initialized extends ethereum.Event {
+  get params(): Initialized__Params {
+    return new Initialized__Params(this);
+  }
+}
+
+export class Initialized__Params {
+  _event: Initialized;
+
+  constructor(event: Initialized) {
+    this._event = event;
+  }
+
+  get version(): i32 {
+    return this._event.parameters[0].value.toI32();
+  }
+}
+
 export class OwnershipTransferred extends ethereum.Event {
   get params(): OwnershipTransferred__Params {
     return new OwnershipTransferred__Params(this);
@@ -66,43 +106,87 @@ export class OwnershipTransferred__Params {
   }
 }
 
-export class SlippageToleranceBreachedEvent extends ethereum.Event {
-  get params(): SlippageToleranceBreachedEvent__Params {
-    return new SlippageToleranceBreachedEvent__Params(this);
+export class SlippageToleranceUpdated extends ethereum.Event {
+  get params(): SlippageToleranceUpdated__Params {
+    return new SlippageToleranceUpdated__Params(this);
   }
 }
 
-export class SlippageToleranceBreachedEvent__Params {
-  _event: SlippageToleranceBreachedEvent;
+export class SlippageToleranceUpdated__Params {
+  _event: SlippageToleranceUpdated;
 
-  constructor(event: SlippageToleranceBreachedEvent) {
+  constructor(event: SlippageToleranceUpdated) {
     this._event = event;
   }
 
-  get balance(): BigInt {
+  get oldTolerance(): BigInt {
     return this._event.parameters[0].value.toBigInt();
   }
 
-  get breforeSwapLpPrice(): BigInt {
+  get newTolerance(): BigInt {
     return this._event.parameters[1].value.toBigInt();
   }
+}
 
-  get amount(): BigInt {
-    return this._event.parameters[2].value.toBigInt();
+export class SwapRouterUpdated extends ethereum.Event {
+  get params(): SwapRouterUpdated__Params {
+    return new SwapRouterUpdated__Params(this);
+  }
+}
+
+export class SwapRouterUpdated__Params {
+  _event: SwapRouterUpdated;
+
+  constructor(event: SwapRouterUpdated) {
+    this._event = event;
   }
 
-  get MAX_BPS(): BigInt {
-    return this._event.parameters[3].value.toBigInt();
+  get oldSwapRouter(): Address {
+    return this._event.parameters[0].value.toAddress();
   }
 
-  get MAX_TOLERANCE(): BigInt {
-    return this._event.parameters[4].value.toBigInt();
+  get newSwapRouter(): Address {
+    return this._event.parameters[1].value.toAddress();
   }
 }
 
 export class VaultPeriphery extends ethereum.SmartContract {
   static bind(address: Address): VaultPeriphery {
     return new VaultPeriphery("VaultPeriphery", address);
+  }
+
+  MAX_BPS(): BigInt {
+    let result = super.call("MAX_BPS", "MAX_BPS():(uint256)", []);
+
+    return result[0].toBigInt();
+  }
+
+  try_MAX_BPS(): ethereum.CallResult<BigInt> {
+    let result = super.tryCall("MAX_BPS", "MAX_BPS():(uint256)", []);
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toBigInt());
+  }
+
+  MAX_TOLERANCE(): BigInt {
+    let result = super.call("MAX_TOLERANCE", "MAX_TOLERANCE():(uint256)", []);
+
+    return result[0].toBigInt();
+  }
+
+  try_MAX_TOLERANCE(): ethereum.CallResult<BigInt> {
+    let result = super.tryCall(
+      "MAX_TOLERANCE",
+      "MAX_TOLERANCE():(uint256)",
+      []
+    );
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toBigInt());
   }
 
   depositUsdc(amount: BigInt): BigInt {
