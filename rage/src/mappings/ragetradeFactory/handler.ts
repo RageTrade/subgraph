@@ -1,5 +1,5 @@
 import { log } from '@graphprotocol/graph-ts';
-import { ClearingHouse } from '../../../generated/ClearingHouse/ClearingHouse';
+import { ClearingHouseLens } from '../../../generated/RageTradeFactory/ClearingHouseLens';
 import { PoolInitialized } from '../../../generated/RageTradeFactory/RageTradeFactory';
 import {
   Collection,
@@ -58,8 +58,8 @@ export function handlePoolInitialized(event: PoolInitialized): void {
   vToken.save();
 
   // vQUOTE
-  let clearingHouse = ClearingHouse.bind(contracts.ClearingHouse);
-  let result = clearingHouse.try_getProtocolInfo();
+  let clearingHouseLens = ClearingHouseLens.bind(contracts.clearingHouseLens);
+  let result = clearingHouseLens.try_getProtocolInfo();
 
   if (result.reverted) {
     log.error(
