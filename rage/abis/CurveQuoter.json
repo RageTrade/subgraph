@@ -1,15 +1,15 @@
 [
   {
-    "type": "function",
-    "name": "lp_price",
-    "constant": true,
-    "stateMutability": "view",
-    "payable": false,
     "inputs": [],
+    "name": "lp_price",
     "outputs": [
       {
+        "internalType": "uint256",
+        "name": "",
         "type": "uint256"
       }
-    ]
+    ],
+    "stateMutability": "view",
+    "type": "function"
   }
 ]

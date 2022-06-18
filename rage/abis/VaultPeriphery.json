@@ -1,445 +1,470 @@
 [
   {
-    "type": "error",
+    "inputs": [],
     "name": "NegativePrice",
-    "inputs": []
+    "type": "error"
   },
   {
-    "type": "error",
+    "inputs": [],
     "name": "OutOfBounds",
-    "inputs": []
+    "type": "error"
   },
   {
-    "type": "error",
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "crv3received",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "lpPrice",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "inputAmount",
+        "type": "uint256"
+      }
+    ],
     "name": "SlippageToleranceBreached",
-    "inputs": [
-      {
-        "type": "uint256",
-        "name": "crv3received"
-      },
-      {
-        "type": "uint256",
-        "name": "lpPrice"
-      },
-      {
-        "type": "uint256",
-        "name": "inputAmount"
-      }
-    ]
+    "type": "error"
   },
   {
-    "type": "error",
+    "inputs": [],
     "name": "ZeroValue",
-    "inputs": []
+    "type": "error"
   },
   {
-    "type": "event",
     "anonymous": false,
-    "name": "DepositPeriphery",
     "inputs": [
       {
-        "type": "address",
+        "indexed": true,
+        "internalType": "address",
         "name": "owner",
-        "indexed": true
+        "type": "address"
       },
       {
-        "type": "address",
+        "indexed": true,
+        "internalType": "address",
         "name": "token",
-        "indexed": true
+        "type": "address"
       },
       {
-        "type": "uint256",
+        "indexed": false,
+        "internalType": "uint256",
         "name": "amount",
-        "indexed": false
+        "type": "uint256"
       },
       {
-        "type": "uint256",
+        "indexed": false,
+        "internalType": "uint256",
         "name": "asset",
-        "indexed": false
+        "type": "uint256"
       },
       {
-        "type": "uint256",
+        "indexed": false,
+        "internalType": "uint256",
         "name": "shares",
-        "indexed": false
+        "type": "uint256"
       }
-    ]
+    ],
+    "name": "DepositPeriphery",
+    "type": "event"
   },
   {
-    "type": "event",
     "anonymous": false,
-    "name": "EthOracleUpdated",
     "inputs": [
       {
-        "type": "address",
+        "indexed": true,
+        "internalType": "address",
         "name": "oldEthOracle",
-        "indexed": true
+        "type": "address"
       },
       {
-        "type": "address",
+        "indexed": true,
+        "internalType": "address",
         "name": "newEthOracle",
-        "indexed": true
+        "type": "address"
       }
-    ]
+    ],
+    "name": "EthOracleUpdated",
+    "type": "event"
   },
   {
-    "type": "event",
     "anonymous": false,
-    "name": "Initialized",
     "inputs": [
       {
-        "type": "uint8",
+        "indexed": false,
+        "internalType": "uint8",
         "name": "version",
-        "indexed": false
+        "type": "uint8"
       }
-    ]
+    ],
+    "name": "Initialized",
+    "type": "event"
   },
   {
-    "type": "event",
     "anonymous": false,
-    "name": "OwnershipTransferred",
     "inputs": [
       {
-        "type": "address",
+        "indexed": true,
+        "internalType": "address",
         "name": "previousOwner",
-        "indexed": true
+        "type": "address"
       },
       {
-        "type": "address",
+        "indexed": true,
+        "internalType": "address",
         "name": "newOwner",
-        "indexed": true
+        "type": "address"
       }
-    ]
+    ],
+    "name": "OwnershipTransferred",
+    "type": "event"
   },
   {
-    "type": "event",
     "anonymous": false,
-    "name": "SlippageToleranceUpdated",
     "inputs": [
       {
-        "type": "uint256",
+        "indexed": false,
+        "internalType": "uint256",
         "name": "oldTolerance",
-        "indexed": false
+        "type": "uint256"
       },
       {
-        "type": "uint256",
+        "indexed": false,
+        "internalType": "uint256",
         "name": "newTolerance",
-        "indexed": false
+        "type": "uint256"
       }
-    ]
+    ],
+    "name": "SlippageToleranceUpdated",
+    "type": "event"
   },
   {
-    "type": "event",
     "anonymous": false,
-    "name": "SwapRouterUpdated",
     "inputs": [
       {
-        "type": "address",
+        "indexed": true,
+        "internalType": "address",
         "name": "oldSwapRouter",
-        "indexed": true
+        "type": "address"
       },
       {
-        "type": "address",
+        "indexed": true,
+        "internalType": "address",
         "name": "newSwapRouter",
-        "indexed": true
+        "type": "address"
       }
-    ]
+    ],
+    "name": "SwapRouterUpdated",
+    "type": "event"
   },
   {
-    "type": "function",
+    "inputs": [],
     "name": "MAX_BPS",
-    "constant": true,
-    "stateMutability": "view",
-    "payable": false,
-    "inputs": [],
     "outputs": [
       {
+        "internalType": "uint256",
+        "name": "",
         "type": "uint256"
       }
-    ]
+    ],
+    "stateMutability": "view",
+    "type": "function"
   },
   {
-    "type": "function",
+    "inputs": [],
     "name": "MAX_TOLERANCE",
-    "constant": true,
-    "stateMutability": "view",
-    "payable": false,
-    "inputs": [],
     "outputs": [
       {
+        "internalType": "uint256",
+        "name": "",
         "type": "uint256"
       }
-    ]
+    ],
+    "stateMutability": "view",
+    "type": "function"
   },
   {
-    "type": "function",
+    "inputs": [],
     "name": "depositEth",
-    "constant": false,
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "sharesMinted",
+        "type": "uint256"
+      }
+    ],
     "stateMutability": "payable",
-    "payable": true,
-    "inputs": [],
-    "outputs": [
-      {
-        "type": "uint256",
-        "name": "sharesMinted"
-      }
-    ]
+    "type": "function"
   },
   {
-    "type": "function",
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "amount",
+        "type": "uint256"
+      }
+    ],
     "name": "depositUsdc",
-    "constant": false,
-    "payable": false,
-    "inputs": [
-      {
-        "type": "uint256",
-        "name": "amount"
-      }
-    ],
     "outputs": [
       {
-        "type": "uint256",
-        "name": "sharesMinted"
+        "internalType": "uint256",
+        "name": "sharesMinted",
+        "type": "uint256"
       }
-    ]
+    ],
+    "stateMutability": "nonpayable",
+    "type": "function"
   },
   {
-    "type": "function",
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "amount",
+        "type": "uint256"
+      }
+    ],
     "name": "depositWeth",
-    "constant": false,
-    "payable": false,
-    "inputs": [
-      {
-        "type": "uint256",
-        "name": "amount"
-      }
-    ],
     "outputs": [
       {
-        "type": "uint256",
-        "name": "sharesMinted"
+        "internalType": "uint256",
+        "name": "sharesMinted",
+        "type": "uint256"
       }
-    ]
+    ],
+    "stateMutability": "nonpayable",
+    "type": "function"
   },
   {
-    "type": "function",
+    "inputs": [
+      {
+        "internalType": "contract IERC20",
+        "name": "_usdc",
+        "type": "address"
+      },
+      {
+        "internalType": "contract IERC20",
+        "name": "_usdt",
+        "type": "address"
+      },
+      {
+        "internalType": "contract IWETH9",
+        "name": "_weth",
+        "type": "address"
+      },
+      {
+        "internalType": "contract IERC20",
+        "name": "_lpToken",
+        "type": "address"
+      },
+      {
+        "internalType": "contract IERC4626",
+        "name": "_vault",
+        "type": "address"
+      },
+      {
+        "internalType": "contract ISwapRouter",
+        "name": "_swapRouter",
+        "type": "address"
+      },
+      {
+        "internalType": "contract ILPPriceGetter",
+        "name": "_lpOracle",
+        "type": "address"
+      },
+      {
+        "internalType": "contract ICurveStableSwap",
+        "name": "_stableSwap",
+        "type": "address"
+      },
+      {
+        "internalType": "contract AggregatorV3Interface",
+        "name": "_ethOracle",
+        "type": "address"
+      }
+    ],
     "name": "initialize",
-    "constant": false,
-    "payable": false,
-    "inputs": [
-      {
-        "type": "address",
-        "name": "_usdc"
-      },
-      {
-        "type": "address",
-        "name": "_usdt"
-      },
-      {
-        "type": "address",
-        "name": "_weth"
-      },
-      {
-        "type": "address",
-        "name": "_lpToken"
-      },
-      {
-        "type": "address",
-        "name": "_vault"
-      },
-      {
-        "type": "address",
-        "name": "_swapRouter"
-      },
-      {
-        "type": "address",
-        "name": "_lpOracle"
-      },
-      {
-        "type": "address",
-        "name": "_stableSwap"
-      },
-      {
-        "type": "address",
-        "name": "_ethOracle"
-      }
-    ],
-    "outputs": []
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
   },
   {
-    "type": "function",
+    "inputs": [],
     "name": "lpOracle",
-    "constant": true,
-    "stateMutability": "view",
-    "payable": false,
-    "inputs": [],
     "outputs": [
       {
+        "internalType": "contract ILPPriceGetter",
+        "name": "",
         "type": "address"
       }
-    ]
+    ],
+    "stateMutability": "view",
+    "type": "function"
   },
   {
-    "type": "function",
+    "inputs": [],
     "name": "lpToken",
-    "constant": true,
-    "stateMutability": "view",
-    "payable": false,
-    "inputs": [],
     "outputs": [
       {
+        "internalType": "contract IERC20",
+        "name": "",
         "type": "address"
       }
-    ]
+    ],
+    "stateMutability": "view",
+    "type": "function"
   },
   {
-    "type": "function",
+    "inputs": [],
     "name": "owner",
-    "constant": true,
-    "stateMutability": "view",
-    "payable": false,
-    "inputs": [],
     "outputs": [
       {
+        "internalType": "address",
+        "name": "",
         "type": "address"
       }
-    ]
+    ],
+    "stateMutability": "view",
+    "type": "function"
   },
   {
-    "type": "function",
+    "inputs": [],
     "name": "renounceOwnership",
-    "constant": false,
-    "payable": false,
-    "inputs": [],
-    "outputs": []
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
   },
   {
-    "type": "function",
+    "inputs": [],
     "name": "stableSwap",
-    "constant": true,
-    "stateMutability": "view",
-    "payable": false,
-    "inputs": [],
     "outputs": [
       {
+        "internalType": "contract ICurveStableSwap",
+        "name": "",
         "type": "address"
       }
-    ]
+    ],
+    "stateMutability": "view",
+    "type": "function"
   },
   {
-    "type": "function",
+    "inputs": [],
     "name": "swapRouter",
-    "constant": true,
-    "stateMutability": "view",
-    "payable": false,
-    "inputs": [],
     "outputs": [
       {
+        "internalType": "contract ISwapRouter",
+        "name": "",
         "type": "address"
       }
-    ]
+    ],
+    "stateMutability": "view",
+    "type": "function"
   },
   {
-    "type": "function",
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "newOwner",
+        "type": "address"
+      }
+    ],
     "name": "transferOwnership",
-    "constant": false,
-    "payable": false,
-    "inputs": [
-      {
-        "type": "address",
-        "name": "newOwner"
-      }
-    ],
-    "outputs": []
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
   },
   {
-    "type": "function",
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "newOracle",
+        "type": "address"
+      }
+    ],
     "name": "updateEthOracle",
-    "constant": false,
-    "payable": false,
-    "inputs": [
-      {
-        "type": "address",
-        "name": "newOracle"
-      }
-    ],
-    "outputs": []
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
   },
   {
-    "type": "function",
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "newRouter",
+        "type": "address"
+      }
+    ],
     "name": "updateSwapRouter",
-    "constant": false,
-    "payable": false,
-    "inputs": [
-      {
-        "type": "address",
-        "name": "newRouter"
-      }
-    ],
-    "outputs": []
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
   },
   {
-    "type": "function",
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "newTolerance",
+        "type": "uint256"
+      }
+    ],
     "name": "updateTolerance",
-    "constant": false,
-    "payable": false,
-    "inputs": [
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "usdc",
+    "outputs": [
       {
-        "type": "uint256",
-        "name": "newTolerance"
+        "internalType": "contract IERC20",
+        "name": "",
+        "type": "address"
       }
     ],
-    "outputs": []
-  },
-  {
-    "type": "function",
-    "name": "usdc",
-    "constant": true,
     "stateMutability": "view",
-    "payable": false,
-    "inputs": [],
-    "outputs": [
-      {
-        "type": "address"
-      }
-    ]
+    "type": "function"
   },
   {
-    "type": "function",
+    "inputs": [],
     "name": "usdt",
-    "constant": true,
-    "stateMutability": "view",
-    "payable": false,
-    "inputs": [],
     "outputs": [
       {
+        "internalType": "contract IERC20",
+        "name": "",
         "type": "address"
       }
-    ]
+    ],
+    "stateMutability": "view",
+    "type": "function"
   },
   {
-    "type": "function",
+    "inputs": [],
     "name": "vault",
-    "constant": true,
-    "stateMutability": "view",
-    "payable": false,
-    "inputs": [],
     "outputs": [
       {
+        "internalType": "contract IERC4626",
+        "name": "",
         "type": "address"
       }
-    ]
+    ],
+    "stateMutability": "view",
+    "type": "function"
   },
   {
-    "type": "function",
-    "name": "weth",
-    "constant": true,
-    "stateMutability": "view",
-    "payable": false,
     "inputs": [],
+    "name": "weth",
     "outputs": [
       {
+        "internalType": "contract IWETH9",
+        "name": "",
         "type": "address"
       }
-    ]
+    ],
+    "stateMutability": "view",
+    "type": "function"
   }
 ]

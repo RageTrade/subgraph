@@ -1,950 +1,1044 @@
 [
   {
-    "type": "error",
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "errorCode",
+        "type": "uint256"
+      }
+    ],
     "name": "InvalidSetting",
-    "inputs": [
-      {
-        "type": "uint256",
-        "name": "errorCode"
-      }
-    ]
+    "type": "error"
   },
   {
-    "type": "error",
+    "inputs": [
+      {
+        "internalType": "uint160",
+        "name": "sqrtPriceLimitX96",
+        "type": "uint160"
+      }
+    ],
     "name": "InvalidSqrtPriceLimit",
+    "type": "error"
+  },
+  {
     "inputs": [
       {
-        "type": "uint160",
-        "name": "sqrtPriceLimitX96"
-      }
-    ]
-  },
-  {
-    "type": "error",
-    "name": "InvalidTicks",
-    "inputs": [
-      {
-        "type": "int24",
-        "name": "tickLower"
-      },
-      {
-        "type": "int24",
-        "name": "tickUpper"
-      }
-    ]
-  },
-  {
-    "type": "error",
-    "name": "NotClearingHouse",
-    "inputs": []
-  },
-  {
-    "type": "error",
-    "name": "NotGovernance",
-    "inputs": []
-  },
-  {
-    "type": "error",
-    "name": "NotGovernanceOrTeamMultisig",
-    "inputs": []
-  },
-  {
-    "type": "error",
-    "name": "NotUniswapV3Pool",
-    "inputs": []
-  },
-  {
-    "type": "error",
-    "name": "R",
-    "inputs": []
-  },
-  {
-    "type": "error",
-    "name": "SafeCast_Int128Overflow",
-    "inputs": [
-      {
-        "type": "uint128",
-        "name": "value"
-      }
-    ]
-  },
-  {
-    "type": "error",
-    "name": "SafeCast_Int256Overflow",
-    "inputs": [
-      {
-        "type": "uint256",
-        "name": "value"
-      }
-    ]
-  },
-  {
-    "type": "error",
-    "name": "T",
-    "inputs": []
-  },
-  {
-    "type": "error",
-    "name": "ZeroAmount",
-    "inputs": []
-  },
-  {
-    "type": "event",
-    "anonymous": false,
-    "name": "AccruedProtocolFeeCollected",
-    "inputs": [
-      {
-        "type": "uint256",
-        "name": "amount",
-        "indexed": false
-      }
-    ]
-  },
-  {
-    "type": "event",
-    "anonymous": false,
-    "name": "Burn",
-    "inputs": [
-      {
-        "type": "int24",
+        "internalType": "int24",
         "name": "tickLower",
-        "indexed": false
+        "type": "int24"
       },
       {
-        "type": "int24",
+        "internalType": "int24",
         "name": "tickUpper",
-        "indexed": false
-      },
-      {
-        "type": "uint128",
-        "name": "liquidity",
-        "indexed": false
-      },
-      {
-        "type": "uint256",
-        "name": "vTokenPrincipal",
-        "indexed": false
-      },
-      {
-        "type": "uint256",
-        "name": "vQuotePrincipal",
-        "indexed": false
-      }
-    ]
-  },
-  {
-    "type": "event",
-    "anonymous": false,
-    "name": "FundingRateOverrideUpdated",
-    "inputs": [
-      {
-        "type": "int256",
-        "name": "fundingRateOverrideX128",
-        "indexed": false
-      }
-    ]
-  },
-  {
-    "type": "event",
-    "anonymous": false,
-    "name": "LiquidityFeeUpdated",
-    "inputs": [
-      {
-        "type": "uint24",
-        "name": "liquidityFeePips",
-        "indexed": false
-      }
-    ]
-  },
-  {
-    "type": "event",
-    "anonymous": false,
-    "name": "Mint",
-    "inputs": [
-      {
-        "type": "int24",
-        "name": "tickLower",
-        "indexed": false
-      },
-      {
-        "type": "int24",
-        "name": "tickUpper",
-        "indexed": false
-      },
-      {
-        "type": "uint128",
-        "name": "liquidity",
-        "indexed": false
-      },
-      {
-        "type": "uint256",
-        "name": "vTokenPrincipal",
-        "indexed": false
-      },
-      {
-        "type": "uint256",
-        "name": "vQuotePrincipal",
-        "indexed": false
-      }
-    ]
-  },
-  {
-    "type": "event",
-    "anonymous": false,
-    "name": "ProtocolFeeUpdated",
-    "inputs": [
-      {
-        "type": "uint24",
-        "name": "protocolFeePips",
-        "indexed": false
-      }
-    ]
-  },
-  {
-    "type": "event",
-    "anonymous": false,
-    "name": "Swap",
-    "inputs": [
-      {
-        "type": "tuple",
-        "name": "swapResult",
-        "indexed": false,
-        "components": [
-          {
-            "type": "int256",
-            "name": "amountSpecified"
-          },
-          {
-            "type": "int256",
-            "name": "vTokenIn"
-          },
-          {
-            "type": "int256",
-            "name": "vQuoteIn"
-          },
-          {
-            "type": "uint256",
-            "name": "liquidityFees"
-          },
-          {
-            "type": "uint256",
-            "name": "protocolFees"
-          },
-          {
-            "type": "uint160",
-            "name": "sqrtPriceX96Start"
-          },
-          {
-            "type": "uint160",
-            "name": "sqrtPriceX96End"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "type": "function",
-    "name": "accruedProtocolFee",
-    "constant": true,
-    "stateMutability": "view",
-    "payable": false,
-    "inputs": [],
-    "outputs": [
-      {
-        "type": "uint256"
-      }
-    ]
-  },
-  {
-    "type": "function",
-    "name": "burn",
-    "constant": false,
-    "payable": false,
-    "inputs": [
-      {
-        "type": "int24",
-        "name": "tickLower"
-      },
-      {
-        "type": "int24",
-        "name": "tickUpper"
-      },
-      {
-        "type": "uint128",
-        "name": "liquidity"
-      }
-    ],
-    "outputs": [
-      {
-        "type": "uint256",
-        "name": "vTokenPrincipal"
-      },
-      {
-        "type": "uint256",
-        "name": "vQuotePrincipal"
-      },
-      {
-        "type": "tuple",
-        "name": "wrapperValuesInside",
-        "components": [
-          {
-            "type": "int256",
-            "name": "sumAX128"
-          },
-          {
-            "type": "int256",
-            "name": "sumBInsideX128"
-          },
-          {
-            "type": "int256",
-            "name": "sumFpInsideX128"
-          },
-          {
-            "type": "uint256",
-            "name": "sumFeeInsideX128"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "type": "function",
-    "name": "clearingHouse",
-    "constant": true,
-    "stateMutability": "view",
-    "payable": false,
-    "inputs": [],
-    "outputs": [
-      {
-        "type": "address"
-      }
-    ]
-  },
-  {
-    "type": "function",
-    "name": "collectAccruedProtocolFee",
-    "constant": false,
-    "payable": false,
-    "inputs": [],
-    "outputs": [
-      {
-        "type": "uint256",
-        "name": "accruedProtocolFeeLast"
-      }
-    ]
-  },
-  {
-    "type": "function",
-    "name": "extsload",
-    "constant": true,
-    "stateMutability": "view",
-    "payable": false,
-    "inputs": [
-      {
-        "type": "bytes32",
-        "name": "slot"
-      }
-    ],
-    "outputs": [
-      {
-        "type": "bytes32",
-        "name": "val"
-      }
-    ]
-  },
-  {
-    "type": "function",
-    "name": "extsload",
-    "constant": true,
-    "stateMutability": "view",
-    "payable": false,
-    "inputs": [
-      {
-        "type": "bytes32[]",
-        "name": "slots"
-      }
-    ],
-    "outputs": [
-      {
-        "type": "bytes32[]"
-      }
-    ]
-  },
-  {
-    "type": "function",
-    "name": "fpGlobal",
-    "constant": true,
-    "stateMutability": "view",
-    "payable": false,
-    "inputs": [],
-    "outputs": [
-      {
-        "type": "int256",
-        "name": "sumAX128"
-      },
-      {
-        "type": "int256",
-        "name": "sumBX128"
-      },
-      {
-        "type": "int256",
-        "name": "sumFpX128"
-      },
-      {
-        "type": "uint48",
-        "name": "timestampLast"
-      }
-    ]
-  },
-  {
-    "type": "function",
-    "name": "fundingRateOverrideX128",
-    "constant": true,
-    "stateMutability": "view",
-    "payable": false,
-    "inputs": [],
-    "outputs": [
-      {
-        "type": "int256"
-      }
-    ]
-  },
-  {
-    "type": "function",
-    "name": "getExtrapolatedSumAX128",
-    "constant": true,
-    "stateMutability": "view",
-    "payable": false,
-    "inputs": [],
-    "outputs": [
-      {
-        "type": "int256"
-      }
-    ]
-  },
-  {
-    "type": "function",
-    "name": "getExtrapolatedValuesInside",
-    "constant": true,
-    "stateMutability": "view",
-    "payable": false,
-    "inputs": [
-      {
-        "type": "int24",
-        "name": "tickLower"
-      },
-      {
-        "type": "int24",
-        "name": "tickUpper"
-      }
-    ],
-    "outputs": [
-      {
-        "type": "tuple",
-        "name": "wrapperValuesInside",
-        "components": [
-          {
-            "type": "int256",
-            "name": "sumAX128"
-          },
-          {
-            "type": "int256",
-            "name": "sumBInsideX128"
-          },
-          {
-            "type": "int256",
-            "name": "sumFpInsideX128"
-          },
-          {
-            "type": "uint256",
-            "name": "sumFeeInsideX128"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "type": "function",
-    "name": "getFundingRateAndVirtualPrice",
-    "constant": true,
-    "stateMutability": "view",
-    "payable": false,
-    "inputs": [],
-    "outputs": [
-      {
-        "type": "int256",
-        "name": "fundingRateX128"
-      },
-      {
-        "type": "uint256",
-        "name": "virtualPriceX128"
-      }
-    ]
-  },
-  {
-    "type": "function",
-    "name": "getSumAX128",
-    "constant": true,
-    "stateMutability": "view",
-    "payable": false,
-    "inputs": [],
-    "outputs": [
-      {
-        "type": "int256"
-      }
-    ]
-  },
-  {
-    "type": "function",
-    "name": "getValuesInside",
-    "constant": true,
-    "stateMutability": "view",
-    "payable": false,
-    "inputs": [
-      {
-        "type": "int24",
-        "name": "tickLower"
-      },
-      {
-        "type": "int24",
-        "name": "tickUpper"
-      }
-    ],
-    "outputs": [
-      {
-        "type": "tuple",
-        "name": "wrapperValuesInside",
-        "components": [
-          {
-            "type": "int256",
-            "name": "sumAX128"
-          },
-          {
-            "type": "int256",
-            "name": "sumBInsideX128"
-          },
-          {
-            "type": "int256",
-            "name": "sumFpInsideX128"
-          },
-          {
-            "type": "uint256",
-            "name": "sumFeeInsideX128"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "type": "function",
-    "name": "initialize",
-    "constant": false,
-    "payable": false,
-    "inputs": [
-      {
-        "type": "tuple",
-        "name": "params",
-        "components": [
-          {
-            "type": "address",
-            "name": "clearingHouse"
-          },
-          {
-            "type": "address",
-            "name": "vToken"
-          },
-          {
-            "type": "address",
-            "name": "vQuote"
-          },
-          {
-            "type": "address",
-            "name": "vPool"
-          },
-          {
-            "type": "uint24",
-            "name": "liquidityFeePips"
-          },
-          {
-            "type": "uint24",
-            "name": "protocolFeePips"
-          }
-        ]
-      }
-    ],
-    "outputs": []
-  },
-  {
-    "type": "function",
-    "name": "liquidityFeePips",
-    "constant": true,
-    "stateMutability": "view",
-    "payable": false,
-    "inputs": [],
-    "outputs": [
-      {
-        "type": "uint24"
-      }
-    ]
-  },
-  {
-    "type": "function",
-    "name": "mint",
-    "constant": false,
-    "payable": false,
-    "inputs": [
-      {
-        "type": "int24",
-        "name": "tickLower"
-      },
-      {
-        "type": "int24",
-        "name": "tickUpper"
-      },
-      {
-        "type": "uint128",
-        "name": "liquidity"
-      }
-    ],
-    "outputs": [
-      {
-        "type": "uint256",
-        "name": "vTokenPrincipal"
-      },
-      {
-        "type": "uint256",
-        "name": "vQuotePrincipal"
-      },
-      {
-        "type": "tuple",
-        "name": "wrapperValuesInside",
-        "components": [
-          {
-            "type": "int256",
-            "name": "sumAX128"
-          },
-          {
-            "type": "int256",
-            "name": "sumBInsideX128"
-          },
-          {
-            "type": "int256",
-            "name": "sumFpInsideX128"
-          },
-          {
-            "type": "uint256",
-            "name": "sumFeeInsideX128"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "type": "function",
-    "name": "protocolFeePips",
-    "constant": true,
-    "stateMutability": "view",
-    "payable": false,
-    "inputs": [],
-    "outputs": [
-      {
-        "type": "uint24"
-      }
-    ]
-  },
-  {
-    "type": "function",
-    "name": "setFundingRateOverride",
-    "constant": false,
-    "payable": false,
-    "inputs": [
-      {
-        "type": "int256",
-        "name": "fundingRateOverrideX128_"
-      }
-    ],
-    "outputs": []
-  },
-  {
-    "type": "function",
-    "name": "setLiquidityFee",
-    "constant": false,
-    "payable": false,
-    "inputs": [
-      {
-        "type": "uint24",
-        "name": "liquidityFeePips_"
-      }
-    ],
-    "outputs": []
-  },
-  {
-    "type": "function",
-    "name": "setProtocolFee",
-    "constant": false,
-    "payable": false,
-    "inputs": [
-      {
-        "type": "uint24",
-        "name": "protocolFeePips_"
-      }
-    ],
-    "outputs": []
-  },
-  {
-    "type": "function",
-    "name": "sumFeeGlobalX128",
-    "constant": true,
-    "stateMutability": "view",
-    "payable": false,
-    "inputs": [],
-    "outputs": [
-      {
-        "type": "uint256"
-      }
-    ]
-  },
-  {
-    "type": "function",
-    "name": "swap",
-    "constant": false,
-    "payable": false,
-    "inputs": [
-      {
-        "type": "bool",
-        "name": "swapVTokenForVQuote"
-      },
-      {
-        "type": "int256",
-        "name": "amountSpecified"
-      },
-      {
-        "type": "uint160",
-        "name": "sqrtPriceLimitX96"
-      }
-    ],
-    "outputs": [
-      {
-        "type": "tuple",
-        "name": "swapResult",
-        "components": [
-          {
-            "type": "int256",
-            "name": "amountSpecified"
-          },
-          {
-            "type": "int256",
-            "name": "vTokenIn"
-          },
-          {
-            "type": "int256",
-            "name": "vQuoteIn"
-          },
-          {
-            "type": "uint256",
-            "name": "liquidityFees"
-          },
-          {
-            "type": "uint256",
-            "name": "protocolFees"
-          },
-          {
-            "type": "uint160",
-            "name": "sqrtPriceX96Start"
-          },
-          {
-            "type": "uint160",
-            "name": "sqrtPriceX96End"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "type": "function",
-    "name": "ticksExtended",
-    "constant": true,
-    "stateMutability": "view",
-    "payable": false,
-    "inputs": [
-      {
         "type": "int24"
       }
     ],
-    "outputs": [
-      {
-        "type": "int256",
-        "name": "sumALastX128"
-      },
-      {
-        "type": "int256",
-        "name": "sumBOutsideX128"
-      },
-      {
-        "type": "int256",
-        "name": "sumFpOutsideX128"
-      },
-      {
-        "type": "uint256",
-        "name": "sumFeeOutsideX128"
-      }
-    ]
+    "name": "InvalidTicks",
+    "type": "error"
   },
   {
-    "type": "function",
-    "name": "uniswapV3MintCallback",
-    "constant": false,
-    "payable": false,
+    "inputs": [],
+    "name": "NotClearingHouse",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "NotGovernance",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "NotGovernanceOrTeamMultisig",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "NotUniswapV3Pool",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "R",
+    "type": "error"
+  },
+  {
     "inputs": [
       {
-        "type": "uint256",
-        "name": "vTokenAmount"
-      },
-      {
-        "type": "uint256",
-        "name": "vQuoteAmount"
-      },
-      {
-        "type": "bytes"
+        "internalType": "uint128",
+        "name": "value",
+        "type": "uint128"
       }
     ],
-    "outputs": []
+    "name": "SafeCast_Int128Overflow",
+    "type": "error"
   },
   {
-    "type": "function",
-    "name": "uniswapV3SwapCallback",
-    "constant": false,
-    "payable": false,
     "inputs": [
       {
-        "type": "int256",
-        "name": "amount0Delta"
-      },
-      {
-        "type": "int256",
-        "name": "amount1Delta"
-      },
-      {
-        "type": "bytes"
+        "internalType": "uint256",
+        "name": "value",
+        "type": "uint256"
       }
     ],
-    "outputs": []
+    "name": "SafeCast_Int256Overflow",
+    "type": "error"
   },
   {
-    "type": "function",
-    "name": "updateGlobalFundingState",
-    "constant": false,
-    "payable": false,
-    "inputs": [
-      {
-        "type": "bool",
-        "name": "useZeroFundingRate"
-      }
-    ],
-    "outputs": []
-  },
-  {
-    "type": "function",
-    "name": "vPool",
-    "constant": true,
-    "stateMutability": "view",
-    "payable": false,
     "inputs": [],
-    "outputs": [
-      {
-        "type": "address"
-      }
-    ]
+    "name": "T",
+    "type": "error"
   },
   {
-    "type": "function",
-    "name": "vQuote",
-    "constant": true,
-    "stateMutability": "view",
-    "payable": false,
     "inputs": [],
-    "outputs": [
-      {
-        "type": "address"
-      }
-    ]
+    "name": "ZeroAmount",
+    "type": "error"
   },
   {
-    "type": "function",
-    "name": "vToken",
-    "constant": true,
-    "stateMutability": "view",
-    "payable": false,
-    "inputs": [],
-    "outputs": [
-      {
-        "type": "address"
-      }
-    ]
-  },
-  {
-    "type": "event",
     "anonymous": false,
-    "name": "FundingPaymentStateUpdated",
     "inputs": [
       {
-        "type": "tuple",
-        "name": "fundingPayment",
         "indexed": false,
+        "internalType": "uint256",
+        "name": "amount",
+        "type": "uint256"
+      }
+    ],
+    "name": "AccruedProtocolFeeCollected",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "int24",
+        "name": "tickLower",
+        "type": "int24"
+      },
+      {
+        "indexed": false,
+        "internalType": "int24",
+        "name": "tickUpper",
+        "type": "int24"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint128",
+        "name": "liquidity",
+        "type": "uint128"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "vTokenPrincipal",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "vQuotePrincipal",
+        "type": "uint256"
+      }
+    ],
+    "name": "Burn",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "int256",
+        "name": "fundingRateOverrideX128",
+        "type": "int256"
+      }
+    ],
+    "name": "FundingRateOverrideUpdated",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "uint24",
+        "name": "liquidityFeePips",
+        "type": "uint24"
+      }
+    ],
+    "name": "LiquidityFeeUpdated",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "int24",
+        "name": "tickLower",
+        "type": "int24"
+      },
+      {
+        "indexed": false,
+        "internalType": "int24",
+        "name": "tickUpper",
+        "type": "int24"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint128",
+        "name": "liquidity",
+        "type": "uint128"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "vTokenPrincipal",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "vQuotePrincipal",
+        "type": "uint256"
+      }
+    ],
+    "name": "Mint",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "uint24",
+        "name": "protocolFeePips",
+        "type": "uint24"
+      }
+    ],
+    "name": "ProtocolFeeUpdated",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
         "components": [
           {
-            "type": "int256",
-            "name": "sumAX128"
+            "internalType": "int256",
+            "name": "amountSpecified",
+            "type": "int256"
           },
           {
-            "type": "int256",
-            "name": "sumBX128"
+            "internalType": "int256",
+            "name": "vTokenIn",
+            "type": "int256"
           },
           {
-            "type": "int256",
-            "name": "sumFpX128"
+            "internalType": "int256",
+            "name": "vQuoteIn",
+            "type": "int256"
           },
           {
-            "type": "uint48",
-            "name": "timestampLast"
+            "internalType": "uint256",
+            "name": "liquidityFees",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "protocolFees",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint160",
+            "name": "sqrtPriceX96Start",
+            "type": "uint160"
+          },
+          {
+            "internalType": "uint160",
+            "name": "sqrtPriceX96End",
+            "type": "uint160"
           }
-        ]
+        ],
+        "indexed": false,
+        "internalType": "struct IVPoolWrapper.SwapResult",
+        "name": "swapResult",
+        "type": "tuple"
+      }
+    ],
+    "name": "Swap",
+    "type": "event"
+  },
+  {
+    "inputs": [],
+    "name": "accruedProtocolFee",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "int24",
+        "name": "tickLower",
+        "type": "int24"
       },
       {
-        "type": "int256",
+        "internalType": "int24",
+        "name": "tickUpper",
+        "type": "int24"
+      },
+      {
+        "internalType": "uint128",
+        "name": "liquidity",
+        "type": "uint128"
+      }
+    ],
+    "name": "burn",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "vTokenPrincipal",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "vQuotePrincipal",
+        "type": "uint256"
+      },
+      {
+        "components": [
+          {
+            "internalType": "int256",
+            "name": "sumAX128",
+            "type": "int256"
+          },
+          {
+            "internalType": "int256",
+            "name": "sumBInsideX128",
+            "type": "int256"
+          },
+          {
+            "internalType": "int256",
+            "name": "sumFpInsideX128",
+            "type": "int256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "sumFeeInsideX128",
+            "type": "uint256"
+          }
+        ],
+        "internalType": "struct IVPoolWrapper.WrapperValuesInside",
+        "name": "wrapperValuesInside",
+        "type": "tuple"
+      }
+    ],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "clearingHouse",
+    "outputs": [
+      {
+        "internalType": "contract IClearingHouse",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "collectAccruedProtocolFee",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "accruedProtocolFeeLast",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "bytes32",
+        "name": "slot",
+        "type": "bytes32"
+      }
+    ],
+    "name": "extsload",
+    "outputs": [
+      {
+        "internalType": "bytes32",
+        "name": "val",
+        "type": "bytes32"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "bytes32[]",
+        "name": "slots",
+        "type": "bytes32[]"
+      }
+    ],
+    "name": "extsload",
+    "outputs": [
+      {
+        "internalType": "bytes32[]",
+        "name": "",
+        "type": "bytes32[]"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "fpGlobal",
+    "outputs": [
+      {
+        "internalType": "int256",
+        "name": "sumAX128",
+        "type": "int256"
+      },
+      {
+        "internalType": "int256",
+        "name": "sumBX128",
+        "type": "int256"
+      },
+      {
+        "internalType": "int256",
+        "name": "sumFpX128",
+        "type": "int256"
+      },
+      {
+        "internalType": "uint48",
+        "name": "timestampLast",
+        "type": "uint48"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "fundingRateOverrideX128",
+    "outputs": [
+      {
+        "internalType": "int256",
+        "name": "",
+        "type": "int256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "getExtrapolatedSumAX128",
+    "outputs": [
+      {
+        "internalType": "int256",
+        "name": "",
+        "type": "int256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "int24",
+        "name": "tickLower",
+        "type": "int24"
+      },
+      {
+        "internalType": "int24",
+        "name": "tickUpper",
+        "type": "int24"
+      }
+    ],
+    "name": "getExtrapolatedValuesInside",
+    "outputs": [
+      {
+        "components": [
+          {
+            "internalType": "int256",
+            "name": "sumAX128",
+            "type": "int256"
+          },
+          {
+            "internalType": "int256",
+            "name": "sumBInsideX128",
+            "type": "int256"
+          },
+          {
+            "internalType": "int256",
+            "name": "sumFpInsideX128",
+            "type": "int256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "sumFeeInsideX128",
+            "type": "uint256"
+          }
+        ],
+        "internalType": "struct IVPoolWrapper.WrapperValuesInside",
+        "name": "wrapperValuesInside",
+        "type": "tuple"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "getFundingRateAndVirtualPrice",
+    "outputs": [
+      {
+        "internalType": "int256",
         "name": "fundingRateX128",
-        "indexed": false
+        "type": "int256"
       },
       {
-        "type": "uint256",
+        "internalType": "uint256",
         "name": "virtualPriceX128",
-        "indexed": false
+        "type": "uint256"
       }
-    ]
+    ],
+    "stateMutability": "view",
+    "type": "function"
   },
   {
-    "type": "error",
+    "inputs": [],
+    "name": "getSumAX128",
+    "outputs": [
+      {
+        "internalType": "int256",
+        "name": "",
+        "type": "int256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "int24",
+        "name": "tickLower",
+        "type": "int24"
+      },
+      {
+        "internalType": "int24",
+        "name": "tickUpper",
+        "type": "int24"
+      }
+    ],
+    "name": "getValuesInside",
+    "outputs": [
+      {
+        "components": [
+          {
+            "internalType": "int256",
+            "name": "sumAX128",
+            "type": "int256"
+          },
+          {
+            "internalType": "int256",
+            "name": "sumBInsideX128",
+            "type": "int256"
+          },
+          {
+            "internalType": "int256",
+            "name": "sumFpInsideX128",
+            "type": "int256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "sumFeeInsideX128",
+            "type": "uint256"
+          }
+        ],
+        "internalType": "struct IVPoolWrapper.WrapperValuesInside",
+        "name": "wrapperValuesInside",
+        "type": "tuple"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "components": [
+          {
+            "internalType": "address",
+            "name": "clearingHouse",
+            "type": "address"
+          },
+          {
+            "internalType": "contract IVToken",
+            "name": "vToken",
+            "type": "address"
+          },
+          {
+            "internalType": "contract IVQuote",
+            "name": "vQuote",
+            "type": "address"
+          },
+          {
+            "internalType": "contract IUniswapV3Pool",
+            "name": "vPool",
+            "type": "address"
+          },
+          {
+            "internalType": "uint24",
+            "name": "liquidityFeePips",
+            "type": "uint24"
+          },
+          {
+            "internalType": "uint24",
+            "name": "protocolFeePips",
+            "type": "uint24"
+          }
+        ],
+        "internalType": "struct IVPoolWrapper.InitializeVPoolWrapperParams",
+        "name": "params",
+        "type": "tuple"
+      }
+    ],
+    "name": "initialize",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "liquidityFeePips",
+    "outputs": [
+      {
+        "internalType": "uint24",
+        "name": "",
+        "type": "uint24"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "int24",
+        "name": "tickLower",
+        "type": "int24"
+      },
+      {
+        "internalType": "int24",
+        "name": "tickUpper",
+        "type": "int24"
+      },
+      {
+        "internalType": "uint128",
+        "name": "liquidity",
+        "type": "uint128"
+      }
+    ],
+    "name": "mint",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "vTokenPrincipal",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "vQuotePrincipal",
+        "type": "uint256"
+      },
+      {
+        "components": [
+          {
+            "internalType": "int256",
+            "name": "sumAX128",
+            "type": "int256"
+          },
+          {
+            "internalType": "int256",
+            "name": "sumBInsideX128",
+            "type": "int256"
+          },
+          {
+            "internalType": "int256",
+            "name": "sumFpInsideX128",
+            "type": "int256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "sumFeeInsideX128",
+            "type": "uint256"
+          }
+        ],
+        "internalType": "struct IVPoolWrapper.WrapperValuesInside",
+        "name": "wrapperValuesInside",
+        "type": "tuple"
+      }
+    ],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "protocolFeePips",
+    "outputs": [
+      {
+        "internalType": "uint24",
+        "name": "",
+        "type": "uint24"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "int256",
+        "name": "fundingRateOverrideX128_",
+        "type": "int256"
+      }
+    ],
+    "name": "setFundingRateOverride",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint24",
+        "name": "liquidityFeePips_",
+        "type": "uint24"
+      }
+    ],
+    "name": "setLiquidityFee",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint24",
+        "name": "protocolFeePips_",
+        "type": "uint24"
+      }
+    ],
+    "name": "setProtocolFee",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "sumFeeGlobalX128",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "bool",
+        "name": "swapVTokenForVQuote",
+        "type": "bool"
+      },
+      {
+        "internalType": "int256",
+        "name": "amountSpecified",
+        "type": "int256"
+      },
+      {
+        "internalType": "uint160",
+        "name": "sqrtPriceLimitX96",
+        "type": "uint160"
+      }
+    ],
+    "name": "swap",
+    "outputs": [
+      {
+        "components": [
+          {
+            "internalType": "int256",
+            "name": "amountSpecified",
+            "type": "int256"
+          },
+          {
+            "internalType": "int256",
+            "name": "vTokenIn",
+            "type": "int256"
+          },
+          {
+            "internalType": "int256",
+            "name": "vQuoteIn",
+            "type": "int256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "liquidityFees",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "protocolFees",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint160",
+            "name": "sqrtPriceX96Start",
+            "type": "uint160"
+          },
+          {
+            "internalType": "uint160",
+            "name": "sqrtPriceX96End",
+            "type": "uint160"
+          }
+        ],
+        "internalType": "struct IVPoolWrapper.SwapResult",
+        "name": "swapResult",
+        "type": "tuple"
+      }
+    ],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "int24",
+        "name": "",
+        "type": "int24"
+      }
+    ],
+    "name": "ticksExtended",
+    "outputs": [
+      {
+        "internalType": "int256",
+        "name": "sumALastX128",
+        "type": "int256"
+      },
+      {
+        "internalType": "int256",
+        "name": "sumBOutsideX128",
+        "type": "int256"
+      },
+      {
+        "internalType": "int256",
+        "name": "sumFpOutsideX128",
+        "type": "int256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "sumFeeOutsideX128",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "vTokenAmount",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "vQuoteAmount",
+        "type": "uint256"
+      },
+      {
+        "internalType": "bytes",
+        "name": "",
+        "type": "bytes"
+      }
+    ],
+    "name": "uniswapV3MintCallback",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "int256",
+        "name": "amount0Delta",
+        "type": "int256"
+      },
+      {
+        "internalType": "int256",
+        "name": "amount1Delta",
+        "type": "int256"
+      },
+      {
+        "internalType": "bytes",
+        "name": "",
+        "type": "bytes"
+      }
+    ],
+    "name": "uniswapV3SwapCallback",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "bool",
+        "name": "useZeroFundingRate",
+        "type": "bool"
+      }
+    ],
+    "name": "updateGlobalFundingState",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "vPool",
+    "outputs": [
+      {
+        "internalType": "contract IUniswapV3Pool",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "vQuote",
+    "outputs": [
+      {
+        "internalType": "contract IVQuote",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "vToken",
+    "outputs": [
+      {
+        "internalType": "contract IVToken",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "components": [
+          {
+            "internalType": "int256",
+            "name": "sumAX128",
+            "type": "int256"
+          },
+          {
+            "internalType": "int256",
+            "name": "sumBX128",
+            "type": "int256"
+          },
+          {
+            "internalType": "int256",
+            "name": "sumFpX128",
+            "type": "int256"
+          },
+          {
+            "internalType": "uint48",
+            "name": "timestampLast",
+            "type": "uint48"
+          }
+        ],
+        "indexed": false,
+        "internalType": "struct FundingPayment.Info",
+        "name": "fundingPayment",
+        "type": "tuple"
+      },
+      {
+        "indexed": false,
+        "internalType": "int256",
+        "name": "fundingRateX128",
+        "type": "int256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "virtualPriceX128",
+        "type": "uint256"
+      }
+    ],
+    "name": "FundingPaymentStateUpdated",
+    "type": "event"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint160",
+        "name": "sqrtPriceX96",
+        "type": "uint160"
+      }
+    ],
     "name": "IllegalSqrtPrice",
-    "inputs": [
-      {
-        "type": "uint160",
-        "name": "sqrtPriceX96"
-      }
-    ]
+    "type": "error"
   },
   {
-    "type": "error",
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "value",
+        "type": "uint256"
+      }
+    ],
     "name": "SafeCast_UInt224Overflow",
-    "inputs": [
-      {
-        "type": "uint256",
-        "name": "value"
-      }
-    ]
+    "type": "error"
   },
   {
-    "type": "error",
+    "inputs": [],
     "name": "UV3PH_OracleConsultFailed",
-    "inputs": []
+    "type": "error"
   }
 ]
