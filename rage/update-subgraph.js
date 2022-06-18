@@ -1,75 +1,118 @@
 const fs = require('fs-extra');
 const yaml = require('yaml');
 const sdk = require('@ragetrade/sdk');
+const { ethers } = require('ethers');
 
-const networkNameIn = { subgraph: 'arbitrum-rinkeby', sdk: 'arbtest' };
+class MockProvider extends ethers.providers.Provider {
+  chainId;
+  constructor(chainId) {
+    super();
+    this.chainId = chainId;
+  }
+
+  async getNetwork() {
+    return { chainId: this.chainId };
+  }
+}
+
+let networkInfo;
+const networkInput = process.argv[2];
+switch (networkInput) {
+  case 'arbmain':
+    networkInfo = {
+      subgraph: 'arbitrum-one',
+      sdk: 'arbmain',
+      provider: new MockProvider(42161),
+    };
+    break;
+  case 'arbtest':
+    networkInfo = {
+      subgraph: 'arbitrum-rinkeby',
+      sdk: 'arbtest',
+      provider: new MockProvider(421611),
+    };
+    break;
+  default:
+    throw new Error(
+      `update-subgraph.js: network "${networkInput}" not supported. Please pass arbmain or arbtest.`
+    );
+}
 
 async function main() {
-  const [
-    rtfDeployment,
-    chDeployment,
-    chlDeployment,
-    ifDeployment,
-    vpwDeployment,
-    cysDeployment,
-    vpDeployment,
-    ctcLpTokenDeployment,
-    cqDeployment,
-  ] = await Promise.all([
-    updateAbi('core', 'RageTradeFactory'),
-    updateAbi('core', 'ClearingHouse'),
-    updateAbi('core', 'ClearingHouseLens'),
-    updateAbi('core', 'InsuranceFund'),
-    updateAbi('core', 'VPoolWrapperLogic'),
-    updateAbi('vaults', 'CurveYieldStrategy'),
-    updateAbi('vaults', 'VaultPeriphery'),
-    updateAbi('vaults', 'CurveTriCryptoLpToken'),
-    updateAbi('vaults', 'CurveQuoter'),
-  ]);
+  // just for getting startBlockNumber
+  const factoryDeployment = await sdk.getDeployment(
+    'core',
+    networkInfo.sdk,
+    'RageTradeFactory'
+  );
+  const startBlockNumber = factoryDeployment.receipt.blockNumber;
 
-  const StartBlockNumber = rtfDeployment.receipt.blockNumber;
+  const {
+    rageTradeFactory,
+    clearingHouse,
+    clearingHouseLens,
+    insuranceFund,
+    vPoolWrapperLogic,
+  } = await sdk.getContracts(networkInfo.provider);
+  const { curveYieldStrategy, vaultPeriphery } = await sdk.getVaultContracts(
+    networkInfo.provider
+  );
+  const { crv3, quoter } = await sdk.getCurveFinanceContracts(
+    networkInfo.provider
+  );
 
-  // updates clearing house address in subgraph.yaml
+  // STEP 1: Copy ABIs
+  await copyAbi(rageTradeFactory, 'RageTradeFactory');
+  await copyAbi(clearingHouse, 'ClearingHouse');
+  await copyAbi(clearingHouseLens, 'ClearingHouseLens');
+  await copyAbi(insuranceFund, 'InsuranceFund');
+  await copyAbi(vPoolWrapperLogic, 'VPoolWrapperLogic');
+  await copyAbi(curveYieldStrategy, 'CurveYieldStrategy');
+  await copyAbi(vaultPeriphery, 'VaultPeriphery');
+  await copyAbi(crv3, 'CurveTriCryptoLpToken');
+  await copyAbi(quoter, 'CurveQuoter');
+
+  // STEP 2: Update ClearingHouse and other contract address in subgraph.yaml
   const subgraphYaml = yaml.parse(fs.readFileSync('./subgraph.yaml', 'utf8'));
-
   updateSubgraphYaml(
     subgraphYaml,
     'ClearingHouse',
-    chDeployment,
-    StartBlockNumber
+    clearingHouse.address,
+    startBlockNumber
   );
   updateSubgraphYaml(
     subgraphYaml,
     'RageTradeFactory',
-    rtfDeployment,
-    StartBlockNumber
+    rageTradeFactory.address,
+    startBlockNumber
   );
   updateSubgraphYaml(
     subgraphYaml,
     'CurveYieldStrategy',
-    cysDeployment,
-    cysDeployment.receipt.blockNumber
+    curveYieldStrategy.address,
+    startBlockNumber
   );
   updateSubgraphYaml(
     subgraphYaml,
     'VaultPeriphery',
-    vpDeployment,
-    vpDeployment.receipt.blockNumber
+    vaultPeriphery.address,
+    startBlockNumber
   );
 
-  // subgraphYaml
+  // write subgraphYaml
   fs.writeFile('./subgraph.yaml', yaml.stringify(subgraphYaml, { indent: 2 }));
 
+  // STEP 3: Update contract addresses in the .ts codebase
   writeContractAddress({
-    clearingHouseAddress: chDeployment.address,
-    clearingHouseLensAddress: chlDeployment.address,
-    rageTradeFactoryAddress: rtfDeployment.address,
-    insuranceFundAddress: ifDeployment.address,
-    vPoolWrapperAddress: vpwDeployment.address,
-    curveYearStrategyAddress: cysDeployment.address,
-    vaultPeripheryAddress: vpDeployment.address,
-    curveTriCryptoLpTokenAddress: ctcLpTokenDeployment.address,
-    curveQuoterAddress: cqDeployment.address,
+    clearingHouseAddress: clearingHouse.address,
+    clearingHouseLensAddress: clearingHouseLens.address,
+    rageTradeFactoryAddress: rageTradeFactory.address,
+    insuranceFundAddress: insuranceFund.address,
+    vPoolWrapperAddress: vPoolWrapperLogic.address,
+    curveYearStrategyAddress: curveYieldStrategy.address,
+    vaultPeripheryAddress: vaultPeriphery.address,
+    curveTriCryptoLpTokenAddress: crv3.address,
+    curveQuoterAddress: quoter.address,
   });
 
   console.log('Updated subgraph.yaml');
@@ -78,8 +121,8 @@ async function main() {
 function updateSubgraphYaml(
   subgraphYaml,
   contractName,
-  contractDeployment,
-  StartBlockNumber
+  contractAddress,
+  startBlockNumber
 ) {
   const dataSources = subgraphYaml.dataSources.find(
     ({ name }) => name === contractName
@@ -89,17 +132,19 @@ function updateSubgraphYaml(
       `There is no ${contractName} data source in the subgraph.yaml`
     );
   }
-
-  dataSources.source.startBlock = StartBlockNumber;
-  dataSources.source.address = contractDeployment.address;
+  dataSources.network = networkInfo.subgraph;
+  dataSources.source.startBlock = startBlockNumber;
+  dataSources.source.address = contractAddress;
 }
 
-async function updateAbi(repo, name) {
-  const deployment = await sdk.getDeployment(repo, networkNameIn.sdk, name);
-  await fs.writeJSON(`./abis/${name}.json`, deployment.abi, { spaces: 2 });
+async function copyAbi(contract, name) {
+  const abi = contract.interface.fragments.map(f =>
+    JSON.parse(f.format('json'))
+  );
+  await fs.writeJSON(`./abis/${name}.json`, abi, { spaces: 2 });
 
   console.log(`Updated ${name}.json`);
-  return deployment;
+  return { abi };
 }
 
 function writeContractAddress({

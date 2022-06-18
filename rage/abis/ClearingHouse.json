@@ -1,2051 +1,1846 @@
 [
   {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "senderAddress",
-        "type": "address"
-      }
-    ],
+    "type": "error",
     "name": "AccessDenied",
-    "type": "error"
+    "inputs": [
+      {
+        "type": "address",
+        "name": "senderAddress"
+      }
+    ]
   },
   {
-    "inputs": [],
+    "type": "error",
     "name": "CannotPauseIfUnpauseInProgress",
-    "type": "error"
+    "inputs": []
   },
   {
-    "inputs": [],
+    "type": "error",
     "name": "CannotUnpauseIfPauseInProgress",
-    "type": "error"
+    "inputs": []
   },
   {
-    "inputs": [
-      {
-        "internalType": "uint32",
-        "name": "collateralId",
-        "type": "uint32"
-      }
-    ],
+    "type": "error",
     "name": "CollateralDoesNotExist",
-    "type": "error"
-  },
-  {
     "inputs": [
       {
-        "internalType": "uint32",
-        "name": "collateralId",
-        "type": "uint32"
+        "type": "uint32",
+        "name": "collateralId"
       }
-    ],
+    ]
+  },
+  {
+    "type": "error",
     "name": "CollateralNotAllowedForUse",
-    "type": "error"
-  },
-  {
     "inputs": [
       {
-        "internalType": "uint160",
-        "name": "sqrtPriceX96",
-        "type": "uint160"
+        "type": "uint32",
+        "name": "collateralId"
       }
-    ],
+    ]
+  },
+  {
+    "type": "error",
     "name": "IllegalSqrtPrice",
-    "type": "error"
-  },
-  {
     "inputs": [
       {
-        "internalType": "contract IERC20",
-        "name": "incorrectAddress",
-        "type": "address"
-      },
-      {
-        "internalType": "contract IERC20",
-        "name": "correctAddress",
-        "type": "address"
+        "type": "uint160",
+        "name": "sqrtPriceX96"
       }
-    ],
+    ]
+  },
+  {
+    "type": "error",
     "name": "IncorrectCollateralAddress",
-    "type": "error"
-  },
-  {
     "inputs": [
       {
-        "internalType": "address",
-        "name": "invalidAddress",
-        "type": "address"
+        "type": "address",
+        "name": "incorrectAddress"
+      },
+      {
+        "type": "address",
+        "name": "correctAddress"
       }
-    ],
+    ]
+  },
+  {
+    "type": "error",
     "name": "InvalidCollateralAddress",
-    "type": "error"
-  },
-  {
     "inputs": [
       {
-        "internalType": "enum IClearingHouseEnums.MulticallOperationType",
-        "name": "multicallOperationType",
-        "type": "uint8"
+        "type": "address",
+        "name": "invalidAddress"
       }
-    ],
+    ]
+  },
+  {
+    "type": "error",
     "name": "InvalidMulticallOperationType",
-    "type": "error"
-  },
-  {
     "inputs": [
       {
-        "internalType": "uint256",
-        "name": "errorCode",
-        "type": "uint256"
+        "type": "uint8",
+        "name": "multicallOperationType"
       }
-    ],
+    ]
+  },
+  {
+    "type": "error",
     "name": "InvalidSetting",
-    "type": "error"
+    "inputs": [
+      {
+        "type": "uint256",
+        "name": "errorCode"
+      }
+    ]
   },
   {
-    "inputs": [],
+    "type": "error",
     "name": "InvalidTokenLiquidationParameters",
-    "type": "error"
+    "inputs": []
   },
   {
-    "inputs": [
-      {
-        "internalType": "int256",
-        "name": "keeperFee",
-        "type": "int256"
-      }
-    ],
+    "type": "error",
     "name": "KeeperFeeNotPositive",
-    "type": "error"
-  },
-  {
     "inputs": [
       {
-        "internalType": "uint256",
-        "name": "notionalValue",
-        "type": "uint256"
+        "type": "int256",
+        "name": "keeperFee"
       }
-    ],
+    ]
+  },
+  {
+    "type": "error",
     "name": "LowNotionalValue",
-    "type": "error"
+    "inputs": [
+      {
+        "type": "uint256",
+        "name": "notionalValue"
+      }
+    ]
   },
   {
-    "inputs": [],
+    "type": "error",
     "name": "NotRageTradeFactory",
-    "type": "error"
+    "inputs": []
   },
   {
-    "inputs": [
-      {
-        "internalType": "uint32",
-        "name": "poolId",
-        "type": "uint32"
-      }
-    ],
+    "type": "error",
     "name": "PoolDoesNotExist",
-    "type": "error"
-  },
-  {
     "inputs": [
       {
-        "internalType": "uint32",
-        "name": "poolId",
-        "type": "uint32"
+        "type": "uint32",
+        "name": "poolId"
       }
-    ],
+    ]
+  },
+  {
+    "type": "error",
     "name": "PoolNotAllowedForTrade",
-    "type": "error"
-  },
-  {
     "inputs": [
       {
-        "internalType": "uint256",
-        "name": "value",
-        "type": "uint256"
+        "type": "uint32",
+        "name": "poolId"
       }
-    ],
+    ]
+  },
+  {
+    "type": "error",
     "name": "SafeCast_UInt224Overflow",
-    "type": "error"
+    "inputs": [
+      {
+        "type": "uint256",
+        "name": "value"
+      }
+    ]
   },
   {
-    "inputs": [],
+    "type": "error",
     "name": "SlippageBeyondTolerance",
-    "type": "error"
+    "inputs": []
   },
   {
-    "inputs": [],
+    "type": "error",
     "name": "T",
-    "type": "error"
+    "inputs": []
   },
   {
-    "inputs": [],
+    "type": "error",
     "name": "Unauthorised",
-    "type": "error"
+    "inputs": []
   },
   {
-    "inputs": [],
+    "type": "error",
     "name": "ZeroAddress",
-    "type": "error"
+    "inputs": []
   },
   {
-    "inputs": [],
+    "type": "error",
     "name": "ZeroAmount",
-    "type": "error"
+    "inputs": []
   },
   {
+    "type": "event",
     "anonymous": false,
-    "inputs": [
-      {
-        "indexed": true,
-        "internalType": "address",
-        "name": "ownerAddress",
-        "type": "address"
-      },
-      {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "accountId",
-        "type": "uint256"
-      }
-    ],
     "name": "AccountCreated",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
     "inputs": [
       {
-        "indexed": false,
-        "internalType": "contract IERC20",
-        "name": "cToken",
-        "type": "address"
+        "type": "address",
+        "name": "ownerAddress",
+        "indexed": true
       },
       {
-        "components": [
-          {
-            "internalType": "contract IOracle",
-            "name": "oracle",
-            "type": "address"
-          },
-          {
-            "internalType": "uint32",
-            "name": "twapDuration",
-            "type": "uint32"
-          },
-          {
-            "internalType": "bool",
-            "name": "isAllowedForDeposit",
-            "type": "bool"
-          }
-        ],
-        "indexed": false,
-        "internalType": "struct IClearingHouseStructures.CollateralSettings",
-        "name": "cTokenInfo",
-        "type": "tuple"
+        "type": "uint256",
+        "name": "accountId",
+        "indexed": false
       }
-    ],
+    ]
+  },
+  {
+    "type": "event",
+    "anonymous": false,
     "name": "CollateralSettingsUpdated",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
     "inputs": [
       {
-        "indexed": true,
-        "internalType": "address",
-        "name": "previousGovernancePending",
-        "type": "address"
+        "type": "address",
+        "name": "cToken",
+        "indexed": false
       },
       {
-        "indexed": true,
-        "internalType": "address",
-        "name": "newGovernancePending",
-        "type": "address"
+        "type": "tuple",
+        "name": "cTokenInfo",
+        "indexed": false,
+        "components": [
+          {
+            "type": "address",
+            "name": "oracle"
+          },
+          {
+            "type": "uint32",
+            "name": "twapDuration"
+          },
+          {
+            "type": "bool",
+            "name": "isAllowedForDeposit"
+          }
+        ]
       }
-    ],
+    ]
+  },
+  {
+    "type": "event",
+    "anonymous": false,
     "name": "GovernancePending",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
     "inputs": [
       {
-        "indexed": true,
-        "internalType": "address",
-        "name": "previousGovernance",
-        "type": "address"
+        "type": "address",
+        "name": "previousGovernancePending",
+        "indexed": true
       },
       {
-        "indexed": true,
-        "internalType": "address",
-        "name": "newGovernance",
-        "type": "address"
-      }
-    ],
-    "name": "GovernanceTransferred",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": false,
-        "internalType": "address",
-        "name": "account",
-        "type": "address"
-      }
-    ],
-    "name": "Paused",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": false,
-        "internalType": "bool",
-        "name": "paused",
-        "type": "bool"
-      }
-    ],
-    "name": "PausedUpdated",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": false,
-        "internalType": "uint32",
-        "name": "poolId",
-        "type": "uint32"
-      },
-      {
-        "components": [
-          {
-            "internalType": "uint16",
-            "name": "initialMarginRatioBps",
-            "type": "uint16"
-          },
-          {
-            "internalType": "uint16",
-            "name": "maintainanceMarginRatioBps",
-            "type": "uint16"
-          },
-          {
-            "internalType": "uint16",
-            "name": "maxVirtualPriceDeviationRatioBps",
-            "type": "uint16"
-          },
-          {
-            "internalType": "uint32",
-            "name": "twapDuration",
-            "type": "uint32"
-          },
-          {
-            "internalType": "bool",
-            "name": "isAllowedForTrade",
-            "type": "bool"
-          },
-          {
-            "internalType": "bool",
-            "name": "isCrossMargined",
-            "type": "bool"
-          },
-          {
-            "internalType": "contract IOracle",
-            "name": "oracle",
-            "type": "address"
-          }
-        ],
-        "indexed": false,
-        "internalType": "struct IClearingHouseStructures.PoolSettings",
-        "name": "settings",
-        "type": "tuple"
-      }
-    ],
-    "name": "PoolSettingsUpdated",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "components": [
-          {
-            "internalType": "uint16",
-            "name": "rangeLiquidationFeeFraction",
-            "type": "uint16"
-          },
-          {
-            "internalType": "uint16",
-            "name": "tokenLiquidationFeeFraction",
-            "type": "uint16"
-          },
-          {
-            "internalType": "uint16",
-            "name": "closeFactorMMThresholdBps",
-            "type": "uint16"
-          },
-          {
-            "internalType": "uint16",
-            "name": "partialLiquidationCloseFactorBps",
-            "type": "uint16"
-          },
-          {
-            "internalType": "uint16",
-            "name": "insuranceFundFeeShareBps",
-            "type": "uint16"
-          },
-          {
-            "internalType": "uint16",
-            "name": "liquidationSlippageSqrtToleranceBps",
-            "type": "uint16"
-          },
-          {
-            "internalType": "uint64",
-            "name": "maxRangeLiquidationFees",
-            "type": "uint64"
-          },
-          {
-            "internalType": "uint64",
-            "name": "minNotionalLiquidatable",
-            "type": "uint64"
-          }
-        ],
-        "indexed": false,
-        "internalType": "struct IClearingHouseStructures.LiquidationParams",
-        "name": "liquidationParams",
-        "type": "tuple"
-      },
-      {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "removeLimitOrderFee",
-        "type": "uint256"
-      },
-      {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "minimumOrderNotional",
-        "type": "uint256"
-      },
-      {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "minRequiredMargin",
-        "type": "uint256"
-      }
-    ],
-    "name": "ProtocolSettingsUpdated",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": true,
-        "internalType": "address",
-        "name": "previousTeamMultisigPending",
-        "type": "address"
-      },
-      {
-        "indexed": true,
-        "internalType": "address",
-        "name": "newTeamMultisigPending",
-        "type": "address"
-      }
-    ],
-    "name": "TeamMultisigPending",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": true,
-        "internalType": "address",
-        "name": "previousTeamMultisig",
-        "type": "address"
-      },
-      {
-        "indexed": true,
-        "internalType": "address",
-        "name": "newTeamMultisig",
-        "type": "address"
-      }
-    ],
-    "name": "TeamMultisigTransferred",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": false,
-        "internalType": "address",
-        "name": "account",
-        "type": "address"
-      }
-    ],
-    "name": "Unpaused",
-    "type": "event"
-  },
-  {
-    "inputs": [],
-    "name": "acceptGovernanceTransfer",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "acceptTeamMultisigTransfer",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "createAccount",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "newAccountId",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint32",
-        "name": "collateralId",
-        "type": "uint32"
-      },
-      {
-        "internalType": "uint256",
-        "name": "amount",
-        "type": "uint256"
-      }
-    ],
-    "name": "createAccountAndAddMargin",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "newAccountId",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "bytes32",
-        "name": "slot",
-        "type": "bytes32"
-      }
-    ],
-    "name": "extsload",
-    "outputs": [
-      {
-        "internalType": "bytes32",
-        "name": "val",
-        "type": "bytes32"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "bytes32[]",
-        "name": "slots",
-        "type": "bytes32[]"
-      }
-    ],
-    "name": "extsload",
-    "outputs": [
-      {
-        "internalType": "bytes32[]",
-        "name": "",
-        "type": "bytes32[]"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "accountId",
-        "type": "uint256"
-      },
-      {
-        "internalType": "bool",
-        "name": "isInitialMargin",
-        "type": "bool"
-      }
-    ],
-    "name": "getAccountMarketValueAndRequiredMargin",
-    "outputs": [
-      {
-        "internalType": "int256",
-        "name": "marketValue",
-        "type": "int256"
-      },
-      {
-        "internalType": "int256",
-        "name": "requiredMargin",
-        "type": "int256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "accountId",
-        "type": "uint256"
-      }
-    ],
-    "name": "getAccountNetProfit",
-    "outputs": [
-      {
-        "internalType": "int256",
-        "name": "accountNetProfit",
-        "type": "int256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "accountId",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint32",
-        "name": "poolId",
-        "type": "uint32"
-      }
-    ],
-    "name": "getAccountNetTokenPosition",
-    "outputs": [
-      {
-        "internalType": "int256",
-        "name": "netPosition",
-        "type": "int256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint32",
-        "name": "poolId",
-        "type": "uint32"
-      }
-    ],
-    "name": "getRealTwapPriceX128",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "realPriceX128",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint32",
-        "name": "poolId",
-        "type": "uint32"
-      }
-    ],
-    "name": "getVirtualTwapPriceX128",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "virtualPriceX128",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "governance",
-    "outputs": [
-      {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "governancePending",
-    "outputs": [
-      {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "_rageTradeFactoryAddress",
-        "type": "address"
-      },
-      {
-        "internalType": "address",
-        "name": "initialGovernance",
-        "type": "address"
-      },
-      {
-        "internalType": "address",
-        "name": "initialTeamMultisig",
-        "type": "address"
-      },
-      {
-        "internalType": "contract IERC20",
-        "name": "_defaultCollateralToken",
-        "type": "address"
-      },
-      {
-        "internalType": "contract IOracle",
-        "name": "_defaultCollateralTokenOracle",
-        "type": "address"
-      },
-      {
-        "internalType": "contract IInsuranceFund",
-        "name": "_insuranceFund",
-        "type": "address"
-      },
-      {
-        "internalType": "contract IVQuote",
-        "name": "_vQuote",
-        "type": "address"
-      }
-    ],
-    "name": "initialize",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "address",
+        "type": "address",
         "name": "newGovernancePending",
-        "type": "address"
+        "indexed": true
       }
-    ],
-    "name": "initiateGovernanceTransfer",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
+    ]
   },
   {
+    "type": "event",
+    "anonymous": false,
+    "name": "GovernanceTransferred",
     "inputs": [
       {
-        "internalType": "address",
-        "name": "newTeamMultisigPending",
-        "type": "address"
-      }
-    ],
-    "name": "initiateTeamMultisigTransfer",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "insuranceFund",
-    "outputs": [
-      {
-        "internalType": "contract IInsuranceFund",
-        "name": "",
-        "type": "address"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "accountId",
-        "type": "uint256"
-      }
-    ],
-    "name": "liquidateLiquidityPositions",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "targetAccountId",
-        "type": "uint256"
+        "type": "address",
+        "name": "previousGovernance",
+        "indexed": true
       },
       {
-        "internalType": "uint32",
+        "type": "address",
+        "name": "newGovernance",
+        "indexed": true
+      }
+    ]
+  },
+  {
+    "type": "event",
+    "anonymous": false,
+    "name": "Paused",
+    "inputs": [
+      {
+        "type": "address",
+        "name": "account",
+        "indexed": false
+      }
+    ]
+  },
+  {
+    "type": "event",
+    "anonymous": false,
+    "name": "PausedUpdated",
+    "inputs": [
+      {
+        "type": "bool",
+        "name": "paused",
+        "indexed": false
+      }
+    ]
+  },
+  {
+    "type": "event",
+    "anonymous": false,
+    "name": "PoolSettingsUpdated",
+    "inputs": [
+      {
+        "type": "uint32",
         "name": "poolId",
-        "type": "uint32"
-      }
-    ],
-    "name": "liquidateTokenPosition",
-    "outputs": [
-      {
-        "internalType": "int256",
-        "name": "keeperFee",
-        "type": "int256"
-      }
-    ],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "bytes[]",
-        "name": "data",
-        "type": "bytes[]"
-      }
-    ],
-    "name": "multicall",
-    "outputs": [
-      {
-        "internalType": "bytes[]",
-        "name": "results",
-        "type": "bytes[]"
-      }
-    ],
-    "stateMutability": "payable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "accountId",
-        "type": "uint256"
+        "indexed": false
       },
       {
+        "type": "tuple",
+        "name": "settings",
+        "indexed": false,
         "components": [
           {
-            "internalType": "enum IClearingHouseEnums.MulticallOperationType",
-            "name": "operationType",
-            "type": "uint8"
+            "type": "uint16",
+            "name": "initialMarginRatioBps"
           },
           {
-            "internalType": "bytes",
-            "name": "data",
-            "type": "bytes"
+            "type": "uint16",
+            "name": "maintainanceMarginRatioBps"
+          },
+          {
+            "type": "uint16",
+            "name": "maxVirtualPriceDeviationRatioBps"
+          },
+          {
+            "type": "uint32",
+            "name": "twapDuration"
+          },
+          {
+            "type": "bool",
+            "name": "isAllowedForTrade"
+          },
+          {
+            "type": "bool",
+            "name": "isCrossMargined"
+          },
+          {
+            "type": "address",
+            "name": "oracle"
           }
-        ],
-        "internalType": "struct IClearingHouseStructures.MulticallOperation[]",
-        "name": "operations",
-        "type": "tuple[]"
+        ]
       }
-    ],
-    "name": "multicallWithSingleMarginCheck",
-    "outputs": [
-      {
-        "internalType": "bytes[]",
-        "name": "results",
-        "type": "bytes[]"
-      }
-    ],
-    "stateMutability": "nonpayable",
-    "type": "function"
+    ]
   },
   {
-    "inputs": [],
-    "name": "numAccounts",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
+    "type": "event",
+    "anonymous": false,
+    "name": "ProtocolSettingsUpdated",
     "inputs": [
       {
-        "internalType": "uint256",
-        "name": "numberOfPoolsToUpdateInThisTx",
-        "type": "uint256"
+        "type": "tuple",
+        "name": "liquidationParams",
+        "indexed": false,
+        "components": [
+          {
+            "type": "uint16",
+            "name": "rangeLiquidationFeeFraction"
+          },
+          {
+            "type": "uint16",
+            "name": "tokenLiquidationFeeFraction"
+          },
+          {
+            "type": "uint16",
+            "name": "closeFactorMMThresholdBps"
+          },
+          {
+            "type": "uint16",
+            "name": "partialLiquidationCloseFactorBps"
+          },
+          {
+            "type": "uint16",
+            "name": "insuranceFundFeeShareBps"
+          },
+          {
+            "type": "uint16",
+            "name": "liquidationSlippageSqrtToleranceBps"
+          },
+          {
+            "type": "uint64",
+            "name": "maxRangeLiquidationFees"
+          },
+          {
+            "type": "uint64",
+            "name": "minNotionalLiquidatable"
+          }
+        ]
+      },
+      {
+        "type": "uint256",
+        "name": "removeLimitOrderFee",
+        "indexed": false
+      },
+      {
+        "type": "uint256",
+        "name": "minimumOrderNotional",
+        "indexed": false
+      },
+      {
+        "type": "uint256",
+        "name": "minRequiredMargin",
+        "indexed": false
       }
-    ],
-    "name": "pause",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
+    ]
   },
   {
+    "type": "event",
+    "anonymous": false,
+    "name": "TeamMultisigPending",
+    "inputs": [
+      {
+        "type": "address",
+        "name": "previousTeamMultisigPending",
+        "indexed": true
+      },
+      {
+        "type": "address",
+        "name": "newTeamMultisigPending",
+        "indexed": true
+      }
+    ]
+  },
+  {
+    "type": "event",
+    "anonymous": false,
+    "name": "TeamMultisigTransferred",
+    "inputs": [
+      {
+        "type": "address",
+        "name": "previousTeamMultisig",
+        "indexed": true
+      },
+      {
+        "type": "address",
+        "name": "newTeamMultisig",
+        "indexed": true
+      }
+    ]
+  },
+  {
+    "type": "event",
+    "anonymous": false,
+    "name": "Unpaused",
+    "inputs": [
+      {
+        "type": "address",
+        "name": "account",
+        "indexed": false
+      }
+    ]
+  },
+  {
+    "type": "function",
+    "name": "acceptGovernanceTransfer",
+    "constant": false,
+    "payable": false,
     "inputs": [],
-    "name": "paused",
+    "outputs": []
+  },
+  {
+    "type": "function",
+    "name": "acceptTeamMultisigTransfer",
+    "constant": false,
+    "payable": false,
+    "inputs": [],
+    "outputs": []
+  },
+  {
+    "type": "function",
+    "name": "createAccount",
+    "constant": false,
+    "payable": false,
+    "inputs": [],
     "outputs": [
       {
-        "internalType": "bool",
-        "name": "",
+        "type": "uint256",
+        "name": "newAccountId"
+      }
+    ]
+  },
+  {
+    "type": "function",
+    "name": "createAccountAndAddMargin",
+    "constant": false,
+    "payable": false,
+    "inputs": [
+      {
+        "type": "uint32",
+        "name": "collateralId"
+      },
+      {
+        "type": "uint256",
+        "name": "amount"
+      }
+    ],
+    "outputs": [
+      {
+        "type": "uint256",
+        "name": "newAccountId"
+      }
+    ]
+  },
+  {
+    "type": "function",
+    "name": "extsload",
+    "constant": true,
+    "stateMutability": "view",
+    "payable": false,
+    "inputs": [
+      {
+        "type": "bytes32",
+        "name": "slot"
+      }
+    ],
+    "outputs": [
+      {
+        "type": "bytes32",
+        "name": "val"
+      }
+    ]
+  },
+  {
+    "type": "function",
+    "name": "extsload",
+    "constant": true,
+    "stateMutability": "view",
+    "payable": false,
+    "inputs": [
+      {
+        "type": "bytes32[]",
+        "name": "slots"
+      }
+    ],
+    "outputs": [
+      {
+        "type": "bytes32[]"
+      }
+    ]
+  },
+  {
+    "type": "function",
+    "name": "getAccountMarketValueAndRequiredMargin",
+    "constant": true,
+    "stateMutability": "view",
+    "payable": false,
+    "inputs": [
+      {
+        "type": "uint256",
+        "name": "accountId"
+      },
+      {
+        "type": "bool",
+        "name": "isInitialMargin"
+      }
+    ],
+    "outputs": [
+      {
+        "type": "int256",
+        "name": "marketValue"
+      },
+      {
+        "type": "int256",
+        "name": "requiredMargin"
+      }
+    ]
+  },
+  {
+    "type": "function",
+    "name": "getAccountNetProfit",
+    "constant": true,
+    "stateMutability": "view",
+    "payable": false,
+    "inputs": [
+      {
+        "type": "uint256",
+        "name": "accountId"
+      }
+    ],
+    "outputs": [
+      {
+        "type": "int256",
+        "name": "accountNetProfit"
+      }
+    ]
+  },
+  {
+    "type": "function",
+    "name": "getAccountNetTokenPosition",
+    "constant": true,
+    "stateMutability": "view",
+    "payable": false,
+    "inputs": [
+      {
+        "type": "uint256",
+        "name": "accountId"
+      },
+      {
+        "type": "uint32",
+        "name": "poolId"
+      }
+    ],
+    "outputs": [
+      {
+        "type": "int256",
+        "name": "netPosition"
+      }
+    ]
+  },
+  {
+    "type": "function",
+    "name": "getRealTwapPriceX128",
+    "constant": true,
+    "stateMutability": "view",
+    "payable": false,
+    "inputs": [
+      {
+        "type": "uint32",
+        "name": "poolId"
+      }
+    ],
+    "outputs": [
+      {
+        "type": "uint256",
+        "name": "realPriceX128"
+      }
+    ]
+  },
+  {
+    "type": "function",
+    "name": "getVirtualTwapPriceX128",
+    "constant": true,
+    "stateMutability": "view",
+    "payable": false,
+    "inputs": [
+      {
+        "type": "uint32",
+        "name": "poolId"
+      }
+    ],
+    "outputs": [
+      {
+        "type": "uint256",
+        "name": "virtualPriceX128"
+      }
+    ]
+  },
+  {
+    "type": "function",
+    "name": "governance",
+    "constant": true,
+    "stateMutability": "view",
+    "payable": false,
+    "inputs": [],
+    "outputs": [
+      {
+        "type": "address"
+      }
+    ]
+  },
+  {
+    "type": "function",
+    "name": "governancePending",
+    "constant": true,
+    "stateMutability": "view",
+    "payable": false,
+    "inputs": [],
+    "outputs": [
+      {
+        "type": "address"
+      }
+    ]
+  },
+  {
+    "type": "function",
+    "name": "initialize",
+    "constant": false,
+    "payable": false,
+    "inputs": [
+      {
+        "type": "address",
+        "name": "_rageTradeFactoryAddress"
+      },
+      {
+        "type": "address",
+        "name": "initialGovernance"
+      },
+      {
+        "type": "address",
+        "name": "initialTeamMultisig"
+      },
+      {
+        "type": "address",
+        "name": "_defaultCollateralToken"
+      },
+      {
+        "type": "address",
+        "name": "_defaultCollateralTokenOracle"
+      },
+      {
+        "type": "address",
+        "name": "_insuranceFund"
+      },
+      {
+        "type": "address",
+        "name": "_vQuote"
+      }
+    ],
+    "outputs": []
+  },
+  {
+    "type": "function",
+    "name": "initiateGovernanceTransfer",
+    "constant": false,
+    "payable": false,
+    "inputs": [
+      {
+        "type": "address",
+        "name": "newGovernancePending"
+      }
+    ],
+    "outputs": []
+  },
+  {
+    "type": "function",
+    "name": "initiateTeamMultisigTransfer",
+    "constant": false,
+    "payable": false,
+    "inputs": [
+      {
+        "type": "address",
+        "name": "newTeamMultisigPending"
+      }
+    ],
+    "outputs": []
+  },
+  {
+    "type": "function",
+    "name": "insuranceFund",
+    "constant": true,
+    "stateMutability": "view",
+    "payable": false,
+    "inputs": [],
+    "outputs": [
+      {
+        "type": "address"
+      }
+    ]
+  },
+  {
+    "type": "function",
+    "name": "liquidateLiquidityPositions",
+    "constant": false,
+    "payable": false,
+    "inputs": [
+      {
+        "type": "uint256",
+        "name": "accountId"
+      }
+    ],
+    "outputs": []
+  },
+  {
+    "type": "function",
+    "name": "liquidateTokenPosition",
+    "constant": false,
+    "payable": false,
+    "inputs": [
+      {
+        "type": "uint256",
+        "name": "targetAccountId"
+      },
+      {
+        "type": "uint32",
+        "name": "poolId"
+      }
+    ],
+    "outputs": [
+      {
+        "type": "int256",
+        "name": "keeperFee"
+      }
+    ]
+  },
+  {
+    "type": "function",
+    "name": "multicall",
+    "constant": false,
+    "stateMutability": "payable",
+    "payable": true,
+    "inputs": [
+      {
+        "type": "bytes[]",
+        "name": "data"
+      }
+    ],
+    "outputs": [
+      {
+        "type": "bytes[]",
+        "name": "results"
+      }
+    ]
+  },
+  {
+    "type": "function",
+    "name": "multicallWithSingleMarginCheck",
+    "constant": false,
+    "payable": false,
+    "inputs": [
+      {
+        "type": "uint256",
+        "name": "accountId"
+      },
+      {
+        "type": "tuple[]",
+        "name": "operations",
+        "components": [
+          {
+            "type": "uint8",
+            "name": "operationType"
+          },
+          {
+            "type": "bytes",
+            "name": "data"
+          }
+        ]
+      }
+    ],
+    "outputs": [
+      {
+        "type": "bytes[]",
+        "name": "results"
+      }
+    ]
+  },
+  {
+    "type": "function",
+    "name": "numAccounts",
+    "constant": true,
+    "stateMutability": "view",
+    "payable": false,
+    "inputs": [],
+    "outputs": [
+      {
+        "type": "uint256"
+      }
+    ]
+  },
+  {
+    "type": "function",
+    "name": "pause",
+    "constant": false,
+    "payable": false,
+    "inputs": [
+      {
+        "type": "uint256",
+        "name": "numberOfPoolsToUpdateInThisTx"
+      }
+    ],
+    "outputs": []
+  },
+  {
+    "type": "function",
+    "name": "paused",
+    "constant": true,
+    "stateMutability": "view",
+    "payable": false,
+    "inputs": [],
+    "outputs": [
+      {
         "type": "bool"
       }
-    ],
-    "stateMutability": "view",
-    "type": "function"
+    ]
   },
   {
-    "inputs": [],
+    "type": "function",
     "name": "rageTradeFactoryAddress",
+    "constant": true,
+    "stateMutability": "view",
+    "payable": false,
+    "inputs": [],
     "outputs": [
       {
-        "internalType": "address",
-        "name": "",
         "type": "address"
       }
-    ],
-    "stateMutability": "view",
-    "type": "function"
+    ]
   },
   {
+    "type": "function",
+    "name": "registerPool",
+    "constant": false,
+    "payable": false,
     "inputs": [
       {
+        "type": "tuple",
+        "name": "poolInfo",
         "components": [
           {
-            "internalType": "contract IVToken",
-            "name": "vToken",
-            "type": "address"
+            "type": "address",
+            "name": "vToken"
           },
           {
-            "internalType": "contract IUniswapV3Pool",
-            "name": "vPool",
-            "type": "address"
+            "type": "address",
+            "name": "vPool"
           },
           {
-            "internalType": "contract IVPoolWrapper",
-            "name": "vPoolWrapper",
-            "type": "address"
+            "type": "address",
+            "name": "vPoolWrapper"
           },
           {
+            "type": "tuple",
+            "name": "settings",
             "components": [
               {
-                "internalType": "uint16",
-                "name": "initialMarginRatioBps",
-                "type": "uint16"
+                "type": "uint16",
+                "name": "initialMarginRatioBps"
               },
               {
-                "internalType": "uint16",
-                "name": "maintainanceMarginRatioBps",
-                "type": "uint16"
+                "type": "uint16",
+                "name": "maintainanceMarginRatioBps"
               },
               {
-                "internalType": "uint16",
-                "name": "maxVirtualPriceDeviationRatioBps",
-                "type": "uint16"
+                "type": "uint16",
+                "name": "maxVirtualPriceDeviationRatioBps"
               },
               {
-                "internalType": "uint32",
-                "name": "twapDuration",
-                "type": "uint32"
+                "type": "uint32",
+                "name": "twapDuration"
               },
               {
-                "internalType": "bool",
-                "name": "isAllowedForTrade",
-                "type": "bool"
+                "type": "bool",
+                "name": "isAllowedForTrade"
               },
               {
-                "internalType": "bool",
-                "name": "isCrossMargined",
-                "type": "bool"
+                "type": "bool",
+                "name": "isCrossMargined"
               },
               {
-                "internalType": "contract IOracle",
-                "name": "oracle",
-                "type": "address"
+                "type": "address",
+                "name": "oracle"
               }
-            ],
-            "internalType": "struct IClearingHouseStructures.PoolSettings",
-            "name": "settings",
-            "type": "tuple"
+            ]
           }
-        ],
-        "internalType": "struct IClearingHouseStructures.Pool",
-        "name": "poolInfo",
-        "type": "tuple"
+        ]
       }
     ],
-    "name": "registerPool",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
+    "outputs": []
   },
   {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "accountId",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint32",
-        "name": "poolId",
-        "type": "uint32"
-      },
-      {
-        "internalType": "int24",
-        "name": "tickLower",
-        "type": "int24"
-      },
-      {
-        "internalType": "int24",
-        "name": "tickUpper",
-        "type": "int24"
-      }
-    ],
+    "type": "function",
     "name": "removeLimitOrder",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
+    "constant": false,
+    "payable": false,
     "inputs": [
       {
-        "internalType": "uint256",
-        "name": "accountId",
-        "type": "uint256"
+        "type": "uint256",
+        "name": "accountId"
+      },
+      {
+        "type": "uint32",
+        "name": "poolId"
+      },
+      {
+        "type": "int24",
+        "name": "tickLower"
+      },
+      {
+        "type": "int24",
+        "name": "tickUpper"
       }
     ],
+    "outputs": []
+  },
+  {
+    "type": "function",
     "name": "settleProfit",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
+    "constant": false,
+    "payable": false,
     "inputs": [
       {
-        "internalType": "uint256",
-        "name": "accountId",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint32",
-        "name": "poolId",
-        "type": "uint32"
-      },
-      {
-        "components": [
-          {
-            "internalType": "int256",
-            "name": "amount",
-            "type": "int256"
-          },
-          {
-            "internalType": "uint160",
-            "name": "sqrtPriceLimit",
-            "type": "uint160"
-          },
-          {
-            "internalType": "bool",
-            "name": "isNotional",
-            "type": "bool"
-          },
-          {
-            "internalType": "bool",
-            "name": "isPartialAllowed",
-            "type": "bool"
-          },
-          {
-            "internalType": "bool",
-            "name": "settleProfit",
-            "type": "bool"
-          }
-        ],
-        "internalType": "struct IClearingHouseStructures.SwapParams",
-        "name": "swapParams",
-        "type": "tuple"
+        "type": "uint256",
+        "name": "accountId"
       }
     ],
+    "outputs": []
+  },
+  {
+    "type": "function",
     "name": "swapToken",
-    "outputs": [
+    "constant": false,
+    "payable": false,
+    "inputs": [
       {
-        "internalType": "int256",
-        "name": "vTokenAmountOut",
-        "type": "int256"
+        "type": "uint256",
+        "name": "accountId"
       },
       {
-        "internalType": "int256",
-        "name": "vQuoteAmountOut",
-        "type": "int256"
+        "type": "uint32",
+        "name": "poolId"
+      },
+      {
+        "type": "tuple",
+        "name": "swapParams",
+        "components": [
+          {
+            "type": "int256",
+            "name": "amount"
+          },
+          {
+            "type": "uint160",
+            "name": "sqrtPriceLimit"
+          },
+          {
+            "type": "bool",
+            "name": "isNotional"
+          },
+          {
+            "type": "bool",
+            "name": "isPartialAllowed"
+          },
+          {
+            "type": "bool",
+            "name": "settleProfit"
+          }
+        ]
       }
     ],
-    "stateMutability": "nonpayable",
-    "type": "function"
+    "outputs": [
+      {
+        "type": "int256",
+        "name": "vTokenAmountOut"
+      },
+      {
+        "type": "int256",
+        "name": "vQuoteAmountOut"
+      }
+    ]
   },
   {
-    "inputs": [],
+    "type": "function",
     "name": "teamMultisig",
+    "constant": true,
+    "stateMutability": "view",
+    "payable": false,
+    "inputs": [],
     "outputs": [
       {
-        "internalType": "address",
-        "name": "",
         "type": "address"
       }
-    ],
-    "stateMutability": "view",
-    "type": "function"
+    ]
   },
   {
-    "inputs": [],
+    "type": "function",
     "name": "teamMultisigPending",
-    "outputs": [
-      {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      }
-    ],
+    "constant": true,
     "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "numberOfPoolsToUpdateInThisTx",
-        "type": "uint256"
-      }
-    ],
-    "name": "unpause",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "contract IERC20",
-        "name": "cToken",
-        "type": "address"
-      },
-      {
-        "components": [
-          {
-            "internalType": "contract IOracle",
-            "name": "oracle",
-            "type": "address"
-          },
-          {
-            "internalType": "uint32",
-            "name": "twapDuration",
-            "type": "uint32"
-          },
-          {
-            "internalType": "bool",
-            "name": "isAllowedForDeposit",
-            "type": "bool"
-          }
-        ],
-        "internalType": "struct IClearingHouseStructures.CollateralSettings",
-        "name": "collateralSettings",
-        "type": "tuple"
-      }
-    ],
-    "name": "updateCollateralSettings",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "accountId",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint32",
-        "name": "collateralId",
-        "type": "uint32"
-      },
-      {
-        "internalType": "int256",
-        "name": "amount",
-        "type": "int256"
-      }
-    ],
-    "name": "updateMargin",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint32",
-        "name": "poolId",
-        "type": "uint32"
-      },
-      {
-        "components": [
-          {
-            "internalType": "uint16",
-            "name": "initialMarginRatioBps",
-            "type": "uint16"
-          },
-          {
-            "internalType": "uint16",
-            "name": "maintainanceMarginRatioBps",
-            "type": "uint16"
-          },
-          {
-            "internalType": "uint16",
-            "name": "maxVirtualPriceDeviationRatioBps",
-            "type": "uint16"
-          },
-          {
-            "internalType": "uint32",
-            "name": "twapDuration",
-            "type": "uint32"
-          },
-          {
-            "internalType": "bool",
-            "name": "isAllowedForTrade",
-            "type": "bool"
-          },
-          {
-            "internalType": "bool",
-            "name": "isCrossMargined",
-            "type": "bool"
-          },
-          {
-            "internalType": "contract IOracle",
-            "name": "oracle",
-            "type": "address"
-          }
-        ],
-        "internalType": "struct IClearingHouseStructures.PoolSettings",
-        "name": "newSettings",
-        "type": "tuple"
-      }
-    ],
-    "name": "updatePoolSettings",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "accountId",
-        "type": "uint256"
-      },
-      {
-        "internalType": "int256",
-        "name": "amount",
-        "type": "int256"
-      }
-    ],
-    "name": "updateProfit",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "components": [
-          {
-            "internalType": "uint16",
-            "name": "rangeLiquidationFeeFraction",
-            "type": "uint16"
-          },
-          {
-            "internalType": "uint16",
-            "name": "tokenLiquidationFeeFraction",
-            "type": "uint16"
-          },
-          {
-            "internalType": "uint16",
-            "name": "closeFactorMMThresholdBps",
-            "type": "uint16"
-          },
-          {
-            "internalType": "uint16",
-            "name": "partialLiquidationCloseFactorBps",
-            "type": "uint16"
-          },
-          {
-            "internalType": "uint16",
-            "name": "insuranceFundFeeShareBps",
-            "type": "uint16"
-          },
-          {
-            "internalType": "uint16",
-            "name": "liquidationSlippageSqrtToleranceBps",
-            "type": "uint16"
-          },
-          {
-            "internalType": "uint64",
-            "name": "maxRangeLiquidationFees",
-            "type": "uint64"
-          },
-          {
-            "internalType": "uint64",
-            "name": "minNotionalLiquidatable",
-            "type": "uint64"
-          }
-        ],
-        "internalType": "struct IClearingHouseStructures.LiquidationParams",
-        "name": "_liquidationParams",
-        "type": "tuple"
-      },
-      {
-        "internalType": "uint256",
-        "name": "_removeLimitOrderFee",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "_minimumOrderNotional",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "_minRequiredMargin",
-        "type": "uint256"
-      }
-    ],
-    "name": "updateProtocolSettings",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "accountId",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint32",
-        "name": "poolId",
-        "type": "uint32"
-      },
-      {
-        "components": [
-          {
-            "internalType": "int24",
-            "name": "tickLower",
-            "type": "int24"
-          },
-          {
-            "internalType": "int24",
-            "name": "tickUpper",
-            "type": "int24"
-          },
-          {
-            "internalType": "int128",
-            "name": "liquidityDelta",
-            "type": "int128"
-          },
-          {
-            "internalType": "uint160",
-            "name": "sqrtPriceCurrent",
-            "type": "uint160"
-          },
-          {
-            "internalType": "uint16",
-            "name": "slippageToleranceBps",
-            "type": "uint16"
-          },
-          {
-            "internalType": "bool",
-            "name": "closeTokenPosition",
-            "type": "bool"
-          },
-          {
-            "internalType": "enum IClearingHouseEnums.LimitOrderType",
-            "name": "limitOrderType",
-            "type": "uint8"
-          },
-          {
-            "internalType": "bool",
-            "name": "settleProfit",
-            "type": "bool"
-          }
-        ],
-        "internalType": "struct IClearingHouseStructures.LiquidityChangeParams",
-        "name": "liquidityChangeParams",
-        "type": "tuple"
-      }
-    ],
-    "name": "updateRangeOrder",
+    "payable": false,
+    "inputs": [],
     "outputs": [
       {
-        "internalType": "int256",
-        "name": "vTokenAmountOut",
-        "type": "int256"
-      },
-      {
-        "internalType": "int256",
-        "name": "vQuoteAmountOut",
-        "type": "int256"
-      }
-    ],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "numberOfPoolsToUpdateInThisTx",
-        "type": "uint256"
-      }
-    ],
-    "name": "withdrawProtocolFee",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "InsufficientCollateralBalance",
-    "type": "error"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "int256",
-        "name": "accountMarketValue",
-        "type": "int256"
-      },
-      {
-        "internalType": "int256",
-        "name": "totalRequiredMargin",
-        "type": "int256"
-      }
-    ],
-    "name": "InvalidLiquidationAccountAboveWater",
-    "type": "error"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint32",
-        "name": "poolId",
-        "type": "uint32"
-      }
-    ],
-    "name": "InvalidLiquidationActiveRangePresent",
-    "type": "error"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "int256",
-        "name": "accountMarketValue",
-        "type": "int256"
-      },
-      {
-        "internalType": "int256",
-        "name": "totalRequiredMargin",
-        "type": "int256"
-      }
-    ],
-    "name": "InvalidTransactionNotEnoughMargin",
-    "type": "error"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "int256",
-        "name": "totalProfit",
-        "type": "int256"
-      }
-    ],
-    "name": "InvalidTransactionNotEnoughProfit",
-    "type": "error"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "int24",
-        "name": "tickLower",
-        "type": "int24"
-      },
-      {
-        "internalType": "int24",
-        "name": "tickUpper",
-        "type": "int24"
-      },
-      {
-        "internalType": "uint256",
-        "name": "liquidity",
-        "type": "uint256"
-      }
-    ],
-    "name": "LPS_DeactivationFailed",
-    "type": "error"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "int24",
-        "name": "tickLower",
-        "type": "int24"
-      },
-      {
-        "internalType": "int24",
-        "name": "tickUpper",
-        "type": "int24"
-      }
-    ],
-    "name": "LPS_IllegalTicks",
-    "type": "error"
-  },
-  {
-    "inputs": [],
-    "name": "LPS_InactiveRange",
-    "type": "error"
-  },
-  {
-    "inputs": [],
-    "name": "LP_AlreadyInitialized",
-    "type": "error"
-  },
-  {
-    "inputs": [],
-    "name": "LP_IneligibleLimitOrderRemoval",
-    "type": "error"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "y_target",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint160",
-        "name": "x_lower",
-        "type": "uint160"
-      },
-      {
-        "internalType": "uint160",
-        "name": "x_upper",
-        "type": "uint160"
-      }
-    ],
-    "name": "SolutionOutOfBounds",
-    "type": "error"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint32",
-        "name": "element",
-        "type": "uint32"
-      }
-    ],
-    "name": "U32L8_IllegalElement",
-    "type": "error"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint32",
-        "name": "element",
-        "type": "uint32"
-      }
-    ],
-    "name": "U32L8_NoSpaceLeftToInsert",
-    "type": "error"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint48",
-        "name": "element",
-        "type": "uint48"
-      }
-    ],
-    "name": "U48L5_IllegalElement",
-    "type": "error"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint48",
-        "name": "element",
-        "type": "uint48"
-      }
-    ],
-    "name": "U48L5_NoSpaceLeftToInsert",
-    "type": "error"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint32",
-        "name": "poolId",
-        "type": "uint32"
-      }
-    ],
-    "name": "VPS_DeactivationFailed",
-    "type": "error"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint32",
-        "name": "poolId",
-        "type": "uint32"
-      }
-    ],
-    "name": "VPS_TokenInactive",
-    "type": "error"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": true,
-        "internalType": "uint256",
-        "name": "accountId",
-        "type": "uint256"
-      },
-      {
-        "indexed": true,
-        "internalType": "address",
-        "name": "keeperAddress",
         "type": "address"
-      },
+      }
+    ]
+  },
+  {
+    "type": "function",
+    "name": "unpause",
+    "constant": false,
+    "payable": false,
+    "inputs": [
       {
-        "indexed": false,
-        "internalType": "int256",
-        "name": "liquidationFee",
-        "type": "int256"
-      },
-      {
-        "indexed": false,
-        "internalType": "int256",
-        "name": "keeperFee",
-        "type": "int256"
-      },
-      {
-        "indexed": false,
-        "internalType": "int256",
-        "name": "insuranceFundFee",
-        "type": "int256"
-      },
-      {
-        "indexed": false,
-        "internalType": "int256",
-        "name": "accountMarketValueFinal",
-        "type": "int256"
+        "type": "uint256",
+        "name": "numberOfPoolsToUpdateInThisTx"
       }
     ],
+    "outputs": []
+  },
+  {
+    "type": "function",
+    "name": "updateCollateralSettings",
+    "constant": false,
+    "payable": false,
+    "inputs": [
+      {
+        "type": "address",
+        "name": "cToken"
+      },
+      {
+        "type": "tuple",
+        "name": "collateralSettings",
+        "components": [
+          {
+            "type": "address",
+            "name": "oracle"
+          },
+          {
+            "type": "uint32",
+            "name": "twapDuration"
+          },
+          {
+            "type": "bool",
+            "name": "isAllowedForDeposit"
+          }
+        ]
+      }
+    ],
+    "outputs": []
+  },
+  {
+    "type": "function",
+    "name": "updateMargin",
+    "constant": false,
+    "payable": false,
+    "inputs": [
+      {
+        "type": "uint256",
+        "name": "accountId"
+      },
+      {
+        "type": "uint32",
+        "name": "collateralId"
+      },
+      {
+        "type": "int256",
+        "name": "amount"
+      }
+    ],
+    "outputs": []
+  },
+  {
+    "type": "function",
+    "name": "updatePoolSettings",
+    "constant": false,
+    "payable": false,
+    "inputs": [
+      {
+        "type": "uint32",
+        "name": "poolId"
+      },
+      {
+        "type": "tuple",
+        "name": "newSettings",
+        "components": [
+          {
+            "type": "uint16",
+            "name": "initialMarginRatioBps"
+          },
+          {
+            "type": "uint16",
+            "name": "maintainanceMarginRatioBps"
+          },
+          {
+            "type": "uint16",
+            "name": "maxVirtualPriceDeviationRatioBps"
+          },
+          {
+            "type": "uint32",
+            "name": "twapDuration"
+          },
+          {
+            "type": "bool",
+            "name": "isAllowedForTrade"
+          },
+          {
+            "type": "bool",
+            "name": "isCrossMargined"
+          },
+          {
+            "type": "address",
+            "name": "oracle"
+          }
+        ]
+      }
+    ],
+    "outputs": []
+  },
+  {
+    "type": "function",
+    "name": "updateProfit",
+    "constant": false,
+    "payable": false,
+    "inputs": [
+      {
+        "type": "uint256",
+        "name": "accountId"
+      },
+      {
+        "type": "int256",
+        "name": "amount"
+      }
+    ],
+    "outputs": []
+  },
+  {
+    "type": "function",
+    "name": "updateProtocolSettings",
+    "constant": false,
+    "payable": false,
+    "inputs": [
+      {
+        "type": "tuple",
+        "name": "_liquidationParams",
+        "components": [
+          {
+            "type": "uint16",
+            "name": "rangeLiquidationFeeFraction"
+          },
+          {
+            "type": "uint16",
+            "name": "tokenLiquidationFeeFraction"
+          },
+          {
+            "type": "uint16",
+            "name": "closeFactorMMThresholdBps"
+          },
+          {
+            "type": "uint16",
+            "name": "partialLiquidationCloseFactorBps"
+          },
+          {
+            "type": "uint16",
+            "name": "insuranceFundFeeShareBps"
+          },
+          {
+            "type": "uint16",
+            "name": "liquidationSlippageSqrtToleranceBps"
+          },
+          {
+            "type": "uint64",
+            "name": "maxRangeLiquidationFees"
+          },
+          {
+            "type": "uint64",
+            "name": "minNotionalLiquidatable"
+          }
+        ]
+      },
+      {
+        "type": "uint256",
+        "name": "_removeLimitOrderFee"
+      },
+      {
+        "type": "uint256",
+        "name": "_minimumOrderNotional"
+      },
+      {
+        "type": "uint256",
+        "name": "_minRequiredMargin"
+      }
+    ],
+    "outputs": []
+  },
+  {
+    "type": "function",
+    "name": "updateRangeOrder",
+    "constant": false,
+    "payable": false,
+    "inputs": [
+      {
+        "type": "uint256",
+        "name": "accountId"
+      },
+      {
+        "type": "uint32",
+        "name": "poolId"
+      },
+      {
+        "type": "tuple",
+        "name": "liquidityChangeParams",
+        "components": [
+          {
+            "type": "int24",
+            "name": "tickLower"
+          },
+          {
+            "type": "int24",
+            "name": "tickUpper"
+          },
+          {
+            "type": "int128",
+            "name": "liquidityDelta"
+          },
+          {
+            "type": "uint160",
+            "name": "sqrtPriceCurrent"
+          },
+          {
+            "type": "uint16",
+            "name": "slippageToleranceBps"
+          },
+          {
+            "type": "bool",
+            "name": "closeTokenPosition"
+          },
+          {
+            "type": "uint8",
+            "name": "limitOrderType"
+          },
+          {
+            "type": "bool",
+            "name": "settleProfit"
+          }
+        ]
+      }
+    ],
+    "outputs": [
+      {
+        "type": "int256",
+        "name": "vTokenAmountOut"
+      },
+      {
+        "type": "int256",
+        "name": "vQuoteAmountOut"
+      }
+    ]
+  },
+  {
+    "type": "function",
+    "name": "withdrawProtocolFee",
+    "constant": false,
+    "payable": false,
+    "inputs": [
+      {
+        "type": "uint256",
+        "name": "numberOfPoolsToUpdateInThisTx"
+      }
+    ],
+    "outputs": []
+  },
+  {
+    "type": "error",
+    "name": "InsufficientCollateralBalance",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "InvalidLiquidationAccountAboveWater",
+    "inputs": [
+      {
+        "type": "int256",
+        "name": "accountMarketValue"
+      },
+      {
+        "type": "int256",
+        "name": "totalRequiredMargin"
+      }
+    ]
+  },
+  {
+    "type": "error",
+    "name": "InvalidLiquidationActiveRangePresent",
+    "inputs": [
+      {
+        "type": "uint32",
+        "name": "poolId"
+      }
+    ]
+  },
+  {
+    "type": "error",
+    "name": "InvalidTransactionNotEnoughMargin",
+    "inputs": [
+      {
+        "type": "int256",
+        "name": "accountMarketValue"
+      },
+      {
+        "type": "int256",
+        "name": "totalRequiredMargin"
+      }
+    ]
+  },
+  {
+    "type": "error",
+    "name": "InvalidTransactionNotEnoughProfit",
+    "inputs": [
+      {
+        "type": "int256",
+        "name": "totalProfit"
+      }
+    ]
+  },
+  {
+    "type": "error",
+    "name": "LPS_DeactivationFailed",
+    "inputs": [
+      {
+        "type": "int24",
+        "name": "tickLower"
+      },
+      {
+        "type": "int24",
+        "name": "tickUpper"
+      },
+      {
+        "type": "uint256",
+        "name": "liquidity"
+      }
+    ]
+  },
+  {
+    "type": "error",
+    "name": "LPS_IllegalTicks",
+    "inputs": [
+      {
+        "type": "int24",
+        "name": "tickLower"
+      },
+      {
+        "type": "int24",
+        "name": "tickUpper"
+      }
+    ]
+  },
+  {
+    "type": "error",
+    "name": "LPS_InactiveRange",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "LP_AlreadyInitialized",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "LP_IneligibleLimitOrderRemoval",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "SolutionOutOfBounds",
+    "inputs": [
+      {
+        "type": "uint256",
+        "name": "y_target"
+      },
+      {
+        "type": "uint160",
+        "name": "x_lower"
+      },
+      {
+        "type": "uint160",
+        "name": "x_upper"
+      }
+    ]
+  },
+  {
+    "type": "error",
+    "name": "U32L8_IllegalElement",
+    "inputs": [
+      {
+        "type": "uint32",
+        "name": "element"
+      }
+    ]
+  },
+  {
+    "type": "error",
+    "name": "U32L8_NoSpaceLeftToInsert",
+    "inputs": [
+      {
+        "type": "uint32",
+        "name": "element"
+      }
+    ]
+  },
+  {
+    "type": "error",
+    "name": "U48L5_IllegalElement",
+    "inputs": [
+      {
+        "type": "uint48",
+        "name": "element"
+      }
+    ]
+  },
+  {
+    "type": "error",
+    "name": "U48L5_NoSpaceLeftToInsert",
+    "inputs": [
+      {
+        "type": "uint48",
+        "name": "element"
+      }
+    ]
+  },
+  {
+    "type": "error",
+    "name": "VPS_DeactivationFailed",
+    "inputs": [
+      {
+        "type": "uint32",
+        "name": "poolId"
+      }
+    ]
+  },
+  {
+    "type": "error",
+    "name": "VPS_TokenInactive",
+    "inputs": [
+      {
+        "type": "uint32",
+        "name": "poolId"
+      }
+    ]
+  },
+  {
+    "type": "event",
+    "anonymous": false,
     "name": "LiquidityPositionsLiquidated",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
     "inputs": [
       {
-        "indexed": true,
-        "internalType": "uint256",
+        "type": "uint256",
         "name": "accountId",
-        "type": "uint256"
+        "indexed": true
       },
       {
-        "indexed": true,
-        "internalType": "uint32",
-        "name": "collateralId",
-        "type": "uint32"
+        "type": "address",
+        "name": "keeperAddress",
+        "indexed": true
       },
       {
-        "indexed": false,
-        "internalType": "int256",
-        "name": "amount",
-        "type": "int256"
+        "type": "int256",
+        "name": "liquidationFee",
+        "indexed": false
       },
       {
-        "indexed": false,
-        "internalType": "bool",
-        "name": "isSettleProfit",
-        "type": "bool"
-      }
-    ],
-    "name": "MarginUpdated",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": true,
-        "internalType": "uint256",
-        "name": "accountId",
-        "type": "uint256"
-      },
-      {
-        "indexed": false,
-        "internalType": "int256",
-        "name": "amount",
-        "type": "int256"
-      }
-    ],
-    "name": "ProfitUpdated",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": true,
-        "internalType": "uint256",
-        "name": "accountId",
-        "type": "uint256"
-      },
-      {
-        "indexed": true,
-        "internalType": "uint32",
-        "name": "poolId",
-        "type": "uint32"
-      },
-      {
-        "indexed": false,
-        "internalType": "int256",
+        "type": "int256",
         "name": "keeperFee",
-        "type": "int256"
+        "indexed": false
       },
       {
-        "indexed": false,
-        "internalType": "int256",
+        "type": "int256",
         "name": "insuranceFundFee",
-        "type": "int256"
+        "indexed": false
       },
       {
-        "indexed": false,
-        "internalType": "int256",
+        "type": "int256",
         "name": "accountMarketValueFinal",
-        "type": "int256"
+        "indexed": false
       }
-    ],
+    ]
+  },
+  {
+    "type": "event",
+    "anonymous": false,
+    "name": "MarginUpdated",
+    "inputs": [
+      {
+        "type": "uint256",
+        "name": "accountId",
+        "indexed": true
+      },
+      {
+        "type": "uint32",
+        "name": "collateralId",
+        "indexed": true
+      },
+      {
+        "type": "int256",
+        "name": "amount",
+        "indexed": false
+      },
+      {
+        "type": "bool",
+        "name": "isSettleProfit",
+        "indexed": false
+      }
+    ]
+  },
+  {
+    "type": "event",
+    "anonymous": false,
+    "name": "ProfitUpdated",
+    "inputs": [
+      {
+        "type": "uint256",
+        "name": "accountId",
+        "indexed": true
+      },
+      {
+        "type": "int256",
+        "name": "amount",
+        "indexed": false
+      }
+    ]
+  },
+  {
+    "type": "event",
+    "anonymous": false,
     "name": "TokenPositionLiquidated",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
     "inputs": [
       {
-        "indexed": true,
-        "internalType": "uint256",
+        "type": "uint256",
         "name": "accountId",
-        "type": "uint256"
+        "indexed": true
       },
       {
-        "indexed": true,
-        "internalType": "uint32",
+        "type": "uint32",
         "name": "poolId",
-        "type": "uint32"
+        "indexed": true
       },
       {
-        "indexed": false,
-        "internalType": "int24",
-        "name": "tickLower",
-        "type": "int24"
+        "type": "int256",
+        "name": "keeperFee",
+        "indexed": false
       },
       {
-        "indexed": false,
-        "internalType": "int24",
-        "name": "tickUpper",
-        "type": "int24"
+        "type": "int256",
+        "name": "insuranceFundFee",
+        "indexed": false
       },
       {
-        "indexed": false,
-        "internalType": "int128",
-        "name": "liquidityDelta",
-        "type": "int128"
-      },
-      {
-        "indexed": false,
-        "internalType": "enum IClearingHouseEnums.LimitOrderType",
-        "name": "limitOrderType",
-        "type": "uint8"
-      },
-      {
-        "indexed": false,
-        "internalType": "int256",
-        "name": "vTokenAmountOut",
-        "type": "int256"
-      },
-      {
-        "indexed": false,
-        "internalType": "int256",
-        "name": "vQuoteAmountOut",
-        "type": "int256"
-      },
-      {
-        "indexed": false,
-        "internalType": "uint160",
-        "name": "sqrtPriceX96",
-        "type": "uint160"
+        "type": "int256",
+        "name": "accountMarketValueFinal",
+        "indexed": false
       }
-    ],
+    ]
+  },
+  {
+    "type": "event",
+    "anonymous": false,
     "name": "LiquidityChanged",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
     "inputs": [
       {
-        "indexed": true,
-        "internalType": "uint256",
+        "type": "uint256",
         "name": "accountId",
-        "type": "uint256"
+        "indexed": true
       },
       {
-        "indexed": true,
-        "internalType": "uint32",
+        "type": "uint32",
         "name": "poolId",
-        "type": "uint32"
+        "indexed": true
       },
       {
-        "indexed": false,
-        "internalType": "int24",
+        "type": "int24",
         "name": "tickLower",
-        "type": "int24"
+        "indexed": false
       },
       {
-        "indexed": false,
-        "internalType": "int24",
+        "type": "int24",
         "name": "tickUpper",
-        "type": "int24"
+        "indexed": false
       },
       {
-        "indexed": false,
-        "internalType": "int256",
-        "name": "amount",
-        "type": "int256"
-      }
-    ],
-    "name": "LiquidityPositionEarningsRealized",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": true,
-        "internalType": "uint256",
-        "name": "accountId",
-        "type": "uint256"
+        "type": "int128",
+        "name": "liquidityDelta",
+        "indexed": false
       },
       {
-        "indexed": true,
-        "internalType": "uint32",
-        "name": "poolId",
-        "type": "uint32"
+        "type": "uint8",
+        "name": "limitOrderType",
+        "indexed": false
       },
       {
-        "indexed": false,
-        "internalType": "int24",
-        "name": "tickLower",
-        "type": "int24"
-      },
-      {
-        "indexed": false,
-        "internalType": "int24",
-        "name": "tickUpper",
-        "type": "int24"
-      },
-      {
-        "indexed": false,
-        "internalType": "int256",
-        "name": "amount",
-        "type": "int256"
-      },
-      {
-        "indexed": false,
-        "internalType": "int256",
-        "name": "sumALastX128",
-        "type": "int256"
-      },
-      {
-        "indexed": false,
-        "internalType": "int256",
-        "name": "sumBInsideLastX128",
-        "type": "int256"
-      },
-      {
-        "indexed": false,
-        "internalType": "int256",
-        "name": "sumFpInsideLastX128",
-        "type": "int256"
-      },
-      {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "sumFeeInsideLastX128",
-        "type": "uint256"
-      }
-    ],
-    "name": "LiquidityPositionFundingPaymentRealized",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": true,
-        "internalType": "uint256",
-        "name": "accountId",
-        "type": "uint256"
-      },
-      {
-        "indexed": true,
-        "internalType": "uint32",
-        "name": "poolId",
-        "type": "uint32"
-      },
-      {
-        "indexed": false,
-        "internalType": "int24",
-        "name": "tickLower",
-        "type": "int24"
-      },
-      {
-        "indexed": false,
-        "internalType": "int24",
-        "name": "tickUpper",
-        "type": "int24"
-      },
-      {
-        "indexed": false,
-        "internalType": "int256",
+        "type": "int256",
         "name": "vTokenAmountOut",
-        "type": "int256"
-      }
-    ],
-    "name": "TokenPositionChangedDueToLiquidityChanged",
-    "type": "event"
-  },
-  {
-    "inputs": [],
-    "name": "VPS_IncorrectUpdate",
-    "type": "error"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": true,
-        "internalType": "uint256",
-        "name": "accountId",
-        "type": "uint256"
+        "indexed": false
       },
       {
-        "indexed": true,
-        "internalType": "uint32",
-        "name": "poolId",
-        "type": "uint32"
-      },
-      {
-        "indexed": false,
-        "internalType": "int256",
-        "name": "vTokenAmountOut",
-        "type": "int256"
-      },
-      {
-        "indexed": false,
-        "internalType": "int256",
+        "type": "int256",
         "name": "vQuoteAmountOut",
-        "type": "int256"
+        "indexed": false
       },
       {
-        "indexed": false,
-        "internalType": "uint160",
-        "name": "sqrtPriceX96Start",
-        "type": "uint160"
-      },
-      {
-        "indexed": false,
-        "internalType": "uint160",
-        "name": "sqrtPriceX96End",
-        "type": "uint160"
+        "type": "uint160",
+        "name": "sqrtPriceX96",
+        "indexed": false
       }
-    ],
-    "name": "TokenPositionChanged",
-    "type": "event"
+    ]
   },
   {
+    "type": "event",
     "anonymous": false,
+    "name": "LiquidityPositionEarningsRealized",
     "inputs": [
       {
-        "indexed": true,
-        "internalType": "uint256",
+        "type": "uint256",
         "name": "accountId",
-        "type": "uint256"
+        "indexed": true
       },
       {
-        "indexed": true,
-        "internalType": "uint32",
+        "type": "uint32",
         "name": "poolId",
-        "type": "uint32"
+        "indexed": true
       },
       {
-        "indexed": false,
-        "internalType": "int256",
+        "type": "int24",
+        "name": "tickLower",
+        "indexed": false
+      },
+      {
+        "type": "int24",
+        "name": "tickUpper",
+        "indexed": false
+      },
+      {
+        "type": "int256",
         "name": "amount",
-        "type": "int256"
+        "indexed": false
+      }
+    ]
+  },
+  {
+    "type": "event",
+    "anonymous": false,
+    "name": "LiquidityPositionFundingPaymentRealized",
+    "inputs": [
+      {
+        "type": "uint256",
+        "name": "accountId",
+        "indexed": true
       },
       {
-        "indexed": false,
-        "internalType": "int256",
+        "type": "uint32",
+        "name": "poolId",
+        "indexed": true
+      },
+      {
+        "type": "int24",
+        "name": "tickLower",
+        "indexed": false
+      },
+      {
+        "type": "int24",
+        "name": "tickUpper",
+        "indexed": false
+      },
+      {
+        "type": "int256",
+        "name": "amount",
+        "indexed": false
+      },
+      {
+        "type": "int256",
         "name": "sumALastX128",
-        "type": "int256"
+        "indexed": false
+      },
+      {
+        "type": "int256",
+        "name": "sumBInsideLastX128",
+        "indexed": false
+      },
+      {
+        "type": "int256",
+        "name": "sumFpInsideLastX128",
+        "indexed": false
+      },
+      {
+        "type": "uint256",
+        "name": "sumFeeInsideLastX128",
+        "indexed": false
       }
-    ],
+    ]
+  },
+  {
+    "type": "event",
+    "anonymous": false,
+    "name": "TokenPositionChangedDueToLiquidityChanged",
+    "inputs": [
+      {
+        "type": "uint256",
+        "name": "accountId",
+        "indexed": true
+      },
+      {
+        "type": "uint32",
+        "name": "poolId",
+        "indexed": true
+      },
+      {
+        "type": "int24",
+        "name": "tickLower",
+        "indexed": false
+      },
+      {
+        "type": "int24",
+        "name": "tickUpper",
+        "indexed": false
+      },
+      {
+        "type": "int256",
+        "name": "vTokenAmountOut",
+        "indexed": false
+      }
+    ]
+  },
+  {
+    "type": "error",
+    "name": "VPS_IncorrectUpdate",
+    "inputs": []
+  },
+  {
+    "type": "event",
+    "anonymous": false,
+    "name": "TokenPositionChanged",
+    "inputs": [
+      {
+        "type": "uint256",
+        "name": "accountId",
+        "indexed": true
+      },
+      {
+        "type": "uint32",
+        "name": "poolId",
+        "indexed": true
+      },
+      {
+        "type": "int256",
+        "name": "vTokenAmountOut",
+        "indexed": false
+      },
+      {
+        "type": "int256",
+        "name": "vQuoteAmountOut",
+        "indexed": false
+      },
+      {
+        "type": "uint160",
+        "name": "sqrtPriceX96Start",
+        "indexed": false
+      },
+      {
+        "type": "uint160",
+        "name": "sqrtPriceX96End",
+        "indexed": false
+      }
+    ]
+  },
+  {
+    "type": "event",
+    "anonymous": false,
     "name": "TokenPositionFundingPaymentRealized",
-    "type": "event"
+    "inputs": [
+      {
+        "type": "uint256",
+        "name": "accountId",
+        "indexed": true
+      },
+      {
+        "type": "uint32",
+        "name": "poolId",
+        "indexed": true
+      },
+      {
+        "type": "int256",
+        "name": "amount",
+        "indexed": false
+      },
+      {
+        "type": "int256",
+        "name": "sumALastX128",
+        "indexed": false
+      }
+    ]
   }
 ]

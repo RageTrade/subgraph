@@ -56,7 +56,7 @@ dataSources:
     source:
       address: "0xA1e33ebDA7e0bcC8d078886dA65d1Ea555495CEF"
       abi: CurveYieldStrategy
-      startBlock: 12949832
+      startBlock: 12705321
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.4
@@ -87,9 +87,9 @@ dataSources:
     name: VaultPeriphery
     network: arbitrum-rinkeby
     source:
-      address: "0xFc37DC2fC09f4fE7FfE701F74BB9759205B92118"
+      address: "0x15023878aa94CdC9B9CE4A46919330B0537caCf5"
       abi: VaultPeriphery
-      startBlock: 12949840
+      startBlock: 12705321
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.4

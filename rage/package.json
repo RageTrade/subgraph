@@ -11,7 +11,8 @@
     "deploy-local": "graph deploy rage/perpswap-contracts-subgraph --ipfs http://localhost:5001 --node http://127.0.0.1:8020",
     "format": "prettier --check '**/*'",
     "format:fix": "prettier --write '**/*'",
-    "update": "pnpm add @ragetrade/sdk@latest && node update-subgraph.js"
+    "update:arbmain": "pnpm add @ragetrade/sdk@latest && node update-subgraph.js arbmain",
+    "update:arbtest": "pnpm add @ragetrade/sdk@latest && node update-subgraph.js arbtest"
   },
   "devDependencies": {
     "@graphprotocol/graph-cli": "^0.20.0",
@@ -26,9 +27,10 @@
     "yaml": "^1.10.2"
   },
   "dependencies": {
-    "@ragetrade/sdk": "^0.8.0",
+    "@ragetrade/sdk": "^0.9.1",
     "babel-polyfill": "^6.26.0",
     "babel-register": "^6.26.0",
+    "ethers": "^5.6.9",
     "truffle": "^5.0.4",
     "truffle-contract": "^4.0.5",
     "truffle-hdwallet-provider": "^1.0.4"
