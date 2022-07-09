@@ -278,6 +278,52 @@ export class RageTradeFactory extends ethereum.SmartContract {
   }
 }
 
+export class ConstructorCall extends ethereum.Call {
+  get inputs(): ConstructorCall__Inputs {
+    return new ConstructorCall__Inputs(this);
+  }
+
+  get outputs(): ConstructorCall__Outputs {
+    return new ConstructorCall__Outputs(this);
+  }
+}
+
+export class ConstructorCall__Inputs {
+  _call: ConstructorCall;
+
+  constructor(call: ConstructorCall) {
+    this._call = call;
+  }
+
+  get clearingHouseLogicAddress(): Address {
+    return this._call.inputValues[0].value.toAddress();
+  }
+
+  get _vPoolWrapperLogicAddress(): Address {
+    return this._call.inputValues[1].value.toAddress();
+  }
+
+  get insuranceFundLogicAddress(): Address {
+    return this._call.inputValues[2].value.toAddress();
+  }
+
+  get settlementToken(): Address {
+    return this._call.inputValues[3].value.toAddress();
+  }
+
+  get settlementTokenOracle(): Address {
+    return this._call.inputValues[4].value.toAddress();
+  }
+}
+
+export class ConstructorCall__Outputs {
+  _call: ConstructorCall;
+
+  constructor(call: ConstructorCall) {
+    this._call = call;
+  }
+}
+
 export class AcceptGovernanceTransferCall extends ethereum.Call {
   get inputs(): AcceptGovernanceTransferCall__Inputs {
     return new AcceptGovernanceTransferCall__Inputs(this);

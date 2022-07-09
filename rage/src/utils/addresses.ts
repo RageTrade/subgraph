@@ -13,13 +13,13 @@ class Contracts {
 }
 
 export let contracts: Contracts = { 
-  ClearingHouse: Address.fromString("0xe3B8eF0C2Ed6d8318F0b1b50A072e0cB508CDB04"),
-  clearingHouseLens: Address.fromString("0xFAEb252014eaE82e7954E33B16CCdbd058a1D89F"),
-  RageTradeFactory: Address.fromString("0x172b070dc24D8f0a3Cd665e601a398419c5272E6"),
-  InsuranceFund: Address.fromString("0xb84f7ACe7a6a5e54F84824605f7539aeD4A3e871"),
-  VPoolWrapper: Address.fromString("0x80Fe2ca9c7D5e77934CdAaF6f2eAe002991cb679"),
-  CurveYieldStrategy: Address.fromString("0xA1e33ebDA7e0bcC8d078886dA65d1Ea555495CEF"),
-  VaultPeriphery: Address.fromString("0x15023878aa94CdC9B9CE4A46919330B0537caCf5"),
-  CurveTriCryptoLpTokenAddress: Address.fromString("0x931073e47baA30389A195CABcf5F3549157afdc9"),
-  CurveQuoter: Address.fromString("0x07E837cAbcC37A8b185051Ae0E984346CECde049") 
+  ClearingHouse: Address.fromString("0x4521916972A76D5BFA65Fb539Cf7a0C2592050Ac"),
+  clearingHouseLens: Address.fromString("0xcb096429eA71Ec15639Cf8Bb71f86960E3d8F523"),
+  RageTradeFactory: Address.fromString("0x14FcC60f9be14087FAC729df48fF33f2b3052C12"),
+  InsuranceFund: Address.fromString("0xc6F3485C5cA2C08554EE9C516551035d0dE285d9"),
+  VPoolWrapper: Address.fromString("0xd8dab97F71E2F91D82E658F848be6A49ddeb9CC5"),
+  CurveYieldStrategy: Address.fromString("0x1d42783E7eeacae12EbC315D1D2D0E3C6230a068"),
+  VaultPeriphery: Address.fromString("0x4b928aFd7CA775C7f4ECdf2c00B7e608962AbbDc"),
+  CurveTriCryptoLpTokenAddress: Address.fromString("0x8e0B8c8BB9db49a46697F3a5Bb8A308e744821D2"),
+  CurveQuoter: Address.fromString("0x2C2FC48c3404a70F2d33290d5820Edf49CBf74a5") 
  };

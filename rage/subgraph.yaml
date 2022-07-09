@@ -6,11 +6,11 @@ schema:
 dataSources:
   - kind: ethereum/contract
     name: ClearingHouse
-    network: arbitrum-rinkeby
+    network: arbitrum-one
     source:
-      address: "0xe3B8eF0C2Ed6d8318F0b1b50A072e0cB508CDB04"
+      address: "0x4521916972A76D5BFA65Fb539Cf7a0C2592050Ac"
       abi: ClearingHouse
-      startBlock: 12705321
+      startBlock: 17185390
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.4
@@ -52,11 +52,11 @@ dataSources:
           handler: handleProfitUpdated
   - kind: ethereum/contract
     name: CurveYieldStrategy
-    network: arbitrum-rinkeby
+    network: arbitrum-one
     source:
-      address: "0xA1e33ebDA7e0bcC8d078886dA65d1Ea555495CEF"
+      address: "0x1d42783E7eeacae12EbC315D1D2D0E3C6230a068"
       abi: CurveYieldStrategy
-      startBlock: 12705321
+      startBlock: 17185390
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.4
@@ -85,11 +85,11 @@ dataSources:
           handler: handleWithdraw
   - kind: ethereum/contract
     name: VaultPeriphery
-    network: arbitrum-rinkeby
+    network: arbitrum-one
     source:
-      address: "0x15023878aa94CdC9B9CE4A46919330B0537caCf5"
+      address: "0x4b928aFd7CA775C7f4ECdf2c00B7e608962AbbDc"
       abi: VaultPeriphery
-      startBlock: 12705321
+      startBlock: 17185390
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.4
@@ -116,11 +116,11 @@ dataSources:
           handler: handleDepositPeriphery
   - kind: ethereum/contract
     name: RageTradeFactory
-    network: arbitrum-rinkeby
+    network: arbitrum-one
     source:
-      address: "0x172b070dc24D8f0a3Cd665e601a398419c5272E6"
+      address: "0x14FcC60f9be14087FAC729df48fF33f2b3052C12"
       abi: RageTradeFactory
-      startBlock: 12705321
+      startBlock: 17185390
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.4
@@ -150,11 +150,11 @@ dataSources:
           handler: handlePoolInitialized
   - kind: ethereum/contract
     name: UniswapV3Factory
-    network: arbitrum-rinkeby
+    network: arbitrum-one
     source:
       address: "0x1F98431c8aD98523631AE4a59f267346ea31F984"
       abi: UniswapV3Factory
-      startBlock: 10139574
+      startBlock: 17185390
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.4
@@ -180,7 +180,7 @@ dataSources:
 templates:
   - kind: ethereum/contract
     name: UniswapV3Pool
-    network: arbitrum-rinkeby
+    network: arbitrum-one
     source:
       abi: UniswapV3Pool
     mapping:
@@ -206,7 +206,7 @@ templates:
           handler: handleBurn
   - kind: ethereum/contract
     name: VPoolWrapperLogic
-    network: arbitrum-rinkeby
+    network: arbitrum-one
     source:
       abi: VPoolWrapperLogic
     mapping:
