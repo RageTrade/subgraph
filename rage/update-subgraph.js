@@ -54,7 +54,13 @@ async function main() {
     insuranceFund,
     vPoolWrapperLogic,
   } = await sdk.getContracts(networkInfo.provider);
+  const { uniswapV3Factory } = await sdk.getUniswapContracts(
+    networkInfo.provider
+  );
   const { curveYieldStrategy, vaultPeriphery } = await sdk.getVaultContracts(
+    networkInfo.provider
+  );
+  const { gmxYieldStrategy } = await sdk.getGMXVaultContracts(
     networkInfo.provider
   );
   const { crv3, quoter } = await sdk.getCurveFinanceContracts(
@@ -71,33 +77,48 @@ async function main() {
   // await copyAbi(vaultPeriphery, 'VaultPeriphery');
   // await copyAbi(crv3, 'CurveTriCryptoLpToken');
   // await copyAbi(quoter, 'CurveQuoter');
+  await copyAbi(gmxYieldStrategy, 'GMXYieldStrategy');
 
   // STEP 2: Update ClearingHouse and other contract address in subgraph.yaml
   const subgraphYaml = yaml.parse(fs.readFileSync('./subgraph.yaml', 'utf8'));
-  updateSubgraphYaml(
+  updateSubgraphYamlDataSources(
     subgraphYaml,
     'ClearingHouse',
     clearingHouse.address,
     startBlockNumber
   );
-  updateSubgraphYaml(
+  updateSubgraphYamlDataSources(
     subgraphYaml,
     'RageTradeFactory',
     rageTradeFactory.address,
     startBlockNumber
   );
-  updateSubgraphYaml(
+  updateSubgraphYamlDataSources(
     subgraphYaml,
     'CurveYieldStrategy',
     curveYieldStrategy.address,
     startBlockNumber
   );
-  updateSubgraphYaml(
+  updateSubgraphYamlDataSources(
     subgraphYaml,
     'VaultPeriphery',
     vaultPeriphery.address,
     startBlockNumber
   );
+  updateSubgraphYamlDataSources(
+    subgraphYaml,
+    'GMXYieldStrategy',
+    gmxYieldStrategy.address,
+    startBlockNumber
+  );
+  updateSubgraphYamlDataSources(
+    subgraphYaml,
+    'UniswapV3Factory',
+    uniswapV3Factory.address,
+    startBlockNumber
+  );
+  updateSubgraphYamlTemplates(subgraphYaml, 'UniswapV3Pool');
+  updateSubgraphYamlTemplates(subgraphYaml, 'VPoolWrapperLogic');
 
   // write subgraphYaml
   fs.writeFile('./subgraph.yaml', yaml.stringify(subgraphYaml, { indent: 2 }));
@@ -118,23 +139,34 @@ async function main() {
   console.log('Updated subgraph.yaml');
 }
 
-function updateSubgraphYaml(
+function updateSubgraphYamlDataSources(
   subgraphYaml,
   contractName,
   contractAddress,
   startBlockNumber
 ) {
-  const dataSources = subgraphYaml.dataSources.find(
+  const dataSource = subgraphYaml.dataSources.find(
     ({ name }) => name === contractName
   );
-  if (!dataSources) {
+  if (!dataSource) {
     throw new Error(
       `There is no ${contractName} data source in the subgraph.yaml`
     );
   }
-  dataSources.network = networkInfo.subgraph;
-  dataSources.source.startBlock = startBlockNumber;
-  dataSources.source.address = contractAddress;
+  dataSource.network = networkInfo.subgraph;
+  dataSource.source.startBlock = startBlockNumber;
+  dataSource.source.address = contractAddress;
+}
+function updateSubgraphYamlTemplates(subgraphYaml, contractName) {
+  const template = subgraphYaml.templates.find(
+    ({ name }) => name === contractName
+  );
+  if (!template) {
+    throw new Error(
+      `There is no ${contractName} template in the subgraph.yaml`
+    );
+  }
+  template.network = networkInfo.subgraph;
 }
 
 async function copyAbi(contract, name) {
