@@ -60,9 +60,10 @@ async function main() {
   const { curveYieldStrategy, vaultPeriphery } = await sdk.getVaultContracts(
     networkInfo.provider
   );
-  const { gmxYieldStrategy } = await sdk.getGMXVaultContracts(
-    networkInfo.provider
-  );
+  const {
+    gmxYieldStrategy,
+    gmxBatchingManager,
+  } = await sdk.getGMXVaultContracts(networkInfo.provider);
   const { crv3, quoter } = await sdk.getCurveFinanceContracts(
     networkInfo.provider
   );
@@ -78,6 +79,7 @@ async function main() {
   await copyAbi(crv3, 'CurveTriCryptoLpToken');
   await copyAbi(quoter, 'CurveQuoter');
   await copyAbi(gmxYieldStrategy, 'GMXYieldStrategy');
+  await copyAbi(gmxBatchingManager, 'GMXBatchingManager');
 
   // STEP 2: Update ClearingHouse and other contract address in subgraph.yaml
   const subgraphYaml = yaml.parse(fs.readFileSync('./subgraph.yaml', 'utf8'));
@@ -113,6 +115,12 @@ async function main() {
   );
   updateSubgraphYamlDataSources(
     subgraphYaml,
+    'GMXBatchingManager',
+    gmxBatchingManager.address,
+    startBlockNumber
+  );
+  updateSubgraphYamlDataSources(
+    subgraphYaml,
     'UniswapV3Factory',
     uniswapV3Factory.address,
     startBlockNumber
@@ -134,6 +142,8 @@ async function main() {
     vaultPeripheryAddress: vaultPeriphery.address,
     curveTriCryptoLpTokenAddress: crv3.address,
     curveQuoterAddress: quoter.address,
+    gmxYieldStrategyAddress: gmxYieldStrategy.address,
+    gmxBatchingManagerAddress: gmxBatchingManager.address,
   });
 
   console.log('Updated subgraph.yaml');
@@ -196,6 +206,8 @@ function writeContractAddress({
   vaultPeripheryAddress,
   curveTriCryptoLpTokenAddress,
   curveQuoterAddress,
+  gmxYieldStrategyAddress,
+  gmxBatchingManagerAddress,
 }) {
   const file = `import { Address } from '@graphprotocol/graph-ts'
 
@@ -209,6 +221,8 @@ class Contracts {
   VaultPeriphery: Address;
   CurveTriCryptoLpTokenAddress: Address;
   CurveQuoter: Address;
+  GMXYieldStrategy: Address;
+  GMXBatchingManager: Address;
 }
 
 export let contracts: Contracts = { 
@@ -220,7 +234,9 @@ export let contracts: Contracts = {
   CurveYieldStrategy: Address.fromString("${curveYearStrategyAddress}"),
   VaultPeriphery: Address.fromString("${vaultPeripheryAddress}"),
   CurveTriCryptoLpTokenAddress: Address.fromString("${curveTriCryptoLpTokenAddress}"),
-  CurveQuoter: Address.fromString("${curveQuoterAddress}") 
+  CurveQuoter: Address.fromString("${curveQuoterAddress}"),
+  GMXYieldStrategy: Address.fromString("${gmxYieldStrategyAddress}"),
+  GMXBatchingManager: Address.fromString("${gmxBatchingManagerAddress}")
  };`;
 
   fs.writeFile('./src/utils/addresses.ts', file, {

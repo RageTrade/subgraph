@@ -1,0 +1,497 @@
+[
+  {
+    "type": "event",
+    "anonymous": false,
+    "name": "BatchDeposit",
+    "inputs": [
+      {
+        "type": "uint256",
+        "name": "userGlpAmount",
+        "indexed": false
+      },
+      {
+        "type": "uint256",
+        "name": "userShareAmount",
+        "indexed": false
+      }
+    ]
+  },
+  {
+    "type": "event",
+    "anonymous": false,
+    "name": "DepositToken",
+    "inputs": [
+      {
+        "type": "address",
+        "name": "token",
+        "indexed": false
+      },
+      {
+        "type": "address",
+        "name": "receiver",
+        "indexed": false
+      },
+      {
+        "type": "uint256",
+        "name": "amount",
+        "indexed": false
+      },
+      {
+        "type": "uint256",
+        "name": "glpStaked",
+        "indexed": false
+      }
+    ]
+  },
+  {
+    "type": "event",
+    "anonymous": false,
+    "name": "Initialized",
+    "inputs": [
+      {
+        "type": "uint8",
+        "name": "version",
+        "indexed": false
+      }
+    ]
+  },
+  {
+    "type": "event",
+    "anonymous": false,
+    "name": "KeeperUpdated",
+    "inputs": [
+      {
+        "type": "address",
+        "name": "newKeeper",
+        "indexed": false
+      }
+    ]
+  },
+  {
+    "type": "event",
+    "anonymous": false,
+    "name": "OwnershipTransferred",
+    "inputs": [
+      {
+        "type": "address",
+        "name": "previousOwner",
+        "indexed": true
+      },
+      {
+        "type": "address",
+        "name": "newOwner",
+        "indexed": true
+      }
+    ]
+  },
+  {
+    "type": "event",
+    "anonymous": false,
+    "name": "Paused",
+    "inputs": [
+      {
+        "type": "address",
+        "name": "account",
+        "indexed": false
+      }
+    ]
+  },
+  {
+    "type": "event",
+    "anonymous": false,
+    "name": "SharesClaimed",
+    "inputs": [
+      {
+        "type": "address",
+        "name": "from",
+        "indexed": false
+      },
+      {
+        "type": "address",
+        "name": "receiver",
+        "indexed": false
+      },
+      {
+        "type": "uint256",
+        "name": "claimAmount",
+        "indexed": false
+      }
+    ]
+  },
+  {
+    "type": "event",
+    "anonymous": false,
+    "name": "Unpaused",
+    "inputs": [
+      {
+        "type": "address",
+        "name": "account",
+        "indexed": false
+      }
+    ]
+  },
+  {
+    "type": "event",
+    "anonymous": false,
+    "name": "VaultDeposit",
+    "inputs": [
+      {
+        "type": "uint256",
+        "name": "vaultGlpAmount",
+        "indexed": false
+      }
+    ]
+  },
+  {
+    "type": "function",
+    "name": "claim",
+    "constant": false,
+    "payable": false,
+    "inputs": [
+      {
+        "type": "address",
+        "name": "receiver"
+      },
+      {
+        "type": "uint256",
+        "name": "amount"
+      }
+    ],
+    "outputs": []
+  },
+  {
+    "type": "function",
+    "name": "currentRound",
+    "constant": true,
+    "stateMutability": "view",
+    "payable": false,
+    "inputs": [],
+    "outputs": [
+      {
+        "type": "uint256",
+        "name": ""
+      }
+    ]
+  },
+  {
+    "type": "function",
+    "name": "depositToken",
+    "constant": false,
+    "payable": false,
+    "inputs": [
+      {
+        "type": "address",
+        "name": "token"
+      },
+      {
+        "type": "uint256",
+        "name": "amount"
+      },
+      {
+        "type": "address",
+        "name": "receiver"
+      }
+    ],
+    "outputs": [
+      {
+        "type": "uint256",
+        "name": "glpStaked"
+      }
+    ]
+  },
+  {
+    "type": "function",
+    "name": "executeBatchDeposit",
+    "constant": false,
+    "payable": false,
+    "inputs": [],
+    "outputs": []
+  },
+  {
+    "type": "function",
+    "name": "glpBalance",
+    "constant": true,
+    "stateMutability": "view",
+    "payable": false,
+    "inputs": [
+      {
+        "type": "address",
+        "name": "account"
+      }
+    ],
+    "outputs": [
+      {
+        "type": "uint256",
+        "name": "balance"
+      }
+    ]
+  },
+  {
+    "type": "function",
+    "name": "glpManager",
+    "constant": true,
+    "stateMutability": "view",
+    "payable": false,
+    "inputs": [],
+    "outputs": [
+      {
+        "type": "address",
+        "name": ""
+      }
+    ]
+  },
+  {
+    "type": "function",
+    "name": "gmxVault",
+    "constant": true,
+    "stateMutability": "view",
+    "payable": false,
+    "inputs": [],
+    "outputs": [
+      {
+        "type": "address",
+        "name": ""
+      }
+    ]
+  },
+  {
+    "type": "function",
+    "name": "grantAllowances",
+    "constant": false,
+    "payable": false,
+    "inputs": [],
+    "outputs": []
+  },
+  {
+    "type": "function",
+    "name": "initialize",
+    "constant": false,
+    "payable": false,
+    "inputs": [
+      {
+        "type": "address",
+        "name": "_sGlp"
+      },
+      {
+        "type": "address",
+        "name": "_rewardRouter"
+      },
+      {
+        "type": "address",
+        "name": "_glpManager"
+      },
+      {
+        "type": "address",
+        "name": "_gmxVault"
+      },
+      {
+        "type": "address",
+        "name": "_keeper"
+      }
+    ],
+    "outputs": []
+  },
+  {
+    "type": "function",
+    "name": "keeper",
+    "constant": true,
+    "stateMutability": "view",
+    "payable": false,
+    "inputs": [],
+    "outputs": [
+      {
+        "type": "address",
+        "name": ""
+      }
+    ]
+  },
+  {
+    "type": "function",
+    "name": "owner",
+    "constant": true,
+    "stateMutability": "view",
+    "payable": false,
+    "inputs": [],
+    "outputs": [
+      {
+        "type": "address",
+        "name": ""
+      }
+    ]
+  },
+  {
+    "type": "function",
+    "name": "pauseDeposit",
+    "constant": false,
+    "payable": false,
+    "inputs": [],
+    "outputs": []
+  },
+  {
+    "type": "function",
+    "name": "paused",
+    "constant": true,
+    "stateMutability": "view",
+    "payable": false,
+    "inputs": [],
+    "outputs": [
+      {
+        "type": "bool",
+        "name": ""
+      }
+    ]
+  },
+  {
+    "type": "function",
+    "name": "renounceOwnership",
+    "constant": false,
+    "payable": false,
+    "inputs": [],
+    "outputs": []
+  },
+  {
+    "type": "function",
+    "name": "rewardRouter",
+    "constant": true,
+    "stateMutability": "view",
+    "payable": false,
+    "inputs": [],
+    "outputs": [
+      {
+        "type": "address",
+        "name": ""
+      }
+    ]
+  },
+  {
+    "type": "function",
+    "name": "roundDeposits",
+    "constant": true,
+    "stateMutability": "view",
+    "payable": false,
+    "inputs": [
+      {
+        "type": "uint256",
+        "name": ""
+      }
+    ],
+    "outputs": [
+      {
+        "type": "uint128",
+        "name": "totalGlp"
+      },
+      {
+        "type": "uint128",
+        "name": "totalShares"
+      }
+    ]
+  },
+  {
+    "type": "function",
+    "name": "roundGlpBalance",
+    "constant": true,
+    "stateMutability": "view",
+    "payable": false,
+    "inputs": [],
+    "outputs": [
+      {
+        "type": "uint256",
+        "name": ""
+      }
+    ]
+  },
+  {
+    "type": "function",
+    "name": "sGlp",
+    "constant": true,
+    "stateMutability": "view",
+    "payable": false,
+    "inputs": [],
+    "outputs": [
+      {
+        "type": "address",
+        "name": ""
+      }
+    ]
+  },
+  {
+    "type": "function",
+    "name": "setKeeper",
+    "constant": false,
+    "payable": false,
+    "inputs": [
+      {
+        "type": "address",
+        "name": "_keeper"
+      }
+    ],
+    "outputs": []
+  },
+  {
+    "type": "function",
+    "name": "transferOwnership",
+    "constant": false,
+    "payable": false,
+    "inputs": [
+      {
+        "type": "address",
+        "name": "newOwner"
+      }
+    ],
+    "outputs": []
+  },
+  {
+    "type": "function",
+    "name": "unclaimedShares",
+    "constant": true,
+    "stateMutability": "view",
+    "payable": false,
+    "inputs": [
+      {
+        "type": "address",
+        "name": "account"
+      }
+    ],
+    "outputs": [
+      {
+        "type": "uint256",
+        "name": "shares"
+      }
+    ]
+  },
+  {
+    "type": "function",
+    "name": "unpauseDeposit",
+    "constant": false,
+    "payable": false,
+    "inputs": [],
+    "outputs": []
+  },
+  {
+    "type": "function",
+    "name": "userDeposits",
+    "constant": true,
+    "stateMutability": "view",
+    "payable": false,
+    "inputs": [
+      {
+        "type": "address",
+        "name": ""
+      }
+    ],
+    "outputs": [
+      {
+        "type": "uint256",
+        "name": "round"
+      },
+      {
+        "type": "uint128",
+        "name": "glpBalance"
+      },
+      {
+        "type": "uint128",
+        "name": "unclaimedShares"
+      }
+    ]
+  }
+]
