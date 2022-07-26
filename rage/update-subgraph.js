@@ -68,15 +68,15 @@ async function main() {
   );
 
   // STEP 1: Copy ABIs
-  // await copyAbi(rageTradeFactory, 'RageTradeFactory');
-  // await copyAbi(clearingHouse, 'ClearingHouse');
-  // await copyAbi(clearingHouseLens, 'ClearingHouseLens');
-  // await copyAbi(insuranceFund, 'InsuranceFund');
-  // await copyAbi(vPoolWrapperLogic, 'VPoolWrapperLogic');
-  // await copyAbi(curveYieldStrategy, 'CurveYieldStrategy');
-  // await copyAbi(vaultPeriphery, 'VaultPeriphery');
-  // await copyAbi(crv3, 'CurveTriCryptoLpToken');
-  // await copyAbi(quoter, 'CurveQuoter');
+  await copyAbi(rageTradeFactory, 'RageTradeFactory');
+  await copyAbi(clearingHouse, 'ClearingHouse');
+  await copyAbi(clearingHouseLens, 'ClearingHouseLens');
+  await copyAbi(insuranceFund, 'InsuranceFund');
+  await copyAbi(vPoolWrapperLogic, 'VPoolWrapperLogic');
+  await copyAbi(curveYieldStrategy, 'CurveYieldStrategy');
+  await copyAbi(vaultPeriphery, 'VaultPeriphery');
+  await copyAbi(crv3, 'CurveTriCryptoLpToken');
+  await copyAbi(quoter, 'CurveQuoter');
   await copyAbi(gmxYieldStrategy, 'GMXYieldStrategy');
 
   // STEP 2: Update ClearingHouse and other contract address in subgraph.yaml
@@ -173,6 +173,13 @@ async function copyAbi(contract, name) {
   const abi = contract.interface.fragments
     .map(f => JSON.parse(f.format('json')))
     .filter(f => f.type !== 'error');
+  abi.forEach(f => {
+    if (f.name === undefined) f.name = '';
+    [...f.inputs, ...(f.outputs ?? [])].forEach(i => {
+      if (i.name === undefined) i.name = '';
+    });
+    return f;
+  });
   await fs.writeJSON(`./abis/${name}.json`, abi, { spaces: 2 });
 
   console.log(`Updated ${name}.json`);

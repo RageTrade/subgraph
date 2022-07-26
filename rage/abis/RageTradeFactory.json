@@ -1,427 +1,365 @@
 [
   {
+    "type": "constructor",
+    "payable": false,
     "inputs": [
       {
-        "internalType": "address",
-        "name": "clearingHouseLogicAddress",
-        "type": "address"
+        "type": "address",
+        "name": "clearingHouseLogicAddress"
       },
       {
-        "internalType": "address",
-        "name": "_vPoolWrapperLogicAddress",
-        "type": "address"
+        "type": "address",
+        "name": "_vPoolWrapperLogicAddress"
       },
       {
-        "internalType": "address",
-        "name": "insuranceFundLogicAddress",
-        "type": "address"
+        "type": "address",
+        "name": "insuranceFundLogicAddress"
       },
       {
-        "internalType": "contract IERC20Metadata",
-        "name": "settlementToken",
-        "type": "address"
+        "type": "address",
+        "name": "settlementToken"
       },
       {
-        "internalType": "contract IOracle",
-        "name": "settlementTokenOracle",
-        "type": "address"
+        "type": "address",
+        "name": "settlementTokenOracle"
       }
     ],
-    "stateMutability": "nonpayable",
-    "type": "constructor"
+    "name": ""
   },
   {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "addr",
-        "type": "address"
-      }
-    ],
-    "name": "IllegalAddress",
-    "type": "error"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "y_target",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint160",
-        "name": "x_lower",
-        "type": "uint160"
-      },
-      {
-        "internalType": "uint160",
-        "name": "x_upper",
-        "type": "uint160"
-      }
-    ],
-    "name": "SolutionOutOfBounds",
-    "type": "error"
-  },
-  {
-    "inputs": [],
-    "name": "Unauthorised",
-    "type": "error"
-  },
-  {
-    "inputs": [],
-    "name": "ZeroAddress",
-    "type": "error"
-  },
-  {
+    "type": "event",
     "anonymous": false,
-    "inputs": [
-      {
-        "indexed": true,
-        "internalType": "address",
-        "name": "previousGovernancePending",
-        "type": "address"
-      },
-      {
-        "indexed": true,
-        "internalType": "address",
-        "name": "newGovernancePending",
-        "type": "address"
-      }
-    ],
     "name": "GovernancePending",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
     "inputs": [
       {
-        "indexed": true,
-        "internalType": "address",
-        "name": "previousGovernance",
-        "type": "address"
+        "type": "address",
+        "name": "previousGovernancePending",
+        "indexed": true
       },
       {
-        "indexed": true,
-        "internalType": "address",
-        "name": "newGovernance",
-        "type": "address"
+        "type": "address",
+        "name": "newGovernancePending",
+        "indexed": true
       }
-    ],
+    ]
+  },
+  {
+    "type": "event",
+    "anonymous": false,
     "name": "GovernanceTransferred",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
     "inputs": [
       {
-        "indexed": false,
-        "internalType": "contract IUniswapV3Pool",
-        "name": "vPool",
-        "type": "address"
+        "type": "address",
+        "name": "previousGovernance",
+        "indexed": true
       },
       {
-        "indexed": false,
-        "internalType": "contract IVToken",
-        "name": "vToken",
-        "type": "address"
-      },
-      {
-        "indexed": false,
-        "internalType": "contract IVPoolWrapper",
-        "name": "vPoolWrapper",
-        "type": "address"
+        "type": "address",
+        "name": "newGovernance",
+        "indexed": true
       }
-    ],
+    ]
+  },
+  {
+    "type": "event",
+    "anonymous": false,
     "name": "PoolInitialized",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
     "inputs": [
       {
-        "indexed": true,
-        "internalType": "address",
-        "name": "previousTeamMultisigPending",
-        "type": "address"
+        "type": "address",
+        "name": "vPool",
+        "indexed": false
       },
       {
-        "indexed": true,
-        "internalType": "address",
-        "name": "newTeamMultisigPending",
-        "type": "address"
+        "type": "address",
+        "name": "vToken",
+        "indexed": false
+      },
+      {
+        "type": "address",
+        "name": "vPoolWrapper",
+        "indexed": false
       }
-    ],
+    ]
+  },
+  {
+    "type": "event",
+    "anonymous": false,
     "name": "TeamMultisigPending",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
     "inputs": [
       {
-        "indexed": true,
-        "internalType": "address",
-        "name": "previousTeamMultisig",
-        "type": "address"
+        "type": "address",
+        "name": "previousTeamMultisigPending",
+        "indexed": true
       },
       {
-        "indexed": true,
-        "internalType": "address",
-        "name": "newTeamMultisig",
-        "type": "address"
+        "type": "address",
+        "name": "newTeamMultisigPending",
+        "indexed": true
       }
-    ],
+    ]
+  },
+  {
+    "type": "event",
+    "anonymous": false,
     "name": "TeamMultisigTransferred",
-    "type": "event"
-  },
-  {
-    "inputs": [],
-    "name": "acceptGovernanceTransfer",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "acceptTeamMultisigTransfer",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "clearingHouse",
-    "outputs": [
-      {
-        "internalType": "contract IClearingHouse",
-        "name": "",
-        "type": "address"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "governance",
-    "outputs": [
-      {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "governancePending",
-    "outputs": [
-      {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
     "inputs": [
       {
+        "type": "address",
+        "name": "previousTeamMultisig",
+        "indexed": true
+      },
+      {
+        "type": "address",
+        "name": "newTeamMultisig",
+        "indexed": true
+      }
+    ]
+  },
+  {
+    "type": "function",
+    "name": "acceptGovernanceTransfer",
+    "constant": false,
+    "payable": false,
+    "inputs": [],
+    "outputs": []
+  },
+  {
+    "type": "function",
+    "name": "acceptTeamMultisigTransfer",
+    "constant": false,
+    "payable": false,
+    "inputs": [],
+    "outputs": []
+  },
+  {
+    "type": "function",
+    "name": "clearingHouse",
+    "constant": true,
+    "stateMutability": "view",
+    "payable": false,
+    "inputs": [],
+    "outputs": [
+      {
+        "type": "address",
+        "name": ""
+      }
+    ]
+  },
+  {
+    "type": "function",
+    "name": "governance",
+    "constant": true,
+    "stateMutability": "view",
+    "payable": false,
+    "inputs": [],
+    "outputs": [
+      {
+        "type": "address",
+        "name": ""
+      }
+    ]
+  },
+  {
+    "type": "function",
+    "name": "governancePending",
+    "constant": true,
+    "stateMutability": "view",
+    "payable": false,
+    "inputs": [],
+    "outputs": [
+      {
+        "type": "address",
+        "name": ""
+      }
+    ]
+  },
+  {
+    "type": "function",
+    "name": "initializePool",
+    "constant": false,
+    "payable": false,
+    "inputs": [
+      {
+        "type": "tuple",
+        "name": "initializePoolParams",
         "components": [
           {
-            "components": [
-              {
-                "internalType": "string",
-                "name": "vTokenName",
-                "type": "string"
-              },
-              {
-                "internalType": "string",
-                "name": "vTokenSymbol",
-                "type": "string"
-              },
-              {
-                "internalType": "uint8",
-                "name": "cTokenDecimals",
-                "type": "uint8"
-              }
-            ],
-            "internalType": "struct VTokenDeployer.DeployVTokenParams",
+            "type": "tuple",
             "name": "deployVTokenParams",
-            "type": "tuple"
-          },
-          {
             "components": [
               {
-                "internalType": "uint16",
-                "name": "initialMarginRatioBps",
-                "type": "uint16"
+                "type": "string",
+                "name": "vTokenName"
               },
               {
-                "internalType": "uint16",
-                "name": "maintainanceMarginRatioBps",
-                "type": "uint16"
+                "type": "string",
+                "name": "vTokenSymbol"
               },
               {
-                "internalType": "uint16",
-                "name": "maxVirtualPriceDeviationRatioBps",
-                "type": "uint16"
-              },
-              {
-                "internalType": "uint32",
-                "name": "twapDuration",
-                "type": "uint32"
-              },
-              {
-                "internalType": "bool",
-                "name": "isAllowedForTrade",
-                "type": "bool"
-              },
-              {
-                "internalType": "bool",
-                "name": "isCrossMargined",
-                "type": "bool"
-              },
-              {
-                "internalType": "contract IOracle",
-                "name": "oracle",
-                "type": "address"
+                "type": "uint8",
+                "name": "cTokenDecimals"
               }
-            ],
-            "internalType": "struct IClearingHouseStructures.PoolSettings",
+            ]
+          },
+          {
+            "type": "tuple",
             "name": "poolInitialSettings",
-            "type": "tuple"
+            "components": [
+              {
+                "type": "uint16",
+                "name": "initialMarginRatioBps"
+              },
+              {
+                "type": "uint16",
+                "name": "maintainanceMarginRatioBps"
+              },
+              {
+                "type": "uint16",
+                "name": "maxVirtualPriceDeviationRatioBps"
+              },
+              {
+                "type": "uint32",
+                "name": "twapDuration"
+              },
+              {
+                "type": "bool",
+                "name": "isAllowedForTrade"
+              },
+              {
+                "type": "bool",
+                "name": "isCrossMargined"
+              },
+              {
+                "type": "address",
+                "name": "oracle"
+              }
+            ]
           },
           {
-            "internalType": "uint24",
-            "name": "liquidityFeePips",
-            "type": "uint24"
+            "type": "uint24",
+            "name": "liquidityFeePips"
           },
           {
-            "internalType": "uint24",
-            "name": "protocolFeePips",
-            "type": "uint24"
+            "type": "uint24",
+            "name": "protocolFeePips"
           },
           {
-            "internalType": "uint16",
-            "name": "slotsToInitialize",
-            "type": "uint16"
+            "type": "uint16",
+            "name": "slotsToInitialize"
           }
-        ],
-        "internalType": "struct RageTradeFactory.InitializePoolParams",
-        "name": "initializePoolParams",
-        "type": "tuple"
+        ]
       }
     ],
-    "name": "initializePool",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
+    "outputs": []
   },
   {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "newGovernancePending",
-        "type": "address"
-      }
-    ],
+    "type": "function",
     "name": "initiateGovernanceTransfer",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
+    "constant": false,
+    "payable": false,
     "inputs": [
       {
-        "internalType": "address",
-        "name": "newTeamMultisigPending",
-        "type": "address"
+        "type": "address",
+        "name": "newGovernancePending"
       }
     ],
+    "outputs": []
+  },
+  {
+    "type": "function",
     "name": "initiateTeamMultisigTransfer",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "proxyAdmin",
-    "outputs": [
-      {
-        "internalType": "contract ProxyAdmin",
-        "name": "",
-        "type": "address"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
+    "constant": false,
+    "payable": false,
     "inputs": [
       {
-        "internalType": "address",
-        "name": "_vPoolWrapperLogicAddress",
-        "type": "address"
+        "type": "address",
+        "name": "newTeamMultisigPending"
       }
     ],
+    "outputs": []
+  },
+  {
+    "type": "function",
+    "name": "proxyAdmin",
+    "constant": true,
+    "stateMutability": "view",
+    "payable": false,
+    "inputs": [],
+    "outputs": [
+      {
+        "type": "address",
+        "name": ""
+      }
+    ]
+  },
+  {
+    "type": "function",
     "name": "setVPoolWrapperLogicAddress",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
+    "constant": false,
+    "payable": false,
+    "inputs": [
+      {
+        "type": "address",
+        "name": "_vPoolWrapperLogicAddress"
+      }
+    ],
+    "outputs": []
   },
   {
-    "inputs": [],
+    "type": "function",
     "name": "teamMultisig",
+    "constant": true,
+    "stateMutability": "view",
+    "payable": false,
+    "inputs": [],
     "outputs": [
       {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
+        "type": "address",
+        "name": ""
       }
-    ],
-    "stateMutability": "view",
-    "type": "function"
+    ]
   },
   {
-    "inputs": [],
+    "type": "function",
     "name": "teamMultisigPending",
+    "constant": true,
+    "stateMutability": "view",
+    "payable": false,
+    "inputs": [],
     "outputs": [
       {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
+        "type": "address",
+        "name": ""
       }
-    ],
-    "stateMutability": "view",
-    "type": "function"
+    ]
   },
   {
-    "inputs": [],
+    "type": "function",
     "name": "vPoolWrapperLogicAddress",
+    "constant": true,
+    "stateMutability": "view",
+    "payable": false,
+    "inputs": [],
     "outputs": [
       {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
+        "type": "address",
+        "name": ""
       }
-    ],
-    "stateMutability": "view",
-    "type": "function"
+    ]
   },
   {
-    "inputs": [],
+    "type": "function",
     "name": "vQuote",
+    "constant": true,
+    "stateMutability": "view",
+    "payable": false,
+    "inputs": [],
     "outputs": [
       {
-        "internalType": "contract IVQuote",
-        "name": "",
-        "type": "address"
+        "type": "address",
+        "name": ""
       }
-    ],
-    "stateMutability": "view",
-    "type": "function"
+    ]
   }
 ]
