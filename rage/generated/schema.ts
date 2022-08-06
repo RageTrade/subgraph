@@ -2518,6 +2518,15 @@ export class VaultDepositWithdrawEntry extends Entity {
     this.set("timestamp", Value.fromBigInt(value));
   }
 
+  get blockNumber(): BigInt {
+    let value = this.get("blockNumber");
+    return value.toBigInt();
+  }
+
+  set blockNumber(value: BigInt) {
+    this.set("blockNumber", Value.fromBigInt(value));
+  }
+
   get owner(): string {
     let value = this.get("owner");
     return value.toString();

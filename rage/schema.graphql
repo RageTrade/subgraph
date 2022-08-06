@@ -545,8 +545,10 @@ deposit/withdraw of tokens for a vault
 type VaultDepositWithdrawEntry @entity {
   "id of the entry"
   id: ID!
-  "timestamp of the token position change"
+  "timestamp of the event"
   timestamp: BigInt!
+  "block number of the events"
+  blockNumber: BigInt!
   " owner where the deposit/withdraw occurred"
   owner: Owner!
   "vault where the deposit/withdraw occurred"
