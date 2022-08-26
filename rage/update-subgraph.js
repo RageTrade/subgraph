@@ -63,10 +63,12 @@ async function main() {
   const {
     gmxYieldStrategy,
     gmxBatchingManager,
-  } = await sdk.getGMXVaultContracts(networkInfo.provider);
+    glpStakingManager,
+  } = await sdk.getGmxVaultContracts(networkInfo.provider);
   const { crv3, quoter } = await sdk.getCurveFinanceContracts(
     networkInfo.provider
   );
+  const { sGLP } = await sdk.getTokenContracts(networkInfo.provider);
 
   // STEP 1: Copy ABIs
   await copyAbi(rageTradeFactory, 'RageTradeFactory');
@@ -80,6 +82,7 @@ async function main() {
   await copyAbi(quoter, 'CurveQuoter');
   await copyAbi(gmxYieldStrategy, 'GMXYieldStrategy');
   await copyAbi(gmxBatchingManager, 'GMXBatchingManager');
+  await copyAbi(sGLP, 'sGLP');
 
   // STEP 2: Update ClearingHouse and other contract address in subgraph.yaml
   const subgraphYaml = yaml.parse(fs.readFileSync('./subgraph.yaml', 'utf8'));
@@ -144,6 +147,8 @@ async function main() {
     curveQuoterAddress: quoter.address,
     gmxYieldStrategyAddress: gmxYieldStrategy.address,
     gmxBatchingManagerAddress: gmxBatchingManager.address,
+    glpStakingManagerAddress: glpStakingManager.address,
+    sGLPAddress: sGLP.address,
   });
 
   console.log('Updated subgraph.yaml');
@@ -208,6 +213,8 @@ function writeContractAddress({
   curveQuoterAddress,
   gmxYieldStrategyAddress,
   gmxBatchingManagerAddress,
+  glpStakingManagerAddress,
+  sGLPAddress,
 }) {
   const file = `import { Address } from '@graphprotocol/graph-ts'
 
@@ -223,6 +230,8 @@ class Contracts {
   CurveQuoter: Address;
   GMXYieldStrategy: Address;
   GMXBatchingManager: Address;
+  GlpStakingManager: Address;
+  sGLP: Address;
 }
 
 export let contracts: Contracts = { 
@@ -236,7 +245,8 @@ export let contracts: Contracts = {
   CurveTriCryptoLpTokenAddress: Address.fromString("${curveTriCryptoLpTokenAddress}"),
   CurveQuoter: Address.fromString("${curveQuoterAddress}"),
   GMXYieldStrategy: Address.fromString("${gmxYieldStrategyAddress}"),
-  GMXBatchingManager: Address.fromString("${gmxBatchingManagerAddress}")
+  GlpStakingManager: Address.fromString("${glpStakingManagerAddress}"),
+  sGLP: Address.fromString("${sGLPAddress}")
  };`;
 
   fs.writeFile('./src/utils/addresses.ts', file, {

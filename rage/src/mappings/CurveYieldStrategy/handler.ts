@@ -15,8 +15,8 @@ import {
 import { contracts } from '../../utils/addresses';
 import { BI_18, BI_6, ONE_BI } from '../../utils/constants';
 import { getOwner } from '../clearinghouse/owner';
-import { getERC20Token } from '../VaultPeriphery/getERC20Token';
-import { getVault } from '../VaultPeriphery/getVault';
+import { getERC20Token } from '../../utils/getERC20Token';
+import { getVault } from '../../utils/getVault';
 
 export function handleDeposit(event: Deposit): void {
   log.debug(
@@ -28,7 +28,6 @@ export function handleDeposit(event: Deposit): void {
       event.params.shares.toString(),
     ]
   );
-
 
   let vault = getVault(contracts.CurveYieldStrategy);
   let owner = getOwner(event.params.owner);

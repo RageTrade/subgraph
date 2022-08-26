@@ -1,23 +1,25 @@
 import { log } from '@graphprotocol/graph-ts';
 import { VaultDepositWithdrawEntry } from '../../../generated/schema';
-import { DepositPeriphery } from '../../../generated/VaultPeriphery/VaultPeriphery';
+import { DepositToken } from '../../../generated/GMXBatchingManager/GMXBatchingManager';
 import { BigIntToBigDecimal, generateId, parsePriceX128 } from '../../utils';
 import { contracts } from '../../utils/addresses';
 import { getVault } from '../../utils/getVault';
 import { getOwner } from '../clearinghouse/owner';
 import { getERC20Token } from '../../utils/getERC20Token';
-import { BI_18, BI_6, ONE_BI } from '../../utils/constants';
+import { BI_18, BI_6, ONE_BI, ZERO_BI } from '../../utils/constants';
 import { CurveYieldStrategy } from '../../../generated/CurveYieldStrategy/CurveYieldStrategy';
 
-export function handleDepositPeriphery(event: DepositPeriphery): void {
+// GMX Batching Manager allows to
+// - deposit other tokens (not sGLP, it has to go through GYS)
+
+export function handleGmxDepositToken(event: DepositToken): void {
   log.debug(
-    'custom_logs: handleDepositPeriphery triggered [ owner - {} ] [ token - {} ] [ amount - {} ] [ asset - {} ] [ shares - {} ]',
+    'custom_logs: handleDepositPeriphery triggered [ token - {} ] [ receiver - {} ] [ amount - {} ] [ glpStaked - {} ]',
     [
-      event.params.owner.toHexString(),
       event.params.token.toHexString(),
+      event.params.receiver.toHexString(),
       event.params.amount.toString(),
-      event.params.asset.toString(),
-      event.params.shares.toString(),
+      event.params.glpStaked.toString(),
     ]
   );
   let curveYieldStrategyContract = CurveYieldStrategy.bind(
@@ -25,7 +27,7 @@ export function handleDepositPeriphery(event: DepositPeriphery): void {
   );
 
   let vault = getVault(contracts.CurveYieldStrategy);
-  let owner = getOwner(event.params.owner);
+  let owner = getOwner(event.params.receiver);
   let token = getERC20Token(event.params.token);
 
   let vaultDepositWithdrawEntryId = generateId([
@@ -39,7 +41,6 @@ export function handleDepositPeriphery(event: DepositPeriphery): void {
   let entry = new VaultDepositWithdrawEntry(vaultDepositWithdrawEntryId);
 
   entry.timestamp = event.block.timestamp;
-  entry.blockNumber = event.block.number;
   entry.transactionHash = event.transaction.hash;
 
   entry.owner = owner.id;
@@ -58,8 +59,8 @@ export function handleDepositPeriphery(event: DepositPeriphery): void {
   }
 
   entry.tokenAmount = BigIntToBigDecimal(event.params.amount, token.decimals);
-  entry.assetsTokenAmount = BigIntToBigDecimal(event.params.asset, BI_18);
-  entry.sharesTokenAmount = BigIntToBigDecimal(event.params.shares, BI_18);
+  entry.assetsTokenAmount = BigIntToBigDecimal(event.params.glpStaked, BI_18);
+  entry.sharesTokenAmount = BigIntToBigDecimal(ZERO_BI, BI_18); // TODO update shares from batch deposit
 
   let priceOfAsset = parsePriceX128(assetPriceResult.value, BI_18, BI_6);
   entry.sharesTokenDollarValue = entry.assetsTokenAmount.times(priceOfAsset);

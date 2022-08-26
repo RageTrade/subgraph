@@ -1,5 +1,5 @@
 import { Address } from '@graphprotocol/graph-ts';
-import { Vault } from '../../../generated/schema';
+import { Vault } from '../../generated/schema';
 
 export function getVault(vaultAddress: Address): Vault {
   let vaultId = vaultAddress.toHexString();

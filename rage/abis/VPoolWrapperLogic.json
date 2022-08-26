@@ -46,18 +46,6 @@
   {
     "type": "event",
     "anonymous": false,
-    "name": "FundingRateOverrideUpdated",
-    "inputs": [
-      {
-        "type": "int256",
-        "name": "fundingRateOverrideX128",
-        "indexed": false
-      }
-    ]
-  },
-  {
-    "type": "event",
-    "anonymous": false,
     "name": "LiquidityFeeUpdated",
     "inputs": [
       {
@@ -312,20 +300,6 @@
   },
   {
     "type": "function",
-    "name": "fundingRateOverrideX128",
-    "constant": true,
-    "stateMutability": "view",
-    "payable": false,
-    "inputs": [],
-    "outputs": [
-      {
-        "type": "int256",
-        "name": ""
-      }
-    ]
-  },
-  {
-    "type": "function",
     "name": "getExtrapolatedSumAX128",
     "constant": true,
     "stateMutability": "view",
@@ -389,11 +363,25 @@
     "outputs": [
       {
         "type": "int256",
-        "name": "fundingRateX128"
+        "name": ""
       },
       {
         "type": "uint256",
-        "name": "virtualPriceX128"
+        "name": ""
+      }
+    ]
+  },
+  {
+    "type": "function",
+    "name": "getFundingRateOverride",
+    "constant": true,
+    "stateMutability": "view",
+    "payable": false,
+    "inputs": [],
+    "outputs": [
+      {
+        "type": "bytes32",
+        "name": ""
       }
     ]
   },
@@ -578,8 +566,21 @@
     "payable": false,
     "inputs": [
       {
+        "type": "address",
+        "name": "chainlinkOracle"
+      }
+    ],
+    "outputs": []
+  },
+  {
+    "type": "function",
+    "name": "setFundingRateOverride",
+    "constant": false,
+    "payable": false,
+    "inputs": [
+      {
         "type": "int256",
-        "name": "fundingRateOverrideX128_"
+        "name": "fundingRateOverrideX128"
       }
     ],
     "outputs": []
@@ -751,6 +752,14 @@
         "name": ""
       }
     ],
+    "outputs": []
+  },
+  {
+    "type": "function",
+    "name": "unsetFundingRateOverride",
+    "constant": false,
+    "payable": false,
+    "inputs": [],
     "outputs": []
   },
   {

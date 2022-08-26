@@ -1,11 +1,7 @@
 import { Address, BigInt } from '@graphprotocol/graph-ts';
-import { ERC20Token } from '../../../generated/schema';
-import { ADDRESS_ZERO } from '../../utils/constants';
-import {
-  fetchTokenDecimals,
-  fetchTokenName,
-  fetchTokenSymbol,
-} from '../../utils/token';
+import { ERC20Token } from '../../generated/schema';
+import { ADDRESS_ZERO } from './constants';
+import { fetchTokenDecimals, fetchTokenName, fetchTokenSymbol } from './token';
 
 export function getERC20Token(tokenAddress: Address): ERC20Token {
   let tokenId = tokenAddress.toHexString();

@@ -51,28 +51,21 @@
   {
     "type": "event",
     "anonymous": false,
-    "name": "FeesWithdrawn",
-    "inputs": [
-      {
-        "type": "uint256",
-        "name": "vaule",
-        "indexed": false
-      }
-    ]
-  },
-  {
-    "type": "event",
-    "anonymous": false,
     "name": "GmxParamsUpdated",
     "inputs": [
       {
-        "type": "uint256",
-        "name": "newFee",
+        "type": "address",
+        "name": "stakingManager",
         "indexed": false
       },
       {
-        "type": "address",
-        "name": "batchingManager",
+        "type": "uint256",
+        "name": "usdcReedemSlippage",
+        "indexed": false
+      },
+      {
+        "type": "uint240",
+        "name": "usdcConversionThreshold",
         "indexed": false
       }
     ]
@@ -109,8 +102,23 @@
   {
     "type": "event",
     "anonymous": false,
-    "name": "TokenRedeemded",
+    "name": "TokenWithdrawn",
     "inputs": [
+      {
+        "type": "address",
+        "name": "caller",
+        "indexed": true
+      },
+      {
+        "type": "address",
+        "name": "owner",
+        "indexed": true
+      },
+      {
+        "type": "address",
+        "name": "receiver",
+        "indexed": true
+      },
       {
         "type": "address",
         "name": "token",
@@ -118,34 +126,12 @@
       },
       {
         "type": "uint256",
-        "name": "_sGLPQuantity",
-        "indexed": false
-      },
-      {
-        "type": "address",
-        "name": "receiver",
-        "indexed": false
-      }
-    ]
-  },
-  {
-    "type": "event",
-    "anonymous": false,
-    "name": "TokenWithdrawn",
-    "inputs": [
-      {
-        "type": "address",
-        "name": "token",
+        "name": "sGLPQuantity",
         "indexed": false
       },
       {
         "type": "uint256",
         "name": "shares",
-        "indexed": false
-      },
-      {
-        "type": "address",
-        "name": "receiver",
         "indexed": false
       }
     ]
@@ -206,20 +192,6 @@
   },
   {
     "type": "function",
-    "name": "FEE",
-    "constant": true,
-    "stateMutability": "view",
-    "payable": false,
-    "inputs": [],
-    "outputs": [
-      {
-        "type": "uint256",
-        "name": ""
-      }
-    ]
-  },
-  {
-    "type": "function",
     "name": "MAX_BPS",
     "constant": true,
     "stateMutability": "view",
@@ -227,7 +199,7 @@
     "inputs": [],
     "outputs": [
       {
-        "type": "uint256",
+        "type": "uint16",
         "name": ""
       }
     ]
@@ -691,26 +663,6 @@
           },
           {
             "type": "address",
-            "name": "gmx"
-          },
-          {
-            "type": "address",
-            "name": "glp"
-          },
-          {
-            "type": "address",
-            "name": "weth"
-          },
-          {
-            "type": "address",
-            "name": "esGMX"
-          },
-          {
-            "type": "address",
-            "name": "glpManager"
-          },
-          {
-            "type": "address",
             "name": "rewardRouter"
           }
         ]
@@ -997,20 +949,6 @@
   },
   {
     "type": "function",
-    "name": "protocolFee",
-    "constant": true,
-    "stateMutability": "view",
-    "payable": false,
-    "inputs": [],
-    "outputs": [
-      {
-        "type": "uint256",
-        "name": ""
-      }
-    ]
-  },
-  {
-    "type": "function",
     "name": "rageAccountNo",
     "constant": true,
     "stateMutability": "view",
@@ -1125,11 +1063,15 @@
       },
       {
         "type": "uint256",
-        "name": "_sGLP"
+        "name": "shares"
       },
       {
         "type": "uint256",
         "name": "minTokenOut"
+      },
+      {
+        "type": "address",
+        "name": "from"
       },
       {
         "type": "address",
@@ -1316,26 +1258,44 @@
     "payable": false,
     "inputs": [
       {
-        "type": "uint256",
-        "name": "_feeBps"
+        "type": "address",
+        "name": "_stakingManager"
       },
       {
-        "type": "address",
-        "name": "_batchingManager"
+        "type": "uint16",
+        "name": "_usdcReedemSlippage"
+      },
+      {
+        "type": "uint240",
+        "name": "_usdcConversionThreshold"
       }
     ],
     "outputs": []
   },
   {
     "type": "function",
-    "name": "wethThreshold",
+    "name": "usdcConversionThreshold",
     "constant": true,
     "stateMutability": "view",
     "payable": false,
     "inputs": [],
     "outputs": [
       {
-        "type": "uint256",
+        "type": "uint240",
+        "name": ""
+      }
+    ]
+  },
+  {
+    "type": "function",
+    "name": "usdcReedemSlippage",
+    "constant": true,
+    "stateMutability": "view",
+    "payable": false,
+    "inputs": [],
+    "outputs": [
+      {
+        "type": "uint16",
         "name": ""
       }
     ]
@@ -1368,14 +1328,6 @@
   },
   {
     "type": "function",
-    "name": "withdrawFees",
-    "constant": false,
-    "payable": false,
-    "inputs": [],
-    "outputs": []
-  },
-  {
-    "type": "function",
     "name": "withdrawToken",
     "constant": false,
     "payable": false,
@@ -1386,11 +1338,15 @@
       },
       {
         "type": "uint256",
-        "name": "shares"
+        "name": "_sGLP"
       },
       {
         "type": "uint256",
         "name": "minTokenOut"
+      },
+      {
+        "type": "address",
+        "name": "from"
       },
       {
         "type": "address",

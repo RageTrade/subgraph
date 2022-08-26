@@ -8,9 +8,9 @@ dataSources:
     name: ClearingHouse
     network: arbitrum-rinkeby
     source:
-      address: "0xe3B8eF0C2Ed6d8318F0b1b50A072e0cB508CDB04"
+      address: '0xD0d0DCD012E4a177e840e6703ab308cBA7D78DbD'
       abi: ClearingHouse
-      startBlock: 12705321
+      startBlock: 14139220
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.4
@@ -54,9 +54,9 @@ dataSources:
     name: CurveYieldStrategy
     network: arbitrum-rinkeby
     source:
-      address: "0xA1e33ebDA7e0bcC8d078886dA65d1Ea555495CEF"
+      address: '0x505a15841Ad96F8E893eFD66760b02eC86a43C0F'
       abi: CurveYieldStrategy
-      startBlock: 12705321
+      startBlock: 14139220
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.4
@@ -87,9 +87,9 @@ dataSources:
     name: VaultPeriphery
     network: arbitrum-rinkeby
     source:
-      address: "0x15023878aa94CdC9B9CE4A46919330B0537caCf5"
+      address: '0xA4925AC74C229674979E4BCB467E5a99453960B6'
       abi: VaultPeriphery
-      startBlock: 12705321
+      startBlock: 14139220
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.4
@@ -118,9 +118,9 @@ dataSources:
     name: GMXYieldStrategy
     network: arbitrum-rinkeby
     source:
-      address: "0xe67cBd79427C99C2487f7b7523A85F9a8A691774"
+      address: '0x499F97A1F2eDFbDde4E164Bb05f9cf8499E90ab2'
       abi: GMXYieldStrategy
-      startBlock: 12705321
+      startBlock: 14139220
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.4
@@ -139,17 +139,19 @@ dataSources:
           file: ./abis/ERC20SymbolBytes.json
         - name: ERC20NameBytes
           file: ./abis/ERC20NameBytes.json
-      file: ./src/mappings/VaultPeriphery/handler.ts
+      file: ./src/mappings/gmx/gys-handler.ts
       eventHandlers:
         - event: Deposit(indexed address,indexed address,uint256,uint256)
+          handler: handleDepositPeriphery
+        - event: Withdraw(indexed address,indexed address,indexed address,uint256,uint256)
           handler: handleDepositPeriphery
   - kind: ethereum/contract
     name: GMXBatchingManager
     network: arbitrum-rinkeby
     source:
-      address: "0xcc0ec95dCB624201018B8857415D96DA093829d2"
+      address: '0xb0212a93d2d6b863c8De47a33bC8e259E6439d9d'
       abi: GMXBatchingManager
-      startBlock: 12705321
+      startBlock: 14139220
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.4
@@ -161,24 +163,24 @@ dataSources:
         - ERC20Token
       abis:
         - name: GMXBatchingManager
-          file: ./abis/GMXYieldStrategy.json
+          file: ./abis/GMXBatchingManager.json
         - name: ERC20
           file: ./abis/ERC20.json
         - name: ERC20SymbolBytes
           file: ./abis/ERC20SymbolBytes.json
         - name: ERC20NameBytes
           file: ./abis/ERC20NameBytes.json
-      file: ./src/mappings/VaultPeriphery/handler.ts
+      file: ./src/mappings/gmx/gbm-handler.ts
       eventHandlers:
-        - event: Deposit(indexed address,indexed address,uint256,uint256)
-          handler: handleDepositPeriphery
+        - event: DepositToken(indexed uint256,indexed address,indexed address,uint256,uint256)
+          handler: handleDepositToken
   - kind: ethereum/contract
     name: RageTradeFactory
     network: arbitrum-rinkeby
     source:
-      address: "0x172b070dc24D8f0a3Cd665e601a398419c5272E6"
+      address: '0xa97ADDd8D76a9253a4fD3244d6CF281D7Bede22c'
       abi: RageTradeFactory
-      startBlock: 12705321
+      startBlock: 14139220
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.4
@@ -210,9 +212,9 @@ dataSources:
     name: UniswapV3Factory
     network: arbitrum-rinkeby
     source:
-      address: "0x1F98431c8aD98523631AE4a59f267346ea31F984"
+      address: '0x1F98431c8aD98523631AE4a59f267346ea31F984'
       abi: UniswapV3Factory
-      startBlock: 12705321
+      startBlock: 14139220
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.4

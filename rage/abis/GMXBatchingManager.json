@@ -6,6 +6,11 @@
     "inputs": [
       {
         "type": "uint256",
+        "name": "round",
+        "indexed": true
+      },
+      {
+        "type": "uint256",
         "name": "userGlpAmount",
         "indexed": false
       },
@@ -22,14 +27,19 @@
     "name": "DepositToken",
     "inputs": [
       {
+        "type": "uint256",
+        "name": "round",
+        "indexed": true
+      },
+      {
         "type": "address",
         "name": "token",
-        "indexed": false
+        "indexed": true
       },
       {
         "type": "address",
         "name": "receiver",
-        "indexed": false
+        "indexed": true
       },
       {
         "type": "uint256",
@@ -104,12 +114,12 @@
       {
         "type": "address",
         "name": "from",
-        "indexed": false
+        "indexed": true
       },
       {
         "type": "address",
         "name": "receiver",
-        "indexed": false
+        "indexed": true
       },
       {
         "type": "uint256",
@@ -133,6 +143,18 @@
   {
     "type": "event",
     "anonymous": false,
+    "name": "VaultAdded",
+    "inputs": [
+      {
+        "type": "address",
+        "name": "vault",
+        "indexed": false
+      }
+    ]
+  },
+  {
+    "type": "event",
+    "anonymous": false,
     "name": "VaultDeposit",
     "inputs": [
       {
@@ -144,10 +166,27 @@
   },
   {
     "type": "function",
+    "name": "addVault",
+    "constant": false,
+    "payable": false,
+    "inputs": [
+      {
+        "type": "address",
+        "name": "vault"
+      }
+    ],
+    "outputs": []
+  },
+  {
+    "type": "function",
     "name": "claim",
     "constant": false,
     "payable": false,
     "inputs": [
+      {
+        "type": "address",
+        "name": "gmxVault"
+      },
       {
         "type": "address",
         "name": "receiver"
@@ -165,7 +204,12 @@
     "constant": true,
     "stateMutability": "view",
     "payable": false,
-    "inputs": [],
+    "inputs": [
+      {
+        "type": "address",
+        "name": "vault"
+      }
+    ],
     "outputs": [
       {
         "type": "uint256",
@@ -186,6 +230,40 @@
       {
         "type": "uint256",
         "name": "amount"
+      },
+      {
+        "type": "uint256",
+        "name": "minUSDG"
+      }
+    ],
+    "outputs": [
+      {
+        "type": "uint256",
+        "name": "glpStaked"
+      }
+    ]
+  },
+  {
+    "type": "function",
+    "name": "depositToken",
+    "constant": false,
+    "payable": false,
+    "inputs": [
+      {
+        "type": "address",
+        "name": "gmxVault"
+      },
+      {
+        "type": "address",
+        "name": "token"
+      },
+      {
+        "type": "uint256",
+        "name": "amount"
+      },
+      {
+        "type": "uint256",
+        "name": "minUSDG"
       },
       {
         "type": "address",
@@ -216,6 +294,10 @@
     "inputs": [
       {
         "type": "address",
+        "name": "gmxVault"
+      },
+      {
+        "type": "address",
         "name": "account"
       }
     ],
@@ -228,29 +310,20 @@
   },
   {
     "type": "function",
-    "name": "glpManager",
+    "name": "glpBalanceAllVaults",
     "constant": true,
     "stateMutability": "view",
     "payable": false,
-    "inputs": [],
-    "outputs": [
+    "inputs": [
       {
         "type": "address",
-        "name": ""
+        "name": "account"
       }
-    ]
-  },
-  {
-    "type": "function",
-    "name": "gmxVault",
-    "constant": true,
-    "stateMutability": "view",
-    "payable": false,
-    "inputs": [],
+    ],
     "outputs": [
       {
-        "type": "address",
-        "name": ""
+        "type": "uint256",
+        "name": "balance"
       }
     ]
   },
@@ -259,7 +332,12 @@
     "name": "grantAllowances",
     "constant": false,
     "payable": false,
-    "inputs": [],
+    "inputs": [
+      {
+        "type": "address",
+        "name": "gmxVault"
+      }
+    ],
     "outputs": []
   },
   {
@@ -282,7 +360,7 @@
       },
       {
         "type": "address",
-        "name": "_gmxVault"
+        "name": "_stakingManager"
       },
       {
         "type": "address",
@@ -290,6 +368,25 @@
       }
     ],
     "outputs": []
+  },
+  {
+    "type": "function",
+    "name": "isVaultValid",
+    "constant": true,
+    "stateMutability": "view",
+    "payable": false,
+    "inputs": [
+      {
+        "type": "address",
+        "name": "vault"
+      }
+    ],
+    "outputs": [
+      {
+        "type": "bool",
+        "name": ""
+      }
+    ]
   },
   {
     "type": "function",
@@ -351,38 +448,34 @@
   },
   {
     "type": "function",
-    "name": "rewardRouter",
-    "constant": true,
-    "stateMutability": "view",
-    "payable": false,
-    "inputs": [],
-    "outputs": [
-      {
-        "type": "address",
-        "name": ""
-      }
-    ]
-  },
-  {
-    "type": "function",
     "name": "roundDeposits",
     "constant": true,
     "stateMutability": "view",
     "payable": false,
     "inputs": [
       {
+        "type": "address",
+        "name": "vault"
+      },
+      {
         "type": "uint256",
-        "name": ""
+        "name": "round"
       }
     ],
     "outputs": [
       {
-        "type": "uint128",
-        "name": "totalGlp"
-      },
-      {
-        "type": "uint128",
-        "name": "totalShares"
+        "type": "tuple",
+        "components": [
+          {
+            "type": "uint128",
+            "name": "totalGlp"
+          },
+          {
+            "type": "uint128",
+            "name": "totalShares"
+          }
+        ],
+        "name": ""
       }
     ]
   },
@@ -392,24 +485,15 @@
     "constant": true,
     "stateMutability": "view",
     "payable": false,
-    "inputs": [],
+    "inputs": [
+      {
+        "type": "address",
+        "name": "vault"
+      }
+    ],
     "outputs": [
       {
         "type": "uint256",
-        "name": ""
-      }
-    ]
-  },
-  {
-    "type": "function",
-    "name": "sGlp",
-    "constant": true,
-    "stateMutability": "view",
-    "payable": false,
-    "inputs": [],
-    "outputs": [
-      {
-        "type": "address",
         "name": ""
       }
     ]
@@ -426,6 +510,34 @@
       }
     ],
     "outputs": []
+  },
+  {
+    "type": "function",
+    "name": "stakingManager",
+    "constant": true,
+    "stateMutability": "view",
+    "payable": false,
+    "inputs": [],
+    "outputs": [
+      {
+        "type": "address",
+        "name": ""
+      }
+    ]
+  },
+  {
+    "type": "function",
+    "name": "stakingManagerGlpBalance",
+    "constant": true,
+    "stateMutability": "view",
+    "payable": false,
+    "inputs": [],
+    "outputs": [
+      {
+        "type": "uint256",
+        "name": ""
+      }
+    ]
   },
   {
     "type": "function",
@@ -447,6 +559,10 @@
     "stateMutability": "view",
     "payable": false,
     "inputs": [
+      {
+        "type": "address",
+        "name": "gmxVault"
+      },
       {
         "type": "address",
         "name": "account"
@@ -476,21 +592,87 @@
     "inputs": [
       {
         "type": "address",
+        "name": "vault"
+      },
+      {
+        "type": "address",
+        "name": "account"
+      }
+    ],
+    "outputs": [
+      {
+        "type": "tuple",
+        "components": [
+          {
+            "type": "uint256",
+            "name": "round"
+          },
+          {
+            "type": "uint128",
+            "name": "glpBalance"
+          },
+          {
+            "type": "uint128",
+            "name": "unclaimedShares"
+          }
+        ],
+        "name": ""
+      }
+    ]
+  },
+  {
+    "type": "function",
+    "name": "vaultBatchingState",
+    "constant": true,
+    "stateMutability": "view",
+    "payable": false,
+    "inputs": [
+      {
+        "type": "address",
         "name": ""
       }
     ],
     "outputs": [
       {
         "type": "uint256",
-        "name": "round"
+        "name": "currentRound"
       },
       {
-        "type": "uint128",
-        "name": "glpBalance"
-      },
+        "type": "uint256",
+        "name": "roundGlpBalance"
+      }
+    ]
+  },
+  {
+    "type": "function",
+    "name": "vaultCount",
+    "constant": true,
+    "stateMutability": "view",
+    "payable": false,
+    "inputs": [],
+    "outputs": [
       {
-        "type": "uint128",
-        "name": "unclaimedShares"
+        "type": "uint16",
+        "name": ""
+      }
+    ]
+  },
+  {
+    "type": "function",
+    "name": "vaults",
+    "constant": true,
+    "stateMutability": "view",
+    "payable": false,
+    "inputs": [
+      {
+        "type": "uint256",
+        "name": ""
+      }
+    ],
+    "outputs": [
+      {
+        "type": "address",
+        "name": ""
       }
     ]
   }
