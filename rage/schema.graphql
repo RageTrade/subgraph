@@ -537,6 +537,7 @@ deposit/withdraw of tokens for a vault
 type Vault @entity {
   "id of the Vault"
   id: ID!
+  name: String!
 }
 
 """

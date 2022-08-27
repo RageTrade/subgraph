@@ -2471,6 +2471,15 @@ export class Vault extends Entity {
   set id(value: string) {
     this.set("id", Value.fromString(value));
   }
+
+  get name(): string {
+    let value = this.get("name");
+    return value.toString();
+  }
+
+  set name(value: string) {
+    this.set("name", Value.fromString(value));
+  }
 }
 
 export class VaultDepositWithdrawEntry extends Entity {

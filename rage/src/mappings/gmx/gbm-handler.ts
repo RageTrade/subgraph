@@ -26,7 +26,7 @@ export function handleGmxDepositToken(event: DepositToken): void {
     contracts.CurveYieldStrategy
   );
 
-  let vault = getVault(contracts.CurveYieldStrategy);
+  let vault = getVault(contracts.GMXYieldStrategy);
   let owner = getOwner(event.params.receiver);
   let token = getERC20Token(event.params.token);
 

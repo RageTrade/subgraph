@@ -1,5 +1,6 @@
 import { Address } from '@graphprotocol/graph-ts';
 import { Vault } from '../../generated/schema';
+import { fetchTokenName } from './token';
 
 export function getVault(vaultAddress: Address): Vault {
   let vaultId = vaultAddress.toHexString();
@@ -7,7 +8,7 @@ export function getVault(vaultAddress: Address): Vault {
 
   if (vault == null) {
     vault = new Vault(vaultId);
-
+    vault.name = fetchTokenName(vaultAddress);
     vault.save();
   }
 
