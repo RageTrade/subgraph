@@ -1,6 +1,9 @@
 import { log } from '@graphprotocol/graph-ts';
 import { VaultDepositWithdrawEntry } from '../../../generated/schema';
-import { DepositToken } from '../../../generated/GMXBatchingManager/GMXBatchingManager';
+import {
+  BatchDeposit,
+  DepositToken,
+} from '../../../generated/GMXBatchingManager/GMXBatchingManager';
 import { BigIntToBigDecimal, generateId, parsePriceX128 } from '../../utils';
 import { contracts } from '../../utils/addresses';
 import { getVault } from '../../utils/getVault';
@@ -14,7 +17,7 @@ import { CurveYieldStrategy } from '../../../generated/CurveYieldStrategy/CurveY
 
 export function handleGmxDepositToken(event: DepositToken): void {
   log.debug(
-    'custom_logs: handleDepositPeriphery triggered [ token - {} ] [ receiver - {} ] [ amount - {} ] [ glpStaked - {} ]',
+    'custom_logs: handleGmxDepositToken triggered [ token - {} ] [ receiver - {} ] [ amount - {} ] [ glpStaked - {} ]',
     [
       event.params.token.toHexString(),
       event.params.receiver.toHexString(),
@@ -52,7 +55,7 @@ export function handleGmxDepositToken(event: DepositToken): void {
   let assetPriceResult = curveYieldStrategyContract.try_getPriceX128();
 
   if (assetPriceResult.reverted) {
-    log.error('custom_logs: getPriceX128 handleDepositPeriphery reverted {}', [
+    log.error('custom_logs: getPriceX128 handleGmxDepositToken reverted {}', [
       '',
     ]);
     return;
@@ -69,6 +72,45 @@ export function handleGmxDepositToken(event: DepositToken): void {
     ONE_BI
   );
 
+  // adding the entry to pending deposits
+  let pendingDeposits = vault.pendingDeposits; // copy to mem
+  pendingDeposits.push(entry.id);
+  vault.pendingDeposits = pendingDeposits;
+  vault.save();
+
   owner.save();
   entry.save();
+}
+
+export function handleGmxBatch(event: BatchDeposit): void {
+  log.debug(
+    'custom_logs: handleGmxBatch triggered [ round - {} ] [ userGlpAmount - {} ] [ userShareAmount - {} ]',
+    [
+      event.params.round.toHexString(),
+      event.params.userGlpAmount.toHexString(),
+      event.params.userShareAmount.toString(),
+    ]
+  );
+
+  let vault = getVault(contracts.GMXYieldStrategy);
+
+  let pendingDeposits = vault.pendingDeposits; // copy to mem
+  for (let i = 0; i < pendingDeposits.length; i++) {
+    let entry = VaultDepositWithdrawEntry.load(pendingDeposits[i]);
+    if (entry == null) {
+      log.warning(
+        'custom_logs: this should not happen, entry is null in handleGmxBatch',
+        []
+      );
+    } else {
+      entry.sharesTokenAmount = entry.assetsTokenAmount
+        .times(BigIntToBigDecimal(event.params.userShareAmount, BI_18))
+        .div(BigIntToBigDecimal(event.params.userGlpAmount, BI_18));
+      entry.save();
+    }
+  }
+
+  // flush all the pending deposits
+  vault.pendingDeposits = [];
+  vault.save();
 }

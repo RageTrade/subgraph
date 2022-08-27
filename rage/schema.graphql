@@ -537,7 +537,10 @@ deposit/withdraw of tokens for a vault
 type Vault @entity {
   "id of the Vault"
   id: ID!
+  "name of the Vault"
   name: String!
+  "list of pending deposits for gmx vault"
+  pendingDeposits: [String!]!
 }
 
 """

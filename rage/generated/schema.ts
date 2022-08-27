@@ -2480,6 +2480,15 @@ export class Vault extends Entity {
   set name(value: string) {
     this.set("name", Value.fromString(value));
   }
+
+  get pendingDeposits(): Array<string> {
+    let value = this.get("pendingDeposits");
+    return value.toStringArray();
+  }
+
+  set pendingDeposits(value: Array<string>) {
+    this.set("pendingDeposits", Value.fromStringArray(value));
+  }
 }
 
 export class VaultDepositWithdrawEntry extends Entity {
