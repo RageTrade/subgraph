@@ -48,7 +48,7 @@ export function handleDeposit(event: Deposit): void {
     contracts.GMXBatchingManager.toHexString()
   ) {
     log.error(
-      'custom_logs: handleDeposCompilingit event came from GMXBatchingManager - {} | caller - {}',
+      'custom_logs: handleDeposit event came from GMXBatchingManager - {} | caller - {}',
       [
         contracts.GMXBatchingManager.toHexString(),
         event.params.caller.toHexString(),
