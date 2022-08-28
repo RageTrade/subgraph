@@ -9,11 +9,14 @@ type Owner @entity {
   id: ID!
   "list of accounts"
   accounts: [Account!]! @derivedFrom(field: "owner")
-  "entry price of shares token for a user"
+  "trycrypto entry price of shares token for a user"
   tryCryptoVaultSharesEntryPrice: BigDecimal!
   tryCryptoVaultSharesEntryPrice_Numerator: BigDecimal!
   tryCryptoVaultSharesEntryPrice_Denominator: BigDecimal!
-
+  "gmx entry price of shares token for a user"
+  gmxVaultSharesEntryPrice: BigDecimal!
+  gmxVaultSharesEntryPrice_Numerator: BigDecimal!
+  gmxVaultSharesEntryPrice_Denominator: BigDecimal!
   "total count of all vaultDepositWithdrawEntries"
   vaultDepositWithdrawEntriesCount: BigInt!
   "list of vault deposits and withdraws"

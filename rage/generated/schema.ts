@@ -84,6 +84,36 @@ export class Owner extends Entity {
     );
   }
 
+  get gmxVaultSharesEntryPrice(): BigDecimal {
+    let value = this.get("gmxVaultSharesEntryPrice");
+    return value.toBigDecimal();
+  }
+
+  set gmxVaultSharesEntryPrice(value: BigDecimal) {
+    this.set("gmxVaultSharesEntryPrice", Value.fromBigDecimal(value));
+  }
+
+  get gmxVaultSharesEntryPrice_Numerator(): BigDecimal {
+    let value = this.get("gmxVaultSharesEntryPrice_Numerator");
+    return value.toBigDecimal();
+  }
+
+  set gmxVaultSharesEntryPrice_Numerator(value: BigDecimal) {
+    this.set("gmxVaultSharesEntryPrice_Numerator", Value.fromBigDecimal(value));
+  }
+
+  get gmxVaultSharesEntryPrice_Denominator(): BigDecimal {
+    let value = this.get("gmxVaultSharesEntryPrice_Denominator");
+    return value.toBigDecimal();
+  }
+
+  set gmxVaultSharesEntryPrice_Denominator(value: BigDecimal) {
+    this.set(
+      "gmxVaultSharesEntryPrice_Denominator",
+      Value.fromBigDecimal(value)
+    );
+  }
+
   get vaultDepositWithdrawEntriesCount(): BigInt {
     let value = this.get("vaultDepositWithdrawEntriesCount");
     return value.toBigInt();

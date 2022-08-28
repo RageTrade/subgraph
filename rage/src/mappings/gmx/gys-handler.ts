@@ -41,6 +41,32 @@ export function handleDeposit(event: Deposit): void {
 
   let sharePrice = assetsPrice.times(assetsPerShare);
 
+  owner.gmxVaultSharesEntryPrice_Numerator = owner.gmxVaultSharesEntryPrice_Numerator.plus(
+    sharePrice.times(sharesInBigDecimal)
+  );
+  owner.gmxVaultSharesEntryPrice_Denominator = owner.gmxVaultSharesEntryPrice_Denominator.plus(
+    sharesInBigDecimal
+  );
+
+  owner.gmxVaultSharesEntryPrice = safeDiv(
+    owner.gmxVaultSharesEntryPrice_Numerator,
+    owner.gmxVaultSharesEntryPrice_Denominator
+  );
+
+  log.debug(
+    'custom_logs: handleDeposit owner - {} gmxVaultSharesEntryPrice_Numerator - {} gmxVaultSharesEntryPrice_Denominator - {} gmxVaultSharesEntryPrice - {} sharePrice - {} sharesInBigDecimal - {}',
+    [
+      event.params.owner.toHexString(),
+      owner.gmxVaultSharesEntryPrice_Numerator.toString(),
+      owner.gmxVaultSharesEntryPrice_Denominator.toString(),
+      owner.gmxVaultSharesEntryPrice.toString(),
+      sharePrice.toString(),
+      sharesInBigDecimal.toString(),
+    ]
+  );
+
+  owner.save();
+
   //...........................................................................//
 
   if (
@@ -106,6 +132,40 @@ export function handleWithdraw(event: Withdraw): void {
   let token = getERC20Token(contracts.sGLP);
 
   let sharesInBigDecimal = BigIntToBigDecimal(event.params.shares, BI_18);
+
+  //...........................................................................//
+
+  let fakeDepositShares = owner.gmxVaultSharesEntryPrice_Denominator.minus(
+    sharesInBigDecimal
+  );
+  let fakeDepositSharePriceD6 = safeDiv(
+    owner.gmxVaultSharesEntryPrice_Numerator,
+    owner.gmxVaultSharesEntryPrice_Denominator
+  ); // existing w-avg share price
+  // resetting numerator
+
+  owner.gmxVaultSharesEntryPrice_Numerator = fakeDepositShares.times(
+    fakeDepositSharePriceD6
+  );
+  owner.gmxVaultSharesEntryPrice_Denominator = fakeDepositShares;
+
+  owner.gmxVaultSharesEntryPrice = safeDiv(
+    owner.gmxVaultSharesEntryPrice_Numerator,
+    owner.gmxVaultSharesEntryPrice_Denominator
+  );
+
+  log.debug(
+    'custom_logs: handleWithdraw owner - {} gmxVaultSharesEntryPrice_Numerator - {} gmxVaultSharesEntryPrice_Denominator - {} gmxVaultSharesEntryPrice - {} fakeDepositShares - {} fakeDepositSharePriceD6 - {} sharesInBigDecimal - {}',
+    [
+      event.params.owner.toHexString(),
+      owner.gmxVaultSharesEntryPrice_Numerator.toString(),
+      owner.gmxVaultSharesEntryPrice_Denominator.toString(),
+      owner.gmxVaultSharesEntryPrice.toString(),
+      fakeDepositShares.toString(),
+      fakeDepositSharePriceD6.toString(),
+      sharesInBigDecimal.toString(),
+    ]
+  );
 
   //...........................................................................//
 
