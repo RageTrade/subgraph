@@ -131,28 +131,6 @@ export function generateId(strings: string[]): string {
   return strings.join('-');
 }
 
-/**
- ```graphql
-  enum TokenStatus {
-      NONE
-      TokenStatus
-      UPPER_LIMIT
-  }
-  ```
-*/
-export function getLimitOrderEnum(limitOrder: i32): string {
-  switch (limitOrder) {
-    case 0:
-      return 'NONE';
-    case 1:
-      return 'LOWER_LIMIT';
-    case 2:
-      return 'UPPER_LIMIT';
-    default:
-      return 'NONE';
-  }
-}
-
 export function truncate(address: string): string {
   let temp = address.slice(34, 42);
   while (temp[0] == '0') {
@@ -289,7 +267,6 @@ export function min(a: BigDecimal, b: BigDecimal): BigDecimal {
 export function max(a: BigDecimal, b: BigDecimal): BigDecimal {
   return a.gt(b) ? a : b;
 }
-
 
 export function abs(a: BigDecimal): BigDecimal {
   return a.lt(ZERO_BD) ? a.neg() : a;

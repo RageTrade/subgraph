@@ -535,13 +535,22 @@ type Candle @entity {
 }
 
 """
+vault name
+"""
+enum VaultName {
+  tricrypto
+  gmx
+  unknown
+}
+
+"""
 deposit/withdraw of tokens for a vault
 """
 type Vault @entity {
   "id of the Vault"
   id: ID!
   "name of the Vault"
-  name: String!
+  name: VaultName!
   "list of pending deposits for gmx vault"
   pendingDeposits: [String!]!
 }
