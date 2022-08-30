@@ -245,6 +245,7 @@ export let contracts: Contracts = {
   CurveTriCryptoLpTokenAddress: Address.fromString("${curveTriCryptoLpTokenAddress}"),
   CurveQuoter: Address.fromString("${curveQuoterAddress}"),
   GMXYieldStrategy: Address.fromString("${gmxYieldStrategyAddress}"),
+  GMXBatchingManager: Address.fromString("${gmxBatchingManagerAddress}"),
   GlpStakingManager: Address.fromString("${glpStakingManagerAddress}"),
   sGLP: Address.fromString("${sGLPAddress}")
  };`;
