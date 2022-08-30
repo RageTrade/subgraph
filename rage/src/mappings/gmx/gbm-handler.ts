@@ -10,7 +10,7 @@ import { getVault } from '../../utils/getVault';
 import { getOwner } from '../clearinghouse/owner';
 import { getERC20Token } from '../../utils/getERC20Token';
 import { BI_18, BI_6, ONE_BI, ZERO_BI } from '../../utils/constants';
-import { CurveYieldStrategy } from '../../../generated/CurveYieldStrategy/CurveYieldStrategy';
+import { GMXYieldStrategy } from '../../../generated/GMXYieldStrategy/GMXYieldStrategy';
 
 // GMX Batching Manager allows to
 // - deposit other tokens (not sGLP, it has to go through GYS)
@@ -25,7 +25,7 @@ export function handleGmxDepositToken(event: DepositToken): void {
       event.params.glpStaked.toString(),
     ]
   );
-  let curveYieldStrategyContract = CurveYieldStrategy.bind(
+  let gmxYieldStrategyContract = GMXYieldStrategy.bind(
     contracts.CurveYieldStrategy
   );
 
@@ -52,7 +52,7 @@ export function handleGmxDepositToken(event: DepositToken): void {
 
   entry.action = 'deposit';
 
-  let assetPriceResult = curveYieldStrategyContract.try_getPriceX128();
+  let assetPriceResult = gmxYieldStrategyContract.try_getPriceX128();
 
   if (assetPriceResult.reverted) {
     log.error('custom_logs: getPriceX128 handleGmxDepositToken reverted {}', [
