@@ -94,6 +94,7 @@ export function handleDeposit(event: Deposit): void {
   let entry = new VaultDepositWithdrawEntry(vaultDepositWithdrawEntryId);
 
   entry.timestamp = event.block.timestamp;
+  entry.blockNumber = event.block.number;
   entry.transactionHash = event.transaction.hash;
 
   entry.owner = owner.id;
@@ -180,6 +181,7 @@ export function handleWithdraw(event: Withdraw): void {
   let entry = new VaultDepositWithdrawEntry(vaultDepositWithdrawEntryId);
 
   entry.timestamp = event.block.timestamp;
+  entry.blockNumber = event.block.number;
   entry.transactionHash = event.transaction.hash;
 
   entry.owner = owner.id;

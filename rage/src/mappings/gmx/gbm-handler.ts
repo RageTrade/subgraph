@@ -44,6 +44,7 @@ export function handleGmxDepositToken(event: DepositToken): void {
   let entry = new VaultDepositWithdrawEntry(vaultDepositWithdrawEntryId);
 
   entry.timestamp = event.block.timestamp;
+  entry.blockNumber = event.block.number;
   entry.transactionHash = event.transaction.hash;
 
   entry.owner = owner.id;
