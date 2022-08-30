@@ -165,6 +165,8 @@ dataSources:
         - Owner
         - ERC20Token
       abis:
+        - name: GMXYieldStrategy
+          file: ./abis/GMXYieldStrategy.json
         - name: GMXBatchingManager
           file: ./abis/GMXBatchingManager.json
         - name: ERC20
