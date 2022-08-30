@@ -9,6 +9,7 @@ export function getVault(vaultAddress: Address): Vault {
   if (vault == null) {
     vault = new Vault(vaultId);
     vault.name = getVaultNameEnum(vaultAddress);
+    vault.pendingDeposits = [];
     vault.save();
   }
 
