@@ -4,11 +4,17 @@ import {
   Deposit,
   Withdraw,
   TokenWithdrawn,
+  GMXYieldStrategy,
 } from '../../../generated/GMXYieldStrategy/GMXYieldStrategy';
 import { VaultDepositWithdrawEntry } from '../../../generated/schema';
-import { BigIntToBigDecimal, generateId, safeDiv } from '../../utils';
+import {
+  BigIntToBigDecimal,
+  generateId,
+  parsePriceX128,
+  safeDiv,
+} from '../../utils';
 import { contracts } from '../../utils/addresses';
-import { BI_18, ONE_BI, ZERO_BD } from '../../utils/constants';
+import { BI_18, BI_6, ONE_BI, ZERO_BD } from '../../utils/constants';
 import { getERC20Token } from '../../utils/getERC20Token';
 import { getVault } from '../../utils/getVault';
 import { getOwner } from '../clearinghouse/owner';
@@ -37,7 +43,16 @@ export function handleDeposit(event: Deposit): void {
 
   let assetsPerShare = safeDiv(assetsInBigDecimal, sharesInBigDecimal);
 
-  let assetsPrice = ZERO_BD; // TODO change to correct price
+  let gmxYieldStrategyContract = GMXYieldStrategy.bind(
+    contracts.CurveYieldStrategy
+  );
+  let assetPriceResult = gmxYieldStrategyContract.try_getPriceX128();
+
+  if (assetPriceResult.reverted) {
+    log.error('custom_logs: getPriceX128 handleWithdraw reverted {}', ['']);
+    return;
+  }
+  let assetsPrice = parsePriceX128(assetPriceResult.value, BI_18, BI_6);
 
   let sharePrice = assetsPrice.times(assetsPerShare);
 
@@ -108,6 +123,9 @@ export function handleDeposit(event: Deposit): void {
 
   entry.sharesTokenAmount = sharesInBigDecimal;
   entry.sharesTokenDollarValue = entry.sharesTokenAmount.times(sharePrice);
+
+  entry.assetPrice = assetsPrice;
+  entry.sharePrice = sharePrice;
 
   owner.vaultDepositWithdrawEntriesCount = owner.vaultDepositWithdrawEntriesCount.plus(
     ONE_BI
@@ -195,8 +213,23 @@ export function handleWithdraw(event: Withdraw): void {
 
   entry.sharesTokenAmount = sharesInBigDecimal;
 
-  let priceOfAsset = ZERO_BD; // TODO change to correct price
-  entry.sharesTokenDollarValue = entry.assetsTokenAmount.times(priceOfAsset);
+  let gmxYieldStrategyContract = GMXYieldStrategy.bind(
+    contracts.CurveYieldStrategy
+  );
+  let assetPriceResult = gmxYieldStrategyContract.try_getPriceX128();
+
+  if (assetPriceResult.reverted) {
+    log.error('custom_logs: getPriceX128 handleWithdraw reverted {}', ['']);
+    return;
+  }
+  let assetsPrice = parsePriceX128(assetPriceResult.value, BI_18, BI_6);
+
+  entry.assetPrice = assetsPrice;
+  entry.sharePrice = assetsPrice
+    .times(entry.assetsTokenAmount)
+    .div(entry.sharesTokenAmount);
+
+  entry.sharesTokenDollarValue = entry.assetsTokenAmount.times(assetsPrice);
 
   owner.vaultDepositWithdrawEntriesCount = owner.vaultDepositWithdrawEntriesCount.plus(
     ONE_BI
@@ -249,8 +282,25 @@ export function handleTokenWithdrawn(event: TokenWithdrawn): void {
 
   entry.sharesTokenAmount = sharesInBigDecimal;
 
-  let priceOfAsset = ZERO_BD; // TODO change to correct price
-  entry.sharesTokenDollarValue = entry.assetsTokenAmount.times(priceOfAsset);
+  let gmxYieldStrategyContract = GMXYieldStrategy.bind(
+    contracts.CurveYieldStrategy
+  );
+  let assetPriceResult = gmxYieldStrategyContract.try_getPriceX128();
+
+  if (assetPriceResult.reverted) {
+    log.error('custom_logs: getPriceX128 handleTokenWithdrawn reverted {}', [
+      '',
+    ]);
+    return;
+  }
+  let assetsPrice = parsePriceX128(assetPriceResult.value, BI_18, BI_6);
+
+  entry.assetPrice = assetsPrice;
+  entry.sharePrice = assetsPrice
+    .times(entry.assetsTokenAmount)
+    .div(entry.sharesTokenAmount);
+
+  entry.sharesTokenDollarValue = entry.assetsTokenAmount.times(assetsPrice);
 
   owner.vaultDepositWithdrawEntriesCount = owner.vaultDepositWithdrawEntriesCount.plus(
     ONE_BI

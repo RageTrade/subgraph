@@ -62,6 +62,24 @@ export class Burn__Params {
   }
 }
 
+export class FundingRateOverrideUpdated extends ethereum.Event {
+  get params(): FundingRateOverrideUpdated__Params {
+    return new FundingRateOverrideUpdated__Params(this);
+  }
+}
+
+export class FundingRateOverrideUpdated__Params {
+  _event: FundingRateOverrideUpdated;
+
+  constructor(event: FundingRateOverrideUpdated) {
+    this._event = event;
+  }
+
+  get fundingRateOverrideX128(): BigInt {
+    return this._event.parameters[0].value.toBigInt();
+  }
+}
+
 export class LiquidityFeeUpdated extends ethereum.Event {
   get params(): LiquidityFeeUpdated__Params {
     return new LiquidityFeeUpdated__Params(this);
@@ -629,6 +647,29 @@ export class VPoolWrapperLogic extends ethereum.SmartContract {
     );
   }
 
+  fundingRateOverrideX128(): BigInt {
+    let result = super.call(
+      "fundingRateOverrideX128",
+      "fundingRateOverrideX128():(int256)",
+      []
+    );
+
+    return result[0].toBigInt();
+  }
+
+  try_fundingRateOverrideX128(): ethereum.CallResult<BigInt> {
+    let result = super.tryCall(
+      "fundingRateOverrideX128",
+      "fundingRateOverrideX128():(int256)",
+      []
+    );
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toBigInt());
+  }
+
   getExtrapolatedSumAX128(): BigInt {
     let result = super.call(
       "getExtrapolatedSumAX128",
@@ -716,29 +757,6 @@ export class VPoolWrapperLogic extends ethereum.SmartContract {
         value[1].toBigInt()
       )
     );
-  }
-
-  getFundingRateOverride(): Bytes {
-    let result = super.call(
-      "getFundingRateOverride",
-      "getFundingRateOverride():(bytes32)",
-      []
-    );
-
-    return result[0].toBytes();
-  }
-
-  try_getFundingRateOverride(): ethereum.CallResult<Bytes> {
-    let result = super.tryCall(
-      "getFundingRateOverride",
-      "getFundingRateOverride():(bytes32)",
-      []
-    );
-    if (result.reverted) {
-      return new ethereum.CallResult();
-    }
-    let value = result.value;
-    return ethereum.CallResult.fromValue(value[0].toBytes());
   }
 
   getSumAX128(): BigInt {
@@ -1270,8 +1288,8 @@ export class SetFundingRateOverrideCall__Inputs {
     this._call = call;
   }
 
-  get chainlinkOracle(): Address {
-    return this._call.inputValues[0].value.toAddress();
+  get fundingRateOverrideX128_(): BigInt {
+    return this._call.inputValues[0].value.toBigInt();
   }
 }
 
@@ -1279,36 +1297,6 @@ export class SetFundingRateOverrideCall__Outputs {
   _call: SetFundingRateOverrideCall;
 
   constructor(call: SetFundingRateOverrideCall) {
-    this._call = call;
-  }
-}
-
-export class SetFundingRateOverride1Call extends ethereum.Call {
-  get inputs(): SetFundingRateOverride1Call__Inputs {
-    return new SetFundingRateOverride1Call__Inputs(this);
-  }
-
-  get outputs(): SetFundingRateOverride1Call__Outputs {
-    return new SetFundingRateOverride1Call__Outputs(this);
-  }
-}
-
-export class SetFundingRateOverride1Call__Inputs {
-  _call: SetFundingRateOverride1Call;
-
-  constructor(call: SetFundingRateOverride1Call) {
-    this._call = call;
-  }
-
-  get fundingRateOverrideX128(): BigInt {
-    return this._call.inputValues[0].value.toBigInt();
-  }
-}
-
-export class SetFundingRateOverride1Call__Outputs {
-  _call: SetFundingRateOverride1Call;
-
-  constructor(call: SetFundingRateOverride1Call) {
     this._call = call;
   }
 }
@@ -1517,32 +1505,6 @@ export class UniswapV3SwapCallbackCall__Outputs {
   _call: UniswapV3SwapCallbackCall;
 
   constructor(call: UniswapV3SwapCallbackCall) {
-    this._call = call;
-  }
-}
-
-export class UnsetFundingRateOverrideCall extends ethereum.Call {
-  get inputs(): UnsetFundingRateOverrideCall__Inputs {
-    return new UnsetFundingRateOverrideCall__Inputs(this);
-  }
-
-  get outputs(): UnsetFundingRateOverrideCall__Outputs {
-    return new UnsetFundingRateOverrideCall__Outputs(this);
-  }
-}
-
-export class UnsetFundingRateOverrideCall__Inputs {
-  _call: UnsetFundingRateOverrideCall;
-
-  constructor(call: UnsetFundingRateOverrideCall) {
-    this._call = call;
-  }
-}
-
-export class UnsetFundingRateOverrideCall__Outputs {
-  _call: UnsetFundingRateOverrideCall;
-
-  constructor(call: UnsetFundingRateOverrideCall) {
     this._call = call;
   }
 }

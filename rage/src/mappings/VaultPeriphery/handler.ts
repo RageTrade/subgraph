@@ -61,8 +61,13 @@ export function handleDepositPeriphery(event: DepositPeriphery): void {
   entry.assetsTokenAmount = BigIntToBigDecimal(event.params.asset, BI_18);
   entry.sharesTokenAmount = BigIntToBigDecimal(event.params.shares, BI_18);
 
-  let priceOfAsset = parsePriceX128(assetPriceResult.value, BI_18, BI_6);
-  entry.sharesTokenDollarValue = entry.assetsTokenAmount.times(priceOfAsset);
+  let assetsPrice = parsePriceX128(assetPriceResult.value, BI_18, BI_6);
+  entry.sharesTokenDollarValue = entry.assetsTokenAmount.times(assetsPrice);
+
+  entry.assetPrice = assetsPrice;
+  entry.sharePrice = assetsPrice
+    .times(entry.assetsTokenAmount)
+    .div(entry.sharesTokenAmount);
 
   owner.vaultDepositWithdrawEntriesCount = owner.vaultDepositWithdrawEntriesCount.plus(
     ONE_BI

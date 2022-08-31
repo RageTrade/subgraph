@@ -120,6 +120,9 @@ export function handleDeposit(event: Deposit): void {
   entry.sharesTokenAmount = sharesInBigDecimal;
   entry.sharesTokenDollarValue = entry.sharesTokenAmount.times(sharePrice);
 
+  entry.assetPrice = assetsPrice;
+  entry.sharePrice = sharePrice;
+
   owner.vaultDepositWithdrawEntriesCount = owner.vaultDepositWithdrawEntriesCount.plus(
     ONE_BI
   );
@@ -221,6 +224,10 @@ export function handleWithdraw(event: Withdraw): void {
 
   let priceOfAsset = parsePriceX128(assetPriceResult.value, BI_18, BI_6);
   entry.sharesTokenDollarValue = entry.assetsTokenAmount.times(priceOfAsset);
+  entry.assetPrice = priceOfAsset;
+  entry.sharePrice = priceOfAsset
+    .times(entry.assetsTokenAmount)
+    .div(entry.sharesTokenAmount);
 
   owner.vaultDepositWithdrawEntriesCount = owner.vaultDepositWithdrawEntriesCount.plus(
     ONE_BI

@@ -2638,6 +2638,24 @@ export class VaultDepositWithdrawEntry extends Entity {
     this.set("sharesTokenAmount", Value.fromBigDecimal(value));
   }
 
+  get assetPrice(): BigDecimal {
+    let value = this.get("assetPrice");
+    return value.toBigDecimal();
+  }
+
+  set assetPrice(value: BigDecimal) {
+    this.set("assetPrice", Value.fromBigDecimal(value));
+  }
+
+  get sharePrice(): BigDecimal {
+    let value = this.get("sharePrice");
+    return value.toBigDecimal();
+  }
+
+  set sharePrice(value: BigDecimal) {
+    this.set("sharePrice", Value.fromBigDecimal(value));
+  }
+
   get sharesTokenDollarValue(): BigDecimal {
     let value = this.get("sharesTokenDollarValue");
     return value.toBigDecimal();
