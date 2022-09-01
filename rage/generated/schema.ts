@@ -199,6 +199,18 @@ export class Account extends Entity {
     this.set("marginBalance", Value.fromBigDecimal(value));
   }
 
+  get totalLiquidityPositionEarningsRealized(): BigDecimal {
+    let value = this.get("totalLiquidityPositionEarningsRealized");
+    return value.toBigDecimal();
+  }
+
+  set totalLiquidityPositionEarningsRealized(value: BigDecimal) {
+    this.set(
+      "totalLiquidityPositionEarningsRealized",
+      Value.fromBigDecimal(value)
+    );
+  }
+
   get tokenPositionChangeEntriesCount(): BigInt {
     let value = this.get("tokenPositionChangeEntriesCount");
     return value.toBigInt();

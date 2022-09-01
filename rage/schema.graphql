@@ -38,6 +38,8 @@ type Account @entity {
   vQuoteBalance: BigDecimal!
   "total margin/collateral deposited by the account"
   marginBalance: BigDecimal!
+  "total liquidity position earnings realized for this account"
+  totalLiquidityPositionEarningsRealized: BigDecimal!
   "Total number of swaps made by the account"
   tokenPositionChangeEntriesCount: BigInt!
   "list all swaps made by the account"

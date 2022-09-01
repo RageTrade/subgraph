@@ -26,6 +26,7 @@ export function getAccount(accountNo: BigInt): Account {
     account = new Account(accountId);
     account.marginBalance = ZERO_BD;
     account.vQuoteBalance = ZERO_BD;
+    account.totalLiquidityPositionEarningsRealized = ZERO_BD;
 
     account.tokenPositionChangeEntriesCount = ZERO_BI;
     account.fundingPaymentRealizedEntriesCount = ZERO_BI;

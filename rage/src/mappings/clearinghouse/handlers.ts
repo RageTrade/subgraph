@@ -7,6 +7,7 @@ import {
   PoolSettingsUpdated,
   TokenPositionLiquidated,
   ProfitUpdated,
+  LiquidityPositionEarningsRealized,
 } from '../../../generated/ClearingHouse/ClearingHouse';
 import {
   FundingPaymentRealizedEntry,
@@ -739,6 +740,29 @@ export function handleProfitUpdated(event: ProfitUpdated): void {
 
   account.save();
   updateAllLiquidationPrices(account);
+}
+
+export function handleLiquidityPositionEarningsRealized(
+  event: LiquidityPositionEarningsRealized
+): void {
+  log.debug(
+    'custom_logs: handleLiquidityPositionEarningsRealized triggered {} {} {} {} {}',
+    [
+      event.params.accountId.toString(),
+      event.params.poolId.toString(),
+      BigInt.fromI32(event.params.tickLower).toString(),
+      BigInt.fromI32(event.params.tickUpper).toString(),
+      event.params.amount.toString(),
+    ]
+  );
+
+  let account = getAccount(event.params.accountId);
+
+  account.totalLiquidityPositionEarningsRealized = account.totalLiquidityPositionEarningsRealized.plus(
+    BigIntToBigDecimal(event.params.amount, BI_6)
+  );
+
+  account.save();
 }
 
 // @entity LiquidateRanges
