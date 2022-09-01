@@ -256,6 +256,40 @@ export function handleTokenWithdrawn(event: TokenWithdrawn): void {
 
   //...........................................................................//
 
+  let fakeDepositShares = owner.gmxVaultSharesEntryPrice_Denominator.minus(
+    sharesInBigDecimal
+  );
+  let fakeDepositSharePriceD6 = safeDiv(
+    owner.gmxVaultSharesEntryPrice_Numerator,
+    owner.gmxVaultSharesEntryPrice_Denominator
+  ); // existing w-avg share price
+  // resetting numerator
+
+  owner.gmxVaultSharesEntryPrice_Numerator = fakeDepositShares.times(
+    fakeDepositSharePriceD6
+  );
+  owner.gmxVaultSharesEntryPrice_Denominator = fakeDepositShares;
+
+  owner.gmxVaultSharesEntryPrice = safeDiv(
+    owner.gmxVaultSharesEntryPrice_Numerator,
+    owner.gmxVaultSharesEntryPrice_Denominator
+  );
+
+  log.debug(
+    'custom_logs: handleWithdraw owner - {} gmxVaultSharesEntryPrice_Numerator - {} gmxVaultSharesEntryPrice_Denominator - {} gmxVaultSharesEntryPrice - {} fakeDepositShares - {} fakeDepositSharePriceD6 - {} sharesInBigDecimal - {}',
+    [
+      event.params.owner.toHexString(),
+      owner.gmxVaultSharesEntryPrice_Numerator.toString(),
+      owner.gmxVaultSharesEntryPrice_Denominator.toString(),
+      owner.gmxVaultSharesEntryPrice.toString(),
+      fakeDepositShares.toString(),
+      fakeDepositSharePriceD6.toString(),
+      sharesInBigDecimal.toString(),
+    ]
+  );
+
+  //...........................................................................//
+
   let vaultDepositWithdrawEntryId = generateId([
     vault.id,
     owner.id,

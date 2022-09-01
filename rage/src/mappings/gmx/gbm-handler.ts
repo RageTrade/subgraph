@@ -1,10 +1,15 @@
 import { log } from '@graphprotocol/graph-ts';
-import { VaultDepositWithdrawEntry } from '../../../generated/schema';
+import { Owner, VaultDepositWithdrawEntry } from '../../../generated/schema';
 import {
   BatchDeposit,
   DepositToken,
 } from '../../../generated/GMXBatchingManager/GMXBatchingManager';
-import { BigIntToBigDecimal, generateId, parsePriceX128 } from '../../utils';
+import {
+  BigIntToBigDecimal,
+  generateId,
+  parsePriceX128,
+  safeDiv,
+} from '../../utils';
 import { contracts } from '../../utils/addresses';
 import { getVault } from '../../utils/getVault';
 import { getOwner } from '../clearinghouse/owner';
@@ -114,6 +119,39 @@ export function handleGmxBatch(event: BatchDeposit): void {
         .times(entry.assetsTokenAmount)
         .div(entry.sharesTokenAmount);
       entry.save();
+      let owner = Owner.load(entry.owner);
+      if (owner == null) {
+        log.warning(
+          'custom_logs: this should not happen, owner is null in handleGmxBatch',
+          []
+        );
+      } else {
+        owner.gmxVaultSharesEntryPrice_Numerator = owner.gmxVaultSharesEntryPrice_Numerator.plus(
+          entry.sharePrice.times(entry.sharesTokenAmount)
+        );
+        owner.gmxVaultSharesEntryPrice_Denominator = owner.gmxVaultSharesEntryPrice_Denominator.plus(
+          entry.sharesTokenAmount
+        );
+
+        owner.gmxVaultSharesEntryPrice = safeDiv(
+          owner.gmxVaultSharesEntryPrice_Numerator,
+          owner.gmxVaultSharesEntryPrice_Denominator
+        );
+
+        log.debug(
+          'custom_logs: handleGmxBatch owner - {} gmxVaultSharesEntryPrice_Numerator - {} gmxVaultSharesEntryPrice_Denominator - {} gmxVaultSharesEntryPrice - {} sharePrice - {} sharesInBigDecimal - {}',
+          [
+            owner.id,
+            owner.gmxVaultSharesEntryPrice_Numerator.toString(),
+            owner.gmxVaultSharesEntryPrice_Denominator.toString(),
+            owner.gmxVaultSharesEntryPrice.toString(),
+            entry.sharePrice.toString(),
+            entry.sharesTokenAmount.toString(),
+          ]
+        );
+
+        owner.save();
+      }
     }
   }
 
