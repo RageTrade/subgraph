@@ -1,4 +1,4 @@
-import { log } from '@graphprotocol/graph-ts';
+import { Address, log } from '@graphprotocol/graph-ts';
 import { Owner, VaultDepositWithdrawEntry } from '../../../generated/schema';
 import {
   BatchDeposit,
@@ -16,6 +16,7 @@ import { getOwner } from '../clearinghouse/owner';
 import { getERC20Token } from '../../utils/getERC20Token';
 import { BI_18, BI_6, ONE_BI, ZERO_BD, ZERO_BI } from '../../utils/constants';
 import { GMXYieldStrategy } from '../../../generated/GMXYieldStrategy/GMXYieldStrategy';
+import { updateEntryPrices_deposit } from '../../utils/entry-price';
 
 // GMX Batching Manager allows to
 // - deposit other tokens (not sGLP, it has to go through GYS)
@@ -119,6 +120,17 @@ export function handleGmxBatch(event: BatchDeposit): void {
         .times(entry.assetsTokenAmount)
         .div(entry.sharesTokenAmount);
       entry.save();
+
+      updateEntryPrices_deposit(
+        Address.fromHexString(entry.owner) as Address,
+        contracts.GMXYieldStrategy,
+        entry.assetsTokenAmount,
+        entry.sharesTokenAmount,
+        entry.assetPrice,
+        entry.sharePrice
+      );
+
+      // TODO remove below logic since updateEntryPrices_deposit should do the job
       let owner = Owner.load(entry.owner);
       if (owner == null) {
         log.warning(

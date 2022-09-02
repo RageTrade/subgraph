@@ -131,6 +131,143 @@ export class Owner extends Entity {
   set vaultDepositWithdrawEntries(value: Array<string>) {
     this.set("vaultDepositWithdrawEntries", Value.fromStringArray(value));
   }
+
+  get entryPriceEntries(): Array<string> {
+    let value = this.get("entryPriceEntries");
+    return value.toStringArray();
+  }
+
+  set entryPriceEntries(value: Array<string>) {
+    this.set("entryPriceEntries", Value.fromStringArray(value));
+  }
+}
+
+export class OwnerVaultEntryPrice extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(
+      id !== null,
+      "Cannot save OwnerVaultEntryPrice entity without an ID"
+    );
+    assert(
+      id.kind == ValueKind.STRING,
+      "Cannot save OwnerVaultEntryPrice entity with non-string ID. " +
+        'Considering using .toHex() to convert the "id" to a string.'
+    );
+    store.set("OwnerVaultEntryPrice", id.toString(), this);
+  }
+
+  static load(id: string): OwnerVaultEntryPrice | null {
+    return store.get("OwnerVaultEntryPrice", id) as OwnerVaultEntryPrice | null;
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    return value.toString();
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get owner(): string {
+    let value = this.get("owner");
+    return value.toString();
+  }
+
+  set owner(value: string) {
+    this.set("owner", Value.fromString(value));
+  }
+
+  get vault(): string {
+    let value = this.get("vault");
+    return value.toString();
+  }
+
+  set vault(value: string) {
+    this.set("vault", Value.fromString(value));
+  }
+
+  get share(): string {
+    let value = this.get("share");
+    return value.toString();
+  }
+
+  set share(value: string) {
+    this.set("share", Value.fromString(value));
+  }
+
+  get asset(): string {
+    let value = this.get("asset");
+    return value.toString();
+  }
+
+  set asset(value: string) {
+    this.set("asset", Value.fromString(value));
+  }
+}
+
+export class EntryPrice extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id !== null, "Cannot save EntryPrice entity without an ID");
+    assert(
+      id.kind == ValueKind.STRING,
+      "Cannot save EntryPrice entity with non-string ID. " +
+        'Considering using .toHex() to convert the "id" to a string.'
+    );
+    store.set("EntryPrice", id.toString(), this);
+  }
+
+  static load(id: string): EntryPrice | null {
+    return store.get("EntryPrice", id) as EntryPrice | null;
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    return value.toString();
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get entryPrice(): BigDecimal {
+    let value = this.get("entryPrice");
+    return value.toBigDecimal();
+  }
+
+  set entryPrice(value: BigDecimal) {
+    this.set("entryPrice", Value.fromBigDecimal(value));
+  }
+
+  get entryPrice_Numerator(): BigDecimal {
+    let value = this.get("entryPrice_Numerator");
+    return value.toBigDecimal();
+  }
+
+  set entryPrice_Numerator(value: BigDecimal) {
+    this.set("entryPrice_Numerator", Value.fromBigDecimal(value));
+  }
+
+  get entryPrice_Denominator(): BigDecimal {
+    let value = this.get("entryPrice_Denominator");
+    return value.toBigDecimal();
+  }
+
+  set entryPrice_Denominator(value: BigDecimal) {
+    this.set("entryPrice_Denominator", Value.fromBigDecimal(value));
+  }
 }
 
 export class Account extends Entity {

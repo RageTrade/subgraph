@@ -22,6 +22,32 @@ type Owner @entity {
   "list of vault deposits and withdraws"
   vaultDepositWithdrawEntries: [VaultDepositWithdrawEntry!]!
     @derivedFrom(field: "owner")
+  "list of entry price entries"
+  entryPriceEntries: [OwnerVaultEntryPrice!]! @derivedFrom(field: "owner")
+}
+
+"""
+entity per owner per vault
+"""
+type OwnerVaultEntryPrice @entity {
+  "address of the owner + vault"
+  id: ID!
+  "owner address"
+  owner: Owner!
+  "vault address"
+  vault: Vault!
+  "vault asset entry price"
+  asset: EntryPrice!
+  "vault share entry price"
+  share: EntryPrice!
+}
+
+type EntryPrice @entity {
+  "address of the owner + vault + share | asset"
+  id: ID!
+  entryPrice: BigDecimal!
+  entryPrice_Numerator: BigDecimal!
+  entryPrice_Denominator: BigDecimal!
 }
 
 """

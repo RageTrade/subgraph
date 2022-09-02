@@ -8,6 +8,7 @@ import { getOwner } from '../clearinghouse/owner';
 import { getERC20Token } from '../../utils/getERC20Token';
 import { BI_18, BI_6, ONE_BI } from '../../utils/constants';
 import { CurveYieldStrategy } from '../../../generated/CurveYieldStrategy/CurveYieldStrategy';
+import { updateEntryPrices_deposit } from '../../utils/entry-price';
 
 export function handleDepositPeriphery(event: DepositPeriphery): void {
   log.debug(
@@ -61,13 +62,22 @@ export function handleDepositPeriphery(event: DepositPeriphery): void {
   entry.assetsTokenAmount = BigIntToBigDecimal(event.params.asset, BI_18);
   entry.sharesTokenAmount = BigIntToBigDecimal(event.params.shares, BI_18);
 
-  let assetsPrice = parsePriceX128(assetPriceResult.value, BI_18, BI_6);
-  entry.sharesTokenDollarValue = entry.assetsTokenAmount.times(assetsPrice);
+  let assetPrice = parsePriceX128(assetPriceResult.value, BI_18, BI_6);
+  entry.sharesTokenDollarValue = entry.assetsTokenAmount.times(assetPrice);
 
-  entry.assetPrice = assetsPrice;
-  entry.sharePrice = assetsPrice
+  entry.assetPrice = assetPrice;
+  entry.sharePrice = assetPrice
     .times(entry.assetsTokenAmount)
     .div(entry.sharesTokenAmount);
+
+  updateEntryPrices_deposit(
+    event.params.owner,
+    contracts.CurveYieldStrategy,
+    entry.assetsTokenAmount,
+    entry.sharesTokenAmount,
+    assetPrice,
+    entry.sharePrice
+  );
 
   owner.vaultDepositWithdrawEntriesCount = owner.vaultDepositWithdrawEntriesCount.plus(
     ONE_BI
