@@ -124,7 +124,7 @@ function getOwnerVaultEntryPrice(
   if (entry == null) {
     entry = new OwnerVaultEntryPrice(ownerVaultEntryPriceId);
     entry.owner = generateOwnerId(ownerAddress);
-    entry.vault = generateVaultId(ownerAddress);
+    entry.vault = generateVaultId(vaultAddress);
 
     entry.asset = createEntryPriceObject(
       ownerAddress,
