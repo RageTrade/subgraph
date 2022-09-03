@@ -1354,5 +1354,175 @@
       }
     ],
     "outputs": []
+  },
+  {
+    "type": "event",
+    "anonymous": false,
+    "name": "BaseParamsUpdated",
+    "inputs": [
+      {
+        "type": "uint256",
+        "name": "newDepositCap",
+        "indexed": false
+      },
+      {
+        "type": "address",
+        "name": "newKeeperAddress",
+        "indexed": false
+      },
+      {
+        "type": "uint32",
+        "name": "rebalanceTimeThreshold",
+        "indexed": false
+      },
+      {
+        "type": "uint16",
+        "name": "rebalancePriceThresholdBps",
+        "indexed": false
+      }
+    ]
+  },
+  {
+    "type": "event",
+    "anonymous": false,
+    "name": "CrvSwapFailedDueToSlippage",
+    "inputs": [
+      {
+        "type": "uint256",
+        "name": "crvSlippageTolerance",
+        "indexed": false
+      }
+    ]
+  },
+  {
+    "type": "event",
+    "anonymous": false,
+    "name": "CurveParamsUpdated",
+    "inputs": [
+      {
+        "type": "uint256",
+        "name": "feeBps",
+        "indexed": false
+      },
+      {
+        "type": "uint256",
+        "name": "stablecoinSlippage",
+        "indexed": false
+      },
+      {
+        "type": "uint256",
+        "name": "crvHarvestThreshold",
+        "indexed": false
+      },
+      {
+        "type": "uint256",
+        "name": "crvSlippageTolerance",
+        "indexed": false
+      },
+      {
+        "type": "address",
+        "name": "crvOracle",
+        "indexed": true
+      }
+    ]
+  },
+  {
+    "type": "event",
+    "anonymous": false,
+    "name": "EightyTwentyParamsUpdated",
+    "inputs": [
+      {
+        "type": "uint16",
+        "name": "closePositionSlippageSqrtToleranceBps",
+        "indexed": false
+      },
+      {
+        "type": "uint16",
+        "name": "resetPositionThresholdBps",
+        "indexed": false
+      },
+      {
+        "type": "uint64",
+        "name": "minNotionalPositionToCloseThreshold",
+        "indexed": false
+      }
+    ]
+  },
+  {
+    "type": "event",
+    "anonymous": false,
+    "name": "FeesUpdated",
+    "inputs": [
+      {
+        "type": "uint256",
+        "name": "fee",
+        "indexed": false
+      }
+    ]
+  },
+  {
+    "type": "event",
+    "anonymous": false,
+    "name": "FeesWithdrawn",
+    "inputs": [
+      {
+        "type": "uint256",
+        "name": "total",
+        "indexed": false
+      }
+    ]
+  },
+  {
+    "type": "event",
+    "anonymous": false,
+    "name": "Harvested",
+    "inputs": [
+      {
+        "type": "uint256",
+        "name": "crvAmount",
+        "indexed": false
+      }
+    ]
+  },
+  {
+    "type": "event",
+    "anonymous": false,
+    "name": "Rebalance",
+    "inputs": []
+  },
+  {
+    "type": "event",
+    "anonymous": false,
+    "name": "Staked",
+    "inputs": [
+      {
+        "type": "uint256",
+        "name": "amount",
+        "indexed": false
+      },
+      {
+        "type": "address",
+        "name": "depositor",
+        "indexed": true
+      }
+    ]
+  },
+  {
+    "type": "event",
+    "anonymous": false,
+    "name": "StateInfo",
+    "inputs": [
+      {
+        "type": "uint256",
+        "name": "lpPrice",
+        "indexed": false
+      }
+    ]
+  },
+  {
+    "type": "event",
+    "anonymous": false,
+    "name": "TokenPositionClosed",
+    "inputs": []
   }
 ]
