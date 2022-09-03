@@ -2660,13 +2660,13 @@ export class Vault extends Entity {
     this.set('name', Value.fromString(value));
   }
 
-  get rageAccountId(): string {
-    let value = this.get('rageAccountId');
+  get rageAccount(): string {
+    let value = this.get('rageAccount');
     return value.toString();
   }
 
-  set rageAccountId(value: string) {
-    this.set('rageAccountId', Value.fromString(value));
+  set rageAccount(value: string) {
+    this.set('rageAccount', Value.fromString(value));
   }
 
   get pendingDeposits(): Array<string> {
@@ -2739,15 +2739,6 @@ export class VaultRebalance extends Entity {
     this.set('timestamp', Value.fromBigInt(value));
   }
 
-  get vault(): string {
-    let value = this.get('vault');
-    return value.toString();
-  }
-
-  set vault(value: string) {
-    this.set('vault', Value.fromString(value));
-  }
-
   get liquidityPositionEarningsRealized(): BigDecimal {
     let value = this.get('liquidityPositionEarningsRealized');
     return value.toBigDecimal();
@@ -2755,6 +2746,15 @@ export class VaultRebalance extends Entity {
 
   set liquidityPositionEarningsRealized(value: BigDecimal) {
     this.set('liquidityPositionEarningsRealized', Value.fromBigDecimal(value));
+  }
+
+  get vault(): string {
+    let value = this.get('vault');
+    return value.toString();
+  }
+
+  set vault(value: string) {
+    this.set('vault', Value.fromString(value));
   }
 }
 

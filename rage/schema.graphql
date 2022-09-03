@@ -580,7 +580,7 @@ type Vault @entity {
   "name of the Vault"
   name: VaultName!
   "rage account"
-  rageAccountId: Account!
+  rageAccount: Account!
   "list of pending deposits for gmx vault"
   pendingDeposits: [String!]!
   "total lp earnings realized upto last rebalance"

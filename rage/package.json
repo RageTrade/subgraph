@@ -4,7 +4,7 @@
   "scripts": {
     "create": "graph create rage/perpswap-contracts-subgraph --node https://api.thegraph.com/deploy/",
     "create-local": "graph create rage/perpswap-contracts-subgraph --node http://127.0.0.1:8020",
-    "codegen": "graph codegen",
+    "codegen": "graph codegen && pnpm run format:fix",
     "auth:arbtest": "graph auth https://thegraph.com/hosted-service/subgraph/fr0ntenddev/rage-trade <add-key-here>",
     "auth:arbmain": "graph auth https://thegraph.com/hosted-service/subgraph/fr0ntenddev/rage-trade-arbitrum-mainnet <add-key-here>",
     "deploy": "pnpm run deploy:arbmain && pnpm run deploy:arbtest",

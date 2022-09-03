@@ -22,7 +22,7 @@ export function getVault(vaultAddress: Address): Vault {
     let account = getAccount(
       CurveYieldStrategy.bind(vaultAddress).rageAccountNo()
     );
-    vault.rageAccountId = account.id;
+    vault.rageAccount = account.id;
     vault.totalLiquidityPositionEarningsRealized = ZERO_BD;
     vault.save();
   }

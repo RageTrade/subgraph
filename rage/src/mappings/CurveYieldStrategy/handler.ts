@@ -278,7 +278,7 @@ export function handleWithdraw(event: Withdraw): void {
 
 export function handleRebalance(event: Rebalance): void {
   let vault = getVault(event.address);
-  let account = getAccountById(vault.rageAccountId);
+  let account = getAccountById(vault.rageAccount);
   let earnings = account.totalLiquidityPositionEarningsRealized.minus(
     vault.totalLiquidityPositionEarningsRealized
   );
