@@ -1,11 +1,15 @@
-import { BigInt, log } from '@graphprotocol/graph-ts';
+import { log } from '@graphprotocol/graph-ts';
 import {
   CurveYieldStrategy,
   Deposit,
+  Rebalance,
   Withdraw,
 } from '../../../generated/CurveYieldStrategy/CurveYieldStrategy';
 import { CurveQuoter } from '../../../generated/CurveYieldStrategy/CurveQuoter';
-import { VaultDepositWithdrawEntry } from '../../../generated/schema';
+import {
+  VaultDepositWithdrawEntry,
+  VaultRebalance,
+} from '../../../generated/schema';
 import {
   generateId,
   BigIntToBigDecimal,
@@ -21,6 +25,7 @@ import {
   updateEntryPrices_deposit,
   updateEntryPrices_withdraw,
 } from '../../utils/entry-price';
+import { getAccountById } from '../clearinghouse/account';
 
 export function handleDeposit(event: Deposit): void {
   // do not handle if deposit is coming from periphery
@@ -269,4 +274,27 @@ export function handleWithdraw(event: Withdraw): void {
   );
   owner.save();
   entry.save();
+}
+
+export function handleRebalance(event: Rebalance): void {
+  let vault = getVault(event.address);
+  let account = getAccountById(vault.rageAccountId);
+  let earnings = account.totalLiquidityPositionEarningsRealized.minus(
+    vault.totalLiquidityPositionEarningsRealized
+  );
+  vault.totalLiquidityPositionEarningsRealized =
+    account.totalLiquidityPositionEarningsRealized;
+  vault.save();
+
+  let vr = new VaultRebalance(
+    generateId([
+      vault.id,
+      event.transaction.hash.toHexString(),
+      event.logIndex.toString(),
+    ])
+  );
+  vr.timestamp = event.block.timestamp;
+  vr.liquidityPositionEarningsRealized = earnings;
+  vr.vault = vault.id;
+  vr.save();
 }

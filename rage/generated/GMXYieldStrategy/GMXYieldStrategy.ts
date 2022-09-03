@@ -230,6 +230,236 @@ export class Withdraw__Params {
   }
 }
 
+export class BaseParamsUpdated extends ethereum.Event {
+  get params(): BaseParamsUpdated__Params {
+    return new BaseParamsUpdated__Params(this);
+  }
+}
+
+export class BaseParamsUpdated__Params {
+  _event: BaseParamsUpdated;
+
+  constructor(event: BaseParamsUpdated) {
+    this._event = event;
+  }
+
+  get newDepositCap(): BigInt {
+    return this._event.parameters[0].value.toBigInt();
+  }
+
+  get newKeeperAddress(): Address {
+    return this._event.parameters[1].value.toAddress();
+  }
+
+  get rebalanceTimeThreshold(): BigInt {
+    return this._event.parameters[2].value.toBigInt();
+  }
+
+  get rebalancePriceThresholdBps(): i32 {
+    return this._event.parameters[3].value.toI32();
+  }
+}
+
+export class CrvSwapFailedDueToSlippage extends ethereum.Event {
+  get params(): CrvSwapFailedDueToSlippage__Params {
+    return new CrvSwapFailedDueToSlippage__Params(this);
+  }
+}
+
+export class CrvSwapFailedDueToSlippage__Params {
+  _event: CrvSwapFailedDueToSlippage;
+
+  constructor(event: CrvSwapFailedDueToSlippage) {
+    this._event = event;
+  }
+
+  get crvSlippageTolerance(): BigInt {
+    return this._event.parameters[0].value.toBigInt();
+  }
+}
+
+export class CurveParamsUpdated extends ethereum.Event {
+  get params(): CurveParamsUpdated__Params {
+    return new CurveParamsUpdated__Params(this);
+  }
+}
+
+export class CurveParamsUpdated__Params {
+  _event: CurveParamsUpdated;
+
+  constructor(event: CurveParamsUpdated) {
+    this._event = event;
+  }
+
+  get feeBps(): BigInt {
+    return this._event.parameters[0].value.toBigInt();
+  }
+
+  get stablecoinSlippage(): BigInt {
+    return this._event.parameters[1].value.toBigInt();
+  }
+
+  get crvHarvestThreshold(): BigInt {
+    return this._event.parameters[2].value.toBigInt();
+  }
+
+  get crvSlippageTolerance(): BigInt {
+    return this._event.parameters[3].value.toBigInt();
+  }
+
+  get crvOracle(): Address {
+    return this._event.parameters[4].value.toAddress();
+  }
+}
+
+export class EightyTwentyParamsUpdated extends ethereum.Event {
+  get params(): EightyTwentyParamsUpdated__Params {
+    return new EightyTwentyParamsUpdated__Params(this);
+  }
+}
+
+export class EightyTwentyParamsUpdated__Params {
+  _event: EightyTwentyParamsUpdated;
+
+  constructor(event: EightyTwentyParamsUpdated) {
+    this._event = event;
+  }
+
+  get closePositionSlippageSqrtToleranceBps(): i32 {
+    return this._event.parameters[0].value.toI32();
+  }
+
+  get resetPositionThresholdBps(): i32 {
+    return this._event.parameters[1].value.toI32();
+  }
+
+  get minNotionalPositionToCloseThreshold(): BigInt {
+    return this._event.parameters[2].value.toBigInt();
+  }
+}
+
+export class FeesUpdated extends ethereum.Event {
+  get params(): FeesUpdated__Params {
+    return new FeesUpdated__Params(this);
+  }
+}
+
+export class FeesUpdated__Params {
+  _event: FeesUpdated;
+
+  constructor(event: FeesUpdated) {
+    this._event = event;
+  }
+
+  get fee(): BigInt {
+    return this._event.parameters[0].value.toBigInt();
+  }
+}
+
+export class FeesWithdrawn extends ethereum.Event {
+  get params(): FeesWithdrawn__Params {
+    return new FeesWithdrawn__Params(this);
+  }
+}
+
+export class FeesWithdrawn__Params {
+  _event: FeesWithdrawn;
+
+  constructor(event: FeesWithdrawn) {
+    this._event = event;
+  }
+
+  get total(): BigInt {
+    return this._event.parameters[0].value.toBigInt();
+  }
+}
+
+export class Harvested extends ethereum.Event {
+  get params(): Harvested__Params {
+    return new Harvested__Params(this);
+  }
+}
+
+export class Harvested__Params {
+  _event: Harvested;
+
+  constructor(event: Harvested) {
+    this._event = event;
+  }
+
+  get crvAmount(): BigInt {
+    return this._event.parameters[0].value.toBigInt();
+  }
+}
+
+export class Rebalance extends ethereum.Event {
+  get params(): Rebalance__Params {
+    return new Rebalance__Params(this);
+  }
+}
+
+export class Rebalance__Params {
+  _event: Rebalance;
+
+  constructor(event: Rebalance) {
+    this._event = event;
+  }
+}
+
+export class Staked extends ethereum.Event {
+  get params(): Staked__Params {
+    return new Staked__Params(this);
+  }
+}
+
+export class Staked__Params {
+  _event: Staked;
+
+  constructor(event: Staked) {
+    this._event = event;
+  }
+
+  get amount(): BigInt {
+    return this._event.parameters[0].value.toBigInt();
+  }
+
+  get depositor(): Address {
+    return this._event.parameters[1].value.toAddress();
+  }
+}
+
+export class StateInfo extends ethereum.Event {
+  get params(): StateInfo__Params {
+    return new StateInfo__Params(this);
+  }
+}
+
+export class StateInfo__Params {
+  _event: StateInfo;
+
+  constructor(event: StateInfo) {
+    this._event = event;
+  }
+
+  get lpPrice(): BigInt {
+    return this._event.parameters[0].value.toBigInt();
+  }
+}
+
+export class TokenPositionClosed extends ethereum.Event {
+  get params(): TokenPositionClosed__Params {
+    return new TokenPositionClosed__Params(this);
+  }
+}
+
+export class TokenPositionClosed__Params {
+  _event: TokenPositionClosed;
+
+  constructor(event: TokenPositionClosed) {
+    this._event = event;
+  }
+}
+
 export class GMXYieldStrategy extends ethereum.SmartContract {
   static bind(address: Address): GMXYieldStrategy {
     return new GMXYieldStrategy("GMXYieldStrategy", address);

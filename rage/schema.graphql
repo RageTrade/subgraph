@@ -579,8 +579,28 @@ type Vault @entity {
   id: ID!
   "name of the Vault"
   name: VaultName!
+  "rage account"
+  rageAccountId: Account!
   "list of pending deposits for gmx vault"
   pendingDeposits: [String!]!
+  "total lp earnings realized upto last rebalance"
+  totalLiquidityPositionEarningsRealized: BigDecimal!
+  "rebalance events"
+  rebalances: [VaultRebalance!]! @derivedFrom(field: "vault")
+}
+
+"""
+rebalance entries of vaults
+"""
+type VaultRebalance @entity {
+  "vault id + tx hash + log index"
+  id: ID!
+  "timestamp of the event"
+  timestamp: BigInt!
+  "lp earnings after previous rebalance upto this rebalance"
+  liquidityPositionEarningsRealized: BigDecimal!
+  "vault reference"
+  vault: Vault!
 }
 
 """

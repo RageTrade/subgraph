@@ -15,7 +15,10 @@ export function generateAccountId(accountNo: BigInt): string {
  */
 export function getAccount(accountNo: BigInt): Account {
   let accountId = generateAccountId(accountNo);
+  return getAccountById(accountId);
+}
 
+export function getAccountById(accountId: string): Account {
   let account = Account.load(accountId);
   if (account === null) {
     // this should ideally not happen

@@ -193,15 +193,6 @@ export class OwnerVaultEntryPrice extends Entity {
     this.set("vault", Value.fromString(value));
   }
 
-  get share(): string {
-    let value = this.get("share");
-    return value.toString();
-  }
-
-  set share(value: string) {
-    this.set("share", Value.fromString(value));
-  }
-
   get asset(): string {
     let value = this.get("asset");
     return value.toString();
@@ -209,6 +200,15 @@ export class OwnerVaultEntryPrice extends Entity {
 
   set asset(value: string) {
     this.set("asset", Value.fromString(value));
+  }
+
+  get share(): string {
+    let value = this.get("share");
+    return value.toString();
+  }
+
+  set share(value: string) {
+    this.set("share", Value.fromString(value));
   }
 }
 
@@ -2660,6 +2660,15 @@ export class Vault extends Entity {
     this.set("name", Value.fromString(value));
   }
 
+  get rageAccountId(): string {
+    let value = this.get("rageAccountId");
+    return value.toString();
+  }
+
+  set rageAccountId(value: string) {
+    this.set("rageAccountId", Value.fromString(value));
+  }
+
   get pendingDeposits(): Array<string> {
     let value = this.get("pendingDeposits");
     return value.toStringArray();
@@ -2667,6 +2676,85 @@ export class Vault extends Entity {
 
   set pendingDeposits(value: Array<string>) {
     this.set("pendingDeposits", Value.fromStringArray(value));
+  }
+
+  get totalLiquidityPositionEarningsRealized(): BigDecimal {
+    let value = this.get("totalLiquidityPositionEarningsRealized");
+    return value.toBigDecimal();
+  }
+
+  set totalLiquidityPositionEarningsRealized(value: BigDecimal) {
+    this.set(
+      "totalLiquidityPositionEarningsRealized",
+      Value.fromBigDecimal(value)
+    );
+  }
+
+  get rebalances(): Array<string> {
+    let value = this.get("rebalances");
+    return value.toStringArray();
+  }
+
+  set rebalances(value: Array<string>) {
+    this.set("rebalances", Value.fromStringArray(value));
+  }
+}
+
+export class VaultRebalance extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id !== null, "Cannot save VaultRebalance entity without an ID");
+    assert(
+      id.kind == ValueKind.STRING,
+      "Cannot save VaultRebalance entity with non-string ID. " +
+        'Considering using .toHex() to convert the "id" to a string.'
+    );
+    store.set("VaultRebalance", id.toString(), this);
+  }
+
+  static load(id: string): VaultRebalance | null {
+    return store.get("VaultRebalance", id) as VaultRebalance | null;
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    return value.toString();
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get timestamp(): BigInt {
+    let value = this.get("timestamp");
+    return value.toBigInt();
+  }
+
+  set timestamp(value: BigInt) {
+    this.set("timestamp", Value.fromBigInt(value));
+  }
+
+  get vault(): string {
+    let value = this.get("vault");
+    return value.toString();
+  }
+
+  set vault(value: string) {
+    this.set("vault", Value.fromString(value));
+  }
+
+  get liquidityPositionEarningsRealized(): BigDecimal {
+    let value = this.get("liquidityPositionEarningsRealized");
+    return value.toBigDecimal();
+  }
+
+  set liquidityPositionEarningsRealized(value: BigDecimal) {
+    this.set("liquidityPositionEarningsRealized", Value.fromBigDecimal(value));
   }
 }
 

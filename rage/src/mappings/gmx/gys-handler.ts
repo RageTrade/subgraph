@@ -1,4 +1,5 @@
 import { log } from '@graphprotocol/graph-ts';
+import { Rebalance } from '../../../generated/CurveYieldStrategy/CurveYieldStrategy';
 
 import {
   Deposit,
@@ -6,7 +7,10 @@ import {
   TokenWithdrawn,
   GMXYieldStrategy,
 } from '../../../generated/GMXYieldStrategy/GMXYieldStrategy';
-import { VaultDepositWithdrawEntry } from '../../../generated/schema';
+import {
+  VaultDepositWithdrawEntry,
+  VaultRebalance,
+} from '../../../generated/schema';
 import {
   BigIntToBigDecimal,
   generateId,
@@ -21,6 +25,7 @@ import {
 } from '../../utils/entry-price';
 import { getERC20Token } from '../../utils/getERC20Token';
 import { getVault } from '../../utils/getVault';
+import { getAccountById } from '../clearinghouse/account';
 import { getOwner } from '../clearinghouse/owner';
 
 // GMX Yield Strategy allows to
@@ -369,4 +374,27 @@ export function handleTokenWithdrawn(event: TokenWithdrawn): void {
   );
   owner.save();
   entry.save();
+}
+
+export function handleRebalance(event: Rebalance): void {
+  let vault = getVault(event.address);
+  let account = getAccountById(vault.rageAccountId);
+  let earnings = account.totalLiquidityPositionEarningsRealized.minus(
+    vault.totalLiquidityPositionEarningsRealized
+  );
+  vault.totalLiquidityPositionEarningsRealized =
+    account.totalLiquidityPositionEarningsRealized;
+  vault.save();
+
+  let vr = new VaultRebalance(
+    generateId([
+      vault.id,
+      event.transaction.hash.toHexString(),
+      event.logIndex.toString(),
+    ])
+  );
+  vr.timestamp = event.block.timestamp;
+  vr.liquidityPositionEarningsRealized = earnings;
+  vr.vault = vault.id;
+  vr.save();
 }
