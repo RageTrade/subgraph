@@ -50,6 +50,9 @@ dataSources:
           handler: handleTokenPositionLiquidated
         - event: ProfitUpdated(indexed uint256,int256)
           handler: handleProfitUpdated
+        - event: LiquidityPositionEarningsRealized(indexed uint256,indexed
+            uint32,int24,int24,int256)
+          handler: handleLiquidityPositionEarningsRealized
   - kind: ethereum/contract
     name: CurveYieldStrategy
     network: arbitrum-rinkeby
