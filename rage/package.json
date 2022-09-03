@@ -7,6 +7,7 @@
     "codegen": "graph codegen",
     "auth:arbtest": "graph auth https://thegraph.com/hosted-service/subgraph/fr0ntenddev/rage-trade <add-key-here>",
     "auth:arbmain": "graph auth https://thegraph.com/hosted-service/subgraph/fr0ntenddev/rage-trade-arbitrum-mainnet <add-key-here>",
+    "deploy": "pnpm run deploy:arbmain && pnpm run deploy:arbtest",
     "deploy:arbtest": "pnpm run update:arbtest && graph deploy 134dd3v/ragetrade --ipfs https://api.thegraph.com/ipfs/ --node https://api.thegraph.com/deploy/",
     "deploy:arbmain": "pnpm run update:arbmain && graph deploy 134dd3v/ragetrade-arbmain --ipfs https://api.thegraph.com/ipfs/ --node https://api.thegraph.com/deploy/",
     "build": "graph build",
@@ -14,8 +15,8 @@
     "format": "prettier --check '**/*'",
     "format:fix": "prettier --write '**/*'",
     "update:sdk": "pnpm add @ragetrade/sdk@latest",
-    "update:arbmain": "node update-subgraph.js arbmain",
-    "update:arbtest": "node update-subgraph.js arbtest"
+    "update:arbmain": "node update-subgraph.js arbmain && pnpm run format:fix",
+    "update:arbtest": "node update-subgraph.js arbtest && pnpm run format:fix"
   },
   "devDependencies": {
     "@graphprotocol/graph-cli": "^0.20.0",
