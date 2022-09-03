@@ -7,14 +7,15 @@
     "codegen": "graph codegen",
     "auth:arbtest": "graph auth https://thegraph.com/hosted-service/subgraph/fr0ntenddev/rage-trade <add-key-here>",
     "auth:arbmain": "graph auth https://thegraph.com/hosted-service/subgraph/fr0ntenddev/rage-trade-arbitrum-mainnet <add-key-here>",
-    "deploy:arbtest": "graph deploy 134dd3v/ragetrade --ipfs https://api.thegraph.com/ipfs/ --node https://api.thegraph.com/deploy/",
-    "deploy:arbmain": "pnpm run update:arbmain && graph deploy fr0ntenddev/rage-trade-arbitrum-mainnet --ipfs https://api.thegraph.com/ipfs/ --node https://api.thegraph.com/deploy/",
+    "deploy:arbtest": "pnpm run update:arbtest && graph deploy 134dd3v/ragetrade --ipfs https://api.thegraph.com/ipfs/ --node https://api.thegraph.com/deploy/",
+    "deploy:arbmain": "pnpm run update:arbmain && graph deploy 134dd3v/ragetrade-arbmain --ipfs https://api.thegraph.com/ipfs/ --node https://api.thegraph.com/deploy/",
     "build": "graph build",
     "deploy-local": "graph deploy rage/perpswap-contracts-subgraph --ipfs http://localhost:5001 --node http://127.0.0.1:8020",
     "format": "prettier --check '**/*'",
     "format:fix": "prettier --write '**/*'",
-    "update:arbmain": "pnpm add @ragetrade/sdk@latest && node update-subgraph.js arbmain",
-    "update:arbtest": " node update-subgraph.js arbtest"
+    "update:sdk": "pnpm add @ragetrade/sdk@latest",
+    "update:arbmain": "node update-subgraph.js arbmain",
+    "update:arbtest": "node update-subgraph.js arbtest"
   },
   "devDependencies": {
     "@graphprotocol/graph-cli": "^0.20.0",
