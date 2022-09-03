@@ -7,8 +7,8 @@ import {
   Entity,
   Bytes,
   Address,
-  BigInt
-} from "@graphprotocol/graph-ts";
+  BigInt,
+} from '@graphprotocol/graph-ts';
 
 export class DepositPeriphery extends ethereum.Event {
   get params(): DepositPeriphery__Params {
@@ -152,17 +152,17 @@ export class SwapRouterUpdated__Params {
 
 export class VaultPeriphery extends ethereum.SmartContract {
   static bind(address: Address): VaultPeriphery {
-    return new VaultPeriphery("VaultPeriphery", address);
+    return new VaultPeriphery('VaultPeriphery', address);
   }
 
   MAX_BPS(): BigInt {
-    let result = super.call("MAX_BPS", "MAX_BPS():(uint256)", []);
+    let result = super.call('MAX_BPS', 'MAX_BPS():(uint256)', []);
 
     return result[0].toBigInt();
   }
 
   try_MAX_BPS(): ethereum.CallResult<BigInt> {
-    let result = super.tryCall("MAX_BPS", "MAX_BPS():(uint256)", []);
+    let result = super.tryCall('MAX_BPS', 'MAX_BPS():(uint256)', []);
     if (result.reverted) {
       return new ethereum.CallResult();
     }
@@ -171,15 +171,15 @@ export class VaultPeriphery extends ethereum.SmartContract {
   }
 
   MAX_TOLERANCE(): BigInt {
-    let result = super.call("MAX_TOLERANCE", "MAX_TOLERANCE():(uint256)", []);
+    let result = super.call('MAX_TOLERANCE', 'MAX_TOLERANCE():(uint256)', []);
 
     return result[0].toBigInt();
   }
 
   try_MAX_TOLERANCE(): ethereum.CallResult<BigInt> {
     let result = super.tryCall(
-      "MAX_TOLERANCE",
-      "MAX_TOLERANCE():(uint256)",
+      'MAX_TOLERANCE',
+      'MAX_TOLERANCE():(uint256)',
       []
     );
     if (result.reverted) {
@@ -190,8 +190,8 @@ export class VaultPeriphery extends ethereum.SmartContract {
   }
 
   depositUsdc(amount: BigInt): BigInt {
-    let result = super.call("depositUsdc", "depositUsdc(uint256):(uint256)", [
-      ethereum.Value.fromUnsignedBigInt(amount)
+    let result = super.call('depositUsdc', 'depositUsdc(uint256):(uint256)', [
+      ethereum.Value.fromUnsignedBigInt(amount),
     ]);
 
     return result[0].toBigInt();
@@ -199,8 +199,8 @@ export class VaultPeriphery extends ethereum.SmartContract {
 
   try_depositUsdc(amount: BigInt): ethereum.CallResult<BigInt> {
     let result = super.tryCall(
-      "depositUsdc",
-      "depositUsdc(uint256):(uint256)",
+      'depositUsdc',
+      'depositUsdc(uint256):(uint256)',
       [ethereum.Value.fromUnsignedBigInt(amount)]
     );
     if (result.reverted) {
@@ -211,8 +211,8 @@ export class VaultPeriphery extends ethereum.SmartContract {
   }
 
   depositWeth(amount: BigInt): BigInt {
-    let result = super.call("depositWeth", "depositWeth(uint256):(uint256)", [
-      ethereum.Value.fromUnsignedBigInt(amount)
+    let result = super.call('depositWeth', 'depositWeth(uint256):(uint256)', [
+      ethereum.Value.fromUnsignedBigInt(amount),
     ]);
 
     return result[0].toBigInt();
@@ -220,8 +220,8 @@ export class VaultPeriphery extends ethereum.SmartContract {
 
   try_depositWeth(amount: BigInt): ethereum.CallResult<BigInt> {
     let result = super.tryCall(
-      "depositWeth",
-      "depositWeth(uint256):(uint256)",
+      'depositWeth',
+      'depositWeth(uint256):(uint256)',
       [ethereum.Value.fromUnsignedBigInt(amount)]
     );
     if (result.reverted) {
@@ -232,13 +232,13 @@ export class VaultPeriphery extends ethereum.SmartContract {
   }
 
   lpOracle(): Address {
-    let result = super.call("lpOracle", "lpOracle():(address)", []);
+    let result = super.call('lpOracle', 'lpOracle():(address)', []);
 
     return result[0].toAddress();
   }
 
   try_lpOracle(): ethereum.CallResult<Address> {
-    let result = super.tryCall("lpOracle", "lpOracle():(address)", []);
+    let result = super.tryCall('lpOracle', 'lpOracle():(address)', []);
     if (result.reverted) {
       return new ethereum.CallResult();
     }
@@ -247,13 +247,13 @@ export class VaultPeriphery extends ethereum.SmartContract {
   }
 
   lpToken(): Address {
-    let result = super.call("lpToken", "lpToken():(address)", []);
+    let result = super.call('lpToken', 'lpToken():(address)', []);
 
     return result[0].toAddress();
   }
 
   try_lpToken(): ethereum.CallResult<Address> {
-    let result = super.tryCall("lpToken", "lpToken():(address)", []);
+    let result = super.tryCall('lpToken', 'lpToken():(address)', []);
     if (result.reverted) {
       return new ethereum.CallResult();
     }
@@ -262,13 +262,13 @@ export class VaultPeriphery extends ethereum.SmartContract {
   }
 
   owner(): Address {
-    let result = super.call("owner", "owner():(address)", []);
+    let result = super.call('owner', 'owner():(address)', []);
 
     return result[0].toAddress();
   }
 
   try_owner(): ethereum.CallResult<Address> {
-    let result = super.tryCall("owner", "owner():(address)", []);
+    let result = super.tryCall('owner', 'owner():(address)', []);
     if (result.reverted) {
       return new ethereum.CallResult();
     }
@@ -277,13 +277,13 @@ export class VaultPeriphery extends ethereum.SmartContract {
   }
 
   stableSwap(): Address {
-    let result = super.call("stableSwap", "stableSwap():(address)", []);
+    let result = super.call('stableSwap', 'stableSwap():(address)', []);
 
     return result[0].toAddress();
   }
 
   try_stableSwap(): ethereum.CallResult<Address> {
-    let result = super.tryCall("stableSwap", "stableSwap():(address)", []);
+    let result = super.tryCall('stableSwap', 'stableSwap():(address)', []);
     if (result.reverted) {
       return new ethereum.CallResult();
     }
@@ -292,13 +292,13 @@ export class VaultPeriphery extends ethereum.SmartContract {
   }
 
   swapRouter(): Address {
-    let result = super.call("swapRouter", "swapRouter():(address)", []);
+    let result = super.call('swapRouter', 'swapRouter():(address)', []);
 
     return result[0].toAddress();
   }
 
   try_swapRouter(): ethereum.CallResult<Address> {
-    let result = super.tryCall("swapRouter", "swapRouter():(address)", []);
+    let result = super.tryCall('swapRouter', 'swapRouter():(address)', []);
     if (result.reverted) {
       return new ethereum.CallResult();
     }
@@ -307,13 +307,13 @@ export class VaultPeriphery extends ethereum.SmartContract {
   }
 
   usdc(): Address {
-    let result = super.call("usdc", "usdc():(address)", []);
+    let result = super.call('usdc', 'usdc():(address)', []);
 
     return result[0].toAddress();
   }
 
   try_usdc(): ethereum.CallResult<Address> {
-    let result = super.tryCall("usdc", "usdc():(address)", []);
+    let result = super.tryCall('usdc', 'usdc():(address)', []);
     if (result.reverted) {
       return new ethereum.CallResult();
     }
@@ -322,13 +322,13 @@ export class VaultPeriphery extends ethereum.SmartContract {
   }
 
   usdt(): Address {
-    let result = super.call("usdt", "usdt():(address)", []);
+    let result = super.call('usdt', 'usdt():(address)', []);
 
     return result[0].toAddress();
   }
 
   try_usdt(): ethereum.CallResult<Address> {
-    let result = super.tryCall("usdt", "usdt():(address)", []);
+    let result = super.tryCall('usdt', 'usdt():(address)', []);
     if (result.reverted) {
       return new ethereum.CallResult();
     }
@@ -337,13 +337,13 @@ export class VaultPeriphery extends ethereum.SmartContract {
   }
 
   vault(): Address {
-    let result = super.call("vault", "vault():(address)", []);
+    let result = super.call('vault', 'vault():(address)', []);
 
     return result[0].toAddress();
   }
 
   try_vault(): ethereum.CallResult<Address> {
-    let result = super.tryCall("vault", "vault():(address)", []);
+    let result = super.tryCall('vault', 'vault():(address)', []);
     if (result.reverted) {
       return new ethereum.CallResult();
     }
@@ -352,13 +352,13 @@ export class VaultPeriphery extends ethereum.SmartContract {
   }
 
   weth(): Address {
-    let result = super.call("weth", "weth():(address)", []);
+    let result = super.call('weth', 'weth():(address)', []);
 
     return result[0].toAddress();
   }
 
   try_weth(): ethereum.CallResult<Address> {
-    let result = super.tryCall("weth", "weth():(address)", []);
+    let result = super.tryCall('weth', 'weth():(address)', []);
     if (result.reverted) {
       return new ethereum.CallResult();
     }

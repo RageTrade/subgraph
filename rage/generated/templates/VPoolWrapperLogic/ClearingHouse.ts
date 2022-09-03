@@ -7,8 +7,8 @@ import {
   Entity,
   Bytes,
   Address,
-  BigInt
-} from "@graphprotocol/graph-ts";
+  BigInt,
+} from '@graphprotocol/graph-ts';
 
 export class AccountCreated extends ethereum.Event {
   get params(): AccountCreated__Params {
@@ -697,8 +697,8 @@ export class ClearingHouse__getAccountMarketValueAndRequiredMarginResult {
 
   toMap(): TypedMap<string, ethereum.Value> {
     let map = new TypedMap<string, ethereum.Value>();
-    map.set("value0", ethereum.Value.fromSignedBigInt(this.value0));
-    map.set("value1", ethereum.Value.fromSignedBigInt(this.value1));
+    map.set('value0', ethereum.Value.fromSignedBigInt(this.value0));
+    map.set('value1', ethereum.Value.fromSignedBigInt(this.value1));
     return map;
   }
 }
@@ -724,8 +724,8 @@ export class ClearingHouse__swapTokenResult {
 
   toMap(): TypedMap<string, ethereum.Value> {
     let map = new TypedMap<string, ethereum.Value>();
-    map.set("value0", ethereum.Value.fromSignedBigInt(this.value0));
-    map.set("value1", ethereum.Value.fromSignedBigInt(this.value1));
+    map.set('value0', ethereum.Value.fromSignedBigInt(this.value0));
+    map.set('value1', ethereum.Value.fromSignedBigInt(this.value1));
     return map;
   }
 }
@@ -763,8 +763,8 @@ export class ClearingHouse__updateRangeOrderResult {
 
   toMap(): TypedMap<string, ethereum.Value> {
     let map = new TypedMap<string, ethereum.Value>();
-    map.set("value0", ethereum.Value.fromSignedBigInt(this.value0));
-    map.set("value1", ethereum.Value.fromSignedBigInt(this.value1));
+    map.set('value0', ethereum.Value.fromSignedBigInt(this.value0));
+    map.set('value1', ethereum.Value.fromSignedBigInt(this.value1));
     return map;
   }
 }
@@ -805,19 +805,19 @@ export class ClearingHouse__updateRangeOrderInputLiquidityChangeParamsStruct ext
 
 export class ClearingHouse extends ethereum.SmartContract {
   static bind(address: Address): ClearingHouse {
-    return new ClearingHouse("ClearingHouse", address);
+    return new ClearingHouse('ClearingHouse', address);
   }
 
   createAccount(): BigInt {
-    let result = super.call("createAccount", "createAccount():(uint256)", []);
+    let result = super.call('createAccount', 'createAccount():(uint256)', []);
 
     return result[0].toBigInt();
   }
 
   try_createAccount(): ethereum.CallResult<BigInt> {
     let result = super.tryCall(
-      "createAccount",
-      "createAccount():(uint256)",
+      'createAccount',
+      'createAccount():(uint256)',
       []
     );
     if (result.reverted) {
@@ -829,11 +829,11 @@ export class ClearingHouse extends ethereum.SmartContract {
 
   createAccountAndAddMargin(collateralId: BigInt, amount: BigInt): BigInt {
     let result = super.call(
-      "createAccountAndAddMargin",
-      "createAccountAndAddMargin(uint32,uint256):(uint256)",
+      'createAccountAndAddMargin',
+      'createAccountAndAddMargin(uint32,uint256):(uint256)',
       [
         ethereum.Value.fromUnsignedBigInt(collateralId),
-        ethereum.Value.fromUnsignedBigInt(amount)
+        ethereum.Value.fromUnsignedBigInt(amount),
       ]
     );
 
@@ -845,11 +845,11 @@ export class ClearingHouse extends ethereum.SmartContract {
     amount: BigInt
   ): ethereum.CallResult<BigInt> {
     let result = super.tryCall(
-      "createAccountAndAddMargin",
-      "createAccountAndAddMargin(uint32,uint256):(uint256)",
+      'createAccountAndAddMargin',
+      'createAccountAndAddMargin(uint32,uint256):(uint256)',
       [
         ethereum.Value.fromUnsignedBigInt(collateralId),
-        ethereum.Value.fromUnsignedBigInt(amount)
+        ethereum.Value.fromUnsignedBigInt(amount),
       ]
     );
     if (result.reverted) {
@@ -860,16 +860,16 @@ export class ClearingHouse extends ethereum.SmartContract {
   }
 
   extsload(slot: Bytes): Bytes {
-    let result = super.call("extsload", "extsload(bytes32):(bytes32)", [
-      ethereum.Value.fromFixedBytes(slot)
+    let result = super.call('extsload', 'extsload(bytes32):(bytes32)', [
+      ethereum.Value.fromFixedBytes(slot),
     ]);
 
     return result[0].toBytes();
   }
 
   try_extsload(slot: Bytes): ethereum.CallResult<Bytes> {
-    let result = super.tryCall("extsload", "extsload(bytes32):(bytes32)", [
-      ethereum.Value.fromFixedBytes(slot)
+    let result = super.tryCall('extsload', 'extsload(bytes32):(bytes32)', [
+      ethereum.Value.fromFixedBytes(slot),
     ]);
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -879,16 +879,16 @@ export class ClearingHouse extends ethereum.SmartContract {
   }
 
   extsload1(slots: Array<Bytes>): Array<Bytes> {
-    let result = super.call("extsload", "extsload(bytes32[]):(bytes32[])", [
-      ethereum.Value.fromFixedBytesArray(slots)
+    let result = super.call('extsload', 'extsload(bytes32[]):(bytes32[])', [
+      ethereum.Value.fromFixedBytesArray(slots),
     ]);
 
     return result[0].toBytesArray();
   }
 
   try_extsload1(slots: Array<Bytes>): ethereum.CallResult<Array<Bytes>> {
-    let result = super.tryCall("extsload", "extsload(bytes32[]):(bytes32[])", [
-      ethereum.Value.fromFixedBytesArray(slots)
+    let result = super.tryCall('extsload', 'extsload(bytes32[]):(bytes32[])', [
+      ethereum.Value.fromFixedBytesArray(slots),
     ]);
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -902,11 +902,11 @@ export class ClearingHouse extends ethereum.SmartContract {
     isInitialMargin: boolean
   ): ClearingHouse__getAccountMarketValueAndRequiredMarginResult {
     let result = super.call(
-      "getAccountMarketValueAndRequiredMargin",
-      "getAccountMarketValueAndRequiredMargin(uint256,bool):(int256,int256)",
+      'getAccountMarketValueAndRequiredMargin',
+      'getAccountMarketValueAndRequiredMargin(uint256,bool):(int256,int256)',
       [
         ethereum.Value.fromUnsignedBigInt(accountId),
-        ethereum.Value.fromBoolean(isInitialMargin)
+        ethereum.Value.fromBoolean(isInitialMargin),
       ]
     );
 
@@ -923,11 +923,11 @@ export class ClearingHouse extends ethereum.SmartContract {
     ClearingHouse__getAccountMarketValueAndRequiredMarginResult
   > {
     let result = super.tryCall(
-      "getAccountMarketValueAndRequiredMargin",
-      "getAccountMarketValueAndRequiredMargin(uint256,bool):(int256,int256)",
+      'getAccountMarketValueAndRequiredMargin',
+      'getAccountMarketValueAndRequiredMargin(uint256,bool):(int256,int256)',
       [
         ethereum.Value.fromUnsignedBigInt(accountId),
-        ethereum.Value.fromBoolean(isInitialMargin)
+        ethereum.Value.fromBoolean(isInitialMargin),
       ]
     );
     if (result.reverted) {
@@ -944,8 +944,8 @@ export class ClearingHouse extends ethereum.SmartContract {
 
   getAccountNetProfit(accountId: BigInt): BigInt {
     let result = super.call(
-      "getAccountNetProfit",
-      "getAccountNetProfit(uint256):(int256)",
+      'getAccountNetProfit',
+      'getAccountNetProfit(uint256):(int256)',
       [ethereum.Value.fromUnsignedBigInt(accountId)]
     );
 
@@ -954,8 +954,8 @@ export class ClearingHouse extends ethereum.SmartContract {
 
   try_getAccountNetProfit(accountId: BigInt): ethereum.CallResult<BigInt> {
     let result = super.tryCall(
-      "getAccountNetProfit",
-      "getAccountNetProfit(uint256):(int256)",
+      'getAccountNetProfit',
+      'getAccountNetProfit(uint256):(int256)',
       [ethereum.Value.fromUnsignedBigInt(accountId)]
     );
     if (result.reverted) {
@@ -967,11 +967,11 @@ export class ClearingHouse extends ethereum.SmartContract {
 
   getAccountNetTokenPosition(accountId: BigInt, poolId: BigInt): BigInt {
     let result = super.call(
-      "getAccountNetTokenPosition",
-      "getAccountNetTokenPosition(uint256,uint32):(int256)",
+      'getAccountNetTokenPosition',
+      'getAccountNetTokenPosition(uint256,uint32):(int256)',
       [
         ethereum.Value.fromUnsignedBigInt(accountId),
-        ethereum.Value.fromUnsignedBigInt(poolId)
+        ethereum.Value.fromUnsignedBigInt(poolId),
       ]
     );
 
@@ -983,11 +983,11 @@ export class ClearingHouse extends ethereum.SmartContract {
     poolId: BigInt
   ): ethereum.CallResult<BigInt> {
     let result = super.tryCall(
-      "getAccountNetTokenPosition",
-      "getAccountNetTokenPosition(uint256,uint32):(int256)",
+      'getAccountNetTokenPosition',
+      'getAccountNetTokenPosition(uint256,uint32):(int256)',
       [
         ethereum.Value.fromUnsignedBigInt(accountId),
-        ethereum.Value.fromUnsignedBigInt(poolId)
+        ethereum.Value.fromUnsignedBigInt(poolId),
       ]
     );
     if (result.reverted) {
@@ -999,8 +999,8 @@ export class ClearingHouse extends ethereum.SmartContract {
 
   getRealTwapPriceX128(poolId: BigInt): BigInt {
     let result = super.call(
-      "getRealTwapPriceX128",
-      "getRealTwapPriceX128(uint32):(uint256)",
+      'getRealTwapPriceX128',
+      'getRealTwapPriceX128(uint32):(uint256)',
       [ethereum.Value.fromUnsignedBigInt(poolId)]
     );
 
@@ -1009,8 +1009,8 @@ export class ClearingHouse extends ethereum.SmartContract {
 
   try_getRealTwapPriceX128(poolId: BigInt): ethereum.CallResult<BigInt> {
     let result = super.tryCall(
-      "getRealTwapPriceX128",
-      "getRealTwapPriceX128(uint32):(uint256)",
+      'getRealTwapPriceX128',
+      'getRealTwapPriceX128(uint32):(uint256)',
       [ethereum.Value.fromUnsignedBigInt(poolId)]
     );
     if (result.reverted) {
@@ -1022,8 +1022,8 @@ export class ClearingHouse extends ethereum.SmartContract {
 
   getVirtualTwapPriceX128(poolId: BigInt): BigInt {
     let result = super.call(
-      "getVirtualTwapPriceX128",
-      "getVirtualTwapPriceX128(uint32):(uint256)",
+      'getVirtualTwapPriceX128',
+      'getVirtualTwapPriceX128(uint32):(uint256)',
       [ethereum.Value.fromUnsignedBigInt(poolId)]
     );
 
@@ -1032,8 +1032,8 @@ export class ClearingHouse extends ethereum.SmartContract {
 
   try_getVirtualTwapPriceX128(poolId: BigInt): ethereum.CallResult<BigInt> {
     let result = super.tryCall(
-      "getVirtualTwapPriceX128",
-      "getVirtualTwapPriceX128(uint32):(uint256)",
+      'getVirtualTwapPriceX128',
+      'getVirtualTwapPriceX128(uint32):(uint256)',
       [ethereum.Value.fromUnsignedBigInt(poolId)]
     );
     if (result.reverted) {
@@ -1044,13 +1044,13 @@ export class ClearingHouse extends ethereum.SmartContract {
   }
 
   governance(): Address {
-    let result = super.call("governance", "governance():(address)", []);
+    let result = super.call('governance', 'governance():(address)', []);
 
     return result[0].toAddress();
   }
 
   try_governance(): ethereum.CallResult<Address> {
-    let result = super.tryCall("governance", "governance():(address)", []);
+    let result = super.tryCall('governance', 'governance():(address)', []);
     if (result.reverted) {
       return new ethereum.CallResult();
     }
@@ -1060,8 +1060,8 @@ export class ClearingHouse extends ethereum.SmartContract {
 
   governancePending(): Address {
     let result = super.call(
-      "governancePending",
-      "governancePending():(address)",
+      'governancePending',
+      'governancePending():(address)',
       []
     );
 
@@ -1070,8 +1070,8 @@ export class ClearingHouse extends ethereum.SmartContract {
 
   try_governancePending(): ethereum.CallResult<Address> {
     let result = super.tryCall(
-      "governancePending",
-      "governancePending():(address)",
+      'governancePending',
+      'governancePending():(address)',
       []
     );
     if (result.reverted) {
@@ -1082,15 +1082,15 @@ export class ClearingHouse extends ethereum.SmartContract {
   }
 
   insuranceFund(): Address {
-    let result = super.call("insuranceFund", "insuranceFund():(address)", []);
+    let result = super.call('insuranceFund', 'insuranceFund():(address)', []);
 
     return result[0].toAddress();
   }
 
   try_insuranceFund(): ethereum.CallResult<Address> {
     let result = super.tryCall(
-      "insuranceFund",
-      "insuranceFund():(address)",
+      'insuranceFund',
+      'insuranceFund():(address)',
       []
     );
     if (result.reverted) {
@@ -1102,11 +1102,11 @@ export class ClearingHouse extends ethereum.SmartContract {
 
   liquidateTokenPosition(targetAccountId: BigInt, poolId: BigInt): BigInt {
     let result = super.call(
-      "liquidateTokenPosition",
-      "liquidateTokenPosition(uint256,uint32):(int256)",
+      'liquidateTokenPosition',
+      'liquidateTokenPosition(uint256,uint32):(int256)',
       [
         ethereum.Value.fromUnsignedBigInt(targetAccountId),
-        ethereum.Value.fromUnsignedBigInt(poolId)
+        ethereum.Value.fromUnsignedBigInt(poolId),
       ]
     );
 
@@ -1118,11 +1118,11 @@ export class ClearingHouse extends ethereum.SmartContract {
     poolId: BigInt
   ): ethereum.CallResult<BigInt> {
     let result = super.tryCall(
-      "liquidateTokenPosition",
-      "liquidateTokenPosition(uint256,uint32):(int256)",
+      'liquidateTokenPosition',
+      'liquidateTokenPosition(uint256,uint32):(int256)',
       [
         ethereum.Value.fromUnsignedBigInt(targetAccountId),
-        ethereum.Value.fromUnsignedBigInt(poolId)
+        ethereum.Value.fromUnsignedBigInt(poolId),
       ]
     );
     if (result.reverted) {
@@ -1139,11 +1139,11 @@ export class ClearingHouse extends ethereum.SmartContract {
     >
   ): Array<Bytes> {
     let result = super.call(
-      "multicallWithSingleMarginCheck",
-      "multicallWithSingleMarginCheck(uint256,(uint8,bytes)[]):(bytes[])",
+      'multicallWithSingleMarginCheck',
+      'multicallWithSingleMarginCheck(uint256,(uint8,bytes)[]):(bytes[])',
       [
         ethereum.Value.fromUnsignedBigInt(accountId),
-        ethereum.Value.fromTupleArray(operations)
+        ethereum.Value.fromTupleArray(operations),
       ]
     );
 
@@ -1157,11 +1157,11 @@ export class ClearingHouse extends ethereum.SmartContract {
     >
   ): ethereum.CallResult<Array<Bytes>> {
     let result = super.tryCall(
-      "multicallWithSingleMarginCheck",
-      "multicallWithSingleMarginCheck(uint256,(uint8,bytes)[]):(bytes[])",
+      'multicallWithSingleMarginCheck',
+      'multicallWithSingleMarginCheck(uint256,(uint8,bytes)[]):(bytes[])',
       [
         ethereum.Value.fromUnsignedBigInt(accountId),
-        ethereum.Value.fromTupleArray(operations)
+        ethereum.Value.fromTupleArray(operations),
       ]
     );
     if (result.reverted) {
@@ -1172,13 +1172,13 @@ export class ClearingHouse extends ethereum.SmartContract {
   }
 
   numAccounts(): BigInt {
-    let result = super.call("numAccounts", "numAccounts():(uint256)", []);
+    let result = super.call('numAccounts', 'numAccounts():(uint256)', []);
 
     return result[0].toBigInt();
   }
 
   try_numAccounts(): ethereum.CallResult<BigInt> {
-    let result = super.tryCall("numAccounts", "numAccounts():(uint256)", []);
+    let result = super.tryCall('numAccounts', 'numAccounts():(uint256)', []);
     if (result.reverted) {
       return new ethereum.CallResult();
     }
@@ -1187,13 +1187,13 @@ export class ClearingHouse extends ethereum.SmartContract {
   }
 
   paused(): boolean {
-    let result = super.call("paused", "paused():(bool)", []);
+    let result = super.call('paused', 'paused():(bool)', []);
 
     return result[0].toBoolean();
   }
 
   try_paused(): ethereum.CallResult<boolean> {
-    let result = super.tryCall("paused", "paused():(bool)", []);
+    let result = super.tryCall('paused', 'paused():(bool)', []);
     if (result.reverted) {
       return new ethereum.CallResult();
     }
@@ -1203,8 +1203,8 @@ export class ClearingHouse extends ethereum.SmartContract {
 
   rageTradeFactoryAddress(): Address {
     let result = super.call(
-      "rageTradeFactoryAddress",
-      "rageTradeFactoryAddress():(address)",
+      'rageTradeFactoryAddress',
+      'rageTradeFactoryAddress():(address)',
       []
     );
 
@@ -1213,8 +1213,8 @@ export class ClearingHouse extends ethereum.SmartContract {
 
   try_rageTradeFactoryAddress(): ethereum.CallResult<Address> {
     let result = super.tryCall(
-      "rageTradeFactoryAddress",
-      "rageTradeFactoryAddress():(address)",
+      'rageTradeFactoryAddress',
+      'rageTradeFactoryAddress():(address)',
       []
     );
     if (result.reverted) {
@@ -1230,12 +1230,12 @@ export class ClearingHouse extends ethereum.SmartContract {
     swapParams: ClearingHouse__swapTokenInputSwapParamsStruct
   ): ClearingHouse__swapTokenResult {
     let result = super.call(
-      "swapToken",
-      "swapToken(uint256,uint32,(int256,uint160,bool,bool,bool)):(int256,int256)",
+      'swapToken',
+      'swapToken(uint256,uint32,(int256,uint160,bool,bool,bool)):(int256,int256)',
       [
         ethereum.Value.fromUnsignedBigInt(accountId),
         ethereum.Value.fromUnsignedBigInt(poolId),
-        ethereum.Value.fromTuple(swapParams)
+        ethereum.Value.fromTuple(swapParams),
       ]
     );
 
@@ -1251,12 +1251,12 @@ export class ClearingHouse extends ethereum.SmartContract {
     swapParams: ClearingHouse__swapTokenInputSwapParamsStruct
   ): ethereum.CallResult<ClearingHouse__swapTokenResult> {
     let result = super.tryCall(
-      "swapToken",
-      "swapToken(uint256,uint32,(int256,uint160,bool,bool,bool)):(int256,int256)",
+      'swapToken',
+      'swapToken(uint256,uint32,(int256,uint160,bool,bool,bool)):(int256,int256)',
       [
         ethereum.Value.fromUnsignedBigInt(accountId),
         ethereum.Value.fromUnsignedBigInt(poolId),
-        ethereum.Value.fromTuple(swapParams)
+        ethereum.Value.fromTuple(swapParams),
       ]
     );
     if (result.reverted) {
@@ -1272,13 +1272,13 @@ export class ClearingHouse extends ethereum.SmartContract {
   }
 
   teamMultisig(): Address {
-    let result = super.call("teamMultisig", "teamMultisig():(address)", []);
+    let result = super.call('teamMultisig', 'teamMultisig():(address)', []);
 
     return result[0].toAddress();
   }
 
   try_teamMultisig(): ethereum.CallResult<Address> {
-    let result = super.tryCall("teamMultisig", "teamMultisig():(address)", []);
+    let result = super.tryCall('teamMultisig', 'teamMultisig():(address)', []);
     if (result.reverted) {
       return new ethereum.CallResult();
     }
@@ -1288,8 +1288,8 @@ export class ClearingHouse extends ethereum.SmartContract {
 
   teamMultisigPending(): Address {
     let result = super.call(
-      "teamMultisigPending",
-      "teamMultisigPending():(address)",
+      'teamMultisigPending',
+      'teamMultisigPending():(address)',
       []
     );
 
@@ -1298,8 +1298,8 @@ export class ClearingHouse extends ethereum.SmartContract {
 
   try_teamMultisigPending(): ethereum.CallResult<Address> {
     let result = super.tryCall(
-      "teamMultisigPending",
-      "teamMultisigPending():(address)",
+      'teamMultisigPending',
+      'teamMultisigPending():(address)',
       []
     );
     if (result.reverted) {
@@ -1315,12 +1315,12 @@ export class ClearingHouse extends ethereum.SmartContract {
     liquidityChangeParams: ClearingHouse__updateRangeOrderInputLiquidityChangeParamsStruct
   ): ClearingHouse__updateRangeOrderResult {
     let result = super.call(
-      "updateRangeOrder",
-      "updateRangeOrder(uint256,uint32,(int24,int24,int128,uint160,uint16,bool,uint8,bool)):(int256,int256)",
+      'updateRangeOrder',
+      'updateRangeOrder(uint256,uint32,(int24,int24,int128,uint160,uint16,bool,uint8,bool)):(int256,int256)',
       [
         ethereum.Value.fromUnsignedBigInt(accountId),
         ethereum.Value.fromUnsignedBigInt(poolId),
-        ethereum.Value.fromTuple(liquidityChangeParams)
+        ethereum.Value.fromTuple(liquidityChangeParams),
       ]
     );
 
@@ -1336,12 +1336,12 @@ export class ClearingHouse extends ethereum.SmartContract {
     liquidityChangeParams: ClearingHouse__updateRangeOrderInputLiquidityChangeParamsStruct
   ): ethereum.CallResult<ClearingHouse__updateRangeOrderResult> {
     let result = super.tryCall(
-      "updateRangeOrder",
-      "updateRangeOrder(uint256,uint32,(int24,int24,int128,uint160,uint16,bool,uint8,bool)):(int256,int256)",
+      'updateRangeOrder',
+      'updateRangeOrder(uint256,uint32,(int24,int24,int128,uint160,uint16,bool,uint8,bool)):(int256,int256)',
       [
         ethereum.Value.fromUnsignedBigInt(accountId),
         ethereum.Value.fromUnsignedBigInt(poolId),
-        ethereum.Value.fromTuple(liquidityChangeParams)
+        ethereum.Value.fromTuple(liquidityChangeParams),
       ]
     );
     if (result.reverted) {

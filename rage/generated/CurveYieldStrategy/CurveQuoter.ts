@@ -7,22 +7,22 @@ import {
   Entity,
   Bytes,
   Address,
-  BigInt
-} from "@graphprotocol/graph-ts";
+  BigInt,
+} from '@graphprotocol/graph-ts';
 
 export class CurveQuoter extends ethereum.SmartContract {
   static bind(address: Address): CurveQuoter {
-    return new CurveQuoter("CurveQuoter", address);
+    return new CurveQuoter('CurveQuoter', address);
   }
 
   lp_price(): BigInt {
-    let result = super.call("lp_price", "lp_price():(uint256)", []);
+    let result = super.call('lp_price', 'lp_price():(uint256)', []);
 
     return result[0].toBigInt();
   }
 
   try_lp_price(): ethereum.CallResult<BigInt> {
-    let result = super.tryCall("lp_price", "lp_price():(uint256)", []);
+    let result = super.tryCall('lp_price', 'lp_price():(uint256)', []);
     if (result.reverted) {
       return new ethereum.CallResult();
     }

@@ -7,8 +7,8 @@ import {
   Entity,
   Bytes,
   Address,
-  BigInt
-} from "@graphprotocol/graph-ts";
+  BigInt,
+} from '@graphprotocol/graph-ts';
 
 export class GovernancePending extends ethereum.Event {
   get params(): GovernancePending__Params {
@@ -126,19 +126,19 @@ export class TeamMultisigTransferred__Params {
 
 export class RageTradeFactory extends ethereum.SmartContract {
   static bind(address: Address): RageTradeFactory {
-    return new RageTradeFactory("RageTradeFactory", address);
+    return new RageTradeFactory('RageTradeFactory', address);
   }
 
   clearingHouse(): Address {
-    let result = super.call("clearingHouse", "clearingHouse():(address)", []);
+    let result = super.call('clearingHouse', 'clearingHouse():(address)', []);
 
     return result[0].toAddress();
   }
 
   try_clearingHouse(): ethereum.CallResult<Address> {
     let result = super.tryCall(
-      "clearingHouse",
-      "clearingHouse():(address)",
+      'clearingHouse',
+      'clearingHouse():(address)',
       []
     );
     if (result.reverted) {
@@ -149,13 +149,13 @@ export class RageTradeFactory extends ethereum.SmartContract {
   }
 
   governance(): Address {
-    let result = super.call("governance", "governance():(address)", []);
+    let result = super.call('governance', 'governance():(address)', []);
 
     return result[0].toAddress();
   }
 
   try_governance(): ethereum.CallResult<Address> {
-    let result = super.tryCall("governance", "governance():(address)", []);
+    let result = super.tryCall('governance', 'governance():(address)', []);
     if (result.reverted) {
       return new ethereum.CallResult();
     }
@@ -165,8 +165,8 @@ export class RageTradeFactory extends ethereum.SmartContract {
 
   governancePending(): Address {
     let result = super.call(
-      "governancePending",
-      "governancePending():(address)",
+      'governancePending',
+      'governancePending():(address)',
       []
     );
 
@@ -175,8 +175,8 @@ export class RageTradeFactory extends ethereum.SmartContract {
 
   try_governancePending(): ethereum.CallResult<Address> {
     let result = super.tryCall(
-      "governancePending",
-      "governancePending():(address)",
+      'governancePending',
+      'governancePending():(address)',
       []
     );
     if (result.reverted) {
@@ -187,13 +187,13 @@ export class RageTradeFactory extends ethereum.SmartContract {
   }
 
   proxyAdmin(): Address {
-    let result = super.call("proxyAdmin", "proxyAdmin():(address)", []);
+    let result = super.call('proxyAdmin', 'proxyAdmin():(address)', []);
 
     return result[0].toAddress();
   }
 
   try_proxyAdmin(): ethereum.CallResult<Address> {
-    let result = super.tryCall("proxyAdmin", "proxyAdmin():(address)", []);
+    let result = super.tryCall('proxyAdmin', 'proxyAdmin():(address)', []);
     if (result.reverted) {
       return new ethereum.CallResult();
     }
@@ -202,13 +202,13 @@ export class RageTradeFactory extends ethereum.SmartContract {
   }
 
   teamMultisig(): Address {
-    let result = super.call("teamMultisig", "teamMultisig():(address)", []);
+    let result = super.call('teamMultisig', 'teamMultisig():(address)', []);
 
     return result[0].toAddress();
   }
 
   try_teamMultisig(): ethereum.CallResult<Address> {
-    let result = super.tryCall("teamMultisig", "teamMultisig():(address)", []);
+    let result = super.tryCall('teamMultisig', 'teamMultisig():(address)', []);
     if (result.reverted) {
       return new ethereum.CallResult();
     }
@@ -218,8 +218,8 @@ export class RageTradeFactory extends ethereum.SmartContract {
 
   teamMultisigPending(): Address {
     let result = super.call(
-      "teamMultisigPending",
-      "teamMultisigPending():(address)",
+      'teamMultisigPending',
+      'teamMultisigPending():(address)',
       []
     );
 
@@ -228,8 +228,8 @@ export class RageTradeFactory extends ethereum.SmartContract {
 
   try_teamMultisigPending(): ethereum.CallResult<Address> {
     let result = super.tryCall(
-      "teamMultisigPending",
-      "teamMultisigPending():(address)",
+      'teamMultisigPending',
+      'teamMultisigPending():(address)',
       []
     );
     if (result.reverted) {
@@ -241,8 +241,8 @@ export class RageTradeFactory extends ethereum.SmartContract {
 
   vPoolWrapperLogicAddress(): Address {
     let result = super.call(
-      "vPoolWrapperLogicAddress",
-      "vPoolWrapperLogicAddress():(address)",
+      'vPoolWrapperLogicAddress',
+      'vPoolWrapperLogicAddress():(address)',
       []
     );
 
@@ -251,8 +251,8 @@ export class RageTradeFactory extends ethereum.SmartContract {
 
   try_vPoolWrapperLogicAddress(): ethereum.CallResult<Address> {
     let result = super.tryCall(
-      "vPoolWrapperLogicAddress",
-      "vPoolWrapperLogicAddress():(address)",
+      'vPoolWrapperLogicAddress',
+      'vPoolWrapperLogicAddress():(address)',
       []
     );
     if (result.reverted) {
@@ -263,13 +263,13 @@ export class RageTradeFactory extends ethereum.SmartContract {
   }
 
   vQuote(): Address {
-    let result = super.call("vQuote", "vQuote():(address)", []);
+    let result = super.call('vQuote', 'vQuote():(address)', []);
 
     return result[0].toAddress();
   }
 
   try_vQuote(): ethereum.CallResult<Address> {
-    let result = super.tryCall("vQuote", "vQuote():(address)", []);
+    let result = super.tryCall('vQuote', 'vQuote():(address)', []);
     if (result.reverted) {
       return new ethereum.CallResult();
     }

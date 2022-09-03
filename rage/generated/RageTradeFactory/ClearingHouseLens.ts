@@ -7,8 +7,8 @@ import {
   Entity,
   Bytes,
   Address,
-  BigInt
-} from "@graphprotocol/graph-ts";
+  BigInt,
+} from '@graphprotocol/graph-ts';
 
 export class ClearingHouseLens__getAccountCollateralInfoResult {
   value0: Address;
@@ -21,8 +21,8 @@ export class ClearingHouseLens__getAccountCollateralInfoResult {
 
   toMap(): TypedMap<string, ethereum.Value> {
     let map = new TypedMap<string, ethereum.Value>();
-    map.set("value0", ethereum.Value.fromAddress(this.value0));
-    map.set("value1", ethereum.Value.fromUnsignedBigInt(this.value1));
+    map.set('value0', ethereum.Value.fromAddress(this.value0));
+    map.set('value1', ethereum.Value.fromUnsignedBigInt(this.value1));
     return map;
   }
 }
@@ -47,10 +47,10 @@ export class ClearingHouseLens__getAccountInfoResult {
 
   toMap(): TypedMap<string, ethereum.Value> {
     let map = new TypedMap<string, ethereum.Value>();
-    map.set("value0", ethereum.Value.fromAddress(this.value0));
-    map.set("value1", ethereum.Value.fromSignedBigInt(this.value1));
-    map.set("value2", ethereum.Value.fromUnsignedBigIntArray(this.value2));
-    map.set("value3", ethereum.Value.fromUnsignedBigIntArray(this.value3));
+    map.set('value0', ethereum.Value.fromAddress(this.value0));
+    map.set('value1', ethereum.Value.fromSignedBigInt(this.value1));
+    map.set('value2', ethereum.Value.fromUnsignedBigIntArray(this.value2));
+    map.set('value3', ethereum.Value.fromUnsignedBigIntArray(this.value3));
     return map;
   }
 }
@@ -85,15 +85,15 @@ export class ClearingHouseLens__getAccountLiquidityPositionInfoResult {
   toMap(): TypedMap<string, ethereum.Value> {
     let map = new TypedMap<string, ethereum.Value>();
     map.set(
-      "value0",
+      'value0',
       ethereum.Value.fromUnsignedBigInt(BigInt.fromI32(this.value0))
     );
-    map.set("value1", ethereum.Value.fromUnsignedBigInt(this.value1));
-    map.set("value2", ethereum.Value.fromSignedBigInt(this.value2));
-    map.set("value3", ethereum.Value.fromSignedBigInt(this.value3));
-    map.set("value4", ethereum.Value.fromSignedBigInt(this.value4));
-    map.set("value5", ethereum.Value.fromSignedBigInt(this.value5));
-    map.set("value6", ethereum.Value.fromUnsignedBigInt(this.value6));
+    map.set('value1', ethereum.Value.fromUnsignedBigInt(this.value1));
+    map.set('value2', ethereum.Value.fromSignedBigInt(this.value2));
+    map.set('value3', ethereum.Value.fromSignedBigInt(this.value3));
+    map.set('value4', ethereum.Value.fromSignedBigInt(this.value4));
+    map.set('value5', ethereum.Value.fromSignedBigInt(this.value5));
+    map.set('value6', ethereum.Value.fromUnsignedBigInt(this.value6));
     return map;
   }
 }
@@ -142,10 +142,10 @@ export class ClearingHouseLens__getAccountPositionInfoResult {
 
   toMap(): TypedMap<string, ethereum.Value> {
     let map = new TypedMap<string, ethereum.Value>();
-    map.set("value0", ethereum.Value.fromSignedBigInt(this.value0));
-    map.set("value1", ethereum.Value.fromSignedBigInt(this.value1));
-    map.set("value2", ethereum.Value.fromSignedBigInt(this.value2));
-    map.set("value3", ethereum.Value.fromTupleArray(this.value3));
+    map.set('value0', ethereum.Value.fromSignedBigInt(this.value0));
+    map.set('value1', ethereum.Value.fromSignedBigInt(this.value1));
+    map.set('value2', ethereum.Value.fromSignedBigInt(this.value2));
+    map.set('value3', ethereum.Value.fromTupleArray(this.value3));
     return map;
   }
 }
@@ -163,9 +163,9 @@ export class ClearingHouseLens__getAccountTokenPositionInfoResult {
 
   toMap(): TypedMap<string, ethereum.Value> {
     let map = new TypedMap<string, ethereum.Value>();
-    map.set("value0", ethereum.Value.fromSignedBigInt(this.value0));
-    map.set("value1", ethereum.Value.fromSignedBigInt(this.value1));
-    map.set("value2", ethereum.Value.fromSignedBigInt(this.value2));
+    map.set('value0', ethereum.Value.fromSignedBigInt(this.value0));
+    map.set('value1', ethereum.Value.fromSignedBigInt(this.value1));
+    map.set('value2', ethereum.Value.fromSignedBigInt(this.value2));
     return map;
   }
 }
@@ -332,12 +332,12 @@ export class ClearingHouseLens__getProtocolInfoResult {
 
   toMap(): TypedMap<string, ethereum.Value> {
     let map = new TypedMap<string, ethereum.Value>();
-    map.set("value0", ethereum.Value.fromAddress(this.value0));
-    map.set("value1", ethereum.Value.fromAddress(this.value1));
-    map.set("value2", ethereum.Value.fromTuple(this.value2));
-    map.set("value3", ethereum.Value.fromUnsignedBigInt(this.value3));
-    map.set("value4", ethereum.Value.fromUnsignedBigInt(this.value4));
-    map.set("value5", ethereum.Value.fromUnsignedBigInt(this.value5));
+    map.set('value0', ethereum.Value.fromAddress(this.value0));
+    map.set('value1', ethereum.Value.fromAddress(this.value1));
+    map.set('value2', ethereum.Value.fromTuple(this.value2));
+    map.set('value3', ethereum.Value.fromUnsignedBigInt(this.value3));
+    map.set('value4', ethereum.Value.fromUnsignedBigInt(this.value4));
+    map.set('value5', ethereum.Value.fromUnsignedBigInt(this.value5));
     return map;
   }
 }
@@ -353,27 +353,27 @@ export class ClearingHouseLens__getVPoolAndTwapDurationResult {
 
   toMap(): TypedMap<string, ethereum.Value> {
     let map = new TypedMap<string, ethereum.Value>();
-    map.set("value0", ethereum.Value.fromAddress(this.value0));
-    map.set("value1", ethereum.Value.fromUnsignedBigInt(this.value1));
+    map.set('value0', ethereum.Value.fromAddress(this.value0));
+    map.set('value1', ethereum.Value.fromUnsignedBigInt(this.value1));
     return map;
   }
 }
 
 export class ClearingHouseLens extends ethereum.SmartContract {
   static bind(address: Address): ClearingHouseLens {
-    return new ClearingHouseLens("ClearingHouseLens", address);
+    return new ClearingHouseLens('ClearingHouseLens', address);
   }
 
   clearingHouse(): Address {
-    let result = super.call("clearingHouse", "clearingHouse():(address)", []);
+    let result = super.call('clearingHouse', 'clearingHouse():(address)', []);
 
     return result[0].toAddress();
   }
 
   try_clearingHouse(): ethereum.CallResult<Address> {
     let result = super.tryCall(
-      "clearingHouse",
-      "clearingHouse():(address)",
+      'clearingHouse',
+      'clearingHouse():(address)',
       []
     );
     if (result.reverted) {
@@ -385,11 +385,11 @@ export class ClearingHouseLens extends ethereum.SmartContract {
 
   getAccountCollateralBalance(accountId: BigInt, collateralId: BigInt): BigInt {
     let result = super.call(
-      "getAccountCollateralBalance",
-      "getAccountCollateralBalance(uint256,uint32):(uint256)",
+      'getAccountCollateralBalance',
+      'getAccountCollateralBalance(uint256,uint32):(uint256)',
       [
         ethereum.Value.fromUnsignedBigInt(accountId),
-        ethereum.Value.fromUnsignedBigInt(collateralId)
+        ethereum.Value.fromUnsignedBigInt(collateralId),
       ]
     );
 
@@ -401,11 +401,11 @@ export class ClearingHouseLens extends ethereum.SmartContract {
     collateralId: BigInt
   ): ethereum.CallResult<BigInt> {
     let result = super.tryCall(
-      "getAccountCollateralBalance",
-      "getAccountCollateralBalance(uint256,uint32):(uint256)",
+      'getAccountCollateralBalance',
+      'getAccountCollateralBalance(uint256,uint32):(uint256)',
       [
         ethereum.Value.fromUnsignedBigInt(accountId),
-        ethereum.Value.fromUnsignedBigInt(collateralId)
+        ethereum.Value.fromUnsignedBigInt(collateralId),
       ]
     );
     if (result.reverted) {
@@ -420,11 +420,11 @@ export class ClearingHouseLens extends ethereum.SmartContract {
     collateralId: BigInt
   ): ClearingHouseLens__getAccountCollateralInfoResult {
     let result = super.call(
-      "getAccountCollateralInfo",
-      "getAccountCollateralInfo(uint256,uint32):(address,uint256)",
+      'getAccountCollateralInfo',
+      'getAccountCollateralInfo(uint256,uint32):(address,uint256)',
       [
         ethereum.Value.fromUnsignedBigInt(accountId),
-        ethereum.Value.fromUnsignedBigInt(collateralId)
+        ethereum.Value.fromUnsignedBigInt(collateralId),
       ]
     );
 
@@ -439,11 +439,11 @@ export class ClearingHouseLens extends ethereum.SmartContract {
     collateralId: BigInt
   ): ethereum.CallResult<ClearingHouseLens__getAccountCollateralInfoResult> {
     let result = super.tryCall(
-      "getAccountCollateralInfo",
-      "getAccountCollateralInfo(uint256,uint32):(address,uint256)",
+      'getAccountCollateralInfo',
+      'getAccountCollateralInfo(uint256,uint32):(address,uint256)',
       [
         ethereum.Value.fromUnsignedBigInt(accountId),
-        ethereum.Value.fromUnsignedBigInt(collateralId)
+        ethereum.Value.fromUnsignedBigInt(collateralId),
       ]
     );
     if (result.reverted) {
@@ -460,8 +460,8 @@ export class ClearingHouseLens extends ethereum.SmartContract {
 
   getAccountInfo(accountId: BigInt): ClearingHouseLens__getAccountInfoResult {
     let result = super.call(
-      "getAccountInfo",
-      "getAccountInfo(uint256):(address,int256,uint32[],uint32[])",
+      'getAccountInfo',
+      'getAccountInfo(uint256):(address,int256,uint32[],uint32[])',
       [ethereum.Value.fromUnsignedBigInt(accountId)]
     );
 
@@ -477,8 +477,8 @@ export class ClearingHouseLens extends ethereum.SmartContract {
     accountId: BigInt
   ): ethereum.CallResult<ClearingHouseLens__getAccountInfoResult> {
     let result = super.tryCall(
-      "getAccountInfo",
-      "getAccountInfo(uint256):(address,int256,uint32[],uint32[])",
+      'getAccountInfo',
+      'getAccountInfo(uint256):(address,int256,uint32[],uint32[])',
       [ethereum.Value.fromUnsignedBigInt(accountId)]
     );
     if (result.reverted) {
@@ -502,13 +502,13 @@ export class ClearingHouseLens extends ethereum.SmartContract {
     tickUpper: i32
   ): ClearingHouseLens__getAccountLiquidityPositionInfoResult {
     let result = super.call(
-      "getAccountLiquidityPositionInfo",
-      "getAccountLiquidityPositionInfo(uint256,uint32,int24,int24):(uint8,uint128,int256,int256,int256,int256,uint256)",
+      'getAccountLiquidityPositionInfo',
+      'getAccountLiquidityPositionInfo(uint256,uint32,int24,int24):(uint8,uint128,int256,int256,int256,int256,uint256)',
       [
         ethereum.Value.fromUnsignedBigInt(accountId),
         ethereum.Value.fromUnsignedBigInt(poolId),
         ethereum.Value.fromI32(tickLower),
-        ethereum.Value.fromI32(tickUpper)
+        ethereum.Value.fromI32(tickUpper),
       ]
     );
 
@@ -532,13 +532,13 @@ export class ClearingHouseLens extends ethereum.SmartContract {
     ClearingHouseLens__getAccountLiquidityPositionInfoResult
   > {
     let result = super.tryCall(
-      "getAccountLiquidityPositionInfo",
-      "getAccountLiquidityPositionInfo(uint256,uint32,int24,int24):(uint8,uint128,int256,int256,int256,int256,uint256)",
+      'getAccountLiquidityPositionInfo',
+      'getAccountLiquidityPositionInfo(uint256,uint32,int24,int24):(uint8,uint128,int256,int256,int256,int256,uint256)',
       [
         ethereum.Value.fromUnsignedBigInt(accountId),
         ethereum.Value.fromUnsignedBigInt(poolId),
         ethereum.Value.fromI32(tickLower),
-        ethereum.Value.fromI32(tickUpper)
+        ethereum.Value.fromI32(tickUpper),
       ]
     );
     if (result.reverted) {
@@ -565,11 +565,11 @@ export class ClearingHouseLens extends ethereum.SmartContract {
     ClearingHouseLens__getAccountLiquidityPositionListResultActiveTickRangesStruct
   > {
     let result = super.call(
-      "getAccountLiquidityPositionList",
-      "getAccountLiquidityPositionList(uint256,uint32):((int24,int24)[])",
+      'getAccountLiquidityPositionList',
+      'getAccountLiquidityPositionList(uint256,uint32):((int24,int24)[])',
       [
         ethereum.Value.fromUnsignedBigInt(accountId),
-        ethereum.Value.fromUnsignedBigInt(poolId)
+        ethereum.Value.fromUnsignedBigInt(poolId),
       ]
     );
 
@@ -587,11 +587,11 @@ export class ClearingHouseLens extends ethereum.SmartContract {
     >
   > {
     let result = super.tryCall(
-      "getAccountLiquidityPositionList",
-      "getAccountLiquidityPositionList(uint256,uint32):((int24,int24)[])",
+      'getAccountLiquidityPositionList',
+      'getAccountLiquidityPositionList(uint256,uint32):((int24,int24)[])',
       [
         ethereum.Value.fromUnsignedBigInt(accountId),
-        ethereum.Value.fromUnsignedBigInt(poolId)
+        ethereum.Value.fromUnsignedBigInt(poolId),
       ]
     );
     if (result.reverted) {
@@ -610,11 +610,11 @@ export class ClearingHouseLens extends ethereum.SmartContract {
     poolId: BigInt
   ): ClearingHouseLens__getAccountPositionInfoResult {
     let result = super.call(
-      "getAccountPositionInfo",
-      "getAccountPositionInfo(uint256,uint32):(int256,int256,int256,(int24,int24)[])",
+      'getAccountPositionInfo',
+      'getAccountPositionInfo(uint256,uint32):(int256,int256,int256,(int24,int24)[])',
       [
         ethereum.Value.fromUnsignedBigInt(accountId),
-        ethereum.Value.fromUnsignedBigInt(poolId)
+        ethereum.Value.fromUnsignedBigInt(poolId),
       ]
     );
 
@@ -633,11 +633,11 @@ export class ClearingHouseLens extends ethereum.SmartContract {
     poolId: BigInt
   ): ethereum.CallResult<ClearingHouseLens__getAccountPositionInfoResult> {
     let result = super.tryCall(
-      "getAccountPositionInfo",
-      "getAccountPositionInfo(uint256,uint32):(int256,int256,int256,(int24,int24)[])",
+      'getAccountPositionInfo',
+      'getAccountPositionInfo(uint256,uint32):(int256,int256,int256,(int24,int24)[])',
       [
         ethereum.Value.fromUnsignedBigInt(accountId),
-        ethereum.Value.fromUnsignedBigInt(poolId)
+        ethereum.Value.fromUnsignedBigInt(poolId),
       ]
     );
     if (result.reverted) {
@@ -661,11 +661,11 @@ export class ClearingHouseLens extends ethereum.SmartContract {
     poolId: BigInt
   ): ClearingHouseLens__getAccountTokenPositionInfoResult {
     let result = super.call(
-      "getAccountTokenPositionInfo",
-      "getAccountTokenPositionInfo(uint256,uint32):(int256,int256,int256)",
+      'getAccountTokenPositionInfo',
+      'getAccountTokenPositionInfo(uint256,uint32):(int256,int256,int256)',
       [
         ethereum.Value.fromUnsignedBigInt(accountId),
-        ethereum.Value.fromUnsignedBigInt(poolId)
+        ethereum.Value.fromUnsignedBigInt(poolId),
       ]
     );
 
@@ -681,11 +681,11 @@ export class ClearingHouseLens extends ethereum.SmartContract {
     poolId: BigInt
   ): ethereum.CallResult<ClearingHouseLens__getAccountTokenPositionInfoResult> {
     let result = super.tryCall(
-      "getAccountTokenPositionInfo",
-      "getAccountTokenPositionInfo(uint256,uint32):(int256,int256,int256)",
+      'getAccountTokenPositionInfo',
+      'getAccountTokenPositionInfo(uint256,uint32):(int256,int256,int256)',
       [
         ethereum.Value.fromUnsignedBigInt(accountId),
-        ethereum.Value.fromUnsignedBigInt(poolId)
+        ethereum.Value.fromUnsignedBigInt(poolId),
       ]
     );
     if (result.reverted) {
@@ -705,8 +705,8 @@ export class ClearingHouseLens extends ethereum.SmartContract {
     collateralId: BigInt
   ): ClearingHouseLens__getCollateralInfoResultValue0Struct {
     let result = super.call(
-      "getCollateralInfo",
-      "getCollateralInfo(uint32):((address,(address,uint32,bool)))",
+      'getCollateralInfo',
+      'getCollateralInfo(uint32):((address,(address,uint32,bool)))',
       [ethereum.Value.fromUnsignedBigInt(collateralId)]
     );
 
@@ -719,8 +719,8 @@ export class ClearingHouseLens extends ethereum.SmartContract {
     ClearingHouseLens__getCollateralInfoResultValue0Struct
   > {
     let result = super.tryCall(
-      "getCollateralInfo",
-      "getCollateralInfo(uint32):((address,(address,uint32,bool)))",
+      'getCollateralInfo',
+      'getCollateralInfo(uint32):((address,(address,uint32,bool)))',
       [ethereum.Value.fromUnsignedBigInt(collateralId)]
     );
     if (result.reverted) {
@@ -734,8 +734,8 @@ export class ClearingHouseLens extends ethereum.SmartContract {
 
   getPoolInfo(poolId: BigInt): ClearingHouseLens__getPoolInfoResultPoolStruct {
     let result = super.call(
-      "getPoolInfo",
-      "getPoolInfo(uint32):((address,address,address,(uint16,uint16,uint16,uint32,bool,bool,address)))",
+      'getPoolInfo',
+      'getPoolInfo(uint32):((address,address,address,(uint16,uint16,uint16,uint32,bool,bool,address)))',
       [ethereum.Value.fromUnsignedBigInt(poolId)]
     );
 
@@ -746,8 +746,8 @@ export class ClearingHouseLens extends ethereum.SmartContract {
     poolId: BigInt
   ): ethereum.CallResult<ClearingHouseLens__getPoolInfoResultPoolStruct> {
     let result = super.tryCall(
-      "getPoolInfo",
-      "getPoolInfo(uint32):((address,address,address,(uint16,uint16,uint16,uint32,bool,bool,address)))",
+      'getPoolInfo',
+      'getPoolInfo(uint32):((address,address,address,(uint16,uint16,uint16,uint32,bool,bool,address)))',
       [ethereum.Value.fromUnsignedBigInt(poolId)]
     );
     if (result.reverted) {
@@ -763,8 +763,8 @@ export class ClearingHouseLens extends ethereum.SmartContract {
     poolId: BigInt
   ): ClearingHouseLens__getPoolSettingsResultSettingsStruct {
     let result = super.call(
-      "getPoolSettings",
-      "getPoolSettings(uint32):((uint16,uint16,uint16,uint32,bool,bool,address))",
+      'getPoolSettings',
+      'getPoolSettings(uint32):((uint16,uint16,uint16,uint32,bool,bool,address))',
       [ethereum.Value.fromUnsignedBigInt(poolId)]
     );
 
@@ -777,8 +777,8 @@ export class ClearingHouseLens extends ethereum.SmartContract {
     ClearingHouseLens__getPoolSettingsResultSettingsStruct
   > {
     let result = super.tryCall(
-      "getPoolSettings",
-      "getPoolSettings(uint32):((uint16,uint16,uint16,uint32,bool,bool,address))",
+      'getPoolSettings',
+      'getPoolSettings(uint32):((uint16,uint16,uint16,uint32,bool,bool,address))',
       [ethereum.Value.fromUnsignedBigInt(poolId)]
     );
     if (result.reverted) {
@@ -792,8 +792,8 @@ export class ClearingHouseLens extends ethereum.SmartContract {
 
   getProtocolInfo(): ClearingHouseLens__getProtocolInfoResult {
     let result = super.call(
-      "getProtocolInfo",
-      "getProtocolInfo():(address,address,(uint16,uint16,uint16,uint16,uint16,uint16,uint64,uint64),uint256,uint256,uint256)",
+      'getProtocolInfo',
+      'getProtocolInfo():(address,address,(uint16,uint16,uint16,uint16,uint16,uint16,uint64,uint64),uint256,uint256,uint256)',
       []
     );
 
@@ -811,8 +811,8 @@ export class ClearingHouseLens extends ethereum.SmartContract {
     ClearingHouseLens__getProtocolInfoResult
   > {
     let result = super.tryCall(
-      "getProtocolInfo",
-      "getProtocolInfo():(address,address,(uint16,uint16,uint16,uint16,uint16,uint16,uint64,uint64),uint256,uint256,uint256)",
+      'getProtocolInfo',
+      'getProtocolInfo():(address,address,(uint16,uint16,uint16,uint16,uint16,uint16,uint64,uint64),uint256,uint256,uint256)',
       []
     );
     if (result.reverted) {
@@ -833,8 +833,8 @@ export class ClearingHouseLens extends ethereum.SmartContract {
 
   getTwapDuration(poolId: BigInt): BigInt {
     let result = super.call(
-      "getTwapDuration",
-      "getTwapDuration(uint32):(uint32)",
+      'getTwapDuration',
+      'getTwapDuration(uint32):(uint32)',
       [ethereum.Value.fromUnsignedBigInt(poolId)]
     );
 
@@ -843,8 +843,8 @@ export class ClearingHouseLens extends ethereum.SmartContract {
 
   try_getTwapDuration(poolId: BigInt): ethereum.CallResult<BigInt> {
     let result = super.tryCall(
-      "getTwapDuration",
-      "getTwapDuration(uint32):(uint32)",
+      'getTwapDuration',
+      'getTwapDuration(uint32):(uint32)',
       [ethereum.Value.fromUnsignedBigInt(poolId)]
     );
     if (result.reverted) {
@@ -855,16 +855,16 @@ export class ClearingHouseLens extends ethereum.SmartContract {
   }
 
   getVPool(poolId: BigInt): Address {
-    let result = super.call("getVPool", "getVPool(uint32):(address)", [
-      ethereum.Value.fromUnsignedBigInt(poolId)
+    let result = super.call('getVPool', 'getVPool(uint32):(address)', [
+      ethereum.Value.fromUnsignedBigInt(poolId),
     ]);
 
     return result[0].toAddress();
   }
 
   try_getVPool(poolId: BigInt): ethereum.CallResult<Address> {
-    let result = super.tryCall("getVPool", "getVPool(uint32):(address)", [
-      ethereum.Value.fromUnsignedBigInt(poolId)
+    let result = super.tryCall('getVPool', 'getVPool(uint32):(address)', [
+      ethereum.Value.fromUnsignedBigInt(poolId),
     ]);
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -877,8 +877,8 @@ export class ClearingHouseLens extends ethereum.SmartContract {
     poolId: BigInt
   ): ClearingHouseLens__getVPoolAndTwapDurationResult {
     let result = super.call(
-      "getVPoolAndTwapDuration",
-      "getVPoolAndTwapDuration(uint32):(address,uint32)",
+      'getVPoolAndTwapDuration',
+      'getVPoolAndTwapDuration(uint32):(address,uint32)',
       [ethereum.Value.fromUnsignedBigInt(poolId)]
     );
 
@@ -892,8 +892,8 @@ export class ClearingHouseLens extends ethereum.SmartContract {
     poolId: BigInt
   ): ethereum.CallResult<ClearingHouseLens__getVPoolAndTwapDurationResult> {
     let result = super.tryCall(
-      "getVPoolAndTwapDuration",
-      "getVPoolAndTwapDuration(uint32):(address,uint32)",
+      'getVPoolAndTwapDuration',
+      'getVPoolAndTwapDuration(uint32):(address,uint32)',
       [ethereum.Value.fromUnsignedBigInt(poolId)]
     );
     if (result.reverted) {
@@ -910,8 +910,8 @@ export class ClearingHouseLens extends ethereum.SmartContract {
 
   isPoolIdAvailable(poolId: BigInt): boolean {
     let result = super.call(
-      "isPoolIdAvailable",
-      "isPoolIdAvailable(uint32):(bool)",
+      'isPoolIdAvailable',
+      'isPoolIdAvailable(uint32):(bool)',
       [ethereum.Value.fromUnsignedBigInt(poolId)]
     );
 
@@ -920,8 +920,8 @@ export class ClearingHouseLens extends ethereum.SmartContract {
 
   try_isPoolIdAvailable(poolId: BigInt): ethereum.CallResult<boolean> {
     let result = super.tryCall(
-      "isPoolIdAvailable",
-      "isPoolIdAvailable(uint32):(bool)",
+      'isPoolIdAvailable',
+      'isPoolIdAvailable(uint32):(bool)',
       [ethereum.Value.fromUnsignedBigInt(poolId)]
     );
     if (result.reverted) {

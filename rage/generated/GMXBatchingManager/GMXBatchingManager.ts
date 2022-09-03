@@ -7,8 +7,8 @@ import {
   Entity,
   Bytes,
   Address,
-  BigInt
-} from "@graphprotocol/graph-ts";
+  BigInt,
+} from '@graphprotocol/graph-ts';
 
 export class BatchDeposit extends ethereum.Event {
   get params(): BatchDeposit__Params {
@@ -261,20 +261,20 @@ export class GMXBatchingManager__vaultBatchingStateResult {
 
   toMap(): TypedMap<string, ethereum.Value> {
     let map = new TypedMap<string, ethereum.Value>();
-    map.set("value0", ethereum.Value.fromUnsignedBigInt(this.value0));
-    map.set("value1", ethereum.Value.fromUnsignedBigInt(this.value1));
+    map.set('value0', ethereum.Value.fromUnsignedBigInt(this.value0));
+    map.set('value1', ethereum.Value.fromUnsignedBigInt(this.value1));
     return map;
   }
 }
 
 export class GMXBatchingManager extends ethereum.SmartContract {
   static bind(address: Address): GMXBatchingManager {
-    return new GMXBatchingManager("GMXBatchingManager", address);
+    return new GMXBatchingManager('GMXBatchingManager', address);
   }
 
   currentRound(vault: Address): BigInt {
-    let result = super.call("currentRound", "currentRound(address):(uint256)", [
-      ethereum.Value.fromAddress(vault)
+    let result = super.call('currentRound', 'currentRound(address):(uint256)', [
+      ethereum.Value.fromAddress(vault),
     ]);
 
     return result[0].toBigInt();
@@ -282,8 +282,8 @@ export class GMXBatchingManager extends ethereum.SmartContract {
 
   try_currentRound(vault: Address): ethereum.CallResult<BigInt> {
     let result = super.tryCall(
-      "currentRound",
-      "currentRound(address):(uint256)",
+      'currentRound',
+      'currentRound(address):(uint256)',
       [ethereum.Value.fromAddress(vault)]
     );
     if (result.reverted) {
@@ -295,12 +295,12 @@ export class GMXBatchingManager extends ethereum.SmartContract {
 
   depositToken(token: Address, amount: BigInt, minUSDG: BigInt): BigInt {
     let result = super.call(
-      "depositToken",
-      "depositToken(address,uint256,uint256):(uint256)",
+      'depositToken',
+      'depositToken(address,uint256,uint256):(uint256)',
       [
         ethereum.Value.fromAddress(token),
         ethereum.Value.fromUnsignedBigInt(amount),
-        ethereum.Value.fromUnsignedBigInt(minUSDG)
+        ethereum.Value.fromUnsignedBigInt(minUSDG),
       ]
     );
 
@@ -313,12 +313,12 @@ export class GMXBatchingManager extends ethereum.SmartContract {
     minUSDG: BigInt
   ): ethereum.CallResult<BigInt> {
     let result = super.tryCall(
-      "depositToken",
-      "depositToken(address,uint256,uint256):(uint256)",
+      'depositToken',
+      'depositToken(address,uint256,uint256):(uint256)',
       [
         ethereum.Value.fromAddress(token),
         ethereum.Value.fromUnsignedBigInt(amount),
-        ethereum.Value.fromUnsignedBigInt(minUSDG)
+        ethereum.Value.fromUnsignedBigInt(minUSDG),
       ]
     );
     if (result.reverted) {
@@ -336,14 +336,14 @@ export class GMXBatchingManager extends ethereum.SmartContract {
     receiver: Address
   ): BigInt {
     let result = super.call(
-      "depositToken",
-      "depositToken(address,address,uint256,uint256,address):(uint256)",
+      'depositToken',
+      'depositToken(address,address,uint256,uint256,address):(uint256)',
       [
         ethereum.Value.fromAddress(gmxVault),
         ethereum.Value.fromAddress(token),
         ethereum.Value.fromUnsignedBigInt(amount),
         ethereum.Value.fromUnsignedBigInt(minUSDG),
-        ethereum.Value.fromAddress(receiver)
+        ethereum.Value.fromAddress(receiver),
       ]
     );
 
@@ -358,14 +358,14 @@ export class GMXBatchingManager extends ethereum.SmartContract {
     receiver: Address
   ): ethereum.CallResult<BigInt> {
     let result = super.tryCall(
-      "depositToken",
-      "depositToken(address,address,uint256,uint256,address):(uint256)",
+      'depositToken',
+      'depositToken(address,address,uint256,uint256,address):(uint256)',
       [
         ethereum.Value.fromAddress(gmxVault),
         ethereum.Value.fromAddress(token),
         ethereum.Value.fromUnsignedBigInt(amount),
         ethereum.Value.fromUnsignedBigInt(minUSDG),
-        ethereum.Value.fromAddress(receiver)
+        ethereum.Value.fromAddress(receiver),
       ]
     );
     if (result.reverted) {
@@ -377,11 +377,11 @@ export class GMXBatchingManager extends ethereum.SmartContract {
 
   glpBalance(gmxVault: Address, account: Address): BigInt {
     let result = super.call(
-      "glpBalance",
-      "glpBalance(address,address):(uint256)",
+      'glpBalance',
+      'glpBalance(address,address):(uint256)',
       [
         ethereum.Value.fromAddress(gmxVault),
-        ethereum.Value.fromAddress(account)
+        ethereum.Value.fromAddress(account),
       ]
     );
 
@@ -393,11 +393,11 @@ export class GMXBatchingManager extends ethereum.SmartContract {
     account: Address
   ): ethereum.CallResult<BigInt> {
     let result = super.tryCall(
-      "glpBalance",
-      "glpBalance(address,address):(uint256)",
+      'glpBalance',
+      'glpBalance(address,address):(uint256)',
       [
         ethereum.Value.fromAddress(gmxVault),
-        ethereum.Value.fromAddress(account)
+        ethereum.Value.fromAddress(account),
       ]
     );
     if (result.reverted) {
@@ -409,8 +409,8 @@ export class GMXBatchingManager extends ethereum.SmartContract {
 
   glpBalanceAllVaults(account: Address): BigInt {
     let result = super.call(
-      "glpBalanceAllVaults",
-      "glpBalanceAllVaults(address):(uint256)",
+      'glpBalanceAllVaults',
+      'glpBalanceAllVaults(address):(uint256)',
       [ethereum.Value.fromAddress(account)]
     );
 
@@ -419,8 +419,8 @@ export class GMXBatchingManager extends ethereum.SmartContract {
 
   try_glpBalanceAllVaults(account: Address): ethereum.CallResult<BigInt> {
     let result = super.tryCall(
-      "glpBalanceAllVaults",
-      "glpBalanceAllVaults(address):(uint256)",
+      'glpBalanceAllVaults',
+      'glpBalanceAllVaults(address):(uint256)',
       [ethereum.Value.fromAddress(account)]
     );
     if (result.reverted) {
@@ -431,16 +431,16 @@ export class GMXBatchingManager extends ethereum.SmartContract {
   }
 
   isVaultValid(vault: Address): boolean {
-    let result = super.call("isVaultValid", "isVaultValid(address):(bool)", [
-      ethereum.Value.fromAddress(vault)
+    let result = super.call('isVaultValid', 'isVaultValid(address):(bool)', [
+      ethereum.Value.fromAddress(vault),
     ]);
 
     return result[0].toBoolean();
   }
 
   try_isVaultValid(vault: Address): ethereum.CallResult<boolean> {
-    let result = super.tryCall("isVaultValid", "isVaultValid(address):(bool)", [
-      ethereum.Value.fromAddress(vault)
+    let result = super.tryCall('isVaultValid', 'isVaultValid(address):(bool)', [
+      ethereum.Value.fromAddress(vault),
     ]);
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -450,13 +450,13 @@ export class GMXBatchingManager extends ethereum.SmartContract {
   }
 
   keeper(): Address {
-    let result = super.call("keeper", "keeper():(address)", []);
+    let result = super.call('keeper', 'keeper():(address)', []);
 
     return result[0].toAddress();
   }
 
   try_keeper(): ethereum.CallResult<Address> {
-    let result = super.tryCall("keeper", "keeper():(address)", []);
+    let result = super.tryCall('keeper', 'keeper():(address)', []);
     if (result.reverted) {
       return new ethereum.CallResult();
     }
@@ -465,13 +465,13 @@ export class GMXBatchingManager extends ethereum.SmartContract {
   }
 
   owner(): Address {
-    let result = super.call("owner", "owner():(address)", []);
+    let result = super.call('owner', 'owner():(address)', []);
 
     return result[0].toAddress();
   }
 
   try_owner(): ethereum.CallResult<Address> {
-    let result = super.tryCall("owner", "owner():(address)", []);
+    let result = super.tryCall('owner', 'owner():(address)', []);
     if (result.reverted) {
       return new ethereum.CallResult();
     }
@@ -480,13 +480,13 @@ export class GMXBatchingManager extends ethereum.SmartContract {
   }
 
   paused(): boolean {
-    let result = super.call("paused", "paused():(bool)", []);
+    let result = super.call('paused', 'paused():(bool)', []);
 
     return result[0].toBoolean();
   }
 
   try_paused(): ethereum.CallResult<boolean> {
-    let result = super.tryCall("paused", "paused():(bool)", []);
+    let result = super.tryCall('paused', 'paused():(bool)', []);
     if (result.reverted) {
       return new ethereum.CallResult();
     }
@@ -499,11 +499,11 @@ export class GMXBatchingManager extends ethereum.SmartContract {
     round: BigInt
   ): GMXBatchingManager__roundDepositsResultValue0Struct {
     let result = super.call(
-      "roundDeposits",
-      "roundDeposits(address,uint256):((uint128,uint128))",
+      'roundDeposits',
+      'roundDeposits(address,uint256):((uint128,uint128))',
       [
         ethereum.Value.fromAddress(vault),
-        ethereum.Value.fromUnsignedBigInt(round)
+        ethereum.Value.fromUnsignedBigInt(round),
       ]
     );
 
@@ -515,11 +515,11 @@ export class GMXBatchingManager extends ethereum.SmartContract {
     round: BigInt
   ): ethereum.CallResult<GMXBatchingManager__roundDepositsResultValue0Struct> {
     let result = super.tryCall(
-      "roundDeposits",
-      "roundDeposits(address,uint256):((uint128,uint128))",
+      'roundDeposits',
+      'roundDeposits(address,uint256):((uint128,uint128))',
       [
         ethereum.Value.fromAddress(vault),
-        ethereum.Value.fromUnsignedBigInt(round)
+        ethereum.Value.fromUnsignedBigInt(round),
       ]
     );
     if (result.reverted) {
@@ -533,8 +533,8 @@ export class GMXBatchingManager extends ethereum.SmartContract {
 
   roundGlpBalance(vault: Address): BigInt {
     let result = super.call(
-      "roundGlpBalance",
-      "roundGlpBalance(address):(uint256)",
+      'roundGlpBalance',
+      'roundGlpBalance(address):(uint256)',
       [ethereum.Value.fromAddress(vault)]
     );
 
@@ -543,8 +543,8 @@ export class GMXBatchingManager extends ethereum.SmartContract {
 
   try_roundGlpBalance(vault: Address): ethereum.CallResult<BigInt> {
     let result = super.tryCall(
-      "roundGlpBalance",
-      "roundGlpBalance(address):(uint256)",
+      'roundGlpBalance',
+      'roundGlpBalance(address):(uint256)',
       [ethereum.Value.fromAddress(vault)]
     );
     if (result.reverted) {
@@ -555,15 +555,15 @@ export class GMXBatchingManager extends ethereum.SmartContract {
   }
 
   stakingManager(): Address {
-    let result = super.call("stakingManager", "stakingManager():(address)", []);
+    let result = super.call('stakingManager', 'stakingManager():(address)', []);
 
     return result[0].toAddress();
   }
 
   try_stakingManager(): ethereum.CallResult<Address> {
     let result = super.tryCall(
-      "stakingManager",
-      "stakingManager():(address)",
+      'stakingManager',
+      'stakingManager():(address)',
       []
     );
     if (result.reverted) {
@@ -575,8 +575,8 @@ export class GMXBatchingManager extends ethereum.SmartContract {
 
   stakingManagerGlpBalance(): BigInt {
     let result = super.call(
-      "stakingManagerGlpBalance",
-      "stakingManagerGlpBalance():(uint256)",
+      'stakingManagerGlpBalance',
+      'stakingManagerGlpBalance():(uint256)',
       []
     );
 
@@ -585,8 +585,8 @@ export class GMXBatchingManager extends ethereum.SmartContract {
 
   try_stakingManagerGlpBalance(): ethereum.CallResult<BigInt> {
     let result = super.tryCall(
-      "stakingManagerGlpBalance",
-      "stakingManagerGlpBalance():(uint256)",
+      'stakingManagerGlpBalance',
+      'stakingManagerGlpBalance():(uint256)',
       []
     );
     if (result.reverted) {
@@ -598,11 +598,11 @@ export class GMXBatchingManager extends ethereum.SmartContract {
 
   unclaimedShares(gmxVault: Address, account: Address): BigInt {
     let result = super.call(
-      "unclaimedShares",
-      "unclaimedShares(address,address):(uint256)",
+      'unclaimedShares',
+      'unclaimedShares(address,address):(uint256)',
       [
         ethereum.Value.fromAddress(gmxVault),
-        ethereum.Value.fromAddress(account)
+        ethereum.Value.fromAddress(account),
       ]
     );
 
@@ -614,11 +614,11 @@ export class GMXBatchingManager extends ethereum.SmartContract {
     account: Address
   ): ethereum.CallResult<BigInt> {
     let result = super.tryCall(
-      "unclaimedShares",
-      "unclaimedShares(address,address):(uint256)",
+      'unclaimedShares',
+      'unclaimedShares(address,address):(uint256)',
       [
         ethereum.Value.fromAddress(gmxVault),
-        ethereum.Value.fromAddress(account)
+        ethereum.Value.fromAddress(account),
       ]
     );
     if (result.reverted) {
@@ -633,8 +633,8 @@ export class GMXBatchingManager extends ethereum.SmartContract {
     account: Address
   ): GMXBatchingManager__userDepositsResultValue0Struct {
     let result = super.call(
-      "userDeposits",
-      "userDeposits(address,address):((uint256,uint128,uint128))",
+      'userDeposits',
+      'userDeposits(address,address):((uint256,uint128,uint128))',
       [ethereum.Value.fromAddress(vault), ethereum.Value.fromAddress(account)]
     );
 
@@ -646,8 +646,8 @@ export class GMXBatchingManager extends ethereum.SmartContract {
     account: Address
   ): ethereum.CallResult<GMXBatchingManager__userDepositsResultValue0Struct> {
     let result = super.tryCall(
-      "userDeposits",
-      "userDeposits(address,address):((uint256,uint128,uint128))",
+      'userDeposits',
+      'userDeposits(address,address):((uint256,uint128,uint128))',
       [ethereum.Value.fromAddress(vault), ethereum.Value.fromAddress(account)]
     );
     if (result.reverted) {
@@ -663,8 +663,8 @@ export class GMXBatchingManager extends ethereum.SmartContract {
     param0: Address
   ): GMXBatchingManager__vaultBatchingStateResult {
     let result = super.call(
-      "vaultBatchingState",
-      "vaultBatchingState(address):(uint256,uint256)",
+      'vaultBatchingState',
+      'vaultBatchingState(address):(uint256,uint256)',
       [ethereum.Value.fromAddress(param0)]
     );
 
@@ -678,8 +678,8 @@ export class GMXBatchingManager extends ethereum.SmartContract {
     param0: Address
   ): ethereum.CallResult<GMXBatchingManager__vaultBatchingStateResult> {
     let result = super.tryCall(
-      "vaultBatchingState",
-      "vaultBatchingState(address):(uint256,uint256)",
+      'vaultBatchingState',
+      'vaultBatchingState(address):(uint256,uint256)',
       [ethereum.Value.fromAddress(param0)]
     );
     if (result.reverted) {
@@ -695,13 +695,13 @@ export class GMXBatchingManager extends ethereum.SmartContract {
   }
 
   vaultCount(): i32 {
-    let result = super.call("vaultCount", "vaultCount():(uint16)", []);
+    let result = super.call('vaultCount', 'vaultCount():(uint16)', []);
 
     return result[0].toI32();
   }
 
   try_vaultCount(): ethereum.CallResult<i32> {
-    let result = super.tryCall("vaultCount", "vaultCount():(uint16)", []);
+    let result = super.tryCall('vaultCount', 'vaultCount():(uint16)', []);
     if (result.reverted) {
       return new ethereum.CallResult();
     }
@@ -710,16 +710,16 @@ export class GMXBatchingManager extends ethereum.SmartContract {
   }
 
   vaults(param0: BigInt): Address {
-    let result = super.call("vaults", "vaults(uint256):(address)", [
-      ethereum.Value.fromUnsignedBigInt(param0)
+    let result = super.call('vaults', 'vaults(uint256):(address)', [
+      ethereum.Value.fromUnsignedBigInt(param0),
     ]);
 
     return result[0].toAddress();
   }
 
   try_vaults(param0: BigInt): ethereum.CallResult<Address> {
-    let result = super.tryCall("vaults", "vaults(uint256):(address)", [
-      ethereum.Value.fromUnsignedBigInt(param0)
+    let result = super.tryCall('vaults', 'vaults(uint256):(address)', [
+      ethereum.Value.fromUnsignedBigInt(param0),
     ]);
     if (result.reverted) {
       return new ethereum.CallResult();

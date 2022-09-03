@@ -29,11 +29,11 @@ export function getTokenPosition(
     tokenPosition.tokenPositionChangeEntriesCount = ZERO_BI;
     tokenPosition.fundingPaymentRealizedEntriesCount = ZERO_BI;
     tokenPosition.tokenPositionLiquidatedEntriesCount = ZERO_BI;
-    
+
     // will get overridden in handleTokenPositionFundingPaymentRealized
-    tokenPosition.lastFundingPaymentRealizedEntry = "dummy_id";
+    tokenPosition.lastFundingPaymentRealizedEntry = 'dummy_id';
     // will get overridden in handleTokenPositionChanged
-    tokenPosition.lastTokenPositionChangeEntry = "dummy_id";
+    tokenPosition.lastTokenPositionChangeEntry = 'dummy_id';
     tokenPosition.sumAX128CheckPoint = ZERO_BI;
 
     tokenPosition.buyVQuoteAmount = ZERO_BD;
@@ -45,7 +45,7 @@ export function getTokenPosition(
     tokenPosition.entryValue = ZERO_BD;
     tokenPosition.entryPrice = ZERO_BD;
     tokenPosition.openPositionEntries = new Array<string>(0);
-    
+
     tokenPosition.save();
   }
 

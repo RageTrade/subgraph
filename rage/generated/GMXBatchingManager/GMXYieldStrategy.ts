@@ -7,8 +7,8 @@ import {
   Entity,
   Bytes,
   Address,
-  BigInt
-} from "@graphprotocol/graph-ts";
+  BigInt,
+} from '@graphprotocol/graph-ts';
 
 export class Approval extends ethereum.Event {
   get params(): Approval__Params {
@@ -462,17 +462,17 @@ export class TokenPositionClosed__Params {
 
 export class GMXYieldStrategy extends ethereum.SmartContract {
   static bind(address: Address): GMXYieldStrategy {
-    return new GMXYieldStrategy("GMXYieldStrategy", address);
+    return new GMXYieldStrategy('GMXYieldStrategy', address);
   }
 
   MAX_BPS(): i32 {
-    let result = super.call("MAX_BPS", "MAX_BPS():(uint16)", []);
+    let result = super.call('MAX_BPS', 'MAX_BPS():(uint16)', []);
 
     return result[0].toI32();
   }
 
   try_MAX_BPS(): ethereum.CallResult<i32> {
-    let result = super.tryCall("MAX_BPS", "MAX_BPS():(uint16)", []);
+    let result = super.tryCall('MAX_BPS', 'MAX_BPS():(uint16)', []);
     if (result.reverted) {
       return new ethereum.CallResult();
     }
@@ -482,8 +482,8 @@ export class GMXYieldStrategy extends ethereum.SmartContract {
 
   allowance(owner: Address, spender: Address): BigInt {
     let result = super.call(
-      "allowance",
-      "allowance(address,address):(uint256)",
+      'allowance',
+      'allowance(address,address):(uint256)',
       [ethereum.Value.fromAddress(owner), ethereum.Value.fromAddress(spender)]
     );
 
@@ -492,8 +492,8 @@ export class GMXYieldStrategy extends ethereum.SmartContract {
 
   try_allowance(owner: Address, spender: Address): ethereum.CallResult<BigInt> {
     let result = super.tryCall(
-      "allowance",
-      "allowance(address,address):(uint256)",
+      'allowance',
+      'allowance(address,address):(uint256)',
       [ethereum.Value.fromAddress(owner), ethereum.Value.fromAddress(spender)]
     );
     if (result.reverted) {
@@ -504,18 +504,18 @@ export class GMXYieldStrategy extends ethereum.SmartContract {
   }
 
   approve(spender: Address, amount: BigInt): boolean {
-    let result = super.call("approve", "approve(address,uint256):(bool)", [
+    let result = super.call('approve', 'approve(address,uint256):(bool)', [
       ethereum.Value.fromAddress(spender),
-      ethereum.Value.fromUnsignedBigInt(amount)
+      ethereum.Value.fromUnsignedBigInt(amount),
     ]);
 
     return result[0].toBoolean();
   }
 
   try_approve(spender: Address, amount: BigInt): ethereum.CallResult<boolean> {
-    let result = super.tryCall("approve", "approve(address,uint256):(bool)", [
+    let result = super.tryCall('approve', 'approve(address,uint256):(bool)', [
       ethereum.Value.fromAddress(spender),
-      ethereum.Value.fromUnsignedBigInt(amount)
+      ethereum.Value.fromUnsignedBigInt(amount),
     ]);
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -525,13 +525,13 @@ export class GMXYieldStrategy extends ethereum.SmartContract {
   }
 
   asset(): Address {
-    let result = super.call("asset", "asset():(address)", []);
+    let result = super.call('asset', 'asset():(address)', []);
 
     return result[0].toAddress();
   }
 
   try_asset(): ethereum.CallResult<Address> {
-    let result = super.tryCall("asset", "asset():(address)", []);
+    let result = super.tryCall('asset', 'asset():(address)', []);
     if (result.reverted) {
       return new ethereum.CallResult();
     }
@@ -540,16 +540,16 @@ export class GMXYieldStrategy extends ethereum.SmartContract {
   }
 
   balanceOf(account: Address): BigInt {
-    let result = super.call("balanceOf", "balanceOf(address):(uint256)", [
-      ethereum.Value.fromAddress(account)
+    let result = super.call('balanceOf', 'balanceOf(address):(uint256)', [
+      ethereum.Value.fromAddress(account),
     ]);
 
     return result[0].toBigInt();
   }
 
   try_balanceOf(account: Address): ethereum.CallResult<BigInt> {
-    let result = super.tryCall("balanceOf", "balanceOf(address):(uint256)", [
-      ethereum.Value.fromAddress(account)
+    let result = super.tryCall('balanceOf', 'balanceOf(address):(uint256)', [
+      ethereum.Value.fromAddress(account),
     ]);
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -559,15 +559,15 @@ export class GMXYieldStrategy extends ethereum.SmartContract {
   }
 
   baseLiquidity(): BigInt {
-    let result = super.call("baseLiquidity", "baseLiquidity():(uint128)", []);
+    let result = super.call('baseLiquidity', 'baseLiquidity():(uint128)', []);
 
     return result[0].toBigInt();
   }
 
   try_baseLiquidity(): ethereum.CallResult<BigInt> {
     let result = super.tryCall(
-      "baseLiquidity",
-      "baseLiquidity():(uint128)",
+      'baseLiquidity',
+      'baseLiquidity():(uint128)',
       []
     );
     if (result.reverted) {
@@ -578,13 +578,13 @@ export class GMXYieldStrategy extends ethereum.SmartContract {
   }
 
   baseTickLower(): i32 {
-    let result = super.call("baseTickLower", "baseTickLower():(int24)", []);
+    let result = super.call('baseTickLower', 'baseTickLower():(int24)', []);
 
     return result[0].toI32();
   }
 
   try_baseTickLower(): ethereum.CallResult<i32> {
-    let result = super.tryCall("baseTickLower", "baseTickLower():(int24)", []);
+    let result = super.tryCall('baseTickLower', 'baseTickLower():(int24)', []);
     if (result.reverted) {
       return new ethereum.CallResult();
     }
@@ -593,13 +593,13 @@ export class GMXYieldStrategy extends ethereum.SmartContract {
   }
 
   baseTickUpper(): i32 {
-    let result = super.call("baseTickUpper", "baseTickUpper():(int24)", []);
+    let result = super.call('baseTickUpper', 'baseTickUpper():(int24)', []);
 
     return result[0].toI32();
   }
 
   try_baseTickUpper(): ethereum.CallResult<i32> {
-    let result = super.tryCall("baseTickUpper", "baseTickUpper():(int24)", []);
+    let result = super.tryCall('baseTickUpper', 'baseTickUpper():(int24)', []);
     if (result.reverted) {
       return new ethereum.CallResult();
     }
@@ -609,8 +609,8 @@ export class GMXYieldStrategy extends ethereum.SmartContract {
 
   closePositionSlippageSqrtToleranceBps(): i32 {
     let result = super.call(
-      "closePositionSlippageSqrtToleranceBps",
-      "closePositionSlippageSqrtToleranceBps():(uint16)",
+      'closePositionSlippageSqrtToleranceBps',
+      'closePositionSlippageSqrtToleranceBps():(uint16)',
       []
     );
 
@@ -619,8 +619,8 @@ export class GMXYieldStrategy extends ethereum.SmartContract {
 
   try_closePositionSlippageSqrtToleranceBps(): ethereum.CallResult<i32> {
     let result = super.tryCall(
-      "closePositionSlippageSqrtToleranceBps",
-      "closePositionSlippageSqrtToleranceBps():(uint16)",
+      'closePositionSlippageSqrtToleranceBps',
+      'closePositionSlippageSqrtToleranceBps():(uint16)',
       []
     );
     if (result.reverted) {
@@ -632,8 +632,8 @@ export class GMXYieldStrategy extends ethereum.SmartContract {
 
   convertToAssets(shares: BigInt): BigInt {
     let result = super.call(
-      "convertToAssets",
-      "convertToAssets(uint256):(uint256)",
+      'convertToAssets',
+      'convertToAssets(uint256):(uint256)',
       [ethereum.Value.fromUnsignedBigInt(shares)]
     );
 
@@ -642,8 +642,8 @@ export class GMXYieldStrategy extends ethereum.SmartContract {
 
   try_convertToAssets(shares: BigInt): ethereum.CallResult<BigInt> {
     let result = super.tryCall(
-      "convertToAssets",
-      "convertToAssets(uint256):(uint256)",
+      'convertToAssets',
+      'convertToAssets(uint256):(uint256)',
       [ethereum.Value.fromUnsignedBigInt(shares)]
     );
     if (result.reverted) {
@@ -655,8 +655,8 @@ export class GMXYieldStrategy extends ethereum.SmartContract {
 
   convertToShares(assets: BigInt): BigInt {
     let result = super.call(
-      "convertToShares",
-      "convertToShares(uint256):(uint256)",
+      'convertToShares',
+      'convertToShares(uint256):(uint256)',
       [ethereum.Value.fromUnsignedBigInt(assets)]
     );
 
@@ -665,8 +665,8 @@ export class GMXYieldStrategy extends ethereum.SmartContract {
 
   try_convertToShares(assets: BigInt): ethereum.CallResult<BigInt> {
     let result = super.tryCall(
-      "convertToShares",
-      "convertToShares(uint256):(uint256)",
+      'convertToShares',
+      'convertToShares(uint256):(uint256)',
       [ethereum.Value.fromUnsignedBigInt(assets)]
     );
     if (result.reverted) {
@@ -677,13 +677,13 @@ export class GMXYieldStrategy extends ethereum.SmartContract {
   }
 
   decimals(): i32 {
-    let result = super.call("decimals", "decimals():(uint8)", []);
+    let result = super.call('decimals', 'decimals():(uint8)', []);
 
     return result[0].toI32();
   }
 
   try_decimals(): ethereum.CallResult<i32> {
-    let result = super.tryCall("decimals", "decimals():(uint8)", []);
+    let result = super.tryCall('decimals', 'decimals():(uint8)', []);
     if (result.reverted) {
       return new ethereum.CallResult();
     }
@@ -693,11 +693,11 @@ export class GMXYieldStrategy extends ethereum.SmartContract {
 
   decreaseAllowance(spender: Address, subtractedValue: BigInt): boolean {
     let result = super.call(
-      "decreaseAllowance",
-      "decreaseAllowance(address,uint256):(bool)",
+      'decreaseAllowance',
+      'decreaseAllowance(address,uint256):(bool)',
       [
         ethereum.Value.fromAddress(spender),
-        ethereum.Value.fromUnsignedBigInt(subtractedValue)
+        ethereum.Value.fromUnsignedBigInt(subtractedValue),
       ]
     );
 
@@ -709,11 +709,11 @@ export class GMXYieldStrategy extends ethereum.SmartContract {
     subtractedValue: BigInt
   ): ethereum.CallResult<boolean> {
     let result = super.tryCall(
-      "decreaseAllowance",
-      "decreaseAllowance(address,uint256):(bool)",
+      'decreaseAllowance',
+      'decreaseAllowance(address,uint256):(bool)',
       [
         ethereum.Value.fromAddress(spender),
-        ethereum.Value.fromUnsignedBigInt(subtractedValue)
+        ethereum.Value.fromUnsignedBigInt(subtractedValue),
       ]
     );
     if (result.reverted) {
@@ -724,9 +724,9 @@ export class GMXYieldStrategy extends ethereum.SmartContract {
   }
 
   deposit(amount: BigInt, to: Address): BigInt {
-    let result = super.call("deposit", "deposit(uint256,address):(uint256)", [
+    let result = super.call('deposit', 'deposit(uint256,address):(uint256)', [
       ethereum.Value.fromUnsignedBigInt(amount),
-      ethereum.Value.fromAddress(to)
+      ethereum.Value.fromAddress(to),
     ]);
 
     return result[0].toBigInt();
@@ -734,11 +734,11 @@ export class GMXYieldStrategy extends ethereum.SmartContract {
 
   try_deposit(amount: BigInt, to: Address): ethereum.CallResult<BigInt> {
     let result = super.tryCall(
-      "deposit",
-      "deposit(uint256,address):(uint256)",
+      'deposit',
+      'deposit(uint256,address):(uint256)',
       [
         ethereum.Value.fromUnsignedBigInt(amount),
-        ethereum.Value.fromAddress(to)
+        ethereum.Value.fromAddress(to),
       ]
     );
     if (result.reverted) {
@@ -749,13 +749,13 @@ export class GMXYieldStrategy extends ethereum.SmartContract {
   }
 
   depositCap(): BigInt {
-    let result = super.call("depositCap", "depositCap():(uint256)", []);
+    let result = super.call('depositCap', 'depositCap():(uint256)', []);
 
     return result[0].toBigInt();
   }
 
   try_depositCap(): ethereum.CallResult<BigInt> {
-    let result = super.tryCall("depositCap", "depositCap():(uint256)", []);
+    let result = super.tryCall('depositCap', 'depositCap():(uint256)', []);
     if (result.reverted) {
       return new ethereum.CallResult();
     }
@@ -764,13 +764,13 @@ export class GMXYieldStrategy extends ethereum.SmartContract {
   }
 
   ethPoolId(): BigInt {
-    let result = super.call("ethPoolId", "ethPoolId():(uint32)", []);
+    let result = super.call('ethPoolId', 'ethPoolId():(uint32)', []);
 
     return result[0].toBigInt();
   }
 
   try_ethPoolId(): ethereum.CallResult<BigInt> {
-    let result = super.tryCall("ethPoolId", "ethPoolId():(uint32)", []);
+    let result = super.tryCall('ethPoolId', 'ethPoolId():(uint32)', []);
     if (result.reverted) {
       return new ethereum.CallResult();
     }
@@ -779,16 +779,16 @@ export class GMXYieldStrategy extends ethereum.SmartContract {
   }
 
   extsload(slot: Bytes): Bytes {
-    let result = super.call("extsload", "extsload(bytes32):(bytes32)", [
-      ethereum.Value.fromFixedBytes(slot)
+    let result = super.call('extsload', 'extsload(bytes32):(bytes32)', [
+      ethereum.Value.fromFixedBytes(slot),
     ]);
 
     return result[0].toBytes();
   }
 
   try_extsload(slot: Bytes): ethereum.CallResult<Bytes> {
-    let result = super.tryCall("extsload", "extsload(bytes32):(bytes32)", [
-      ethereum.Value.fromFixedBytes(slot)
+    let result = super.tryCall('extsload', 'extsload(bytes32):(bytes32)', [
+      ethereum.Value.fromFixedBytes(slot),
     ]);
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -798,16 +798,16 @@ export class GMXYieldStrategy extends ethereum.SmartContract {
   }
 
   extsload1(slots: Array<Bytes>): Array<Bytes> {
-    let result = super.call("extsload", "extsload(bytes32[]):(bytes32[])", [
-      ethereum.Value.fromFixedBytesArray(slots)
+    let result = super.call('extsload', 'extsload(bytes32[]):(bytes32[])', [
+      ethereum.Value.fromFixedBytesArray(slots),
     ]);
 
     return result[0].toBytesArray();
   }
 
   try_extsload1(slots: Array<Bytes>): ethereum.CallResult<Array<Bytes>> {
-    let result = super.tryCall("extsload", "extsload(bytes32[]):(bytes32[])", [
-      ethereum.Value.fromFixedBytesArray(slots)
+    let result = super.tryCall('extsload', 'extsload(bytes32[]):(bytes32[])', [
+      ethereum.Value.fromFixedBytesArray(slots),
     ]);
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -818,8 +818,8 @@ export class GMXYieldStrategy extends ethereum.SmartContract {
 
   getMarketValue(assetAmount: BigInt): BigInt {
     let result = super.call(
-      "getMarketValue",
-      "getMarketValue(uint256):(uint256)",
+      'getMarketValue',
+      'getMarketValue(uint256):(uint256)',
       [ethereum.Value.fromUnsignedBigInt(assetAmount)]
     );
 
@@ -828,8 +828,8 @@ export class GMXYieldStrategy extends ethereum.SmartContract {
 
   try_getMarketValue(assetAmount: BigInt): ethereum.CallResult<BigInt> {
     let result = super.tryCall(
-      "getMarketValue",
-      "getMarketValue(uint256):(uint256)",
+      'getMarketValue',
+      'getMarketValue(uint256):(uint256)',
       [ethereum.Value.fromUnsignedBigInt(assetAmount)]
     );
     if (result.reverted) {
@@ -840,13 +840,13 @@ export class GMXYieldStrategy extends ethereum.SmartContract {
   }
 
   getPriceX128(): BigInt {
-    let result = super.call("getPriceX128", "getPriceX128():(uint256)", []);
+    let result = super.call('getPriceX128', 'getPriceX128():(uint256)', []);
 
     return result[0].toBigInt();
   }
 
   try_getPriceX128(): ethereum.CallResult<BigInt> {
-    let result = super.tryCall("getPriceX128", "getPriceX128():(uint256)", []);
+    let result = super.tryCall('getPriceX128', 'getPriceX128():(uint256)', []);
     if (result.reverted) {
       return new ethereum.CallResult();
     }
@@ -856,8 +856,8 @@ export class GMXYieldStrategy extends ethereum.SmartContract {
 
   getVaultMarketValue(): BigInt {
     let result = super.call(
-      "getVaultMarketValue",
-      "getVaultMarketValue():(int256)",
+      'getVaultMarketValue',
+      'getVaultMarketValue():(int256)',
       []
     );
 
@@ -866,8 +866,8 @@ export class GMXYieldStrategy extends ethereum.SmartContract {
 
   try_getVaultMarketValue(): ethereum.CallResult<BigInt> {
     let result = super.tryCall(
-      "getVaultMarketValue",
-      "getVaultMarketValue():(int256)",
+      'getVaultMarketValue',
+      'getVaultMarketValue():(int256)',
       []
     );
     if (result.reverted) {
@@ -879,11 +879,11 @@ export class GMXYieldStrategy extends ethereum.SmartContract {
 
   increaseAllowance(spender: Address, addedValue: BigInt): boolean {
     let result = super.call(
-      "increaseAllowance",
-      "increaseAllowance(address,uint256):(bool)",
+      'increaseAllowance',
+      'increaseAllowance(address,uint256):(bool)',
       [
         ethereum.Value.fromAddress(spender),
-        ethereum.Value.fromUnsignedBigInt(addedValue)
+        ethereum.Value.fromUnsignedBigInt(addedValue),
       ]
     );
 
@@ -895,11 +895,11 @@ export class GMXYieldStrategy extends ethereum.SmartContract {
     addedValue: BigInt
   ): ethereum.CallResult<boolean> {
     let result = super.tryCall(
-      "increaseAllowance",
-      "increaseAllowance(address,uint256):(bool)",
+      'increaseAllowance',
+      'increaseAllowance(address,uint256):(bool)',
       [
         ethereum.Value.fromAddress(spender),
-        ethereum.Value.fromUnsignedBigInt(addedValue)
+        ethereum.Value.fromUnsignedBigInt(addedValue),
       ]
     );
     if (result.reverted) {
@@ -910,13 +910,13 @@ export class GMXYieldStrategy extends ethereum.SmartContract {
   }
 
   isReset(): boolean {
-    let result = super.call("isReset", "isReset():(bool)", []);
+    let result = super.call('isReset', 'isReset():(bool)', []);
 
     return result[0].toBoolean();
   }
 
   try_isReset(): ethereum.CallResult<boolean> {
-    let result = super.tryCall("isReset", "isReset():(bool)", []);
+    let result = super.tryCall('isReset', 'isReset():(bool)', []);
     if (result.reverted) {
       return new ethereum.CallResult();
     }
@@ -926,8 +926,8 @@ export class GMXYieldStrategy extends ethereum.SmartContract {
 
   isValidRebalance(vaultMarketValue: BigInt): boolean {
     let result = super.call(
-      "isValidRebalance",
-      "isValidRebalance(int256):(bool)",
+      'isValidRebalance',
+      'isValidRebalance(int256):(bool)',
       [ethereum.Value.fromSignedBigInt(vaultMarketValue)]
     );
 
@@ -936,8 +936,8 @@ export class GMXYieldStrategy extends ethereum.SmartContract {
 
   try_isValidRebalance(vaultMarketValue: BigInt): ethereum.CallResult<boolean> {
     let result = super.tryCall(
-      "isValidRebalance",
-      "isValidRebalance(int256):(bool)",
+      'isValidRebalance',
+      'isValidRebalance(int256):(bool)',
       [ethereum.Value.fromSignedBigInt(vaultMarketValue)]
     );
     if (result.reverted) {
@@ -948,13 +948,13 @@ export class GMXYieldStrategy extends ethereum.SmartContract {
   }
 
   keeper(): Address {
-    let result = super.call("keeper", "keeper():(address)", []);
+    let result = super.call('keeper', 'keeper():(address)', []);
 
     return result[0].toAddress();
   }
 
   try_keeper(): ethereum.CallResult<Address> {
-    let result = super.tryCall("keeper", "keeper():(address)", []);
+    let result = super.tryCall('keeper', 'keeper():(address)', []);
     if (result.reverted) {
       return new ethereum.CallResult();
     }
@@ -964,8 +964,8 @@ export class GMXYieldStrategy extends ethereum.SmartContract {
 
   lastRebalanceTS(): BigInt {
     let result = super.call(
-      "lastRebalanceTS",
-      "lastRebalanceTS():(uint64)",
+      'lastRebalanceTS',
+      'lastRebalanceTS():(uint64)',
       []
     );
 
@@ -974,8 +974,8 @@ export class GMXYieldStrategy extends ethereum.SmartContract {
 
   try_lastRebalanceTS(): ethereum.CallResult<BigInt> {
     let result = super.tryCall(
-      "lastRebalanceTS",
-      "lastRebalanceTS():(uint64)",
+      'lastRebalanceTS',
+      'lastRebalanceTS():(uint64)',
       []
     );
     if (result.reverted) {
@@ -986,16 +986,16 @@ export class GMXYieldStrategy extends ethereum.SmartContract {
   }
 
   maxDeposit(param0: Address): BigInt {
-    let result = super.call("maxDeposit", "maxDeposit(address):(uint256)", [
-      ethereum.Value.fromAddress(param0)
+    let result = super.call('maxDeposit', 'maxDeposit(address):(uint256)', [
+      ethereum.Value.fromAddress(param0),
     ]);
 
     return result[0].toBigInt();
   }
 
   try_maxDeposit(param0: Address): ethereum.CallResult<BigInt> {
-    let result = super.tryCall("maxDeposit", "maxDeposit(address):(uint256)", [
-      ethereum.Value.fromAddress(param0)
+    let result = super.tryCall('maxDeposit', 'maxDeposit(address):(uint256)', [
+      ethereum.Value.fromAddress(param0),
     ]);
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -1005,16 +1005,16 @@ export class GMXYieldStrategy extends ethereum.SmartContract {
   }
 
   maxMint(param0: Address): BigInt {
-    let result = super.call("maxMint", "maxMint(address):(uint256)", [
-      ethereum.Value.fromAddress(param0)
+    let result = super.call('maxMint', 'maxMint(address):(uint256)', [
+      ethereum.Value.fromAddress(param0),
     ]);
 
     return result[0].toBigInt();
   }
 
   try_maxMint(param0: Address): ethereum.CallResult<BigInt> {
-    let result = super.tryCall("maxMint", "maxMint(address):(uint256)", [
-      ethereum.Value.fromAddress(param0)
+    let result = super.tryCall('maxMint', 'maxMint(address):(uint256)', [
+      ethereum.Value.fromAddress(param0),
     ]);
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -1024,16 +1024,16 @@ export class GMXYieldStrategy extends ethereum.SmartContract {
   }
 
   maxRedeem(owner: Address): BigInt {
-    let result = super.call("maxRedeem", "maxRedeem(address):(uint256)", [
-      ethereum.Value.fromAddress(owner)
+    let result = super.call('maxRedeem', 'maxRedeem(address):(uint256)', [
+      ethereum.Value.fromAddress(owner),
     ]);
 
     return result[0].toBigInt();
   }
 
   try_maxRedeem(owner: Address): ethereum.CallResult<BigInt> {
-    let result = super.tryCall("maxRedeem", "maxRedeem(address):(uint256)", [
-      ethereum.Value.fromAddress(owner)
+    let result = super.tryCall('maxRedeem', 'maxRedeem(address):(uint256)', [
+      ethereum.Value.fromAddress(owner),
     ]);
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -1043,8 +1043,8 @@ export class GMXYieldStrategy extends ethereum.SmartContract {
   }
 
   maxWithdraw(owner: Address): BigInt {
-    let result = super.call("maxWithdraw", "maxWithdraw(address):(uint256)", [
-      ethereum.Value.fromAddress(owner)
+    let result = super.call('maxWithdraw', 'maxWithdraw(address):(uint256)', [
+      ethereum.Value.fromAddress(owner),
     ]);
 
     return result[0].toBigInt();
@@ -1052,8 +1052,8 @@ export class GMXYieldStrategy extends ethereum.SmartContract {
 
   try_maxWithdraw(owner: Address): ethereum.CallResult<BigInt> {
     let result = super.tryCall(
-      "maxWithdraw",
-      "maxWithdraw(address):(uint256)",
+      'maxWithdraw',
+      'maxWithdraw(address):(uint256)',
       [ethereum.Value.fromAddress(owner)]
     );
     if (result.reverted) {
@@ -1065,8 +1065,8 @@ export class GMXYieldStrategy extends ethereum.SmartContract {
 
   minNotionalPositionToCloseThreshold(): BigInt {
     let result = super.call(
-      "minNotionalPositionToCloseThreshold",
-      "minNotionalPositionToCloseThreshold():(uint64)",
+      'minNotionalPositionToCloseThreshold',
+      'minNotionalPositionToCloseThreshold():(uint64)',
       []
     );
 
@@ -1075,8 +1075,8 @@ export class GMXYieldStrategy extends ethereum.SmartContract {
 
   try_minNotionalPositionToCloseThreshold(): ethereum.CallResult<BigInt> {
     let result = super.tryCall(
-      "minNotionalPositionToCloseThreshold",
-      "minNotionalPositionToCloseThreshold():(uint64)",
+      'minNotionalPositionToCloseThreshold',
+      'minNotionalPositionToCloseThreshold():(uint64)',
       []
     );
     if (result.reverted) {
@@ -1087,18 +1087,18 @@ export class GMXYieldStrategy extends ethereum.SmartContract {
   }
 
   mint(shares: BigInt, to: Address): BigInt {
-    let result = super.call("mint", "mint(uint256,address):(uint256)", [
+    let result = super.call('mint', 'mint(uint256,address):(uint256)', [
       ethereum.Value.fromUnsignedBigInt(shares),
-      ethereum.Value.fromAddress(to)
+      ethereum.Value.fromAddress(to),
     ]);
 
     return result[0].toBigInt();
   }
 
   try_mint(shares: BigInt, to: Address): ethereum.CallResult<BigInt> {
-    let result = super.tryCall("mint", "mint(uint256,address):(uint256)", [
+    let result = super.tryCall('mint', 'mint(uint256,address):(uint256)', [
       ethereum.Value.fromUnsignedBigInt(shares),
-      ethereum.Value.fromAddress(to)
+      ethereum.Value.fromAddress(to),
     ]);
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -1108,13 +1108,13 @@ export class GMXYieldStrategy extends ethereum.SmartContract {
   }
 
   name(): string {
-    let result = super.call("name", "name():(string)", []);
+    let result = super.call('name', 'name():(string)', []);
 
     return result[0].toString();
   }
 
   try_name(): ethereum.CallResult<string> {
-    let result = super.tryCall("name", "name():(string)", []);
+    let result = super.tryCall('name', 'name():(string)', []);
     if (result.reverted) {
       return new ethereum.CallResult();
     }
@@ -1123,13 +1123,13 @@ export class GMXYieldStrategy extends ethereum.SmartContract {
   }
 
   owner(): Address {
-    let result = super.call("owner", "owner():(address)", []);
+    let result = super.call('owner', 'owner():(address)', []);
 
     return result[0].toAddress();
   }
 
   try_owner(): ethereum.CallResult<Address> {
-    let result = super.tryCall("owner", "owner():(address)", []);
+    let result = super.tryCall('owner', 'owner():(address)', []);
     if (result.reverted) {
       return new ethereum.CallResult();
     }
@@ -1139,8 +1139,8 @@ export class GMXYieldStrategy extends ethereum.SmartContract {
 
   previewDeposit(assets: BigInt): BigInt {
     let result = super.call(
-      "previewDeposit",
-      "previewDeposit(uint256):(uint256)",
+      'previewDeposit',
+      'previewDeposit(uint256):(uint256)',
       [ethereum.Value.fromUnsignedBigInt(assets)]
     );
 
@@ -1149,8 +1149,8 @@ export class GMXYieldStrategy extends ethereum.SmartContract {
 
   try_previewDeposit(assets: BigInt): ethereum.CallResult<BigInt> {
     let result = super.tryCall(
-      "previewDeposit",
-      "previewDeposit(uint256):(uint256)",
+      'previewDeposit',
+      'previewDeposit(uint256):(uint256)',
       [ethereum.Value.fromUnsignedBigInt(assets)]
     );
     if (result.reverted) {
@@ -1161,8 +1161,8 @@ export class GMXYieldStrategy extends ethereum.SmartContract {
   }
 
   previewMint(shares: BigInt): BigInt {
-    let result = super.call("previewMint", "previewMint(uint256):(uint256)", [
-      ethereum.Value.fromUnsignedBigInt(shares)
+    let result = super.call('previewMint', 'previewMint(uint256):(uint256)', [
+      ethereum.Value.fromUnsignedBigInt(shares),
     ]);
 
     return result[0].toBigInt();
@@ -1170,8 +1170,8 @@ export class GMXYieldStrategy extends ethereum.SmartContract {
 
   try_previewMint(shares: BigInt): ethereum.CallResult<BigInt> {
     let result = super.tryCall(
-      "previewMint",
-      "previewMint(uint256):(uint256)",
+      'previewMint',
+      'previewMint(uint256):(uint256)',
       [ethereum.Value.fromUnsignedBigInt(shares)]
     );
     if (result.reverted) {
@@ -1183,8 +1183,8 @@ export class GMXYieldStrategy extends ethereum.SmartContract {
 
   previewRedeem(shares: BigInt): BigInt {
     let result = super.call(
-      "previewRedeem",
-      "previewRedeem(uint256):(uint256)",
+      'previewRedeem',
+      'previewRedeem(uint256):(uint256)',
       [ethereum.Value.fromUnsignedBigInt(shares)]
     );
 
@@ -1193,8 +1193,8 @@ export class GMXYieldStrategy extends ethereum.SmartContract {
 
   try_previewRedeem(shares: BigInt): ethereum.CallResult<BigInt> {
     let result = super.tryCall(
-      "previewRedeem",
-      "previewRedeem(uint256):(uint256)",
+      'previewRedeem',
+      'previewRedeem(uint256):(uint256)',
       [ethereum.Value.fromUnsignedBigInt(shares)]
     );
     if (result.reverted) {
@@ -1206,8 +1206,8 @@ export class GMXYieldStrategy extends ethereum.SmartContract {
 
   previewWithdraw(assets: BigInt): BigInt {
     let result = super.call(
-      "previewWithdraw",
-      "previewWithdraw(uint256):(uint256)",
+      'previewWithdraw',
+      'previewWithdraw(uint256):(uint256)',
       [ethereum.Value.fromUnsignedBigInt(assets)]
     );
 
@@ -1216,8 +1216,8 @@ export class GMXYieldStrategy extends ethereum.SmartContract {
 
   try_previewWithdraw(assets: BigInt): ethereum.CallResult<BigInt> {
     let result = super.tryCall(
-      "previewWithdraw",
-      "previewWithdraw(uint256):(uint256)",
+      'previewWithdraw',
+      'previewWithdraw(uint256):(uint256)',
       [ethereum.Value.fromUnsignedBigInt(assets)]
     );
     if (result.reverted) {
@@ -1228,15 +1228,15 @@ export class GMXYieldStrategy extends ethereum.SmartContract {
   }
 
   rageAccountNo(): BigInt {
-    let result = super.call("rageAccountNo", "rageAccountNo():(uint256)", []);
+    let result = super.call('rageAccountNo', 'rageAccountNo():(uint256)', []);
 
     return result[0].toBigInt();
   }
 
   try_rageAccountNo(): ethereum.CallResult<BigInt> {
     let result = super.tryCall(
-      "rageAccountNo",
-      "rageAccountNo():(uint256)",
+      'rageAccountNo',
+      'rageAccountNo():(uint256)',
       []
     );
     if (result.reverted) {
@@ -1248,8 +1248,8 @@ export class GMXYieldStrategy extends ethereum.SmartContract {
 
   rageClearingHouse(): Address {
     let result = super.call(
-      "rageClearingHouse",
-      "rageClearingHouse():(address)",
+      'rageClearingHouse',
+      'rageClearingHouse():(address)',
       []
     );
 
@@ -1258,8 +1258,8 @@ export class GMXYieldStrategy extends ethereum.SmartContract {
 
   try_rageClearingHouse(): ethereum.CallResult<Address> {
     let result = super.tryCall(
-      "rageClearingHouse",
-      "rageClearingHouse():(address)",
+      'rageClearingHouse',
+      'rageClearingHouse():(address)',
       []
     );
     if (result.reverted) {
@@ -1270,13 +1270,13 @@ export class GMXYieldStrategy extends ethereum.SmartContract {
   }
 
   rageVPool(): Address {
-    let result = super.call("rageVPool", "rageVPool():(address)", []);
+    let result = super.call('rageVPool', 'rageVPool():(address)', []);
 
     return result[0].toAddress();
   }
 
   try_rageVPool(): ethereum.CallResult<Address> {
-    let result = super.tryCall("rageVPool", "rageVPool():(address)", []);
+    let result = super.tryCall('rageVPool', 'rageVPool():(address)', []);
     if (result.reverted) {
       return new ethereum.CallResult();
     }
@@ -1286,8 +1286,8 @@ export class GMXYieldStrategy extends ethereum.SmartContract {
 
   rebalancePriceThresholdBps(): i32 {
     let result = super.call(
-      "rebalancePriceThresholdBps",
-      "rebalancePriceThresholdBps():(uint16)",
+      'rebalancePriceThresholdBps',
+      'rebalancePriceThresholdBps():(uint16)',
       []
     );
 
@@ -1296,8 +1296,8 @@ export class GMXYieldStrategy extends ethereum.SmartContract {
 
   try_rebalancePriceThresholdBps(): ethereum.CallResult<i32> {
     let result = super.tryCall(
-      "rebalancePriceThresholdBps",
-      "rebalancePriceThresholdBps():(uint16)",
+      'rebalancePriceThresholdBps',
+      'rebalancePriceThresholdBps():(uint16)',
       []
     );
     if (result.reverted) {
@@ -1309,8 +1309,8 @@ export class GMXYieldStrategy extends ethereum.SmartContract {
 
   rebalanceTimeThreshold(): BigInt {
     let result = super.call(
-      "rebalanceTimeThreshold",
-      "rebalanceTimeThreshold():(uint32)",
+      'rebalanceTimeThreshold',
+      'rebalanceTimeThreshold():(uint32)',
       []
     );
 
@@ -1319,8 +1319,8 @@ export class GMXYieldStrategy extends ethereum.SmartContract {
 
   try_rebalanceTimeThreshold(): ethereum.CallResult<BigInt> {
     let result = super.tryCall(
-      "rebalanceTimeThreshold",
-      "rebalanceTimeThreshold():(uint32)",
+      'rebalanceTimeThreshold',
+      'rebalanceTimeThreshold():(uint32)',
       []
     );
     if (result.reverted) {
@@ -1332,12 +1332,12 @@ export class GMXYieldStrategy extends ethereum.SmartContract {
 
   redeem(shares: BigInt, to: Address, from: Address): BigInt {
     let result = super.call(
-      "redeem",
-      "redeem(uint256,address,address):(uint256)",
+      'redeem',
+      'redeem(uint256,address,address):(uint256)',
       [
         ethereum.Value.fromUnsignedBigInt(shares),
         ethereum.Value.fromAddress(to),
-        ethereum.Value.fromAddress(from)
+        ethereum.Value.fromAddress(from),
       ]
     );
 
@@ -1350,12 +1350,12 @@ export class GMXYieldStrategy extends ethereum.SmartContract {
     from: Address
   ): ethereum.CallResult<BigInt> {
     let result = super.tryCall(
-      "redeem",
-      "redeem(uint256,address,address):(uint256)",
+      'redeem',
+      'redeem(uint256,address,address):(uint256)',
       [
         ethereum.Value.fromUnsignedBigInt(shares),
         ethereum.Value.fromAddress(to),
-        ethereum.Value.fromAddress(from)
+        ethereum.Value.fromAddress(from),
       ]
     );
     if (result.reverted) {
@@ -1366,15 +1366,15 @@ export class GMXYieldStrategy extends ethereum.SmartContract {
   }
 
   swapSimulator(): Address {
-    let result = super.call("swapSimulator", "swapSimulator():(address)", []);
+    let result = super.call('swapSimulator', 'swapSimulator():(address)', []);
 
     return result[0].toAddress();
   }
 
   try_swapSimulator(): ethereum.CallResult<Address> {
     let result = super.tryCall(
-      "swapSimulator",
-      "swapSimulator():(address)",
+      'swapSimulator',
+      'swapSimulator():(address)',
       []
     );
     if (result.reverted) {
@@ -1385,13 +1385,13 @@ export class GMXYieldStrategy extends ethereum.SmartContract {
   }
 
   symbol(): string {
-    let result = super.call("symbol", "symbol():(string)", []);
+    let result = super.call('symbol', 'symbol():(string)', []);
 
     return result[0].toString();
   }
 
   try_symbol(): ethereum.CallResult<string> {
-    let result = super.tryCall("symbol", "symbol():(string)", []);
+    let result = super.tryCall('symbol', 'symbol():(string)', []);
     if (result.reverted) {
       return new ethereum.CallResult();
     }
@@ -1400,13 +1400,13 @@ export class GMXYieldStrategy extends ethereum.SmartContract {
   }
 
   totalAssets(): BigInt {
-    let result = super.call("totalAssets", "totalAssets():(uint256)", []);
+    let result = super.call('totalAssets', 'totalAssets():(uint256)', []);
 
     return result[0].toBigInt();
   }
 
   try_totalAssets(): ethereum.CallResult<BigInt> {
-    let result = super.tryCall("totalAssets", "totalAssets():(uint256)", []);
+    let result = super.tryCall('totalAssets', 'totalAssets():(uint256)', []);
     if (result.reverted) {
       return new ethereum.CallResult();
     }
@@ -1415,13 +1415,13 @@ export class GMXYieldStrategy extends ethereum.SmartContract {
   }
 
   totalSupply(): BigInt {
-    let result = super.call("totalSupply", "totalSupply():(uint256)", []);
+    let result = super.call('totalSupply', 'totalSupply():(uint256)', []);
 
     return result[0].toBigInt();
   }
 
   try_totalSupply(): ethereum.CallResult<BigInt> {
-    let result = super.tryCall("totalSupply", "totalSupply():(uint256)", []);
+    let result = super.tryCall('totalSupply', 'totalSupply():(uint256)', []);
     if (result.reverted) {
       return new ethereum.CallResult();
     }
@@ -1430,18 +1430,18 @@ export class GMXYieldStrategy extends ethereum.SmartContract {
   }
 
   transfer(to: Address, amount: BigInt): boolean {
-    let result = super.call("transfer", "transfer(address,uint256):(bool)", [
+    let result = super.call('transfer', 'transfer(address,uint256):(bool)', [
       ethereum.Value.fromAddress(to),
-      ethereum.Value.fromUnsignedBigInt(amount)
+      ethereum.Value.fromUnsignedBigInt(amount),
     ]);
 
     return result[0].toBoolean();
   }
 
   try_transfer(to: Address, amount: BigInt): ethereum.CallResult<boolean> {
-    let result = super.tryCall("transfer", "transfer(address,uint256):(bool)", [
+    let result = super.tryCall('transfer', 'transfer(address,uint256):(bool)', [
       ethereum.Value.fromAddress(to),
-      ethereum.Value.fromUnsignedBigInt(amount)
+      ethereum.Value.fromUnsignedBigInt(amount),
     ]);
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -1452,12 +1452,12 @@ export class GMXYieldStrategy extends ethereum.SmartContract {
 
   transferFrom(from: Address, to: Address, amount: BigInt): boolean {
     let result = super.call(
-      "transferFrom",
-      "transferFrom(address,address,uint256):(bool)",
+      'transferFrom',
+      'transferFrom(address,address,uint256):(bool)',
       [
         ethereum.Value.fromAddress(from),
         ethereum.Value.fromAddress(to),
-        ethereum.Value.fromUnsignedBigInt(amount)
+        ethereum.Value.fromUnsignedBigInt(amount),
       ]
     );
 
@@ -1470,12 +1470,12 @@ export class GMXYieldStrategy extends ethereum.SmartContract {
     amount: BigInt
   ): ethereum.CallResult<boolean> {
     let result = super.tryCall(
-      "transferFrom",
-      "transferFrom(address,address,uint256):(bool)",
+      'transferFrom',
+      'transferFrom(address,address,uint256):(bool)',
       [
         ethereum.Value.fromAddress(from),
         ethereum.Value.fromAddress(to),
-        ethereum.Value.fromUnsignedBigInt(amount)
+        ethereum.Value.fromUnsignedBigInt(amount),
       ]
     );
     if (result.reverted) {
@@ -1487,8 +1487,8 @@ export class GMXYieldStrategy extends ethereum.SmartContract {
 
   usdcConversionThreshold(): BigInt {
     let result = super.call(
-      "usdcConversionThreshold",
-      "usdcConversionThreshold():(uint240)",
+      'usdcConversionThreshold',
+      'usdcConversionThreshold():(uint240)',
       []
     );
 
@@ -1497,8 +1497,8 @@ export class GMXYieldStrategy extends ethereum.SmartContract {
 
   try_usdcConversionThreshold(): ethereum.CallResult<BigInt> {
     let result = super.tryCall(
-      "usdcConversionThreshold",
-      "usdcConversionThreshold():(uint240)",
+      'usdcConversionThreshold',
+      'usdcConversionThreshold():(uint240)',
       []
     );
     if (result.reverted) {
@@ -1510,8 +1510,8 @@ export class GMXYieldStrategy extends ethereum.SmartContract {
 
   usdcReedemSlippage(): i32 {
     let result = super.call(
-      "usdcReedemSlippage",
-      "usdcReedemSlippage():(uint16)",
+      'usdcReedemSlippage',
+      'usdcReedemSlippage():(uint16)',
       []
     );
 
@@ -1520,8 +1520,8 @@ export class GMXYieldStrategy extends ethereum.SmartContract {
 
   try_usdcReedemSlippage(): ethereum.CallResult<i32> {
     let result = super.tryCall(
-      "usdcReedemSlippage",
-      "usdcReedemSlippage():(uint16)",
+      'usdcReedemSlippage',
+      'usdcReedemSlippage():(uint16)',
       []
     );
     if (result.reverted) {
@@ -1533,12 +1533,12 @@ export class GMXYieldStrategy extends ethereum.SmartContract {
 
   withdraw(amount: BigInt, to: Address, from: Address): BigInt {
     let result = super.call(
-      "withdraw",
-      "withdraw(uint256,address,address):(uint256)",
+      'withdraw',
+      'withdraw(uint256,address,address):(uint256)',
       [
         ethereum.Value.fromUnsignedBigInt(amount),
         ethereum.Value.fromAddress(to),
-        ethereum.Value.fromAddress(from)
+        ethereum.Value.fromAddress(from),
       ]
     );
 
@@ -1551,12 +1551,12 @@ export class GMXYieldStrategy extends ethereum.SmartContract {
     from: Address
   ): ethereum.CallResult<BigInt> {
     let result = super.tryCall(
-      "withdraw",
-      "withdraw(uint256,address,address):(uint256)",
+      'withdraw',
+      'withdraw(uint256,address,address):(uint256)',
       [
         ethereum.Value.fromUnsignedBigInt(amount),
         ethereum.Value.fromAddress(to),
-        ethereum.Value.fromAddress(from)
+        ethereum.Value.fromAddress(from),
       ]
     );
     if (result.reverted) {

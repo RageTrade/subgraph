@@ -3,17 +3,17 @@
 import {
   Address,
   DataSourceTemplate,
-  DataSourceContext
-} from "@graphprotocol/graph-ts";
+  DataSourceContext,
+} from '@graphprotocol/graph-ts';
 
 export class UniswapV3Pool extends DataSourceTemplate {
   static create(address: Address): void {
-    DataSourceTemplate.create("UniswapV3Pool", [address.toHex()]);
+    DataSourceTemplate.create('UniswapV3Pool', [address.toHex()]);
   }
 
   static createWithContext(address: Address, context: DataSourceContext): void {
     DataSourceTemplate.createWithContext(
-      "UniswapV3Pool",
+      'UniswapV3Pool',
       [address.toHex()],
       context
     );
@@ -22,12 +22,12 @@ export class UniswapV3Pool extends DataSourceTemplate {
 
 export class VPoolWrapperLogic extends DataSourceTemplate {
   static create(address: Address): void {
-    DataSourceTemplate.create("VPoolWrapperLogic", [address.toHex()]);
+    DataSourceTemplate.create('VPoolWrapperLogic', [address.toHex()]);
   }
 
   static createWithContext(address: Address, context: DataSourceContext): void {
     DataSourceTemplate.createWithContext(
-      "VPoolWrapperLogic",
+      'VPoolWrapperLogic',
       [address.toHex()],
       context
     );

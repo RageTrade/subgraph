@@ -14,10 +14,7 @@ import {
   Mint as MintEvent,
 } from '../../../generated/templates/UniswapV3Pool/UniswapV3Pool';
 import { convertTokenToDecimal, loadTransaction } from '../../utils';
-import {
-  FACTORY_ADDRESS,
-  ONE_BI,
-} from '../../utils/constants';
+import { FACTORY_ADDRESS, ONE_BI } from '../../utils/constants';
 import {
   updatePoolDayData,
   updatePoolHourData,

@@ -7,8 +7,8 @@ import {
   Entity,
   Bytes,
   Address,
-  BigInt
-} from "@graphprotocol/graph-ts";
+  BigInt,
+} from '@graphprotocol/graph-ts';
 
 export class AccruedProtocolFeeCollected extends ethereum.Event {
   get params(): AccruedProtocolFeeCollected__Params {
@@ -277,9 +277,9 @@ export class VPoolWrapperLogic__burnResult {
 
   toMap(): TypedMap<string, ethereum.Value> {
     let map = new TypedMap<string, ethereum.Value>();
-    map.set("value0", ethereum.Value.fromUnsignedBigInt(this.value0));
-    map.set("value1", ethereum.Value.fromUnsignedBigInt(this.value1));
-    map.set("value2", ethereum.Value.fromTuple(this.value2));
+    map.set('value0', ethereum.Value.fromUnsignedBigInt(this.value0));
+    map.set('value1', ethereum.Value.fromUnsignedBigInt(this.value1));
+    map.set('value2', ethereum.Value.fromTuple(this.value2));
     return map;
   }
 }
@@ -299,10 +299,10 @@ export class VPoolWrapperLogic__fpGlobalResult {
 
   toMap(): TypedMap<string, ethereum.Value> {
     let map = new TypedMap<string, ethereum.Value>();
-    map.set("value0", ethereum.Value.fromSignedBigInt(this.value0));
-    map.set("value1", ethereum.Value.fromSignedBigInt(this.value1));
-    map.set("value2", ethereum.Value.fromSignedBigInt(this.value2));
-    map.set("value3", ethereum.Value.fromUnsignedBigInt(this.value3));
+    map.set('value0', ethereum.Value.fromSignedBigInt(this.value0));
+    map.set('value1', ethereum.Value.fromSignedBigInt(this.value1));
+    map.set('value2', ethereum.Value.fromSignedBigInt(this.value2));
+    map.set('value3', ethereum.Value.fromUnsignedBigInt(this.value3));
     return map;
   }
 }
@@ -336,8 +336,8 @@ export class VPoolWrapperLogic__getFundingRateAndVirtualPriceResult {
 
   toMap(): TypedMap<string, ethereum.Value> {
     let map = new TypedMap<string, ethereum.Value>();
-    map.set("value0", ethereum.Value.fromSignedBigInt(this.value0));
-    map.set("value1", ethereum.Value.fromUnsignedBigInt(this.value1));
+    map.set('value0', ethereum.Value.fromSignedBigInt(this.value0));
+    map.set('value1', ethereum.Value.fromUnsignedBigInt(this.value1));
     return map;
   }
 }
@@ -395,9 +395,9 @@ export class VPoolWrapperLogic__mintResult {
 
   toMap(): TypedMap<string, ethereum.Value> {
     let map = new TypedMap<string, ethereum.Value>();
-    map.set("value0", ethereum.Value.fromUnsignedBigInt(this.value0));
-    map.set("value1", ethereum.Value.fromUnsignedBigInt(this.value1));
-    map.set("value2", ethereum.Value.fromTuple(this.value2));
+    map.set('value0', ethereum.Value.fromUnsignedBigInt(this.value0));
+    map.set('value1', ethereum.Value.fromUnsignedBigInt(this.value1));
+    map.set('value2', ethereum.Value.fromTuple(this.value2));
     return map;
   }
 }
@@ -447,23 +447,23 @@ export class VPoolWrapperLogic__ticksExtendedResult {
 
   toMap(): TypedMap<string, ethereum.Value> {
     let map = new TypedMap<string, ethereum.Value>();
-    map.set("value0", ethereum.Value.fromSignedBigInt(this.value0));
-    map.set("value1", ethereum.Value.fromSignedBigInt(this.value1));
-    map.set("value2", ethereum.Value.fromSignedBigInt(this.value2));
-    map.set("value3", ethereum.Value.fromUnsignedBigInt(this.value3));
+    map.set('value0', ethereum.Value.fromSignedBigInt(this.value0));
+    map.set('value1', ethereum.Value.fromSignedBigInt(this.value1));
+    map.set('value2', ethereum.Value.fromSignedBigInt(this.value2));
+    map.set('value3', ethereum.Value.fromUnsignedBigInt(this.value3));
     return map;
   }
 }
 
 export class VPoolWrapperLogic extends ethereum.SmartContract {
   static bind(address: Address): VPoolWrapperLogic {
-    return new VPoolWrapperLogic("VPoolWrapperLogic", address);
+    return new VPoolWrapperLogic('VPoolWrapperLogic', address);
   }
 
   accruedProtocolFee(): BigInt {
     let result = super.call(
-      "accruedProtocolFee",
-      "accruedProtocolFee():(uint256)",
+      'accruedProtocolFee',
+      'accruedProtocolFee():(uint256)',
       []
     );
 
@@ -472,8 +472,8 @@ export class VPoolWrapperLogic extends ethereum.SmartContract {
 
   try_accruedProtocolFee(): ethereum.CallResult<BigInt> {
     let result = super.tryCall(
-      "accruedProtocolFee",
-      "accruedProtocolFee():(uint256)",
+      'accruedProtocolFee',
+      'accruedProtocolFee():(uint256)',
       []
     );
     if (result.reverted) {
@@ -489,12 +489,12 @@ export class VPoolWrapperLogic extends ethereum.SmartContract {
     liquidity: BigInt
   ): VPoolWrapperLogic__burnResult {
     let result = super.call(
-      "burn",
-      "burn(int24,int24,uint128):(uint256,uint256,(int256,int256,int256,uint256))",
+      'burn',
+      'burn(int24,int24,uint128):(uint256,uint256,(int256,int256,int256,uint256))',
       [
         ethereum.Value.fromI32(tickLower),
         ethereum.Value.fromI32(tickUpper),
-        ethereum.Value.fromUnsignedBigInt(liquidity)
+        ethereum.Value.fromUnsignedBigInt(liquidity),
       ]
     );
 
@@ -511,12 +511,12 @@ export class VPoolWrapperLogic extends ethereum.SmartContract {
     liquidity: BigInt
   ): ethereum.CallResult<VPoolWrapperLogic__burnResult> {
     let result = super.tryCall(
-      "burn",
-      "burn(int24,int24,uint128):(uint256,uint256,(int256,int256,int256,uint256))",
+      'burn',
+      'burn(int24,int24,uint128):(uint256,uint256,(int256,int256,int256,uint256))',
       [
         ethereum.Value.fromI32(tickLower),
         ethereum.Value.fromI32(tickUpper),
-        ethereum.Value.fromUnsignedBigInt(liquidity)
+        ethereum.Value.fromUnsignedBigInt(liquidity),
       ]
     );
     if (result.reverted) {
@@ -533,15 +533,15 @@ export class VPoolWrapperLogic extends ethereum.SmartContract {
   }
 
   clearingHouse(): Address {
-    let result = super.call("clearingHouse", "clearingHouse():(address)", []);
+    let result = super.call('clearingHouse', 'clearingHouse():(address)', []);
 
     return result[0].toAddress();
   }
 
   try_clearingHouse(): ethereum.CallResult<Address> {
     let result = super.tryCall(
-      "clearingHouse",
-      "clearingHouse():(address)",
+      'clearingHouse',
+      'clearingHouse():(address)',
       []
     );
     if (result.reverted) {
@@ -553,8 +553,8 @@ export class VPoolWrapperLogic extends ethereum.SmartContract {
 
   collectAccruedProtocolFee(): BigInt {
     let result = super.call(
-      "collectAccruedProtocolFee",
-      "collectAccruedProtocolFee():(uint256)",
+      'collectAccruedProtocolFee',
+      'collectAccruedProtocolFee():(uint256)',
       []
     );
 
@@ -563,8 +563,8 @@ export class VPoolWrapperLogic extends ethereum.SmartContract {
 
   try_collectAccruedProtocolFee(): ethereum.CallResult<BigInt> {
     let result = super.tryCall(
-      "collectAccruedProtocolFee",
-      "collectAccruedProtocolFee():(uint256)",
+      'collectAccruedProtocolFee',
+      'collectAccruedProtocolFee():(uint256)',
       []
     );
     if (result.reverted) {
@@ -575,16 +575,16 @@ export class VPoolWrapperLogic extends ethereum.SmartContract {
   }
 
   extsload(slot: Bytes): Bytes {
-    let result = super.call("extsload", "extsload(bytes32):(bytes32)", [
-      ethereum.Value.fromFixedBytes(slot)
+    let result = super.call('extsload', 'extsload(bytes32):(bytes32)', [
+      ethereum.Value.fromFixedBytes(slot),
     ]);
 
     return result[0].toBytes();
   }
 
   try_extsload(slot: Bytes): ethereum.CallResult<Bytes> {
-    let result = super.tryCall("extsload", "extsload(bytes32):(bytes32)", [
-      ethereum.Value.fromFixedBytes(slot)
+    let result = super.tryCall('extsload', 'extsload(bytes32):(bytes32)', [
+      ethereum.Value.fromFixedBytes(slot),
     ]);
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -594,16 +594,16 @@ export class VPoolWrapperLogic extends ethereum.SmartContract {
   }
 
   extsload1(slots: Array<Bytes>): Array<Bytes> {
-    let result = super.call("extsload", "extsload(bytes32[]):(bytes32[])", [
-      ethereum.Value.fromFixedBytesArray(slots)
+    let result = super.call('extsload', 'extsload(bytes32[]):(bytes32[])', [
+      ethereum.Value.fromFixedBytesArray(slots),
     ]);
 
     return result[0].toBytesArray();
   }
 
   try_extsload1(slots: Array<Bytes>): ethereum.CallResult<Array<Bytes>> {
-    let result = super.tryCall("extsload", "extsload(bytes32[]):(bytes32[])", [
-      ethereum.Value.fromFixedBytesArray(slots)
+    let result = super.tryCall('extsload', 'extsload(bytes32[]):(bytes32[])', [
+      ethereum.Value.fromFixedBytesArray(slots),
     ]);
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -614,8 +614,8 @@ export class VPoolWrapperLogic extends ethereum.SmartContract {
 
   fpGlobal(): VPoolWrapperLogic__fpGlobalResult {
     let result = super.call(
-      "fpGlobal",
-      "fpGlobal():(int256,int256,int256,uint48)",
+      'fpGlobal',
+      'fpGlobal():(int256,int256,int256,uint48)',
       []
     );
 
@@ -629,8 +629,8 @@ export class VPoolWrapperLogic extends ethereum.SmartContract {
 
   try_fpGlobal(): ethereum.CallResult<VPoolWrapperLogic__fpGlobalResult> {
     let result = super.tryCall(
-      "fpGlobal",
-      "fpGlobal():(int256,int256,int256,uint48)",
+      'fpGlobal',
+      'fpGlobal():(int256,int256,int256,uint48)',
       []
     );
     if (result.reverted) {
@@ -649,8 +649,8 @@ export class VPoolWrapperLogic extends ethereum.SmartContract {
 
   fundingRateOverrideX128(): BigInt {
     let result = super.call(
-      "fundingRateOverrideX128",
-      "fundingRateOverrideX128():(int256)",
+      'fundingRateOverrideX128',
+      'fundingRateOverrideX128():(int256)',
       []
     );
 
@@ -659,8 +659,8 @@ export class VPoolWrapperLogic extends ethereum.SmartContract {
 
   try_fundingRateOverrideX128(): ethereum.CallResult<BigInt> {
     let result = super.tryCall(
-      "fundingRateOverrideX128",
-      "fundingRateOverrideX128():(int256)",
+      'fundingRateOverrideX128',
+      'fundingRateOverrideX128():(int256)',
       []
     );
     if (result.reverted) {
@@ -672,8 +672,8 @@ export class VPoolWrapperLogic extends ethereum.SmartContract {
 
   getExtrapolatedSumAX128(): BigInt {
     let result = super.call(
-      "getExtrapolatedSumAX128",
-      "getExtrapolatedSumAX128():(int256)",
+      'getExtrapolatedSumAX128',
+      'getExtrapolatedSumAX128():(int256)',
       []
     );
 
@@ -682,8 +682,8 @@ export class VPoolWrapperLogic extends ethereum.SmartContract {
 
   try_getExtrapolatedSumAX128(): ethereum.CallResult<BigInt> {
     let result = super.tryCall(
-      "getExtrapolatedSumAX128",
-      "getExtrapolatedSumAX128():(int256)",
+      'getExtrapolatedSumAX128',
+      'getExtrapolatedSumAX128():(int256)',
       []
     );
     if (result.reverted) {
@@ -698,8 +698,8 @@ export class VPoolWrapperLogic extends ethereum.SmartContract {
     tickUpper: i32
   ): VPoolWrapperLogic__getExtrapolatedValuesInsideResultWrapperValuesInsideStruct {
     let result = super.call(
-      "getExtrapolatedValuesInside",
-      "getExtrapolatedValuesInside(int24,int24):((int256,int256,int256,uint256))",
+      'getExtrapolatedValuesInside',
+      'getExtrapolatedValuesInside(int24,int24):((int256,int256,int256,uint256))',
       [ethereum.Value.fromI32(tickLower), ethereum.Value.fromI32(tickUpper)]
     );
 
@@ -713,8 +713,8 @@ export class VPoolWrapperLogic extends ethereum.SmartContract {
     VPoolWrapperLogic__getExtrapolatedValuesInsideResultWrapperValuesInsideStruct
   > {
     let result = super.tryCall(
-      "getExtrapolatedValuesInside",
-      "getExtrapolatedValuesInside(int24,int24):((int256,int256,int256,uint256))",
+      'getExtrapolatedValuesInside',
+      'getExtrapolatedValuesInside(int24,int24):((int256,int256,int256,uint256))',
       [ethereum.Value.fromI32(tickLower), ethereum.Value.fromI32(tickUpper)]
     );
     if (result.reverted) {
@@ -728,8 +728,8 @@ export class VPoolWrapperLogic extends ethereum.SmartContract {
 
   getFundingRateAndVirtualPrice(): VPoolWrapperLogic__getFundingRateAndVirtualPriceResult {
     let result = super.call(
-      "getFundingRateAndVirtualPrice",
-      "getFundingRateAndVirtualPrice():(int256,uint256)",
+      'getFundingRateAndVirtualPrice',
+      'getFundingRateAndVirtualPrice():(int256,uint256)',
       []
     );
 
@@ -743,8 +743,8 @@ export class VPoolWrapperLogic extends ethereum.SmartContract {
     VPoolWrapperLogic__getFundingRateAndVirtualPriceResult
   > {
     let result = super.tryCall(
-      "getFundingRateAndVirtualPrice",
-      "getFundingRateAndVirtualPrice():(int256,uint256)",
+      'getFundingRateAndVirtualPrice',
+      'getFundingRateAndVirtualPrice():(int256,uint256)',
       []
     );
     if (result.reverted) {
@@ -760,13 +760,13 @@ export class VPoolWrapperLogic extends ethereum.SmartContract {
   }
 
   getSumAX128(): BigInt {
-    let result = super.call("getSumAX128", "getSumAX128():(int256)", []);
+    let result = super.call('getSumAX128', 'getSumAX128():(int256)', []);
 
     return result[0].toBigInt();
   }
 
   try_getSumAX128(): ethereum.CallResult<BigInt> {
-    let result = super.tryCall("getSumAX128", "getSumAX128():(int256)", []);
+    let result = super.tryCall('getSumAX128', 'getSumAX128():(int256)', []);
     if (result.reverted) {
       return new ethereum.CallResult();
     }
@@ -779,8 +779,8 @@ export class VPoolWrapperLogic extends ethereum.SmartContract {
     tickUpper: i32
   ): VPoolWrapperLogic__getValuesInsideResultWrapperValuesInsideStruct {
     let result = super.call(
-      "getValuesInside",
-      "getValuesInside(int24,int24):((int256,int256,int256,uint256))",
+      'getValuesInside',
+      'getValuesInside(int24,int24):((int256,int256,int256,uint256))',
       [ethereum.Value.fromI32(tickLower), ethereum.Value.fromI32(tickUpper)]
     );
 
@@ -794,8 +794,8 @@ export class VPoolWrapperLogic extends ethereum.SmartContract {
     VPoolWrapperLogic__getValuesInsideResultWrapperValuesInsideStruct
   > {
     let result = super.tryCall(
-      "getValuesInside",
-      "getValuesInside(int24,int24):((int256,int256,int256,uint256))",
+      'getValuesInside',
+      'getValuesInside(int24,int24):((int256,int256,int256,uint256))',
       [ethereum.Value.fromI32(tickLower), ethereum.Value.fromI32(tickUpper)]
     );
     if (result.reverted) {
@@ -809,8 +809,8 @@ export class VPoolWrapperLogic extends ethereum.SmartContract {
 
   liquidityFeePips(): i32 {
     let result = super.call(
-      "liquidityFeePips",
-      "liquidityFeePips():(uint24)",
+      'liquidityFeePips',
+      'liquidityFeePips():(uint24)',
       []
     );
 
@@ -819,8 +819,8 @@ export class VPoolWrapperLogic extends ethereum.SmartContract {
 
   try_liquidityFeePips(): ethereum.CallResult<i32> {
     let result = super.tryCall(
-      "liquidityFeePips",
-      "liquidityFeePips():(uint24)",
+      'liquidityFeePips',
+      'liquidityFeePips():(uint24)',
       []
     );
     if (result.reverted) {
@@ -836,12 +836,12 @@ export class VPoolWrapperLogic extends ethereum.SmartContract {
     liquidity: BigInt
   ): VPoolWrapperLogic__mintResult {
     let result = super.call(
-      "mint",
-      "mint(int24,int24,uint128):(uint256,uint256,(int256,int256,int256,uint256))",
+      'mint',
+      'mint(int24,int24,uint128):(uint256,uint256,(int256,int256,int256,uint256))',
       [
         ethereum.Value.fromI32(tickLower),
         ethereum.Value.fromI32(tickUpper),
-        ethereum.Value.fromUnsignedBigInt(liquidity)
+        ethereum.Value.fromUnsignedBigInt(liquidity),
       ]
     );
 
@@ -858,12 +858,12 @@ export class VPoolWrapperLogic extends ethereum.SmartContract {
     liquidity: BigInt
   ): ethereum.CallResult<VPoolWrapperLogic__mintResult> {
     let result = super.tryCall(
-      "mint",
-      "mint(int24,int24,uint128):(uint256,uint256,(int256,int256,int256,uint256))",
+      'mint',
+      'mint(int24,int24,uint128):(uint256,uint256,(int256,int256,int256,uint256))',
       [
         ethereum.Value.fromI32(tickLower),
         ethereum.Value.fromI32(tickUpper),
-        ethereum.Value.fromUnsignedBigInt(liquidity)
+        ethereum.Value.fromUnsignedBigInt(liquidity),
       ]
     );
     if (result.reverted) {
@@ -881,8 +881,8 @@ export class VPoolWrapperLogic extends ethereum.SmartContract {
 
   protocolFeePips(): i32 {
     let result = super.call(
-      "protocolFeePips",
-      "protocolFeePips():(uint24)",
+      'protocolFeePips',
+      'protocolFeePips():(uint24)',
       []
     );
 
@@ -891,8 +891,8 @@ export class VPoolWrapperLogic extends ethereum.SmartContract {
 
   try_protocolFeePips(): ethereum.CallResult<i32> {
     let result = super.tryCall(
-      "protocolFeePips",
-      "protocolFeePips():(uint24)",
+      'protocolFeePips',
+      'protocolFeePips():(uint24)',
       []
     );
     if (result.reverted) {
@@ -904,8 +904,8 @@ export class VPoolWrapperLogic extends ethereum.SmartContract {
 
   sumFeeGlobalX128(): BigInt {
     let result = super.call(
-      "sumFeeGlobalX128",
-      "sumFeeGlobalX128():(uint256)",
+      'sumFeeGlobalX128',
+      'sumFeeGlobalX128():(uint256)',
       []
     );
 
@@ -914,8 +914,8 @@ export class VPoolWrapperLogic extends ethereum.SmartContract {
 
   try_sumFeeGlobalX128(): ethereum.CallResult<BigInt> {
     let result = super.tryCall(
-      "sumFeeGlobalX128",
-      "sumFeeGlobalX128():(uint256)",
+      'sumFeeGlobalX128',
+      'sumFeeGlobalX128():(uint256)',
       []
     );
     if (result.reverted) {
@@ -931,12 +931,12 @@ export class VPoolWrapperLogic extends ethereum.SmartContract {
     sqrtPriceLimitX96: BigInt
   ): VPoolWrapperLogic__swapResultSwapResultStruct {
     let result = super.call(
-      "swap",
-      "swap(bool,int256,uint160):((int256,int256,int256,uint256,uint256,uint160,uint160))",
+      'swap',
+      'swap(bool,int256,uint160):((int256,int256,int256,uint256,uint256,uint160,uint160))',
       [
         ethereum.Value.fromBoolean(swapVTokenForVQuote),
         ethereum.Value.fromSignedBigInt(amountSpecified),
-        ethereum.Value.fromUnsignedBigInt(sqrtPriceLimitX96)
+        ethereum.Value.fromUnsignedBigInt(sqrtPriceLimitX96),
       ]
     );
 
@@ -949,12 +949,12 @@ export class VPoolWrapperLogic extends ethereum.SmartContract {
     sqrtPriceLimitX96: BigInt
   ): ethereum.CallResult<VPoolWrapperLogic__swapResultSwapResultStruct> {
     let result = super.tryCall(
-      "swap",
-      "swap(bool,int256,uint160):((int256,int256,int256,uint256,uint256,uint160,uint160))",
+      'swap',
+      'swap(bool,int256,uint160):((int256,int256,int256,uint256,uint256,uint160,uint160))',
       [
         ethereum.Value.fromBoolean(swapVTokenForVQuote),
         ethereum.Value.fromSignedBigInt(amountSpecified),
-        ethereum.Value.fromUnsignedBigInt(sqrtPriceLimitX96)
+        ethereum.Value.fromUnsignedBigInt(sqrtPriceLimitX96),
       ]
     );
     if (result.reverted) {
@@ -968,8 +968,8 @@ export class VPoolWrapperLogic extends ethereum.SmartContract {
 
   ticksExtended(param0: i32): VPoolWrapperLogic__ticksExtendedResult {
     let result = super.call(
-      "ticksExtended",
-      "ticksExtended(int24):(int256,int256,int256,uint256)",
+      'ticksExtended',
+      'ticksExtended(int24):(int256,int256,int256,uint256)',
       [ethereum.Value.fromI32(param0)]
     );
 
@@ -985,8 +985,8 @@ export class VPoolWrapperLogic extends ethereum.SmartContract {
     param0: i32
   ): ethereum.CallResult<VPoolWrapperLogic__ticksExtendedResult> {
     let result = super.tryCall(
-      "ticksExtended",
-      "ticksExtended(int24):(int256,int256,int256,uint256)",
+      'ticksExtended',
+      'ticksExtended(int24):(int256,int256,int256,uint256)',
       [ethereum.Value.fromI32(param0)]
     );
     if (result.reverted) {
@@ -1004,13 +1004,13 @@ export class VPoolWrapperLogic extends ethereum.SmartContract {
   }
 
   vPool(): Address {
-    let result = super.call("vPool", "vPool():(address)", []);
+    let result = super.call('vPool', 'vPool():(address)', []);
 
     return result[0].toAddress();
   }
 
   try_vPool(): ethereum.CallResult<Address> {
-    let result = super.tryCall("vPool", "vPool():(address)", []);
+    let result = super.tryCall('vPool', 'vPool():(address)', []);
     if (result.reverted) {
       return new ethereum.CallResult();
     }
@@ -1019,13 +1019,13 @@ export class VPoolWrapperLogic extends ethereum.SmartContract {
   }
 
   vQuote(): Address {
-    let result = super.call("vQuote", "vQuote():(address)", []);
+    let result = super.call('vQuote', 'vQuote():(address)', []);
 
     return result[0].toAddress();
   }
 
   try_vQuote(): ethereum.CallResult<Address> {
-    let result = super.tryCall("vQuote", "vQuote():(address)", []);
+    let result = super.tryCall('vQuote', 'vQuote():(address)', []);
     if (result.reverted) {
       return new ethereum.CallResult();
     }
@@ -1034,13 +1034,13 @@ export class VPoolWrapperLogic extends ethereum.SmartContract {
   }
 
   vToken(): Address {
-    let result = super.call("vToken", "vToken():(address)", []);
+    let result = super.call('vToken', 'vToken():(address)', []);
 
     return result[0].toAddress();
   }
 
   try_vToken(): ethereum.CallResult<Address> {
-    let result = super.tryCall("vToken", "vToken():(address)", []);
+    let result = super.tryCall('vToken', 'vToken():(address)', []);
     if (result.reverted) {
       return new ethereum.CallResult();
     }
