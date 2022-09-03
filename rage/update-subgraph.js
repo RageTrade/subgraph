@@ -60,11 +60,16 @@ async function main() {
   const { curveYieldStrategy, vaultPeriphery } = await sdk.getVaultContracts(
     networkInfo.provider
   );
-  const {
-    gmxYieldStrategy,
-    gmxBatchingManager,
-    glpStakingManager,
-  } = await sdk.getGmxVaultContracts(networkInfo.provider);
+  let gmxYieldStrategy;
+  let gmxBatchingManager;
+  let glpStakingManager;
+  try {
+    ({
+      gmxYieldStrategy,
+      gmxBatchingManager,
+      glpStakingManager,
+    } = await sdk.getGmxVaultContracts(networkInfo.provider));
+  } catch {}
   const { crv3, quoter } = await sdk.getCurveFinanceContracts(
     networkInfo.provider
   );
@@ -113,13 +118,13 @@ async function main() {
   updateSubgraphYamlDataSources(
     subgraphYaml,
     'GMXYieldStrategy',
-    gmxYieldStrategy.address,
+    gmxYieldStrategy?.address ?? ethers.constants.AddressZero,
     startBlockNumber
   );
   updateSubgraphYamlDataSources(
     subgraphYaml,
     'GMXBatchingManager',
-    gmxBatchingManager.address,
+    gmxBatchingManager?.address ?? ethers.constants.AddressZero,
     startBlockNumber
   );
   updateSubgraphYamlDataSources(
@@ -145,9 +150,12 @@ async function main() {
     vaultPeripheryAddress: vaultPeriphery.address,
     curveTriCryptoLpTokenAddress: crv3.address,
     curveQuoterAddress: quoter.address,
-    gmxYieldStrategyAddress: gmxYieldStrategy.address,
-    gmxBatchingManagerAddress: gmxBatchingManager.address,
-    glpStakingManagerAddress: glpStakingManager.address,
+    gmxYieldStrategyAddress:
+      gmxYieldStrategy?.address ?? ethers.constants.AddressZero,
+    gmxBatchingManagerAddress:
+      gmxBatchingManager?.address ?? ethers.constants.AddressZero,
+    glpStakingManagerAddress:
+      glpStakingManager?.address ?? ethers.constants.AddressZero,
     sGLPAddress: sGLP.address,
   });
 
@@ -185,6 +193,10 @@ function updateSubgraphYamlTemplates(subgraphYaml, contractName) {
 }
 
 async function copyAbi(contract, name) {
+  if (!contract) {
+    console.log(`cannot copyAbi: contract ${name} is undefined`);
+    return;
+  }
   const abi = contract.interface.fragments
     .map(f => JSON.parse(f.format('json')))
     .filter(f => f.type !== 'error');
