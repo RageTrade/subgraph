@@ -23,31 +23,29 @@ type Owner @entity {
   vaultDepositWithdrawEntries: [VaultDepositWithdrawEntry!]!
     @derivedFrom(field: "owner")
   "list of entry price entries"
-  entryPriceEntries: [OwnerVaultEntryPrice!]! @derivedFrom(field: "owner")
+  vaultAccounts: [VaultAccount!]! @derivedFrom(field: "owner")
 }
 
 """
 entity per owner per vault
 """
-type OwnerVaultEntryPrice @entity {
+type VaultAccount @entity {
   "address of the owner + vault"
   id: ID!
   "owner address"
   owner: Owner!
   "vault address"
   vault: Vault!
-  "vault asset entry price"
-  asset: EntryPrice!
-  "vault share entry price"
-  share: EntryPrice!
-}
 
-type EntryPrice @entity {
-  "address of the owner + vault + share | asset"
-  id: ID!
-  entryPrice: BigDecimal!
-  entryPrice_Numerator: BigDecimal!
-  entryPrice_Denominator: BigDecimal!
+  assetBalance: BigDecimal!
+  assetEntryPrice: BigDecimal!
+  assetEntryPrice_Numerator: BigDecimal!
+  assetEntryPrice_Denominator: BigDecimal!
+
+  shareBalance: BigDecimal!
+  shareEntryPrice: BigDecimal!
+  shareEntryPrice_Numerator: BigDecimal!
+  shareEntryPrice_Denominator: BigDecimal!
 }
 
 """

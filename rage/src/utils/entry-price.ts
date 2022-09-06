@@ -1,25 +1,16 @@
-import { Address, BigDecimal, log } from '@graphprotocol/graph-ts';
-import { EntryPrice, OwnerVaultEntryPrice } from '../../generated/schema';
-import { generateOwnerId, getOwner } from '../mappings/clearinghouse/owner';
+import { Address, BigDecimal } from '@graphprotocol/graph-ts';
+import { VaultAccount } from '../../generated/schema';
+import { generateOwnerId } from '../mappings/clearinghouse/owner';
 import { generateId, safeDiv } from '../utils/index';
 import { ZERO_BD } from './constants';
 import { generateVaultId } from './getVault';
 
-let LABEL_SHARE = 'SHARE';
-let LABEL_ASSET = 'ASSET';
-
-// export function updateEntryPrices(
-//   ownerAddress: Address,
-//   vaultAddress: Address,
-//   notional: BigDecimal,
-//   assetPrice: BigDecimal,
-//   sharePrice: BigDecimal,
-//   updateEnum: string
-// ) {
-//   let entry = getOwnerVaultEntryPrice(ownerAddress, vaultAddress);
-//   updateEntryPrice(entry.asset, notional, assetPrice, updateEnum);
-//   updateEntryPrice(entry.share, notional, sharePrice, updateEnum);
-// }
+// s  a    psa  pa$
+// 1, 1    1    1  deposit =>  (assetBalance: 1, num: 1, den: 1, entryPrice: 1)
+// 1, 2    2    2  deposit =>  (assetBalance: 3, num: 1+4=5, den: 1+2=3, entryPrice: 5/3=1.666)
+// 1, 2    2    4  withdraw => (assetBalance: 1.5, num: 2.5, den: 1.5, entryPrice: 1.666) [intermediates: fakeDepositAsset: 1.5]
+// 1, 2    2    6  deposit => (assetBalance: 1.5+2=3.5, num: 2.5+2*6=14.5, den: 1.5+2=3.5, entryPrice: 4.1428)
+// 1, 2    2    6  withdraw => (assetBalance: 3.5-1.75, num: 2.5, den: 1.5, entryPrice: 1.666) [intermediates: fakeDepositAsset: 1.5]
 
 export function updateEntryPrices_deposit(
   ownerAddress: Address,
@@ -29,29 +20,39 @@ export function updateEntryPrices_deposit(
   assetPrice: BigDecimal,
   sharePrice: BigDecimal
 ): void {
-  let entry = getOwnerVaultEntryPrice(ownerAddress, vaultAddress);
-  updateEntryPrice_deposit(entry.asset, assetAmount, assetPrice);
-  updateEntryPrice_deposit(entry.share, shareAmount, sharePrice);
-}
+  let entry = getVaultAccount(ownerAddress, vaultAddress);
 
-function updateEntryPrice_deposit(
-  epId: string,
-  tokenAmount: BigDecimal,
-  tokenPriceForDeposit: BigDecimal
-): void {
-  let ep = EntryPrice.load(epId)!;
-  if (ep == null) {
-    log.error(
-      'custom_logs: this should not happen: in entry-price.ts/updateEntryPrice_deposit/ep == null',
-      []
-    );
-  }
-  ep.entryPrice_Numerator = ep.entryPrice_Numerator.plus(
-    tokenAmount.times(tokenPriceForDeposit)
+  /**
+   * Asset
+   */
+  entry.assetBalance = entry.assetBalance.plus(assetAmount);
+  entry.assetEntryPrice_Numerator = entry.assetEntryPrice_Numerator.plus(
+    assetAmount.times(assetPrice)
   );
-  ep.entryPrice_Denominator = ep.entryPrice_Denominator.plus(tokenAmount);
-  ep.entryPrice = safeDiv(ep.entryPrice_Numerator, ep.entryPrice_Denominator);
-  ep.save();
+  entry.assetEntryPrice_Denominator = entry.assetEntryPrice_Denominator.plus(
+    assetAmount
+  );
+  entry.assetEntryPrice = safeDiv(
+    entry.assetEntryPrice_Numerator,
+    entry.assetEntryPrice_Denominator
+  );
+
+  /**
+   * Share
+   */
+  entry.shareBalance = entry.shareBalance.plus(shareAmount);
+  entry.shareEntryPrice_Numerator = entry.shareEntryPrice_Numerator.plus(
+    shareAmount.times(sharePrice)
+  );
+  entry.shareEntryPrice_Denominator = entry.shareEntryPrice_Denominator.plus(
+    shareAmount
+  );
+  entry.shareEntryPrice = safeDiv(
+    entry.shareEntryPrice_Numerator,
+    entry.shareEntryPrice_Denominator
+  );
+
+  entry.save();
 }
 
 export function updateEntryPrices_withdraw(
@@ -60,107 +61,92 @@ export function updateEntryPrices_withdraw(
   assetAmount: BigDecimal,
   shareAmount: BigDecimal
 ): void {
-  let entry = getOwnerVaultEntryPrice(ownerAddress, vaultAddress);
-  updateEntryPrice_withdraw(entry.asset, assetAmount);
-  updateEntryPrice_withdraw(entry.share, shareAmount);
-}
+  let entry = getVaultAccount(ownerAddress, vaultAddress);
 
-function updateEntryPrice_withdraw(
-  epId: string,
-  tokenAmount: BigDecimal
-): void {
-  let ep = EntryPrice.load(epId)!;
-  if (ep == null) {
-    log.error(
-      'custom_logs: this should not happen: in entry-price.ts/updateEntryPrice_withdraw/ep == null',
-      []
-    );
+  let totalAssetBalanceBefore = entry.assetBalance;
+  let totalShareBalanceBefore = entry.shareBalance;
+
+  /**
+   * Asset
+   */
+  // After user has withdrawn everything, the share amount will be zero
+  // however there will be a delta of asset amount which signifies PnL
+  // hence the fraction of shares user is withdrawing, we need to use the
+  // same fraction for assets, instead of using actual assets withdrawn.
+  let adjustedAssetAmount = totalAssetBalanceBefore
+    .times(shareAmount)
+    .div(totalShareBalanceBefore);
+  entry.assetBalance = entry.assetBalance.minus(adjustedAssetAmount);
+
+  let fakeDepositAsset = entry.assetEntryPrice_Denominator.minus(
+    adjustedAssetAmount
+  );
+  let fakeDepositAssetPriceD6 = safeDiv(
+    entry.assetEntryPrice_Numerator,
+    entry.assetEntryPrice_Denominator
+  );
+  entry.assetEntryPrice_Numerator = fakeDepositAsset.times(
+    fakeDepositAssetPriceD6
+  );
+  entry.assetEntryPrice_Denominator = fakeDepositAsset;
+  entry.assetEntryPrice = safeDiv(
+    entry.assetEntryPrice_Numerator,
+    entry.assetEntryPrice_Denominator
+  );
+
+  /**
+   * Share
+   */
+  entry.shareBalance = entry.shareBalance.minus(shareAmount);
+  let fakeDepositShare = entry.shareEntryPrice_Denominator.minus(shareAmount);
+  let fakeDepositSharePriceD6 = safeDiv(
+    entry.shareEntryPrice_Numerator,
+    entry.shareEntryPrice_Denominator
+  );
+  entry.shareEntryPrice_Numerator = fakeDepositShare.times(
+    fakeDepositSharePriceD6
+  );
+  entry.shareEntryPrice_Denominator = fakeDepositShare;
+  entry.shareEntryPrice = safeDiv(
+    entry.shareEntryPrice_Numerator,
+    entry.shareEntryPrice_Denominator
+  );
+
+  if (entry.shareBalance.equals(ZERO_BD)) {
+    entry.assetEntryPrice = ZERO_BD;
+    entry.shareEntryPrice = ZERO_BD;
   }
-  ep.entryPrice_Denominator = ep.entryPrice_Denominator.minus(tokenAmount);
-  ep.entryPrice_Numerator = ep.entryPrice_Denominator.times(ep.entryPrice);
-  ep.save();
+
+  entry.save();
 }
 
-// function updateEntryPrice(
-//   epId: string,
-//   tokenAmount: BigDecimal,
-//   tokenPriceForDeposit: BigDecimal, // not needed for withdraw
-//   updateEnum: string
-// ) {
-//   let ep = EntryPrice.load(epId)!;
-//   if (ep == null) {
-//     log.error(
-//       'custom_logs: this should not happen: in entry-price.ts/updateEntryPrice/ep == null',
-//       []
-//     );
-//   }
-//   if (updateEnum == UpdateEntryPriceEnum.DEPOSIT) {
-//     ep.entryPrice_Numerator = ep.entryPrice_Numerator.plus(
-//       tokenAmount.times(tokenPriceForDeposit)
-//     );
-//     ep.entryPrice_Denominator = ep.entryPrice_Denominator.plus(tokenAmount);
-//     ep.entryPrice = safeDiv(ep.entryPrice_Numerator, ep.entryPrice_Denominator);
-//   } else if (updateEnum == UpdateEntryPriceEnum.WITHDRAW) {
-//     ep.entryPrice_Denominator = ep.entryPrice_Denominator.minus(tokenAmount);
-//     ep.entryPrice_Numerator = ep.entryPrice_Denominator.times(ep.entryPrice);
-//   } else {
-//     log.error(
-//       'custom_logs: this should not happen: in entry-price.ts/updateEntryPrice/else',
-//       []
-//     );
-//   }
-// }
-
-function getOwnerVaultEntryPrice(
+function getVaultAccount(
   ownerAddress: Address,
   vaultAddress: Address
-): OwnerVaultEntryPrice {
+): VaultAccount {
   let ownerVaultEntryPriceId = generateId([
     ownerAddress.toHexString(),
     vaultAddress.toHexString(),
   ]);
 
-  let entry = OwnerVaultEntryPrice.load(ownerVaultEntryPriceId);
+  let entry = VaultAccount.load(ownerVaultEntryPriceId);
   if (entry == null) {
-    entry = new OwnerVaultEntryPrice(ownerVaultEntryPriceId);
+    entry = new VaultAccount(ownerVaultEntryPriceId);
     entry.owner = generateOwnerId(ownerAddress);
     entry.vault = generateVaultId(vaultAddress);
 
-    entry.asset = createEntryPriceObject(
-      ownerAddress,
-      vaultAddress,
-      LABEL_ASSET
-    ).id;
+    entry.assetBalance = ZERO_BD;
+    entry.assetEntryPrice = ZERO_BD;
+    entry.assetEntryPrice_Numerator = ZERO_BD;
+    entry.assetEntryPrice_Denominator = ZERO_BD;
 
-    entry.share = createEntryPriceObject(
-      ownerAddress,
-      vaultAddress,
-      LABEL_SHARE
-    ).id;
+    entry.shareBalance = ZERO_BD;
+    entry.shareEntryPrice = ZERO_BD;
+    entry.shareEntryPrice_Numerator = ZERO_BD;
+    entry.shareEntryPrice_Denominator = ZERO_BD;
 
     entry.save();
   }
 
-  return entry as OwnerVaultEntryPrice;
-}
-
-function createEntryPriceObject(
-  ownerAddress: Address,
-  vaultAddress: Address,
-  subject: string
-): EntryPrice {
-  let entryPrice = new EntryPrice(
-    generateId([
-      ownerAddress.toHexString(),
-      vaultAddress.toHexString(),
-      subject,
-    ])
-  );
-
-  entryPrice.entryPrice = ZERO_BD;
-  entryPrice.entryPrice_Numerator = ZERO_BD;
-  entryPrice.entryPrice_Denominator = ZERO_BD;
-
-  entryPrice.save();
-  return entryPrice;
+  return entry as VaultAccount;
 }

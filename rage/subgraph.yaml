@@ -144,6 +144,8 @@ dataSources:
           file: ./abis/ERC20SymbolBytes.json
         - name: ERC20NameBytes
           file: ./abis/ERC20NameBytes.json
+        - name: CurveYieldStrategy
+          file: ./abis/CurveYieldStrategy.json
       file: ./src/mappings/gmx/gys-handler.ts
       eventHandlers:
         - event: Deposit(indexed address,indexed address,uint256,uint256)
@@ -182,6 +184,8 @@ dataSources:
           file: ./abis/ERC20SymbolBytes.json
         - name: ERC20NameBytes
           file: ./abis/ERC20NameBytes.json
+        - name: CurveYieldStrategy
+          file: ./abis/CurveYieldStrategy.json
       file: ./src/mappings/gmx/gbm-handler.ts
       eventHandlers:
         - event: DepositToken(indexed uint256,indexed address,indexed
