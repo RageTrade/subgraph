@@ -57,9 +57,10 @@ async function main() {
   const { uniswapV3Factory } = await sdk.getUniswapContracts(
     networkInfo.provider
   );
-  const { curveYieldStrategy, vaultPeriphery } = await sdk.getTricryptoVaultContracts(
-    networkInfo.provider
-  );
+  const {
+    curveYieldStrategy,
+    vaultPeriphery,
+  } = await sdk.getTricryptoVaultContracts(networkInfo.provider);
   let gmxYieldStrategy;
   let gmxBatchingManager;
   let glpStakingManager;
