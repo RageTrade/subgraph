@@ -8,8 +8,8 @@
     "auth:arbtest": "graph auth https://thegraph.com/hosted-service/subgraph/fr0ntenddev/rage-trade <add-key-here>",
     "auth:arbmain": "graph auth https://thegraph.com/hosted-service/subgraph/fr0ntenddev/rage-trade-arbitrum-mainnet <add-key-here>",
     "deploy": "pnpm run deploy:arbmain && pnpm run deploy:arbtest",
-    "deploy:arbtest": "pnpm run update:arbtest && graph deploy 134dd3v/ragetrade --ipfs https://api.thegraph.com/ipfs/ --node https://api.thegraph.com/deploy/",
-    "deploy:arbmain": "pnpm run update:arbmain && graph deploy 134dd3v/ragetrade-arbmain --ipfs https://api.thegraph.com/ipfs/ --node https://api.thegraph.com/deploy/",
+    "deploy:arbtest": "pnpm run update:arbtest && graph deploy fr0ntenddev/rage-trade --ipfs https://api.thegraph.com/ipfs/ --node https://api.thegraph.com/deploy/",
+    "deploy:arbmain": "pnpm run update:arbmain && graph deploy fr0ntenddev/rage-trade-arbitrum-mainnet --ipfs https://api.thegraph.com/ipfs/ --node https://api.thegraph.com/deploy/",
     "build": "graph build",
     "deploy-local": "graph deploy rage/perpswap-contracts-subgraph --ipfs http://localhost:5001 --node http://127.0.0.1:8020",
     "format": "prettier --check '**/*'",
@@ -31,7 +31,7 @@
     "yaml": "^1.10.2"
   },
   "dependencies": {
-    "@ragetrade/sdk": "0.10.3-gmx",
+    "@ragetrade/sdk": "0.11.4",
     "babel-polyfill": "^6.26.0",
     "babel-register": "^6.26.0",
     "ethers": "^5.6.9",
