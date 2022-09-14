@@ -53,11 +53,11 @@ async function main() {
     clearingHouseLens,
     insuranceFund,
     vPoolWrapperLogic,
-  } = await sdk.getContracts(networkInfo.provider);
+  } = await sdk.getCoreContracts(networkInfo.provider);
   const { uniswapV3Factory } = await sdk.getUniswapContracts(
     networkInfo.provider
   );
-  const { curveYieldStrategy, vaultPeriphery } = await sdk.getVaultContracts(
+  const { curveYieldStrategy, vaultPeriphery } = await sdk.getTricryptoVaultContracts(
     networkInfo.provider
   );
   let gmxYieldStrategy;
