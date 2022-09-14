@@ -1421,11 +1421,6 @@
       },
       {
         "type": "address",
-        "name": "gauge",
-        "indexed": true
-      },
-      {
-        "type": "address",
         "name": "crvOracle",
         "indexed": true
       }
