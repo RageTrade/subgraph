@@ -32,6 +32,13 @@ switch (networkInput) {
       provider: new MockProvider(421611),
     };
     break;
+  case 'arbgoerli':
+    networkInfo = {
+      subgraph: 'arbitrum-goerli',
+      sdk: 'arbgoerli',
+      provider: new MockProvider(421611),
+    };
+    break;
   default:
     throw new Error(
       `update-subgraph.js: network "${networkInput}" not supported. Please pass arbmain or arbtest.`

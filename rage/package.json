@@ -16,7 +16,8 @@
     "format:fix": "prettier --write '**/*'",
     "update:sdk": "pnpm add @ragetrade/sdk@latest",
     "update:arbmain": "node update-subgraph.js arbmain && pnpm run format:fix",
-    "update:arbtest": "node update-subgraph.js arbtest && pnpm run format:fix"
+    "update:arbtest": "node update-subgraph.js arbtest && pnpm run format:fix",
+    "update:arbgoerli": "node update-subgraph.js arbgoerli && pnpm run format:fix"
   },
   "devDependencies": {
     "@graphprotocol/graph-cli": "^0.20.0",
