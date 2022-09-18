@@ -57,7 +57,7 @@ export function handleGmxDepositToken(event: DepositToken): void {
   entry.action = 'deposit';
 
   let gmxYieldStrategyContract = GMXYieldStrategy.bind(
-    contracts.CurveYieldStrategy
+    contracts.GMXYieldStrategy
   );
   let assetPriceResult = gmxYieldStrategyContract.try_getPriceX128();
 

@@ -53,7 +53,7 @@ export function handleDeposit(event: Deposit): void {
   let assetsPerShare = safeDiv(assetsInBigDecimal, sharesInBigDecimal);
 
   let gmxYieldStrategyContract = GMXYieldStrategy.bind(
-    contracts.CurveYieldStrategy
+    contracts.GMXYieldStrategy
   );
   let assetPriceResult = gmxYieldStrategyContract.try_getPriceX128();
 
@@ -242,7 +242,7 @@ export function handleWithdraw(event: Withdraw): void {
   entry.sharesTokenAmount = sharesInBigDecimal;
 
   let gmxYieldStrategyContract = GMXYieldStrategy.bind(
-    contracts.CurveYieldStrategy
+    contracts.GMXYieldStrategy
   );
   let assetPriceResult = gmxYieldStrategyContract.try_getPriceX128();
 
@@ -350,7 +350,7 @@ export function handleTokenWithdrawn(event: TokenWithdrawn): void {
   entry.sharesTokenAmount = sharesInBigDecimal;
 
   let gmxYieldStrategyContract = GMXYieldStrategy.bind(
-    contracts.CurveYieldStrategy
+    contracts.GMXYieldStrategy
   );
   let assetPriceResult = gmxYieldStrategyContract.try_getPriceX128();
 
