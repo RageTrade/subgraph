@@ -243,12 +243,8 @@ export class CurveParamsUpdated__Params {
     return this._event.parameters[3].value.toBigInt();
   }
 
-  get gauge(): Address {
-    return this._event.parameters[4].value.toAddress();
-  }
-
   get crvOracle(): Address {
-    return this._event.parameters[5].value.toAddress();
+    return this._event.parameters[4].value.toAddress();
   }
 }
 
@@ -1810,32 +1806,6 @@ export class InitializeCallCurveYieldStrategyInitParamsEightyTwentyRangeStrategy
   }
 }
 
-export class MigrateCall extends ethereum.Call {
-  get inputs(): MigrateCall__Inputs {
-    return new MigrateCall__Inputs(this);
-  }
-
-  get outputs(): MigrateCall__Outputs {
-    return new MigrateCall__Outputs(this);
-  }
-}
-
-export class MigrateCall__Inputs {
-  _call: MigrateCall;
-
-  constructor(call: MigrateCall) {
-    this._call = call;
-  }
-}
-
-export class MigrateCall__Outputs {
-  _call: MigrateCall;
-
-  constructor(call: MigrateCall) {
-    this._call = call;
-  }
-}
-
 export class MintCall extends ethereum.Call {
   get inputs(): MintCall__Inputs {
     return new MintCall__Inputs(this);
@@ -2191,12 +2161,8 @@ export class UpdateCurveParamsCall__Inputs {
     return this._call.inputValues[3].value.toBigInt();
   }
 
-  get _gauge(): Address {
-    return this._call.inputValues[4].value.toAddress();
-  }
-
   get _crvOracle(): Address {
-    return this._call.inputValues[5].value.toAddress();
+    return this._call.inputValues[4].value.toAddress();
   }
 }
 
@@ -2265,10 +2231,6 @@ export class WithdrawFeesCall__Inputs {
 
   constructor(call: WithdrawFeesCall) {
     this._call = call;
-  }
-
-  get feeRecipient(): Address {
-    return this._call.inputValues[0].value.toAddress();
   }
 }
 

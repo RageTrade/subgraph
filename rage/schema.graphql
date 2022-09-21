@@ -599,6 +599,8 @@ type VaultRebalance @entity {
   liquidityPositionEarningsRealized: BigDecimal!
   "vault reference"
   vault: Vault!
+  "vault market value when rebalance took place"
+  valueMarketValue: BigDecimal!
 }
 
 """

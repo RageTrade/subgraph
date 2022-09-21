@@ -307,12 +307,8 @@ export class CurveParamsUpdated__Params {
     return this._event.parameters[3].value.toBigInt();
   }
 
-  get gauge(): Address {
-    return this._event.parameters[4].value.toAddress();
-  }
-
   get crvOracle(): Address {
-    return this._event.parameters[5].value.toAddress();
+    return this._event.parameters[4].value.toAddress();
   }
 }
 

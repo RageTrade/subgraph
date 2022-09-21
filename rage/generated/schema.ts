@@ -2749,6 +2749,15 @@ export class VaultRebalance extends Entity {
   set vault(value: string) {
     this.set('vault', Value.fromString(value));
   }
+
+  get valueMarketValue(): BigDecimal {
+    let value = this.get('valueMarketValue');
+    return value.toBigDecimal();
+  }
+
+  set valueMarketValue(value: BigDecimal) {
+    this.set('valueMarketValue', Value.fromBigDecimal(value));
+  }
 }
 
 export class VaultDepositWithdrawEntry extends Entity {

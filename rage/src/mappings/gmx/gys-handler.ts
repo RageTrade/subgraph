@@ -396,5 +396,10 @@ export function handleRebalance(event: Rebalance): void {
   vr.timestamp = event.block.timestamp;
   vr.liquidityPositionEarningsRealized = earnings;
   vr.vault = vault.id;
+  vr.valueMarketValue = BigIntToBigDecimal(
+    // TODO change to BaseVault
+    GMXYieldStrategy.bind(event.address).getVaultMarketValue(),
+    BI_6
+  );
   vr.save();
 }
