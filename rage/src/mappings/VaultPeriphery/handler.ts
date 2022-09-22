@@ -1,7 +1,12 @@
 import { log } from '@graphprotocol/graph-ts';
 import { VaultDepositWithdrawEntry } from '../../../generated/schema';
 import { DepositPeriphery } from '../../../generated/VaultPeriphery/VaultPeriphery';
-import { BigIntToBigDecimal, generateId, parsePriceX128 } from '../../utils';
+import {
+  BigIntToBigDecimal,
+  generateId,
+  parsePriceX128,
+  safeDiv,
+} from '../../utils';
 import { contracts } from '../../utils/addresses';
 import { getVault } from '../../utils/getVault';
 import { getOwner } from '../clearinghouse/owner';
@@ -66,9 +71,10 @@ export function handleDepositPeriphery(event: DepositPeriphery): void {
   entry.sharesTokenDollarValue = entry.assetsTokenAmount.times(assetPrice);
 
   entry.assetPrice = assetPrice;
-  entry.sharePrice = assetPrice
-    .times(entry.assetsTokenAmount)
-    .div(entry.sharesTokenAmount);
+  entry.sharePrice = safeDiv(
+    assetPrice.times(entry.assetsTokenAmount),
+    entry.sharesTokenAmount
+  );
 
   updateEntryPrices_deposit(
     event.params.owner,

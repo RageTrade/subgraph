@@ -73,9 +73,11 @@ export function updateEntryPrices_withdraw(
   // however there will be a delta of asset amount which signifies PnL
   // hence the fraction of shares user is withdrawing, we need to use the
   // same fraction for assets, instead of using actual assets withdrawn.
-  let adjustedAssetAmount = totalAssetBalanceBefore
-    .times(shareAmount)
-    .div(totalShareBalanceBefore);
+  let adjustedAssetAmount = safeDiv(
+    totalAssetBalanceBefore.times(shareAmount),
+    totalShareBalanceBefore
+  );
+
   entry.assetBalance = entry.assetBalance.minus(adjustedAssetAmount);
 
   let fakeDepositAsset = entry.assetEntryPrice_Denominator.minus(

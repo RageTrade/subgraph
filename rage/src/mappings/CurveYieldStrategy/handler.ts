@@ -265,9 +265,10 @@ export function handleWithdraw(event: Withdraw): void {
   let priceOfAsset = parsePriceX128(assetPriceResult.value, BI_18, BI_6);
   entry.sharesTokenDollarValue = entry.assetsTokenAmount.times(priceOfAsset);
   entry.assetPrice = priceOfAsset;
-  entry.sharePrice = priceOfAsset
-    .times(entry.assetsTokenAmount)
-    .div(entry.sharesTokenAmount);
+  entry.sharePrice = safeDiv(
+    priceOfAsset.times(entry.assetsTokenAmount),
+    entry.sharesTokenAmount
+  );
 
   owner.vaultDepositWithdrawEntriesCount = owner.vaultDepositWithdrawEntriesCount.plus(
     ONE_BI

@@ -253,9 +253,10 @@ export function handleWithdraw(event: Withdraw): void {
   let assetsPrice = parsePriceX128(assetPriceResult.value, BI_18, BI_6);
 
   entry.assetPrice = assetsPrice;
-  entry.sharePrice = assetsPrice
-    .times(entry.assetsTokenAmount)
-    .div(entry.sharesTokenAmount);
+  entry.sharePrice = safeDiv(
+    assetsPrice.times(entry.assetsTokenAmount),
+    entry.sharesTokenAmount
+  );
 
   entry.sharesTokenDollarValue = entry.assetsTokenAmount.times(assetsPrice);
 
@@ -363,9 +364,10 @@ export function handleTokenWithdrawn(event: TokenWithdrawn): void {
   let assetsPrice = parsePriceX128(assetPriceResult.value, BI_18, BI_6);
 
   entry.assetPrice = assetsPrice;
-  entry.sharePrice = assetsPrice
-    .times(entry.assetsTokenAmount)
-    .div(entry.sharesTokenAmount);
+  entry.sharePrice = safeDiv(
+    assetsPrice.times(entry.assetsTokenAmount),
+    entry.sharesTokenAmount
+  );
 
   entry.sharesTokenDollarValue = entry.assetsTokenAmount.times(assetsPrice);
 

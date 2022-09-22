@@ -574,7 +574,8 @@ export function handleTokenPositionFundingPaymentRealized(
         lastFundingEntry.virtualPriceAccumulator
       );
 
-      entry.avgTwapPrice = twapPriceDifference.div(
+      entry.avgTwapPrice = safeDiv(
+        twapPriceDifference,
         timeDifference.toBigDecimal()
       );
 
