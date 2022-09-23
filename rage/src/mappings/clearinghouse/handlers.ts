@@ -85,7 +85,7 @@ export function handleTokenPositionChanged(event: TokenPositionChanged): void {
     event.params.accountId,
     event.params.poolId
   );
-  let rageTradePool = RageTradePool.load(tokenPosition.rageTradePool);
+  let rageTradePool = getRageTradePool(tokenPosition.rageTradePool);
   let vPoolWrapperAddress = Address.fromString(rageTradePool.vPoolWrapper);
 
   tokenPosition.netPosition = tokenPosition.netPosition.plus(
@@ -239,23 +239,6 @@ export function handleTokenPositionChanged(event: TokenPositionChanged): void {
 
   rageTradePool.price = getPriceANDTick(vPoolAddress).price;
 
-  let sumAX128_result = getSumAX128(vPoolWrapperAddress);
-
-  if (!sumAX128_result.reverted) {
-    rageTradePool.sumAX128 = sumAX128_result.value;
-  } else {
-    log.error('custom_logs: getSumAX128 reverted {}', ['']);
-  }
-
-  // Pool is UniswapV3Pool
-  let liquidity_result = UniswapV3Pool.bind(vPoolAddress).try_liquidity();
-
-  if (!liquidity_result.reverted) {
-    rageTradePool.liquidity = liquidity_result.value;
-  } else {
-    log.error('custom_logs: try_liquidity reverted {}', ['']);
-  }
-
   //////////////////////////////////////////////////////////////////////////
   ////////////////  algorithm for open position  ///////////////////////////
   //////////////////////////////////////////////////////////////////////////
@@ -293,7 +276,7 @@ export function handleTokenPositionChanged(event: TokenPositionChanged): void {
     }
 
     let id_0 = openPositionsIdArray[0].toString();
-    let openPosition_0 = TokenPositionChangeEntry.load(id_0);
+    let openPosition_0 = TokenPositionChangeEntry.load(id_0)!;
 
     if (openPosition_0.side == tokenPositionChangeEntry.side) {
       tokenPosition.entryValue = tokenPosition.entryValue.plus(
@@ -329,7 +312,7 @@ export function handleTokenPositionChanged(event: TokenPositionChanged): void {
       tokenPositionChangeEntry.vTokenQuantity.gt(ZERO_BD)
     ) {
       let id_00 = openPositionsIdArray[0].toString();
-      let openPosition_00 = TokenPositionChangeEntry.load(id_00);
+      let openPosition_00 = TokenPositionChangeEntry.load(id_00)!;
 
       log.debug(
         'custom_logs: handleTokenPositionChanged enter while loop account.id - {}, openPositionsIdArray.length - {}, openPositionId - {}, entryPrice - {}  vTokenQuantity - {}, tokenPositionChangeEntry.id - {}, tokenPositionChangeEntry.vTokenQuantity - {}',
@@ -497,7 +480,7 @@ export function handleTokenPositionFundingPaymentRealized(
     event.params.accountId,
     event.params.poolId
   );
-  let rageTradePool = RageTradePool.load(event.params.poolId.toHexString());
+  let rageTradePool = getRageTradePool(event.params.poolId.toHexString());
 
   account.vQuoteBalance = account.vQuoteBalance.plus(
     BigIntToBigDecimal(event.params.amount, BI_6)
@@ -686,7 +669,7 @@ export function handleTokenPositionLiquidated(
 
   let lastTokenPositionChangeEntry = TokenPositionChangeEntry.load(
     tokenPosition.lastTokenPositionChangeEntry
-  );
+  )!;
 
   // id of TokenPositionLiquidatedEntry
   let id = generateId([

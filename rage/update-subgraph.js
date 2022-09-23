@@ -81,7 +81,7 @@ async function main() {
   const { crv3, quoter } = await sdk.getCurveFinanceContracts(
     networkInfo.provider
   );
-  const { sGLP } = await sdk.getTokenContracts(networkInfo.provider);
+  const { sGLP, usdc } = await sdk.getTokenContracts(networkInfo.provider);
 
   // STEP 1: Copy ABIs
   await copyAbi(rageTradeFactory, 'RageTradeFactory');
@@ -154,7 +154,8 @@ async function main() {
     rageTradeFactoryAddress: rageTradeFactory.address,
     insuranceFundAddress: insuranceFund.address,
     vPoolWrapperAddress: vPoolWrapperLogic.address,
-    curveYearStrategyAddress: curveYieldStrategy.address,
+    usdcAddress: usdc.address,
+    curveYieldStrategyAddress: curveYieldStrategy.address,
     vaultPeripheryAddress: vaultPeriphery.address,
     curveTriCryptoLpTokenAddress: crv3.address,
     curveQuoterAddress: quoter.address,
@@ -227,7 +228,8 @@ function writeContractAddress({
   rageTradeFactoryAddress,
   insuranceFundAddress,
   vPoolWrapperAddress,
-  curveYearStrategyAddress,
+  usdcAddress,
+  curveYieldStrategyAddress,
   vaultPeripheryAddress,
   curveTriCryptoLpTokenAddress,
   curveQuoterAddress,
@@ -244,6 +246,7 @@ class Contracts {
   RageTradeFactory: Address;
   InsuranceFund: Address;
   VPoolWrapper: Address;
+  USDC: Address;
   CurveYieldStrategy: Address;
   VaultPeriphery: Address;
   CurveTriCryptoLpTokenAddress: Address;
@@ -260,7 +263,8 @@ export let contracts: Contracts = {
   RageTradeFactory: Address.fromString("${rageTradeFactoryAddress}"),
   InsuranceFund: Address.fromString("${insuranceFundAddress}"),
   VPoolWrapper: Address.fromString("${vPoolWrapperAddress}"),
-  CurveYieldStrategy: Address.fromString("${curveYearStrategyAddress}"),
+  USDC: Address.fromString("${usdcAddress}"),
+  CurveYieldStrategy: Address.fromString("${curveYieldStrategyAddress}"),
   VaultPeriphery: Address.fromString("${vaultPeripheryAddress}"),
   CurveTriCryptoLpTokenAddress: Address.fromString("${curveTriCryptoLpTokenAddress}"),
   CurveQuoter: Address.fromString("${curveQuoterAddress}"),

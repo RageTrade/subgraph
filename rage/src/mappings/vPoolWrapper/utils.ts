@@ -9,7 +9,6 @@ import { ONE_BI, ZERO_BD, ZERO_BI } from '../../utils/constants';
 import { Address, BigDecimal, BigInt, log } from '@graphprotocol/graph-ts';
 import { UniswapV3Pool } from '../../../generated/templates/UniswapV3Pool/UniswapV3Pool';
 import { parseSqrtPriceX96 } from '../../utils';
-import { VPoolWrapperLogic } from '../../../generated/templates/VPoolWrapperLogic/VPoolWrapperLogic';
 import { fetchTokenBalance } from '../../utils/token';
 
 export function getCandle(
@@ -29,13 +28,7 @@ export function getCandle(
     candle.volumeUSDC = ZERO_BD; // token1
     candle.txCount = ZERO_BI;
 
-    candle.liquidity = ZERO_BI;
     candle.tick = ZERO_BI;
-
-    candle.sumAX128 = ZERO_BI;
-    candle.sumBX128 = ZERO_BI;
-    candle.sumFpX128 = ZERO_BI;
-    candle.sumFeeX128 = ZERO_BI;
 
     candle.open = initialPrice;
     candle.high = initialPrice;
@@ -125,30 +118,11 @@ export function updateCandleData(
 
   candle.close = rageTradePool.price;
 
-  candle.liquidity = rageTradePool.liquidity;
-  candle.sumAX128 = rageTradePool.sumAX128;
-  candle.sumBX128 = rageTradePool.sumBX128;
-  candle.sumFpX128 = rageTradePool.sumFpX128;
-  candle.sumFeeX128 = rageTradePool.sumFeeX128;
-
   candle.tick = rageTradePool.tick;
 
   candle.volumeVToken = candle.volumeVToken.plus(absBigDecimal(vTokenIn));
   candle.volumeUSDC = candle.volumeUSDC.plus(absBigDecimal(vQuoteIn));
   candle.txCount = candle.txCount.plus(ONE_BI);
-
-  let vPoolWrapperContract = VPoolWrapperLogic.bind(vPoolWrapperAddress);
-  let fp_result = vPoolWrapperContract.try_fpGlobal();
-  let sum_result = vPoolWrapperContract.try_sumFeeGlobalX128();
-
-  if (!fp_result.reverted && !sum_result.reverted) {
-    candle.sumAX128 = fp_result.value.value0;
-    candle.sumBX128 = fp_result.value.value1;
-    candle.sumFpX128 = fp_result.value.value2;
-    candle.sumFeeX128 = sum_result.value;
-  } else {
-    log.error('custom_logs: handleSwap fp_result or sum_result reverted', ['']);
-  }
 
   candle.save();
 
@@ -161,10 +135,10 @@ export function getRageTradePoolTvl(
 ): BigDecimal {
   let vPoolAddress = Address.fromString(rageTradePool.vPool);
 
-  let protocol = Protocol.load('rage_trade');
+  let protocol = Protocol.load('rage_trade')!;
 
-  let vToken = VToken.load(rageTradePool.vToken);
-  let vQuote = VQuote.load(protocol.vQuote);
+  let vToken = VToken.load(rageTradePool.vToken)!;
+  let vQuote = VQuote.load(protocol.vQuote)!;
 
   let vTokenBalance = fetchTokenBalance(
     Address.fromString(vToken.id),

@@ -13,3 +13,6 @@ yarn-error.log*
 lerna-debug.log*
 
 build
+
+.env
+.env.example

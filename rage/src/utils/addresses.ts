@@ -6,6 +6,7 @@ class Contracts {
   RageTradeFactory: Address;
   InsuranceFund: Address;
   VPoolWrapper: Address;
+  USDC: Address;
   CurveYieldStrategy: Address;
   VaultPeriphery: Address;
   CurveTriCryptoLpTokenAddress: Address;
@@ -32,6 +33,7 @@ export let contracts: Contracts = {
   VPoolWrapper: Address.fromString(
     '0x80Fe2ca9c7D5e77934CdAaF6f2eAe002991cb679'
   ),
+  USDC: Address.fromString('0x33a010E74A354bd784a62cca3A4047C1A84Ceeab'),
   CurveYieldStrategy: Address.fromString(
     '0xA1e33ebDA7e0bcC8d078886dA65d1Ea555495CEF'
   ),

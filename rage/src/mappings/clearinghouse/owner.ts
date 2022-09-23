@@ -19,14 +19,6 @@ export function getOwner(ownerAddress: Address): Owner {
     owner = new Owner(ownerId);
     owner.vaultDepositWithdrawEntriesCount = ZERO_BI;
 
-    owner.tryCryptoVaultSharesEntryPrice = ZERO_BD;
-    owner.tryCryptoVaultSharesEntryPrice_Numerator = ZERO_BD;
-    owner.tryCryptoVaultSharesEntryPrice_Denominator = ZERO_BD;
-
-    owner.gmxVaultSharesEntryPrice = ZERO_BD;
-    owner.gmxVaultSharesEntryPrice_Numerator = ZERO_BD;
-    owner.gmxVaultSharesEntryPrice_Denominator = ZERO_BD;
-
     owner.save();
   }
 
