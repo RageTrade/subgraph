@@ -140,7 +140,7 @@ export function handleGmxBatch(event: BatchDeposit): void {
         );
       } else {
         log.debug(
-          'custom_logs: handleGmxBatch owner - {} gmxVaultSharesEntryPrice_Numerator - {} gmxVaultSharesEntryPrice_Denominator - {} gmxVaultSharesEntryPrice - {} sharePrice - {} sharesInBigDecimal - {}',
+          'custom_logs: handleGmxBatch owner - {} sharePrice - {} sharesInBigDecimal - {}',
           [
             owner.id,
             entry.sharePrice.toString(),
