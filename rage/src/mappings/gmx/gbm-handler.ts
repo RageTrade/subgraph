@@ -59,22 +59,17 @@ export function handleGmxDepositToken(event: DepositToken): void {
   let gmxYieldStrategyContract = GMXYieldStrategy.bind(
     contracts.GMXYieldStrategy
   );
-  let assetPriceResult = gmxYieldStrategyContract.try_getPriceX128();
-
-  if (assetPriceResult.reverted) {
-    log.error('custom_logs: getPriceX128 handleGmxDepositToken reverted {}', [
-      '',
-    ]);
-    return;
-  }
-  let assetPrice = parsePriceX128(assetPriceResult.value, BI_18, BI_6);
-
-  entry.assetPrice = assetPrice;
-  entry.sharePrice = ZERO_BD;
 
   entry.tokenAmount = BigIntToBigDecimal(event.params.amount, token.decimals);
   entry.assetsTokenAmount = BigIntToBigDecimal(event.params.glpStaked, BI_18);
   entry.sharesTokenAmount = BigIntToBigDecimal(ZERO_BI, BI_18); // TODO update shares from batch deposit
+
+  let assetPrice = event.params.token.equals(contracts.USDC)
+    ? safeDiv(entry.assetsTokenAmount, entry.assetsTokenAmount)
+    : parsePriceX128(gmxYieldStrategyContract.getPriceX128(), BI_18, BI_6);
+
+  entry.assetPrice = assetPrice;
+  entry.sharePrice = ZERO_BD;
 
   entry.sharesTokenDollarValue = entry.assetsTokenAmount.times(assetPrice);
 
