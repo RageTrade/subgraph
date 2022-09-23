@@ -9,14 +9,6 @@ type Owner @entity {
   id: ID!
   "list of accounts"
   accounts: [Account!]! @derivedFrom(field: "owner")
-  # "trycrypto entry price of shares token for a user"
-  # tryCryptoVaultSharesEntryPrice: BigDecimal!
-  # tryCryptoVaultSharesEntryPrice_Numerator: BigDecimal!
-  # tryCryptoVaultSharesEntryPrice_Denominator: BigDecimal!
-  # "gmx entry price of shares token for a user"
-  # gmxVaultSharesEntryPrice: BigDecimal!
-  # gmxVaultSharesEntryPrice_Numerator: BigDecimal!
-  # gmxVaultSharesEntryPrice_Denominator: BigDecimal!
   "total count of all vaultDepositWithdrawEntries"
   vaultDepositWithdrawEntriesCount: BigInt!
   "list of vault deposits and withdraws"
@@ -465,8 +457,6 @@ type RageTradePool @entity {
   price: BigDecimal!
   "current tick "
   tick: BigInt!
-  # "liquidity of the uniswap v3 pool"
-  # liquidity: BigInt!
   "total value locked in pool in vQuote(USDC) tokens"
   vTotalValueLocked: BigDecimal!
   "margin ratio (1e4) considered for liquidations by keeper"
@@ -477,14 +467,6 @@ type RageTradePool @entity {
   volume24H: BigInt!
   "price change in the last 24 hours"
   priceChange24H: BigInt!
-  # "sumA value that is recorded from global at some point in time"
-  # sumAX128: BigInt!
-  # "sumB value that is recorded from global at same point in time as sumA"
-  # sumBX128: BigInt!
-  # "sumFp value that is recorded from global at same point in time as sumA and sumB"
-  # sumFpX128: BigInt!
-  # "latest sumA value (taken from global), used to extrapolate the sumFp"
-  # sumFeeX128: BigInt!
   "list of collection of candles, recorded for each hour"
   hourData: Collection!
   "list of collection of candles, recorded for each day"
@@ -542,22 +524,12 @@ type Candle @entity {
   low: BigDecimal!
   "closing price of vToken at the start the time frame"
   close: BigDecimal!
-  # "sumA value that is recorded from global at some point in time"
-  # sumAX128: BigInt!
-  # "sumB value that is recorded from global at same point in time as sumA"
-  # sumBX128: BigInt!
-  # "sumFp value that is recorded from global at same point in time as sumA and sumB"
-  # sumFpX128: BigInt!
-  # "latest sumA value (taken from global), used to extrapolate the sumFp"
-  # sumFeeX128: BigInt!
   "volume of vToken traded during the time frame"
   volumeVToken: BigDecimal!
   "volume of vQuote(in USDC) traded during the time frame"
   volumeUSDC: BigDecimal!
   "number of transactions during the time frame"
   txCount: BigInt!
-  # "liquidity of the uniswap v3 pool"
-  # liquidity: BigInt!
 }
 
 """
