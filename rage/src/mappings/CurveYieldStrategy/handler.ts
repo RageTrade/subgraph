@@ -84,26 +84,11 @@ export function handleDeposit(event: Deposit): void {
     assetPrice,
     sharePrice
   );
-  // TODO remove below code since it should be done in above fn
-  owner.tryCryptoVaultSharesEntryPrice_Numerator = owner.tryCryptoVaultSharesEntryPrice_Numerator.plus(
-    sharePrice.times(sharesInBigDecimal)
-  );
-  owner.tryCryptoVaultSharesEntryPrice_Denominator = owner.tryCryptoVaultSharesEntryPrice_Denominator.plus(
-    sharesInBigDecimal
-  );
-
-  owner.tryCryptoVaultSharesEntryPrice = safeDiv(
-    owner.tryCryptoVaultSharesEntryPrice_Numerator,
-    owner.tryCryptoVaultSharesEntryPrice_Denominator
-  );
 
   log.debug(
-    'custom_logs: handleDeposit owner - {} tryCryptoVaultSharesEntryPrice_Numerator - {} tryCryptoVaultSharesEntryPrice_Denominator - {} tryCryptoVaultSharesEntryPrice - {} sharePrice - {} sharesInBigDecimal - {}',
+    'custom_logs: handleDeposit owner - {} sharePrice - {} sharesInBigDecimal - {}',
     [
       event.params.owner.toHexString(),
-      owner.tryCryptoVaultSharesEntryPrice_Numerator.toString(),
-      owner.tryCryptoVaultSharesEntryPrice_Denominator.toString(),
-      owner.tryCryptoVaultSharesEntryPrice.toString(),
       sharePrice.toString(),
       sharesInBigDecimal.toString(),
     ]
@@ -193,38 +178,11 @@ export function handleWithdraw(event: Withdraw): void {
     assetsInBigDecimal,
     sharesInBigDecimal
   );
-  // TODO remove below code since it should be done in above fn
-  let fakeDepositShares = owner.tryCryptoVaultSharesEntryPrice_Denominator.minus(
-    sharesInBigDecimal
-  );
-  let fakeDepositSharePriceD6 = safeDiv(
-    owner.tryCryptoVaultSharesEntryPrice_Numerator,
-    owner.tryCryptoVaultSharesEntryPrice_Denominator
-  ); // existing w-avg share price
-  // resetting numerator
 
-  owner.tryCryptoVaultSharesEntryPrice_Numerator = fakeDepositShares.times(
-    fakeDepositSharePriceD6
-  );
-  owner.tryCryptoVaultSharesEntryPrice_Denominator = fakeDepositShares;
-
-  owner.tryCryptoVaultSharesEntryPrice = safeDiv(
-    owner.tryCryptoVaultSharesEntryPrice_Numerator,
-    owner.tryCryptoVaultSharesEntryPrice_Denominator
-  );
-
-  log.debug(
-    'custom_logs: handleWithdraw owner - {} tryCryptoVaultSharesEntryPrice_Numerator - {} tryCryptoVaultSharesEntryPrice_Denominator - {} tryCryptoVaultSharesEntryPrice - {} fakeDepositShares - {} fakeDepositSharePriceD6 - {} sharesInBigDecimal - {}',
-    [
-      event.params.owner.toHexString(),
-      owner.tryCryptoVaultSharesEntryPrice_Numerator.toString(),
-      owner.tryCryptoVaultSharesEntryPrice_Denominator.toString(),
-      owner.tryCryptoVaultSharesEntryPrice.toString(),
-      fakeDepositShares.toString(),
-      fakeDepositSharePriceD6.toString(),
-      sharesInBigDecimal.toString(),
-    ]
-  );
+  log.debug('custom_logs: handleWithdraw owner - {} sharesInBigDecimal - {}', [
+    event.params.owner.toHexString(),
+    sharesInBigDecimal.toString(),
+  ]);
 
   //...........................................................................//
 

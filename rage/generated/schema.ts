@@ -51,69 +51,6 @@ export class Owner extends Entity {
     this.set('accounts', Value.fromStringArray(value));
   }
 
-  get tryCryptoVaultSharesEntryPrice(): BigDecimal {
-    let value = this.get('tryCryptoVaultSharesEntryPrice');
-    return value.toBigDecimal();
-  }
-
-  set tryCryptoVaultSharesEntryPrice(value: BigDecimal) {
-    this.set('tryCryptoVaultSharesEntryPrice', Value.fromBigDecimal(value));
-  }
-
-  get tryCryptoVaultSharesEntryPrice_Numerator(): BigDecimal {
-    let value = this.get('tryCryptoVaultSharesEntryPrice_Numerator');
-    return value.toBigDecimal();
-  }
-
-  set tryCryptoVaultSharesEntryPrice_Numerator(value: BigDecimal) {
-    this.set(
-      'tryCryptoVaultSharesEntryPrice_Numerator',
-      Value.fromBigDecimal(value)
-    );
-  }
-
-  get tryCryptoVaultSharesEntryPrice_Denominator(): BigDecimal {
-    let value = this.get('tryCryptoVaultSharesEntryPrice_Denominator');
-    return value.toBigDecimal();
-  }
-
-  set tryCryptoVaultSharesEntryPrice_Denominator(value: BigDecimal) {
-    this.set(
-      'tryCryptoVaultSharesEntryPrice_Denominator',
-      Value.fromBigDecimal(value)
-    );
-  }
-
-  get gmxVaultSharesEntryPrice(): BigDecimal {
-    let value = this.get('gmxVaultSharesEntryPrice');
-    return value.toBigDecimal();
-  }
-
-  set gmxVaultSharesEntryPrice(value: BigDecimal) {
-    this.set('gmxVaultSharesEntryPrice', Value.fromBigDecimal(value));
-  }
-
-  get gmxVaultSharesEntryPrice_Numerator(): BigDecimal {
-    let value = this.get('gmxVaultSharesEntryPrice_Numerator');
-    return value.toBigDecimal();
-  }
-
-  set gmxVaultSharesEntryPrice_Numerator(value: BigDecimal) {
-    this.set('gmxVaultSharesEntryPrice_Numerator', Value.fromBigDecimal(value));
-  }
-
-  get gmxVaultSharesEntryPrice_Denominator(): BigDecimal {
-    let value = this.get('gmxVaultSharesEntryPrice_Denominator');
-    return value.toBigDecimal();
-  }
-
-  set gmxVaultSharesEntryPrice_Denominator(value: BigDecimal) {
-    this.set(
-      'gmxVaultSharesEntryPrice_Denominator',
-      Value.fromBigDecimal(value)
-    );
-  }
-
   get vaultDepositWithdrawEntriesCount(): BigInt {
     let value = this.get('vaultDepositWithdrawEntriesCount');
     return value.toBigInt();

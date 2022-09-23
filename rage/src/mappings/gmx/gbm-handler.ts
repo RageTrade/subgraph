@@ -120,7 +120,6 @@ export function handleGmxBatch(event: BatchDeposit): void {
         BigIntToBigDecimal(event.params.userGlpAmount, BI_18)
       );
 
-
       entry.sharePrice = safeDiv(
         entry.assetPrice.times(entry.assetsTokenAmount),
         entry.sharesTokenAmount
@@ -145,25 +144,10 @@ export function handleGmxBatch(event: BatchDeposit): void {
           []
         );
       } else {
-        owner.gmxVaultSharesEntryPrice_Numerator = owner.gmxVaultSharesEntryPrice_Numerator.plus(
-          entry.sharePrice.times(entry.sharesTokenAmount)
-        );
-        owner.gmxVaultSharesEntryPrice_Denominator = owner.gmxVaultSharesEntryPrice_Denominator.plus(
-          entry.sharesTokenAmount
-        );
-
-        owner.gmxVaultSharesEntryPrice = safeDiv(
-          owner.gmxVaultSharesEntryPrice_Numerator,
-          owner.gmxVaultSharesEntryPrice_Denominator
-        );
-
         log.debug(
           'custom_logs: handleGmxBatch owner - {} gmxVaultSharesEntryPrice_Numerator - {} gmxVaultSharesEntryPrice_Denominator - {} gmxVaultSharesEntryPrice - {} sharePrice - {} sharesInBigDecimal - {}',
           [
             owner.id,
-            owner.gmxVaultSharesEntryPrice_Numerator.toString(),
-            owner.gmxVaultSharesEntryPrice_Denominator.toString(),
-            owner.gmxVaultSharesEntryPrice.toString(),
             entry.sharePrice.toString(),
             entry.sharesTokenAmount.toString(),
           ]
