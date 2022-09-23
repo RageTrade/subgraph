@@ -59,7 +59,7 @@ export function handleDepositPeriphery(event: DepositPeriphery): void {
   entry.sharesTokenAmount = BigIntToBigDecimal(event.params.shares, BI_18);
 
   let assetPrice = event.params.token.equals(contracts.USDC)
-    ? safeDiv(entry.assetsTokenAmount, entry.assetsTokenAmount)
+    ? safeDiv(entry.tokenAmount, entry.assetsTokenAmount)
     : parsePriceX128(curveYieldStrategyContract.getPriceX128(), BI_18, BI_6);
 
   entry.sharesTokenDollarValue = entry.assetsTokenAmount.times(assetPrice);
