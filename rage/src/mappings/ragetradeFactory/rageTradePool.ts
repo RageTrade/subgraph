@@ -28,7 +28,6 @@ export function getRageTradePool(poolId: string): RageTradePool {
 
     rageTradePool.price = ZERO_BD;
     rageTradePool.tick = ZERO_BI;
-    rageTradePool.liquidity = ZERO_BI;
 
     rageTradePool.vTotalValueLocked = ZERO_BD;
     rageTradePool.maintenanceMarginRatioBps = ZERO_BD;
@@ -36,11 +35,6 @@ export function getRageTradePool(poolId: string): RageTradePool {
     rageTradePool.fundingRate = ZERO_BD;
     rageTradePool.volume24H = ZERO_BI;
     rageTradePool.priceChange24H = ZERO_BI;
-
-    rageTradePool.sumAX128 = ZERO_BI;
-    rageTradePool.sumBX128 = ZERO_BI;
-    rageTradePool.sumFpX128 = ZERO_BI;
-    rageTradePool.sumFeeX128 = ZERO_BI;
 
     rageTradePool.checkpointTimestamp = ZERO_BI;
     rageTradePool.virtualPriceAccumulator = ZERO_BD;

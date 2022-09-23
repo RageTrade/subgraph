@@ -2174,15 +2174,6 @@ export class RageTradePool extends Entity {
     this.set('tick', Value.fromBigInt(value));
   }
 
-  get liquidity(): BigInt {
-    let value = this.get('liquidity');
-    return value.toBigInt();
-  }
-
-  set liquidity(value: BigInt) {
-    this.set('liquidity', Value.fromBigInt(value));
-  }
-
   get vTotalValueLocked(): BigDecimal {
     let value = this.get('vTotalValueLocked');
     return value.toBigDecimal();
@@ -2226,42 +2217,6 @@ export class RageTradePool extends Entity {
 
   set priceChange24H(value: BigInt) {
     this.set('priceChange24H', Value.fromBigInt(value));
-  }
-
-  get sumAX128(): BigInt {
-    let value = this.get('sumAX128');
-    return value.toBigInt();
-  }
-
-  set sumAX128(value: BigInt) {
-    this.set('sumAX128', Value.fromBigInt(value));
-  }
-
-  get sumBX128(): BigInt {
-    let value = this.get('sumBX128');
-    return value.toBigInt();
-  }
-
-  set sumBX128(value: BigInt) {
-    this.set('sumBX128', Value.fromBigInt(value));
-  }
-
-  get sumFpX128(): BigInt {
-    let value = this.get('sumFpX128');
-    return value.toBigInt();
-  }
-
-  set sumFpX128(value: BigInt) {
-    this.set('sumFpX128', Value.fromBigInt(value));
-  }
-
-  get sumFeeX128(): BigInt {
-    let value = this.get('sumFeeX128');
-    return value.toBigInt();
-  }
-
-  set sumFeeX128(value: BigInt) {
-    this.set('sumFeeX128', Value.fromBigInt(value));
   }
 
   get hourData(): string {
@@ -2541,42 +2496,6 @@ export class Candle extends Entity {
     this.set('close', Value.fromBigDecimal(value));
   }
 
-  get sumAX128(): BigInt {
-    let value = this.get('sumAX128');
-    return value.toBigInt();
-  }
-
-  set sumAX128(value: BigInt) {
-    this.set('sumAX128', Value.fromBigInt(value));
-  }
-
-  get sumBX128(): BigInt {
-    let value = this.get('sumBX128');
-    return value.toBigInt();
-  }
-
-  set sumBX128(value: BigInt) {
-    this.set('sumBX128', Value.fromBigInt(value));
-  }
-
-  get sumFpX128(): BigInt {
-    let value = this.get('sumFpX128');
-    return value.toBigInt();
-  }
-
-  set sumFpX128(value: BigInt) {
-    this.set('sumFpX128', Value.fromBigInt(value));
-  }
-
-  get sumFeeX128(): BigInt {
-    let value = this.get('sumFeeX128');
-    return value.toBigInt();
-  }
-
-  set sumFeeX128(value: BigInt) {
-    this.set('sumFeeX128', Value.fromBigInt(value));
-  }
-
   get volumeVToken(): BigDecimal {
     let value = this.get('volumeVToken');
     return value.toBigDecimal();
@@ -2602,15 +2521,6 @@ export class Candle extends Entity {
 
   set txCount(value: BigInt) {
     this.set('txCount', Value.fromBigInt(value));
-  }
-
-  get liquidity(): BigInt {
-    let value = this.get('liquidity');
-    return value.toBigInt();
-  }
-
-  set liquidity(value: BigInt) {
-    this.set('liquidity', Value.fromBigInt(value));
   }
 }
 
