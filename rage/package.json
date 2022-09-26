@@ -8,6 +8,7 @@
     "auth:arbtest": "graph auth https://thegraph.com/hosted-service/subgraph/$RAGE_ARBTEST_SUBGRAPH <add-key-here>",
     "auth:arbmain": "graph auth https://thegraph.com/hosted-service/subgraph/$RAGE_ARBMAIN_SUBGRAPH <add-key-here>",
     "deploy": "pnpm run deploy:arbmain && pnpm run deploy:arbtest",
+    "deploy:arbgoerli": "source .env && pnpm run update:arbmain && graph deploy $RAGE_ARBMGOERLI_SUBGRAPH --ipfs https://api.thegraph.com/ipfs/ --node https://api.thegraph.com/deploy/",
     "deploy:arbtest": "source .env && pnpm run update:arbtest && graph deploy $RAGE_ARBTEST_SUBGRAPH --ipfs https://api.thegraph.com/ipfs/ --node https://api.thegraph.com/deploy/",
     "deploy:arbmain": "source .env && pnpm run update:arbmain && graph deploy $RAGE_ARBMAIN_SUBGRAPH --ipfs https://api.thegraph.com/ipfs/ --node https://api.thegraph.com/deploy/",
     "build": "graph build",
@@ -32,7 +33,7 @@
     "yaml": "^1.10.2"
   },
   "dependencies": {
-    "@ragetrade/sdk": "0.11.4",
+    "@ragetrade/sdk": "1.0.0-alpha.1",
     "babel-polyfill": "^6.26.0",
     "babel-register": "^6.26.0",
     "ethers": "^5.6.9",
