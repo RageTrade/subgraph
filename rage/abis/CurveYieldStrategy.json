@@ -792,6 +792,14 @@
   },
   {
     "type": "function",
+    "name": "migrate",
+    "constant": false,
+    "payable": false,
+    "inputs": [],
+    "outputs": []
+  },
+  {
+    "type": "function",
     "name": "minNotionalPositionToCloseThreshold",
     "constant": true,
     "stateMutability": "view",
@@ -1229,6 +1237,10 @@
       },
       {
         "type": "address",
+        "name": "_gauge"
+      },
+      {
+        "type": "address",
         "name": "_crvOracle"
       }
     ],
@@ -1265,7 +1277,12 @@
     "name": "withdrawFees",
     "constant": false,
     "payable": false,
-    "inputs": [],
+    "inputs": [
+      {
+        "type": "address",
+        "name": "feeRecipient"
+      }
+    ],
     "outputs": []
   },
   {
@@ -1331,6 +1348,11 @@
         "type": "uint256",
         "name": "crvSlippageTolerance",
         "indexed": false
+      },
+      {
+        "type": "address",
+        "name": "gauge",
+        "indexed": true
       },
       {
         "type": "address",
