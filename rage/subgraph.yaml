@@ -8,7 +8,7 @@ dataSources:
     name: ClearingHouse
     network: arbitrum-goerli
     source:
-      address: '0xe3B8eF0C2Ed6d8318F0b1b50A072e0cB508CDB04'
+      address: '0xA75EFa09cFD4c85380047Bb155D9314ADDF9cdE5'
       abi: ClearingHouse
       startBlock: 408337
     mapping:
@@ -57,7 +57,7 @@ dataSources:
     name: CurveYieldStrategy
     network: arbitrum-goerli
     source:
-      address: '0xA1e33ebDA7e0bcC8d078886dA65d1Ea555495CEF'
+      address: '0x7a18CD0Efd4D180ba00211ACed24632f1C1d4eB2'
       abi: CurveYieldStrategy
       startBlock: 408337
     mapping:
@@ -92,7 +92,7 @@ dataSources:
     name: VaultPeriphery
     network: arbitrum-goerli
     source:
-      address: '0x15023878aa94CdC9B9CE4A46919330B0537caCf5'
+      address: '0x06d3BBC37A8CeB52c79BCb03854ba381d0FF930c'
       abi: VaultPeriphery
       startBlock: 408337
     mapping:
@@ -123,7 +123,7 @@ dataSources:
     name: GMXYieldStrategy
     network: arbitrum-goerli
     source:
-      address: '0x71eec092b5Fccb12582f31993a3a401952239fe9'
+      address: '0x8753c1DA76da134b132F543338FEb26D948A37c6'
       abi: GMXYieldStrategy
       startBlock: 408337
     mapping:
@@ -161,7 +161,7 @@ dataSources:
     name: GMXBatchingManager
     network: arbitrum-goerli
     source:
-      address: '0x21Cb40D3CD26b7E98BC449Fd68E23B2b431EE9f3'
+      address: '0xa9A13AD1eB114827735caE5390826055293abC17'
       abi: GMXBatchingManager
       startBlock: 408337
     mapping:
@@ -197,7 +197,7 @@ dataSources:
     name: RageTradeFactory
     network: arbitrum-goerli
     source:
-      address: '0x172b070dc24D8f0a3Cd665e601a398419c5272E6'
+      address: '0xdAf61e4BbE5Ec32037826FF3eDdAbED6be1AF369'
       abi: RageTradeFactory
       startBlock: 408337
     mapping:
@@ -231,7 +231,7 @@ dataSources:
     name: UniswapV3Factory
     network: arbitrum-goerli
     source:
-      address: '0x1F98431c8aD98523631AE4a59f267346ea31F984'
+      address: '0x4584E64B9cae7c86810a8a0A3c4469c4d164459f'
       abi: UniswapV3Factory
       startBlock: 408337
     mapping:

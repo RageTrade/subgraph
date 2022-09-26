@@ -19,39 +19,39 @@ class Contracts {
 
 export let contracts: Contracts = {
   ClearingHouse: Address.fromString(
-    '0xe3B8eF0C2Ed6d8318F0b1b50A072e0cB508CDB04'
+    '0xA75EFa09cFD4c85380047Bb155D9314ADDF9cdE5'
   ),
   clearingHouseLens: Address.fromString(
-    '0xFAEb252014eaE82e7954E33B16CCdbd058a1D89F'
+    '0xCD1a47E3844741446243238eE40dd9409bB17C3e'
   ),
   RageTradeFactory: Address.fromString(
-    '0x172b070dc24D8f0a3Cd665e601a398419c5272E6'
+    '0xdAf61e4BbE5Ec32037826FF3eDdAbED6be1AF369'
   ),
   InsuranceFund: Address.fromString(
-    '0xb84f7ACe7a6a5e54F84824605f7539aeD4A3e871'
+    '0x2086eD3639f3126F85629F91AD9c8fEE16d0D733'
   ),
   VPoolWrapper: Address.fromString(
-    '0x80Fe2ca9c7D5e77934CdAaF6f2eAe002991cb679'
+    '0x1525b7257211b6500Fd310fF88772ED18Fb36Ff7'
   ),
-  USDC: Address.fromString('0x33a010E74A354bd784a62cca3A4047C1A84Ceeab'),
+  USDC: Address.fromString('0xa94D611f3b0FDBb0a10CE03DC2af9F9eae23D838'),
   CurveYieldStrategy: Address.fromString(
-    '0xA1e33ebDA7e0bcC8d078886dA65d1Ea555495CEF'
+    '0x7a18CD0Efd4D180ba00211ACed24632f1C1d4eB2'
   ),
   VaultPeriphery: Address.fromString(
-    '0x15023878aa94CdC9B9CE4A46919330B0537caCf5'
+    '0x06d3BBC37A8CeB52c79BCb03854ba381d0FF930c'
   ),
   CurveTriCryptoLpTokenAddress: Address.fromString(
-    '0x931073e47baA30389A195CABcf5F3549157afdc9'
+    '0xB642fE1abE33D2B1F58EcdfF1617fD10Cd20D5f7'
   ),
-  CurveQuoter: Address.fromString('0x07E837cAbcC37A8b185051Ae0E984346CECde049'),
+  CurveQuoter: Address.fromString('0x16A4f7E81E02f08c5FCb5282ABE04186825817Cb'),
   GMXYieldStrategy: Address.fromString(
-    '0x71eec092b5Fccb12582f31993a3a401952239fe9'
+    '0x8753c1DA76da134b132F543338FEb26D948A37c6'
   ),
   GMXBatchingManager: Address.fromString(
-    '0x21Cb40D3CD26b7E98BC449Fd68E23B2b431EE9f3'
+    '0xa9A13AD1eB114827735caE5390826055293abC17'
   ),
   GlpStakingManager: Address.fromString(
-    '0x39aC75b66153Be03025E109f748928c812b23Afb'
+    '0xd4866df601CA85d33DF2453Fc83AFE996B26B8c1'
   ),
-  sGLP: Address.fromString('0xe2f057A1F5A1F100b9bF991709432f89602eAC68'),
+  sGLP: Address.fromString('0x1Dac875be521199a3dD6CC10e7e738122d11059C'),
 };
