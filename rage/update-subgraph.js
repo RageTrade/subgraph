@@ -1,3 +1,4 @@
+// @ts-check
 const fs = require('fs-extra');
 const yaml = require('yaml');
 const sdk = require('@ragetrade/sdk');
@@ -47,11 +48,8 @@ switch (networkInput) {
 
 async function main() {
   // just for getting startBlockNumber
-  const factoryDeployment = await sdk.getDeployment(
-    'core',
-    networkInfo.sdk,
-    'RageTradeFactory'
-  );
+  const factoryDeployment = sdk.core.getDeployments(networkInfo.sdk)
+    .RageTradeFactoryDeployment;
   const startBlockNumber = factoryDeployment.receipt.blockNumber;
 
   const {
@@ -60,14 +58,14 @@ async function main() {
     clearingHouseLens,
     insuranceFund,
     vPoolWrapperLogic,
-  } = await sdk.getCoreContracts(networkInfo.provider);
-  const { uniswapV3Factory } = await sdk.getUniswapContracts(
+  } = await sdk.core.getContracts(networkInfo.provider);
+  const { uniswapV3Factory } = await sdk.uniswap.getContracts(
     networkInfo.provider
   );
   const {
     curveYieldStrategy,
     vaultPeriphery,
-  } = await sdk.getTricryptoVaultContracts(networkInfo.provider);
+  } = await sdk.tricryptoVault.getContracts(networkInfo.provider);
   let gmxYieldStrategy;
   let gmxBatchingManager;
   let glpStakingManager;
@@ -76,12 +74,10 @@ async function main() {
       gmxYieldStrategy,
       gmxBatchingManager,
       glpStakingManager,
-    } = await sdk.getGmxVaultContracts(networkInfo.provider));
+    } = await sdk.gmxVault.getContracts(networkInfo.provider));
   } catch {}
-  const { crv3, quoter } = await sdk.getCurveFinanceContracts(
-    networkInfo.provider
-  );
-  const { sGLP, usdc } = await sdk.getTokenContracts(networkInfo.provider);
+  const { crv3, quoter } = await sdk.curve.getContracts(networkInfo.provider);
+  const { sGLP, usdc } = await sdk.tokens.getContracts(networkInfo.provider);
 
   // STEP 1: Copy ABIs
   await copyAbi(rageTradeFactory, 'RageTradeFactory');
