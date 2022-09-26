@@ -37,7 +37,7 @@ switch (networkInput) {
     networkInfo = {
       subgraph: 'arbitrum-goerli',
       sdk: 'arbgoerli',
-      provider: new MockProvider(421611),
+      provider: new MockProvider(421613),
     };
     break;
   default:
