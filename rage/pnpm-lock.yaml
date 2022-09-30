@@ -3,7 +3,7 @@ lockfileVersion: 5.4
 specifiers:
   '@graphprotocol/graph-cli': ^0.20.0
   '@graphprotocol/graph-ts': ^0.20.0
-  '@ragetrade/sdk': 1.0.0-alpha.1
+  '@ragetrade/sdk': 1.0.0-alpha.9
   '@typescript-eslint/eslint-plugin': ^2.0.0
   '@typescript-eslint/parser': ^2.0.0
   babel-polyfill: ^6.26.0
@@ -21,7 +21,7 @@ specifiers:
   yaml: ^1.10.2
 
 dependencies:
-  '@ragetrade/sdk': 1.0.0-alpha.1_aczsflea7zwg5rslfwp3gg4avy
+  '@ragetrade/sdk': 1.0.0-alpha.9_aczsflea7zwg5rslfwp3gg4avy
   babel-polyfill: 6.26.0
   babel-register: 6.26.0
   ethers: 5.6.9
@@ -43,10 +43,6 @@ devDependencies:
   yaml: 1.10.2
 
 packages:
-
-  /@134dd3v/arbos-precompiles/1.0.4:
-    resolution: {integrity: sha512-f9D/nlGnSrjP7tiokXj9RbgVYYahPjYLT8SJ9SCihgjde1Rcq0VkcF0MZzSs/lPx4ym7tXYNx2d5DoNb0H+Umg==}
-    dev: false
 
   /@apollo/protobufjs/1.2.2:
     resolution: {integrity: sha512-vF+zxhPiLtkwxONs6YanSt1EpwpGilThpneExUN5K3tCymuxNnVq2yojTvnpRjv2QfsEIt/n7ozPIIzBLwGIDQ==}
@@ -192,10 +188,6 @@ packages:
     engines: {node: '>=6.9.0'}
     dependencies:
       regenerator-runtime: 0.13.9
-    dev: false
-
-  /@chainlink/contracts/0.4.1:
-    resolution: {integrity: sha512-eC8biY6Ks8k9kZKVt5305veCP3z57yyiy6Os5aR6auta6Bp34xWQ/s4qvrifcW4FNgWw1HJPwMPXDGfiehcLjg==}
     dev: false
 
   /@ethereumjs/block/3.6.3:
@@ -717,20 +709,12 @@ packages:
     resolution: {integrity: sha512-DWSsg8zMHOYMYBqIQi96BQuthZrp98LCeMNcUOaffCIVYQ5yxDbNikLF+H7jEnmNNmXbtVic46iCuVWzar+MgA==}
     dev: false
 
-  /@openzeppelin/contracts-upgradeable/4.7.3:
-    resolution: {integrity: sha512-+wuegAMaLcZnLCJIvrVUDzA9z/Wp93f0Dla/4jJvIhijRrPabjQbZe6fWiECLaJyfn5ci9fqf9vTw3xpQOad2A==}
-    dev: false
-
   /@openzeppelin/contracts/3.4.1-solc-0.7-2:
     resolution: {integrity: sha512-tAG9LWg8+M2CMu7hIsqHPaTyG4uDzjr6mhvH96LvOpLZZj6tgzTluBt+LsCf1/QaYrlis6pITvpIaIhE+iZB+Q==}
     dev: false
 
   /@openzeppelin/contracts/3.4.2-solc-0.7:
     resolution: {integrity: sha512-W6QmqgkADuFcTLzHL8vVoNBtkwjvQRpYIAom7KiUNoLKghyx3FgH0GBjt8NRvigV1ZmMOBllvE1By1C+bi8WpA==}
-    dev: false
-
-  /@openzeppelin/contracts/4.7.3:
-    resolution: {integrity: sha512-dGRS0agJzu8ybo44pCIf3xBaPQN/65AIXNgK8+4gzKd5kbvlqyxryUYVLJv7fK98Seyd2hDZzVEHSWAh0Bt1Yw==}
     dev: false
 
   /@protobufjs/aspromise/1.1.2:
@@ -784,64 +768,17 @@ packages:
   /@protobufjs/utf8/1.1.0:
     resolution: {integrity: sha512-Vvn3zZrhQZkkBE8LSuW3em98c0FwgO4nxzv6OdSxPKJIEKY2bGbHn+mhGIPerzI4twdxaP8/0+06HBpwf345Lw==}
 
-  /@ragetrade/core/1.0.3-arbgoerli.1_hardhat@2.10.0:
-    resolution: {integrity: sha512-sG6M3RjVsgXEGturq9b9HsztPocDU5koxJb/Krg1RAR43fdYkD4iAh4TvW7/3VRCdBVD8//qUrIHgcNbhsI48g==}
-    dependencies:
-      '@chainlink/contracts': 0.4.1
-      '@openzeppelin/contracts': 4.7.3
-      '@openzeppelin/contracts-upgradeable': 4.7.3
-      '@uniswap/v3-core-0.8-support': github.com/uniswap/v3-core/d55e297b938e5b56fd1cf9fe668f5bd385be85b5
-      '@uniswap/v3-periphery': 1.4.1_hardhat@2.10.0
-    transitivePeerDependencies:
-      - hardhat
-    dev: false
-
-  /@ragetrade/gmx-vault/1.0.1-arbgoerli_hardhat@2.10.0:
-    resolution: {integrity: sha512-PXiyEpKVyWOAS9GrJ9VQ3T/LbyDcT+VmlX432fHu9U0Pu2U+/x7zAqXkVfeyJoK23ZZkRNeCOPhsO41i3qtgqQ==}
-    dependencies:
-      '@134dd3v/arbos-precompiles': 1.0.4
-      '@openzeppelin/contracts': 4.7.3
-      '@openzeppelin/contracts-upgradeable': 4.7.3
-      '@ragetrade/core': github.com/RageTrade/core/969ad6b00d8221933cce2a24234206d99dd10ab9_hardhat@2.10.0
-      '@rari-capital/solmate': github.com/Rari-Capital/solmate/25015a1d18e75921f8cb1bacd4beb9f364e788a9
-      '@uniswap/v2-core': 1.0.1
-      '@uniswap/v2-periphery': 1.1.0-beta.0
-      '@uniswap/v3-periphery': 1.4.1_hardhat@2.10.0
-      hardhat-dependency-compiler: 1.1.3_hardhat@2.10.0
-    transitivePeerDependencies:
-      - hardhat
-    dev: false
-
-  /@ragetrade/sdk/1.0.0-alpha.1_aczsflea7zwg5rslfwp3gg4avy:
-    resolution: {integrity: sha512-SbynGj6BZUN5H+s/zO625B/C3WXwm9GBjyR5GdmyqCTi42VLdpwYq7GZbEOC+4dpQvakBLP5L6tUdc+j1uegqg==}
+  /@ragetrade/sdk/1.0.0-alpha.9_aczsflea7zwg5rslfwp3gg4avy:
+    resolution: {integrity: sha512-dGHd8yZkSxHozNTYC1KM+6Qdv8wQDnWhMy5vPNPEqeq3r1cP/71ri/HDvPsId9ALMMQ/vTbc6ox46re1pg7J2A==}
     engines: {node: '>=10'}
     hasBin: true
     peerDependencies:
       ethers: 5.x
     dependencies:
-      '@ragetrade/core': 1.0.3-arbgoerli.1_hardhat@2.10.0
-      '@ragetrade/gmx-vault': 1.0.1-arbgoerli_hardhat@2.10.0
-      '@ragetrade/tricrypto-vault': 1.0.0-arbgoerli.2_hardhat@2.10.0
       '@uniswap/v3-sdk': 3.9.0_hardhat@2.10.0
       ethers: 5.6.9
       ethers-repl: 1.0.3_ethers@5.6.9
       fast-deep-equal: 3.1.3
-    transitivePeerDependencies:
-      - hardhat
-    dev: false
-
-  /@ragetrade/tricrypto-vault/1.0.0-arbgoerli.2_hardhat@2.10.0:
-    resolution: {integrity: sha512-+w/RPzNHad1dOZiyuh6u7hvLRQPLpfkfqiHyBjVv0moQBMirBcUdNW3V9viKY58xi098oVe1Y/IN4Tz+cZGluQ==}
-    dependencies:
-      '@134dd3v/arbos-precompiles': 1.0.4
-      '@openzeppelin/contracts': 4.7.3
-      '@openzeppelin/contracts-upgradeable': 4.7.3
-      '@ragetrade/core': github.com/RageTrade/core/969ad6b00d8221933cce2a24234206d99dd10ab9_hardhat@2.10.0
-      '@rari-capital/solmate': github.com/Rari-Capital/solmate/25015a1d18e75921f8cb1bacd4beb9f364e788a9
-      '@uniswap/v2-core': 1.0.1
-      '@uniswap/v2-periphery': 1.1.0-beta.0
-      '@uniswap/v3-periphery': 1.4.1_hardhat@2.10.0
-      hardhat-dependency-compiler: 1.1.3_hardhat@2.10.0
     transitivePeerDependencies:
       - hardhat
     dev: false
@@ -1478,11 +1415,6 @@ packages:
     resolution: {integrity: sha512-sL/cEvJWAnClXw0wHk85/2L0G6Sj8UB0Ctc1TEMbKSsmpRosqhwj9gWgFRZSrBr2f9tiXISwNhCPmlfqUqyb9Q==}
     dev: false
 
-  /@uniswap/lib/1.1.1:
-    resolution: {integrity: sha512-2yK7sLpKIT91TiS5sewHtOa7YuM8IuBXVl4GZv2jZFys4D2sY7K5vZh6MqD25TPA95Od+0YzCVq6cTF2IKrOmg==}
-    engines: {node: '>=10'}
-    dev: false
-
   /@uniswap/lib/4.0.1-alpha:
     resolution: {integrity: sha512-f6UIliwBbRsgVLxIaBANF6w09tYqc6Y/qXdsrbEmXHyFA7ILiKrIwRFXe1yOg8M3cksgVsO9N7yuL2DdCGQKBA==}
     engines: {node: '>=10'}
@@ -1514,22 +1446,9 @@ packages:
       - hardhat
     dev: false
 
-  /@uniswap/v2-core/1.0.0:
-    resolution: {integrity: sha512-BJiXrBGnN8mti7saW49MXwxDBRFiWemGetE58q8zgfnPPzQKq55ADltEILqOt6VFZ22kVeVKbF8gVd8aY3l7pA==}
-    engines: {node: '>=10'}
-    dev: false
-
   /@uniswap/v2-core/1.0.1:
     resolution: {integrity: sha512-MtybtkUPSyysqLY2U210NBDeCHX+ltHt3oADGdjqoThZaFRDKwM6k1Nb3F0A3hk5hwuQvytFWhrWHOEq6nVJ8Q==}
     engines: {node: '>=10'}
-    dev: false
-
-  /@uniswap/v2-periphery/1.1.0-beta.0:
-    resolution: {integrity: sha512-6dkwAMKza8nzqYiXEr2D86dgW3TTavUvCR0w2Tu33bAbM8Ah43LKAzH7oKKPRT5VJQaMi1jtkGs1E8JPor1n5g==}
-    engines: {node: '>=10'}
-    dependencies:
-      '@uniswap/lib': 1.1.1
-      '@uniswap/v2-core': 1.0.0
     dev: false
 
   /@uniswap/v3-core/1.0.0:
@@ -4473,15 +4392,6 @@ packages:
     dependencies:
       ajv: 6.12.6
       har-schema: 2.0.0
-
-  /hardhat-dependency-compiler/1.1.3_hardhat@2.10.0:
-    resolution: {integrity: sha512-bCDqsOxGST6WkbMvj4lPchYWidNSSBm5CFnkyAex1T11cGmr9otZTGl81W6f9pmrtBXbKCvr3OSuNJ6Q394sAw==}
-    engines: {node: '>=14.14.0'}
-    peerDependencies:
-      hardhat: ^2.0.0
-    dependencies:
-      hardhat: 2.10.0_typescript@3.9.10
-    dev: false
 
   /hardhat-watcher/2.3.0_hardhat@2.10.0:
     resolution: {integrity: sha512-u76a/1pxPyW9DRZ7FZ8HoSQ4AuKOiSDQTR2NyiZlH5f0Ux+qQfahsh9CNusRLhx2s1OWzlkwCVvrdHq5FTGUzw==}
@@ -9641,27 +9551,6 @@ packages:
       source-map-support: 0.5.21
     dev: true
 
-  github.com/RageTrade/core/969ad6b00d8221933cce2a24234206d99dd10ab9_hardhat@2.10.0:
-    resolution: {tarball: https://codeload.github.com/RageTrade/core/tar.gz/969ad6b00d8221933cce2a24234206d99dd10ab9}
-    id: github.com/RageTrade/core/969ad6b00d8221933cce2a24234206d99dd10ab9
-    name: '@ragetrade/core'
-    version: 1.0.1
-    dependencies:
-      '@chainlink/contracts': 0.4.1
-      '@openzeppelin/contracts': 4.7.3
-      '@openzeppelin/contracts-upgradeable': 4.7.3
-      '@uniswap/v3-core-0.8-support': github.com/uniswap/v3-core/d55e297b938e5b56fd1cf9fe668f5bd385be85b5
-      '@uniswap/v3-periphery': 1.4.1_hardhat@2.10.0
-    transitivePeerDependencies:
-      - hardhat
-    dev: false
-
-  github.com/Rari-Capital/solmate/25015a1d18e75921f8cb1bacd4beb9f364e788a9:
-    resolution: {commit: 25015a1d18e75921f8cb1bacd4beb9f364e788a9, repo: git+ssh://git@github.com/Rari-Capital/solmate.git, type: git}
-    name: '@rari-capital/solmate'
-    version: 6.2.0
-    dev: false
-
   github.com/hugomrdias/concat-stream/057bc7b5d6d8df26c8cf00a3f151b6721a0a8034:
     resolution: {tarball: https://codeload.github.com/hugomrdias/concat-stream/tar.gz/057bc7b5d6d8df26c8cf00a3f151b6721a0a8034}
     name: concat-stream
@@ -9683,13 +9572,6 @@ packages:
       split2: 3.2.2
       through2: 3.0.2
     dev: true
-
-  github.com/uniswap/v3-core/d55e297b938e5b56fd1cf9fe668f5bd385be85b5:
-    resolution: {tarball: https://codeload.github.com/uniswap/v3-core/tar.gz/d55e297b938e5b56fd1cf9fe668f5bd385be85b5}
-    name: '@uniswap/v3-core'
-    version: 1.0.2-solc-0.8-simulate
-    engines: {node: '>=10'}
-    dev: false
 
   github.com/web3-js/WebSocket-Node/ef5ea2f41daf4a2113b80c9223df884b4d56c400:
     resolution: {tarball: https://codeload.github.com/web3-js/WebSocket-Node/tar.gz/ef5ea2f41daf4a2113b80c9223df884b4d56c400}
