@@ -123,7 +123,7 @@ dataSources:
     name: GMXYieldStrategy
     network: arbitrum-goerli
     source:
-      address: '0x7Be6CC8fe2A15A4201A248D1D1C30BeC54364072'
+      address: '0x83DA9DD6fA62046743269c5F8afCd4469755d399'
       abi: GMXYieldStrategy
       startBlock: 426782
     mapping:
@@ -161,7 +161,7 @@ dataSources:
     name: GMXBatchingManager
     network: arbitrum-goerli
     source:
-      address: '0x21F8D0f87fE07f280f9a018E112C23D64870c4E5'
+      address: '0x483425D7762FE482dd3d3B7b3932B4D09337FF78'
       abi: GMXBatchingManager
       startBlock: 426782
     mapping:

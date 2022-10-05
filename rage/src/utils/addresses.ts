@@ -45,13 +45,13 @@ export let contracts: Contracts = {
   ),
   CurveQuoter: Address.fromString('0xD543d34b3a62Ba9f18b0A1A4dEE2D98972F28c6D'),
   GMXYieldStrategy: Address.fromString(
-    '0x7Be6CC8fe2A15A4201A248D1D1C30BeC54364072'
+    '0x83DA9DD6fA62046743269c5F8afCd4469755d399'
   ),
   GMXBatchingManager: Address.fromString(
-    '0x21F8D0f87fE07f280f9a018E112C23D64870c4E5'
+    '0x483425D7762FE482dd3d3B7b3932B4D09337FF78'
   ),
   GlpStakingManager: Address.fromString(
-    '0xE886fDa025AA454C59f4A188939f7Fc12183226A'
+    '0xF255f7C7d3D57eFDb292d6F2F1C08b505f28129B'
   ),
   sGLP: Address.fromString('0x1Dac875be521199a3dD6CC10e7e738122d11059C'),
 };
