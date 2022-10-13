@@ -538,8 +538,8 @@ vault name
 enum VaultName {
   tricrypto
   gmx
-  DnGMXJunior
   DnGMXSenior
+  DnGMXJunior
   unknown
 }
 

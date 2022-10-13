@@ -25,9 +25,12 @@ export function getLimitOrderEnum(limitOrder: i32): string {
 
 /**
     ```graphql
-    enum TokenStatus {
+    enum VaultName {
       tricrypto
       gmx
+      DnGMXSenior
+      DnGMXJunior
+      unknown
     }
     ```
 */
@@ -36,6 +39,10 @@ export function getVaultNameEnum(vaultContractAddress: Address): string {
     return 'tricrypto';
   } else if (vaultContractAddress.equals(contracts.GMXYieldStrategy)) {
     return 'gmx';
+  } else if (vaultContractAddress.equals(contracts.DnGmxSeniorVault)) {
+    return 'DnGMXSenior';
+  } else if (vaultContractAddress.equals(contracts.DnGmxJuniorVault)) {
+    return 'DnGMXJunior';
   } else {
     return 'unknown';
   }
