@@ -4,11 +4,7 @@ import {
   Withdraw,
 } from '../../../generated/DnGmxSeniorVault/DnGmxSeniorVault';
 import { VaultDepositWithdrawEntry } from '../../../generated/schema';
-import {
-  BigIntToBigDecimal,
-  safeDiv,
-  generateId,
-} from '../../utils';
+import { BigIntToBigDecimal, safeDiv, generateId } from '../../utils';
 import { contracts } from '../../utils/addresses';
 import { BI_18, BI_6, ONE_BD, ONE_BI } from '../../utils/constants';
 import {
