@@ -34,7 +34,7 @@
     "yaml": "^1.10.2"
   },
   "dependencies": {
-    "@ragetrade/sdk": "1.0.0-alpha.13",
+    "@ragetrade/sdk": "1.0.0-alpha.14",
     "babel-polyfill": "^6.26.0",
     "babel-register": "^6.26.0",
     "ethers": "^5.6.9",
@@ -42,5 +42,10 @@
     "truffle": "^5.0.4",
     "truffle-contract": "^4.0.5",
     "truffle-hdwallet-provider": "^1.0.4"
+  },
+  "pnpm": {
+    "overrides": {
+      "@uniswap/v3-periphery": "1.4.1"
+    }
   }
 }
