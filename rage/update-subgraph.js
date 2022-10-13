@@ -76,6 +76,11 @@ async function main() {
       glpStakingManager,
     } = await sdk.gmxVault.getContracts(networkInfo.provider));
   } catch {}
+  const {
+    dnGmxSeniorVault,
+    dnGmxJuniorVault,
+    dnGmxBatchingManager,
+  } = await sdk.dnLbVault.getContracts(networkInfo.provider);
   const { crv3, quoter } = await sdk.curve.getContracts(networkInfo.provider);
   const { sGLP, usdc } = await sdk.tokens.getContracts(networkInfo.provider);
 
@@ -92,6 +97,9 @@ async function main() {
   await copyAbi(gmxYieldStrategy, 'GMXYieldStrategy');
   await copyAbi(gmxBatchingManager, 'GMXBatchingManager');
   await copyAbi(sGLP, 'sGLP');
+  await copyAbi(dnGmxSeniorVault, 'DnGmxSeniorVault');
+  await copyAbi(dnGmxJuniorVault, 'DnGmxJuniorVault');
+  await copyAbi(dnGmxBatchingManager, 'DnGmxBatchingManager');
 
   // STEP 2: Update ClearingHouse and other contract address in subgraph.yaml
   const subgraphYaml = yaml.parse(fs.readFileSync('./subgraph.yaml', 'utf8'));
@@ -139,7 +147,24 @@ async function main() {
   );
   updateSubgraphYamlTemplates(subgraphYaml, 'UniswapV3Pool');
   updateSubgraphYamlTemplates(subgraphYaml, 'VPoolWrapperLogic');
-
+  updateSubgraphYamlDataSources(
+    subgraphYaml,
+    'DnGmxSeniorVault',
+    dnGmxSeniorVault?.address ?? ethers.constants.AddressZero,
+    startBlockNumber
+  );
+  updateSubgraphYamlDataSources(
+    subgraphYaml,
+    'DnGmxJuniorVault',
+    dnGmxJuniorVault?.address ?? ethers.constants.AddressZero,
+    startBlockNumber
+  );
+  updateSubgraphYamlDataSources(
+    subgraphYaml,
+    'DnGmxBatchingManager',
+    dnGmxBatchingManager?.address ?? ethers.constants.AddressZero,
+    startBlockNumber
+  );
   // write subgraphYaml
   fs.writeFile('./subgraph.yaml', yaml.stringify(subgraphYaml, { indent: 2 }));
 
@@ -162,6 +187,12 @@ async function main() {
     glpStakingManagerAddress:
       glpStakingManager?.address ?? ethers.constants.AddressZero,
     sGLPAddress: sGLP.address,
+    dnGmxSeniorVaultAddress:
+      dnGmxSeniorVault?.address ?? ethers.constants.AddressZero,
+    dnGmxJuniorVaultAddress:
+      dnGmxJuniorVault?.address ?? ethers.constants.AddressZero,
+    dnGmxBatchingManagerAddress:
+      dnGmxBatchingManager?.address ?? ethers.constants.AddressZero,
   });
 
   console.log('Updated subgraph.yaml');
@@ -233,6 +264,9 @@ function writeContractAddress({
   gmxBatchingManagerAddress,
   glpStakingManagerAddress,
   sGLPAddress,
+  dnGmxSeniorVaultAddress,
+  dnGmxJuniorVaultAddress,
+  dnGmxBatchingManagerAddress,
 }) {
   const file = `import { Address } from '@graphprotocol/graph-ts'
 
@@ -251,6 +285,9 @@ class Contracts {
   GMXBatchingManager: Address;
   GlpStakingManager: Address;
   sGLP: Address;
+  DnGmxSeniorVault: Address;
+  DnGmxJuniorVault: Address;
+  DnGmxBatchingManager: Address;
 }
 
 export let contracts: Contracts = { 
@@ -267,7 +304,10 @@ export let contracts: Contracts = {
   GMXYieldStrategy: Address.fromString("${gmxYieldStrategyAddress}"),
   GMXBatchingManager: Address.fromString("${gmxBatchingManagerAddress}"),
   GlpStakingManager: Address.fromString("${glpStakingManagerAddress}"),
-  sGLP: Address.fromString("${sGLPAddress}")
+  sGLP: Address.fromString("${sGLPAddress}"),
+  DnGmxSeniorVault: Address.fromString("${dnGmxSeniorVaultAddress}"),
+  DnGmxJuniorVault: Address.fromString("${dnGmxJuniorVaultAddress}"),
+  DnGmxBatchingManager: Address.fromString("${dnGmxBatchingManagerAddress}"),
  };`;
 
   fs.writeFile('./src/utils/addresses.ts', file, {
