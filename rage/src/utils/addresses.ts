@@ -15,43 +15,55 @@ class Contracts {
   GMXBatchingManager: Address;
   GlpStakingManager: Address;
   sGLP: Address;
+  DnGmxSeniorVault: Address;
+  DnGmxJuniorVault: Address;
+  DnGmxBatchingManager: Address;
 }
 
 export let contracts: Contracts = {
   ClearingHouse: Address.fromString(
-    '0xDBBa38B1bE4faAb8160dE5b8f749683588f8a12d'
+    '0x7047343e3eF25505263116212EE74430A2A12257'
   ),
   clearingHouseLens: Address.fromString(
-    '0x107135d67f39B9bd137AFcCAa2452ce89A03cA76'
+    '0xd927a2c0ED99bFa2a562D6c61b4788D531d14741'
   ),
   RageTradeFactory: Address.fromString(
-    '0x701c06135b0F51c2cbb35fB6C8c85e030f90Dc4B'
+    '0x400E797E9ad4A8E5759Fbb5F39F5f34e074133D2'
   ),
   InsuranceFund: Address.fromString(
-    '0x82187DE339d302169CeF6D0184424a9670be9796'
+    '0x4380a6D84b1B7474aaB76559b2591F7ad862Bb66'
   ),
   VPoolWrapper: Address.fromString(
-    '0x50fAf69a6483b923DD9DA33a798A05aF08550Da5'
+    '0x632a32E14cdb295284D20628ba622347465842CD'
   ),
-  USDC: Address.fromString('0xa94D611f3b0FDBb0a10CE03DC2af9F9eae23D838'),
+  USDC: Address.fromString('0x6775842AE82BF2F0f987b10526768Ad89d79536E'),
   CurveYieldStrategy: Address.fromString(
-    '0x13aDde92e65eDF332a3437baA97175f8A55C5600'
+    '0xddDcfF2D6CB373C2F1A115bAC6B1862b72b812f4'
   ),
   VaultPeriphery: Address.fromString(
-    '0x69e73B8c007fAF6BC90bf1b198Fa4D797D3Cb4Ea'
+    '0x5d44c28E34343888923aCFAc34AF617461657f9B'
   ),
   CurveTriCryptoLpTokenAddress: Address.fromString(
-    '0xd5981b565E66e57AE8A92eD110483a8EC68667C6'
+    '0xF11Ef8833f5aea639720354523eEDefC430E967b'
   ),
-  CurveQuoter: Address.fromString('0xD543d34b3a62Ba9f18b0A1A4dEE2D98972F28c6D'),
+  CurveQuoter: Address.fromString('0xb2fba9f837904584123d259960f21e42de556459'),
   GMXYieldStrategy: Address.fromString(
-    '0x83DA9DD6fA62046743269c5F8afCd4469755d399'
+    '0x4AB3e468C0afee9e0941D9FB26CDFDb438cff8dF'
   ),
   GMXBatchingManager: Address.fromString(
-    '0x483425D7762FE482dd3d3B7b3932B4D09337FF78'
+    '0x3d38Ff7Cbf232b314623510f0Ccda847414148c9'
   ),
   GlpStakingManager: Address.fromString(
-    '0xF255f7C7d3D57eFDb292d6F2F1C08b505f28129B'
+    '0x5215aD536Ed3d0F827470B2C89bCf60001948990'
   ),
-  sGLP: Address.fromString('0x1Dac875be521199a3dD6CC10e7e738122d11059C'),
+  sGLP: Address.fromString('0x28Fa343Dc9af1B976688C6551784FF9AC20D2937'),
+  DnGmxSeniorVault: Address.fromString(
+    '0xef50d59f1F39f059d379Ce3F3BA88Ef8e23EEdf9'
+  ),
+  DnGmxJuniorVault: Address.fromString(
+    '0x06c89eF14ED8D69044b3B04619a683828754F0d8'
+  ),
+  DnGmxBatchingManager: Address.fromString(
+    '0xdbEfc2E5eF462b4a9aa0dab7e24C46C8328CCE84'
+  ),
 };
