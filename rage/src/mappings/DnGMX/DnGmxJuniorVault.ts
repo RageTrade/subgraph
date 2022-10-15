@@ -16,7 +16,7 @@ import {
   safeDiv,
 } from '../../utils';
 import { contracts } from '../../utils/addresses';
-import { BI_18, BI_6, ONE_BI } from '../../utils/constants';
+import { BI_18, BI_6, ONE_BI, ZERO_BD } from '../../utils/constants';
 import {
   updateEntryPrices_deposit,
   updateEntryPrices_withdraw,
@@ -219,15 +219,6 @@ export function handleWithdraw(event: Withdraw): void {
 
 export function handleRebalance(event: Rebalanced): void {
   let vault = getVault(event.address);
-  let account = getAccountById(vault.rageAccount);
-
-  let earnings = account.totalLiquidityPositionEarningsRealized.minus(
-    vault.totalLiquidityPositionEarningsRealized
-  );
-  vault.totalLiquidityPositionEarningsRealized =
-    account.totalLiquidityPositionEarningsRealized;
-
-  vault.save();
 
   let vr = new VaultRebalance(
     generateId([
@@ -238,7 +229,7 @@ export function handleRebalance(event: Rebalanced): void {
   );
 
   vr.timestamp = event.block.timestamp;
-  vr.liquidityPositionEarningsRealized = earnings;
+  vr.liquidityPositionEarningsRealized = ZERO_BD;
   vr.vault = vault.id;
   vr.valueMarketValue = BigIntToBigDecimal(
     // TODO change to BaseVault
