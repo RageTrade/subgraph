@@ -40,9 +40,9 @@ export function getVaultNameEnum(vaultContractAddress: Address): string {
   } else if (vaultContractAddress.equals(contracts.GMXYieldStrategy)) {
     return 'gmx';
   } else if (vaultContractAddress.equals(contracts.DnGmxSeniorVault)) {
-    return 'DnGMXSenior';
+    return 'dn_gmx_senior';
   } else if (vaultContractAddress.equals(contracts.DnGmxJuniorVault)) {
-    return 'DnGMXJunior';
+    return 'dn_gmx_junior';
   } else {
     return 'unknown';
   }
