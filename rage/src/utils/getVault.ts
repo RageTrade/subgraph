@@ -18,11 +18,20 @@ export function getVault(vaultAddress: Address): Vault {
     vault.name = getVaultNameEnum(vaultAddress);
     vault.pendingDeposits = [];
 
-    // TODO there should be a common interface IVault here
-    let account = getAccount(
-      CurveYieldStrategy.bind(vaultAddress).rageAccountNo()
-    );
-    vault.rageAccount = account.id;
+    let rageAccount = '';
+
+    let accountResult = CurveYieldStrategy.bind(
+      vaultAddress
+    ).try_rageAccountNo();
+
+    if (accountResult.reverted) {
+      rageAccount = '-1'; // handling for vaults that don't have rage accounts
+    } else {
+      let account = getAccount(accountResult.value);
+      rageAccount = account.id;
+    }
+
+    vault.rageAccount = rageAccount;
     vault.totalLiquidityPositionEarningsRealized = ZERO_BD;
     vault.save();
   }

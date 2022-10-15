@@ -176,6 +176,8 @@ dataSources:
       abis:
         - name: DnGmxSeniorVault
           file: ./abis/DnGmxSeniorVault.json
+        - name: CurveYieldStrategy
+          file: ./abis/CurveYieldStrategy.json
         - name: ERC20
           file: ./abis/ERC20.json
         - name: ERC20SymbolBytes
@@ -207,6 +209,8 @@ dataSources:
       abis:
         - name: DnGmxJuniorVault
           file: ./abis/DnGmxJuniorVault.json
+        - name: CurveYieldStrategy
+          file: ./abis/CurveYieldStrategy.json
         - name: ERC20
           file: ./abis/ERC20.json
         - name: ERC20SymbolBytes
@@ -242,6 +246,8 @@ dataSources:
           file: ./abis/DnGmxJuniorVault.json
         - name: DnGmxBatchingManager
           file: ./abis/DnGmxBatchingManager.json
+        - name: CurveYieldStrategy
+          file: ./abis/CurveYieldStrategy.json
         - name: ERC20
           file: ./abis/ERC20.json
         - name: ERC20SymbolBytes
