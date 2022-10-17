@@ -251,6 +251,25 @@
   },
   {
     "type": "function",
+    "name": "availableBorrow",
+    "constant": true,
+    "stateMutability": "view",
+    "payable": false,
+    "inputs": [
+      {
+        "type": "address",
+        "name": "borrower"
+      }
+    ],
+    "outputs": [
+      {
+        "type": "uint256",
+        "name": "availableAUsdc"
+      }
+    ]
+  },
+  {
+    "type": "function",
     "name": "balanceOf",
     "constant": true,
     "stateMutability": "view",
@@ -280,6 +299,25 @@
       }
     ],
     "outputs": []
+  },
+  {
+    "type": "function",
+    "name": "borrowCaps",
+    "constant": true,
+    "stateMutability": "view",
+    "payable": false,
+    "inputs": [
+      {
+        "type": "address",
+        "name": ""
+      }
+    ],
+    "outputs": [
+      {
+        "type": "uint256",
+        "name": ""
+      }
+    ]
   },
   {
     "type": "function",
@@ -1022,25 +1060,6 @@
       }
     ],
     "outputs": []
-  },
-  {
-    "type": "function",
-    "name": "vaultCaps",
-    "constant": true,
-    "stateMutability": "view",
-    "payable": false,
-    "inputs": [
-      {
-        "type": "address",
-        "name": ""
-      }
-    ],
-    "outputs": [
-      {
-        "type": "uint256",
-        "name": ""
-      }
-    ]
   },
   {
     "type": "function",

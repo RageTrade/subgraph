@@ -197,12 +197,32 @@
     "inputs": [
       {
         "type": "uint256",
-        "name": "totalEthAmount",
+        "name": "wethHarvested",
         "indexed": false
       },
       {
         "type": "uint256",
-        "name": "juniorVaultShare",
+        "name": "esGmxStaked",
+        "indexed": false
+      },
+      {
+        "type": "uint256",
+        "name": "juniorVaultWeth",
+        "indexed": false
+      },
+      {
+        "type": "uint256",
+        "name": "seniorVaultWeth",
+        "indexed": false
+      },
+      {
+        "type": "uint256",
+        "name": "juniorVaultGlp",
+        "indexed": false
+      },
+      {
+        "type": "uint256",
+        "name": "seniorVaultAUsdc",
         "indexed": false
       }
     ]
@@ -292,102 +312,28 @@
     "inputs": [
       {
         "type": "uint16",
-        "name": "usdcRedeemSlippage",
-        "indexed": true
+        "name": "slippageThresholdGmx",
+        "indexed": false
       },
       {
         "type": "uint240",
         "name": "usdcConversionThreshold",
-        "indexed": true
+        "indexed": false
       },
       {
         "type": "uint256",
-        "name": "seniorVaultWethConversionThreshold",
-        "indexed": true
-      }
-    ]
-  },
-  {
-    "type": "function",
-    "name": "FEE",
-    "constant": true,
-    "stateMutability": "view",
-    "payable": false,
-    "inputs": [],
-    "outputs": [
+        "name": "wethConversionThreshold",
+        "indexed": false
+      },
       {
         "type": "uint256",
-        "name": ""
-      }
-    ]
-  },
-  {
-    "type": "function",
-    "name": "MAX_BPS",
-    "constant": true,
-    "stateMutability": "view",
-    "payable": false,
-    "inputs": [],
-    "outputs": [
-      {
-        "type": "uint16",
-        "name": ""
-      }
-    ]
-  },
-  {
-    "type": "function",
-    "name": "PRICE_PRECISION",
-    "constant": true,
-    "stateMutability": "view",
-    "payable": false,
-    "inputs": [],
-    "outputs": [
+        "name": "hedgeUsdcAmountThreshold",
+        "indexed": false
+      },
       {
         "type": "uint256",
-        "name": ""
-      }
-    ]
-  },
-  {
-    "type": "function",
-    "name": "USDG_DECIMALS",
-    "constant": true,
-    "stateMutability": "view",
-    "payable": false,
-    "inputs": [],
-    "outputs": [
-      {
-        "type": "uint256",
-        "name": ""
-      }
-    ]
-  },
-  {
-    "type": "function",
-    "name": "VARIABLE_INTEREST_MODE",
-    "constant": true,
-    "stateMutability": "view",
-    "payable": false,
-    "inputs": [],
-    "outputs": [
-      {
-        "type": "uint256",
-        "name": ""
-      }
-    ]
-  },
-  {
-    "type": "function",
-    "name": "WETH_DECIMALS",
-    "constant": true,
-    "stateMutability": "view",
-    "payable": false,
-    "inputs": [],
-    "outputs": [
-      {
-        "type": "uint256",
-        "name": ""
+        "name": "hfThreshold",
+        "indexed": false
       }
     ]
   },
@@ -468,6 +414,14 @@
         "name": ""
       }
     ]
+  },
+  {
+    "type": "function",
+    "name": "claimVestedGmx",
+    "constant": false,
+    "payable": false,
+    "inputs": [],
+    "outputs": []
   },
   {
     "type": "function",
@@ -581,34 +535,6 @@
   },
   {
     "type": "function",
-    "name": "dnGmxSeniorVault",
-    "constant": true,
-    "stateMutability": "view",
-    "payable": false,
-    "inputs": [],
-    "outputs": [
-      {
-        "type": "address",
-        "name": ""
-      }
-    ]
-  },
-  {
-    "type": "function",
-    "name": "feeRecipient",
-    "constant": true,
-    "stateMutability": "view",
-    "payable": false,
-    "inputs": [],
-    "outputs": [
-      {
-        "type": "address",
-        "name": ""
-      }
-    ]
-  },
-  {
-    "type": "function",
     "name": "getMarketValue",
     "constant": true,
     "stateMutability": "view",
@@ -623,6 +549,25 @@
       {
         "type": "uint256",
         "name": "marketValue"
+      }
+    ]
+  },
+  {
+    "type": "function",
+    "name": "getPrice",
+    "constant": true,
+    "stateMutability": "view",
+    "payable": false,
+    "inputs": [
+      {
+        "type": "bool",
+        "name": "maximize"
+      }
+    ],
+    "outputs": [
+      {
+        "type": "uint256",
+        "name": ""
       }
     ]
   },
@@ -729,10 +674,6 @@
         "name": "_rewardRouter"
       },
       {
-        "type": "address",
-        "name": "_tricryptoPool"
-      },
-      {
         "type": "tuple",
         "name": "_tokens",
         "components": [
@@ -781,34 +722,6 @@
   },
   {
     "type": "function",
-    "name": "keeper",
-    "constant": true,
-    "stateMutability": "view",
-    "payable": false,
-    "inputs": [],
-    "outputs": [
-      {
-        "type": "address",
-        "name": ""
-      }
-    ]
-  },
-  {
-    "type": "function",
-    "name": "lastRebalanceTS",
-    "constant": true,
-    "stateMutability": "view",
-    "payable": false,
-    "inputs": [],
-    "outputs": [
-      {
-        "type": "uint64",
-        "name": ""
-      }
-    ]
-  },
-  {
-    "type": "function",
     "name": "maxDeposit",
     "constant": true,
     "stateMutability": "view",
@@ -835,7 +748,7 @@
     "inputs": [
       {
         "type": "address",
-        "name": ""
+        "name": "receiver"
       }
     ],
     "outputs": [
@@ -1033,53 +946,11 @@
   },
   {
     "type": "function",
-    "name": "protocolFee",
-    "constant": true,
-    "stateMutability": "view",
-    "payable": false,
-    "inputs": [],
-    "outputs": [
-      {
-        "type": "uint256",
-        "name": ""
-      }
-    ]
-  },
-  {
-    "type": "function",
     "name": "rebalance",
     "constant": false,
     "payable": false,
     "inputs": [],
     "outputs": []
-  },
-  {
-    "type": "function",
-    "name": "rebalanceDeltaThreshold",
-    "constant": true,
-    "stateMutability": "view",
-    "payable": false,
-    "inputs": [],
-    "outputs": [
-      {
-        "type": "uint16",
-        "name": ""
-      }
-    ]
-  },
-  {
-    "type": "function",
-    "name": "rebalanceTimeThreshold",
-    "constant": true,
-    "stateMutability": "view",
-    "payable": false,
-    "inputs": [],
-    "outputs": [
-      {
-        "type": "uint32",
-        "name": ""
-      }
-    ]
   },
   {
     "type": "function",
@@ -1142,67 +1013,29 @@
   },
   {
     "type": "function",
-    "name": "seniorVaultWethConversionThreshold",
-    "constant": true,
-    "stateMutability": "view",
-    "payable": false,
-    "inputs": [],
-    "outputs": [
-      {
-        "type": "uint256",
-        "name": ""
-      }
-    ]
-  },
-  {
-    "type": "function",
-    "name": "seniorVaultWethRewards",
-    "constant": true,
-    "stateMutability": "view",
-    "payable": false,
-    "inputs": [],
-    "outputs": [
-      {
-        "type": "uint256",
-        "name": ""
-      }
-    ]
-  },
-  {
-    "type": "function",
-    "name": "setBatchingManager",
+    "name": "setAdminParams",
     "constant": false,
     "payable": false,
     "inputs": [
       {
         "type": "address",
-        "name": "_batchingManager"
-      }
-    ],
-    "outputs": []
-  },
-  {
-    "type": "function",
-    "name": "setDepositCap",
-    "constant": false,
-    "payable": false,
-    "inputs": [
-      {
-        "type": "uint256",
-        "name": "_newDepositCap"
-      }
-    ],
-    "outputs": []
-  },
-  {
-    "type": "function",
-    "name": "setDnGmxSeniorVault",
-    "constant": false,
-    "payable": false,
-    "inputs": [
+        "name": "_newKeeper"
+      },
       {
         "type": "address",
         "name": "_dnGmxSeniorVault"
+      },
+      {
+        "type": "uint256",
+        "name": "_newDepositCap"
+      },
+      {
+        "type": "address",
+        "name": "_batchingManager"
+      },
+      {
+        "type": "uint256",
+        "name": "_withdrawFeeBps"
       }
     ],
     "outputs": []
@@ -1227,39 +1060,20 @@
     "payable": false,
     "inputs": [
       {
-        "type": "tuple",
-        "name": "_hedgeParams",
-        "components": [
-          {
-            "type": "address",
-            "name": "vault"
-          },
-          {
-            "type": "address",
-            "name": "swapRouter"
-          },
-          {
-            "type": "uint256",
-            "name": "targetHealthFactor"
-          },
-          {
-            "type": "address",
-            "name": "aaveRewardsController"
-          }
-        ]
-      }
-    ],
-    "outputs": []
-  },
-  {
-    "type": "function",
-    "name": "setKeeper",
-    "constant": false,
-    "payable": false,
-    "inputs": [
+        "type": "address",
+        "name": "_vault"
+      },
       {
         "type": "address",
-        "name": "_newKeeper"
+        "name": "_swapRouter"
+      },
+      {
+        "type": "uint256",
+        "name": "_targetHealthFactor"
+      },
+      {
+        "type": "address",
+        "name": "_aaveRewardsController"
       }
     ],
     "outputs": []
@@ -1271,18 +1085,12 @@
     "payable": false,
     "inputs": [
       {
-        "type": "tuple",
-        "name": "_rsParams",
-        "components": [
-          {
-            "type": "uint32",
-            "name": "rebalanceTimeThreshold"
-          },
-          {
-            "type": "uint16",
-            "name": "rebalanceDeltaThreshold"
-          }
-        ]
+        "type": "uint32",
+        "name": "_rebalanceTimeThreshold"
+      },
+      {
+        "type": "uint16",
+        "name": "_rebalanceDeltaThreshold"
       }
     ],
     "outputs": []
@@ -1294,52 +1102,39 @@
     "payable": false,
     "inputs": [
       {
-        "type": "tuple",
-        "name": "_ysParams",
-        "components": [
-          {
-            "type": "uint16",
-            "name": "usdcRedeemSlippage"
-          },
-          {
-            "type": "uint240",
-            "name": "usdcConversionThreshold"
-          },
-          {
-            "type": "uint256",
-            "name": "seniorVaultWethConversionThreshold"
-          }
-        ]
+        "type": "uint16",
+        "name": "_slippageThresholdSwap"
+      },
+      {
+        "type": "uint16",
+        "name": "_slippageThresholdGmx"
+      },
+      {
+        "type": "uint208",
+        "name": "_usdcConversionThreshold"
+      },
+      {
+        "type": "uint256",
+        "name": "_hfThreshold"
+      },
+      {
+        "type": "uint256",
+        "name": "_wethConversionThreshold"
+      },
+      {
+        "type": "uint256",
+        "name": "_hedgeUsdcAmountThreshold"
       }
     ],
     "outputs": []
   },
   {
     "type": "function",
-    "name": "setWithdrawFee",
+    "name": "stopVestAndStakeEsGmx",
     "constant": false,
     "payable": false,
-    "inputs": [
-      {
-        "type": "uint256",
-        "name": "_withdrawFeeBps"
-      }
-    ],
-    "outputs": []
-  },
-  {
-    "type": "function",
-    "name": "slippageThreshold",
-    "constant": true,
-    "stateMutability": "view",
-    "payable": false,
     "inputs": [],
-    "outputs": [
-      {
-        "type": "uint256",
-        "name": ""
-      }
-    ]
+    "outputs": []
   },
   {
     "type": "function",
@@ -1454,45 +1249,11 @@
   },
   {
     "type": "function",
-    "name": "usdcConversionThreshold",
-    "constant": true,
-    "stateMutability": "view",
+    "name": "unstakeAndVestEsGmx",
+    "constant": false,
     "payable": false,
     "inputs": [],
-    "outputs": [
-      {
-        "type": "uint240",
-        "name": ""
-      }
-    ]
-  },
-  {
-    "type": "function",
-    "name": "usdcRedeemSlippage",
-    "constant": true,
-    "stateMutability": "view",
-    "payable": false,
-    "inputs": [],
-    "outputs": [
-      {
-        "type": "uint16",
-        "name": ""
-      }
-    ]
-  },
-  {
-    "type": "function",
-    "name": "wethThreshold",
-    "constant": true,
-    "stateMutability": "view",
-    "payable": false,
-    "inputs": [],
-    "outputs": [
-      {
-        "type": "uint256",
-        "name": ""
-      }
-    ]
+    "outputs": []
   },
   {
     "type": "function",
@@ -1517,20 +1278,6 @@
       {
         "type": "uint256",
         "name": "shares"
-      }
-    ]
-  },
-  {
-    "type": "function",
-    "name": "withdrawFeeBps",
-    "constant": true,
-    "stateMutability": "view",
-    "payable": false,
-    "inputs": [],
-    "outputs": [
-      {
-        "type": "uint256",
-        "name": ""
       }
     ]
   },
