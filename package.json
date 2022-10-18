@@ -1,0 +1,5 @@
+{
+	"dependencies": {
+		"@ragetrade/sdk": "1.0.0-alpha.19"
+	}
+}
