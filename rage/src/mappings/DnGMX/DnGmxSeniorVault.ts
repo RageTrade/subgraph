@@ -6,7 +6,7 @@ import {
 import { VaultDepositWithdrawEntry } from '../../../generated/schema';
 import { BigIntToBigDecimal, safeDiv, generateId } from '../../utils';
 import { contracts } from '../../utils/addresses';
-import { BI_18, BI_6, ONE_BD, ONE_BI } from '../../utils/constants';
+import { BI_6, ONE_BD, ONE_BI } from '../../utils/constants';
 import {
   updateEntryPrices_deposit,
   updateEntryPrices_withdraw,
@@ -30,7 +30,8 @@ export function handleDeposit(event: Deposit): void {
   let owner = getOwner(event.params.owner);
   let token = getERC20Token(contracts.USDC);
 
-  let sharesInBigDecimal = BigIntToBigDecimal(event.params.shares, BI_18);
+  // shares decimals = asset decimals = 6
+  let sharesInBigDecimal = BigIntToBigDecimal(event.params.shares, BI_6);
   let assetsInBigDecimal = BigIntToBigDecimal(event.params.assets, BI_6); // asset is USDC
 
   let assetsPerShare = safeDiv(assetsInBigDecimal, sharesInBigDecimal);
@@ -112,7 +113,7 @@ export function handleWithdraw(event: Withdraw): void {
   let owner = getOwner(event.params.owner);
   let token = getERC20Token(contracts.USDC);
 
-  let sharesInBigDecimal = BigIntToBigDecimal(event.params.shares, BI_18);
+  let sharesInBigDecimal = BigIntToBigDecimal(event.params.shares, BI_6);
   let assetsInBigDecimal = BigIntToBigDecimal(event.params.assets, BI_6); // asset is USDC
 
   //...........................................................................//
