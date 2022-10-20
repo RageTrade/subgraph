@@ -93,8 +93,13 @@
   {
     "type": "event",
     "anonymous": false,
-    "name": "FeeRecipientUpdated",
+    "name": "FeeParamsUpdated",
     "inputs": [
+      {
+        "type": "uint256",
+        "name": "feeBps",
+        "indexed": false
+      },
       {
         "type": "address",
         "name": "_newFeeRecipient",
@@ -535,6 +540,38 @@
   },
   {
     "type": "function",
+    "name": "dnUsdcDeposited",
+    "constant": true,
+    "stateMutability": "view",
+    "payable": false,
+    "inputs": [],
+    "outputs": [
+      {
+        "type": "int256",
+        "name": ""
+      }
+    ]
+  },
+  {
+    "type": "function",
+    "name": "getCurrentBorrows",
+    "constant": true,
+    "stateMutability": "view",
+    "payable": false,
+    "inputs": [],
+    "outputs": [
+      {
+        "type": "uint256",
+        "name": "currentBtcBorrow"
+      },
+      {
+        "type": "uint256",
+        "name": "currentEthBorrow"
+      }
+    ]
+  },
+  {
+    "type": "function",
     "name": "getMarketValue",
     "constant": true,
     "stateMutability": "view",
@@ -549,6 +586,29 @@
       {
         "type": "uint256",
         "name": "marketValue"
+      }
+    ]
+  },
+  {
+    "type": "function",
+    "name": "getOptimalBorrows",
+    "constant": true,
+    "stateMutability": "view",
+    "payable": false,
+    "inputs": [
+      {
+        "type": "uint256",
+        "name": "glpDeposited"
+      }
+    ],
+    "outputs": [
+      {
+        "type": "uint256",
+        "name": "optimalBtcBorrow"
+      },
+      {
+        "type": "uint256",
+        "name": "optimalEthBorrow"
       }
     ]
   },
@@ -1042,10 +1102,14 @@
   },
   {
     "type": "function",
-    "name": "setFeeRecipient",
+    "name": "setFeeParams",
     "constant": false,
     "payable": false,
     "inputs": [
+      {
+        "type": "uint256",
+        "name": "_feeBps"
+      },
       {
         "type": "address",
         "name": "_feeRecipient"

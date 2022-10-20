@@ -161,7 +161,7 @@ dataSources:
     name: DnGmxSeniorVault
     network: arbitrum-goerli
     source:
-      address: '0x405D4877b5998f7dFC9F488dB25E815B9Dd32aEE'
+      address: '0xF2d06c237306f823751b5F735CAb94Fa40425434'
       abi: DnGmxSeniorVault
       startBlock: 587666
     mapping:
@@ -194,7 +194,7 @@ dataSources:
     name: DnGmxJuniorVault
     network: arbitrum-goerli
     source:
-      address: '0x1637c91Dbb18d29B0394D6ed2FbCfC77D3b4f0a4'
+      address: '0x58396813f7929240167eb4d3d4679a59310621F0'
       abi: DnGmxJuniorVault
       startBlock: 587666
     mapping:
@@ -229,7 +229,7 @@ dataSources:
     name: DnGmxBatchingManager
     network: arbitrum-goerli
     source:
-      address: '0x7784dA76DbEEd64Ef62C06E4e0FcbE92B8027A11'
+      address: '0xC9457029f489c7c0EA6caAf5890795252f6E0ef2'
       abi: DnGmxBatchingManager
       startBlock: 587666
     mapping:

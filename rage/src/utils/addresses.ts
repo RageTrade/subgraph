@@ -58,12 +58,12 @@ export let contracts: Contracts = {
   ),
   sGLP: Address.fromString('0x28Fa343Dc9af1B976688C6551784FF9AC20D2937'),
   DnGmxSeniorVault: Address.fromString(
-    '0x405D4877b5998f7dFC9F488dB25E815B9Dd32aEE'
+    '0xF2d06c237306f823751b5F735CAb94Fa40425434'
   ),
   DnGmxJuniorVault: Address.fromString(
-    '0x1637c91Dbb18d29B0394D6ed2FbCfC77D3b4f0a4'
+    '0x58396813f7929240167eb4d3d4679a59310621F0'
   ),
   DnGmxBatchingManager: Address.fromString(
-    '0x7784dA76DbEEd64Ef62C06E4e0FcbE92B8027A11'
+    '0xC9457029f489c7c0EA6caAf5890795252f6E0ef2'
   ),
 };
