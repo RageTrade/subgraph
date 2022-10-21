@@ -3,7 +3,6 @@ import { Owner, VaultDepositWithdrawEntry } from '../../../generated/schema';
 import {
   BatchDeposit,
   DepositToken,
-  DnGmxBatchingManager,
 } from '../../../generated/DnGmxBatchingManager/DnGmxBatchingManager';
 import { DnGmxJuniorVault } from '../../../generated/DnGmxJuniorVault/DnGmxJuniorVault';
 import {
@@ -32,7 +31,7 @@ export function handleDepositToken(event: DepositToken): void {
     ]
   );
 
-  let vault = getVault(contracts.GMXYieldStrategy);
+  let vault = getVault(contracts.DnGmxJuniorVault);
   let owner = getOwner(event.params.receiver);
   let token = getERC20Token(event.params.token);
 
@@ -97,7 +96,7 @@ export function handleBatchDeposit(event: BatchDeposit): void {
     ]
   );
 
-  let vault = getVault(contracts.GMXYieldStrategy);
+  let vault = getVault(contracts.DnGmxJuniorVault);
 
   let pendingDeposits = vault.pendingDeposits; // copy to mem
   for (let i = 0; i < pendingDeposits.length; i++) {
@@ -124,7 +123,7 @@ export function handleBatchDeposit(event: BatchDeposit): void {
 
       updateEntryPrices_deposit(
         Address.fromHexString(entry.owner) as Address,
-        contracts.GMXYieldStrategy,
+        contracts.DnGmxJuniorVault,
         entry.assetsTokenAmount,
         entry.sharesTokenAmount,
         entry.assetPrice,
