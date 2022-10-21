@@ -1,4 +1,4 @@
-import { Address, log } from '@graphprotocol/graph-ts';
+import { Address, log, BigInt } from '@graphprotocol/graph-ts';
 import { Owner, VaultDepositWithdrawEntry } from '../../../generated/schema';
 import {
   BatchDeposit,
@@ -99,6 +99,12 @@ export function handleBatchDeposit(event: BatchDeposit): void {
   let vault = getVault(contracts.DnGmxJuniorVault);
 
   let pendingDeposits = vault.pendingDeposits; // copy to mem
+
+  log.debug(
+    'custom_logs: handleBatchDeposit_DN_GMX_Vault - pendingDeposits.length - {}',
+    [BigInt.fromI32(pendingDeposits.length).toString()]
+  );
+
   for (let i = 0; i < pendingDeposits.length; i++) {
     let entry = VaultDepositWithdrawEntry.load(pendingDeposits[i]);
     if (entry == null) {

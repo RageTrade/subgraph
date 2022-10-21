@@ -23,7 +23,6 @@ import {
 } from '../../utils/entry-price';
 import { getERC20Token } from '../../utils/getERC20Token';
 import { getVault } from '../../utils/getVault';
-import { getAccountById } from '../clearinghouse/account';
 import { getOwner } from '../clearinghouse/owner';
 
 export function handleDeposit(event: Deposit): void {
