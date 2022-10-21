@@ -28,7 +28,7 @@ Note: Before you deploy, you'll need to get an access key from thegraph and run 
 - `update-subgraph.js `A script that, fetches and updates the latest contract metadata from `@ragetrade/sdk` and updates abi files and contract addresses and `subgraph.yaml` .
 
 - `schema.graphql`&#x20;
-  Describes all the enitities, and their fields, ie the data you want to fetch from the subgraph, also documents what each field is used for.
+  Describes all the entities, and their fields, ie the data you want to fetch from the subgraph, also documents what each field is used for.
 
 - `subgraph.yaml`
  The config for the entire project, it describes
@@ -40,15 +40,15 @@ Note: Before you deploy, you'll need to get an access key from thegraph and run 
   - Contract metadata, including name, abi and address etc...
 
 - `src `
-The source code, written in [assemblyscript](https://www.assemblyscript.org/) that handles all the incoming data and processes it. We run some complex indexing logic to derive a lot of values and transform the data into formats that can easily consumed by the frontend.
+The source code, written in [assemblyscript](https://www.assemblyscript.org/) that handles all the incoming data and processes it. We run some complex indexing logic to derive a lot of values and transform the data into formats that can easily be consumed by the frontend.
 
   The code makes use of various[ assemblyscript apis](https://thegraph.com/docs/en/developer/assemblyscript-api/) provided by the [@graphprotocol/graph-ts](https://www.npmjs.com/package/@graphprotocol/graph-ts) package.
 
 ### Reading The Schema
 
-For a complete definition of the schema, you can use the [thegraph.com](https://thegraph.com/hosted-service/subgraph/fr0ntenddev/rage-trade) playground, it will include all entitties you can query.
+For a complete definition of the schema, you can use the [thegraph.com](https://thegraph.com/hosted-service/subgraph/fr0ntenddev/rage-trade) playground, it will include all entities you can query.
 
-When you click on an entity, you can see all the fields on that entity with a brief explanaition on what that field represents. On the left you'll find a code block where you can test out your queries, some of these example queries are shown in the example queries section below.
+When you click on an entity, you can see all the fields on that entity with a brief explanation on what that field represents. On the left you'll find a code block where you can test out your queries, some of these example queries are shown in the example queries section below.
 
 - ![Available entities you can query](https://archbee-image-uploads.s3.amazonaws.com/tlTHHA14JH0KqPP32avUY/Fk5HrXYs3Kv9HdRIQZ7bx_screenshot-2022-04-09-at-125549-pm.png)
 
