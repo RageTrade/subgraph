@@ -88,7 +88,7 @@ export function handleDepositToken(event: DepositToken): void {
 
 export function handleBatchDeposit(event: BatchDeposit): void {
   log.debug(
-    'custom_logs: handleGmxBatch triggered [ round - {} ] [ userGlpAmount - {} ] [ userShareAmount - {} ]',
+    'custom_logs: handleBatchDeposit_DN_GMX_Vault triggered [ round - {} ] [ userGlpAmount - {} ] [ userShareAmount - {} ]',
     [
       event.params.round.toHexString(),
       event.params.userGlpAmount.toHexString(),
@@ -103,7 +103,7 @@ export function handleBatchDeposit(event: BatchDeposit): void {
     let entry = VaultDepositWithdrawEntry.load(pendingDeposits[i]);
     if (entry == null) {
       log.warning(
-        'custom_logs: panic, entry is null in handleBatchDeposit dn vault',
+        'custom_logs: panic, entry is null in handleBatchDeposit_DN_GMX_Vault',
         []
       );
     } else {
@@ -134,12 +134,12 @@ export function handleBatchDeposit(event: BatchDeposit): void {
       let owner = Owner.load(entry.owner);
       if (owner == null) {
         log.warning(
-          'custom_logs: this should not happen, owner is null in handleGmxBatch',
+          'custom_logs: this should not happen, owner is null in handleBatchDeposit_DN_GMX_Vault',
           []
         );
       } else {
         log.debug(
-          'custom_logs: handleGmxBatch owner - {} sharePrice - {} sharesInBigDecimal - {}',
+          'custom_logs: handleBatchDeposit_DN_GMX_Vault owner - {} sharePrice - {} sharesInBigDecimal - {}',
           [
             owner.id,
             entry.sharePrice.toString(),
