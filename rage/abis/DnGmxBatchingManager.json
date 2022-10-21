@@ -158,11 +158,11 @@
   {
     "type": "event",
     "anonymous": false,
-    "name": "Unpaused",
+    "name": "ThresholdsUpdated",
     "inputs": [
       {
-        "type": "address",
-        "name": "account",
+        "type": "uint256",
+        "name": "newSlippageThresholdGmx",
         "indexed": false
       }
     ]
@@ -170,11 +170,11 @@
   {
     "type": "event",
     "anonymous": false,
-    "name": "VaultAdded",
+    "name": "Unpaused",
     "inputs": [
       {
         "type": "address",
-        "name": "vault",
+        "name": "account",
         "indexed": false
       }
     ]
@@ -485,6 +485,33 @@
   },
   {
     "type": "function",
+    "name": "setThresholds",
+    "constant": false,
+    "payable": false,
+    "inputs": [
+      {
+        "type": "uint256",
+        "name": "_slippageThresholdGmx"
+      }
+    ],
+    "outputs": []
+  },
+  {
+    "type": "function",
+    "name": "slippageThresholdGmx",
+    "constant": true,
+    "stateMutability": "view",
+    "payable": false,
+    "inputs": [],
+    "outputs": [
+      {
+        "type": "uint256",
+        "name": ""
+      }
+    ]
+  },
+  {
+    "type": "function",
     "name": "transferOwnership",
     "constant": false,
     "payable": false,
@@ -589,25 +616,11 @@
       },
       {
         "type": "uint256",
-        "name": "roundUsdcBalance"
+        "name": "roundGlpStaked"
       },
       {
         "type": "uint256",
-        "name": "roundGlpStaked"
-      }
-    ]
-  },
-  {
-    "type": "function",
-    "name": "vaultCount",
-    "constant": true,
-    "stateMutability": "view",
-    "payable": false,
-    "inputs": [],
-    "outputs": [
-      {
-        "type": "uint16",
-        "name": ""
+        "name": "roundUsdcBalance"
       }
     ]
   }

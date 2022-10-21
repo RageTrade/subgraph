@@ -752,10 +752,6 @@
           {
             "type": "address",
             "name": "usdc"
-          },
-          {
-            "type": "address",
-            "name": "usdt"
           }
         ]
       },

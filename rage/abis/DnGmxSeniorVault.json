@@ -646,7 +646,7 @@
     "inputs": [],
     "outputs": [
       {
-        "type": "uint16",
+        "type": "uint256",
         "name": ""
       }
     ]
@@ -885,12 +885,25 @@
   },
   {
     "type": "function",
+    "name": "setLeveragePool",
+    "constant": false,
+    "payable": false,
+    "inputs": [
+      {
+        "type": "address",
+        "name": "_leveragePool"
+      }
+    ],
+    "outputs": []
+  },
+  {
+    "type": "function",
     "name": "setMaxUtilizationBps",
     "constant": false,
     "payable": false,
     "inputs": [
       {
-        "type": "uint16",
+        "type": "uint256",
         "name": "_maxUtilizationBps"
       }
     ],
