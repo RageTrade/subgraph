@@ -69,9 +69,7 @@ export function updateAllLiquidationPrices(account: Account): void {
     let rageTradePool = RageTradePool.load(poolId);
 
     if (rageTradePool == null) {
-      log.error('custom_logs: handleMarginUpdated rageTradePool == null {}', [
-        poolId,
-      ]);
+      log.error('custom_logs: handleMarginUpdated rageTradePool == null {}', [poolId]);
       return;
     }
 

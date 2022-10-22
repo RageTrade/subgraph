@@ -29,9 +29,7 @@ export function updateEntryPrices_deposit(
   entry.assetEntryPrice_Numerator = entry.assetEntryPrice_Numerator.plus(
     assetAmount.times(assetPrice)
   );
-  entry.assetEntryPrice_Denominator = entry.assetEntryPrice_Denominator.plus(
-    assetAmount
-  );
+  entry.assetEntryPrice_Denominator = entry.assetEntryPrice_Denominator.plus(assetAmount);
   entry.assetEntryPrice = safeDiv(
     entry.assetEntryPrice_Numerator,
     entry.assetEntryPrice_Denominator
@@ -44,9 +42,7 @@ export function updateEntryPrices_deposit(
   entry.shareEntryPrice_Numerator = entry.shareEntryPrice_Numerator.plus(
     shareAmount.times(sharePrice)
   );
-  entry.shareEntryPrice_Denominator = entry.shareEntryPrice_Denominator.plus(
-    shareAmount
-  );
+  entry.shareEntryPrice_Denominator = entry.shareEntryPrice_Denominator.plus(shareAmount);
   entry.shareEntryPrice = safeDiv(
     entry.shareEntryPrice_Numerator,
     entry.shareEntryPrice_Denominator
@@ -80,16 +76,12 @@ export function updateEntryPrices_withdraw(
 
   entry.assetBalance = entry.assetBalance.minus(adjustedAssetAmount);
 
-  let fakeDepositAsset = entry.assetEntryPrice_Denominator.minus(
-    adjustedAssetAmount
-  );
+  let fakeDepositAsset = entry.assetEntryPrice_Denominator.minus(adjustedAssetAmount);
   let fakeDepositAssetPriceD6 = safeDiv(
     entry.assetEntryPrice_Numerator,
     entry.assetEntryPrice_Denominator
   );
-  entry.assetEntryPrice_Numerator = fakeDepositAsset.times(
-    fakeDepositAssetPriceD6
-  );
+  entry.assetEntryPrice_Numerator = fakeDepositAsset.times(fakeDepositAssetPriceD6);
   entry.assetEntryPrice_Denominator = fakeDepositAsset;
   entry.assetEntryPrice = safeDiv(
     entry.assetEntryPrice_Numerator,
@@ -105,9 +97,7 @@ export function updateEntryPrices_withdraw(
     entry.shareEntryPrice_Numerator,
     entry.shareEntryPrice_Denominator
   );
-  entry.shareEntryPrice_Numerator = fakeDepositShare.times(
-    fakeDepositSharePriceD6
-  );
+  entry.shareEntryPrice_Numerator = fakeDepositShare.times(fakeDepositSharePriceD6);
   entry.shareEntryPrice_Denominator = fakeDepositShare;
   entry.shareEntryPrice = safeDiv(
     entry.shareEntryPrice_Numerator,
@@ -122,10 +112,7 @@ export function updateEntryPrices_withdraw(
   entry.save();
 }
 
-function getVaultAccount(
-  ownerAddress: Address,
-  vaultAddress: Address
-): VaultAccount {
+function getVaultAccount(ownerAddress: Address, vaultAddress: Address): VaultAccount {
   let ownerVaultEntryPriceId = generateId([
     ownerAddress.toHexString(),
     vaultAddress.toHexString(),

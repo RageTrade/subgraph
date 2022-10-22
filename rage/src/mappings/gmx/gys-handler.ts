@@ -7,16 +7,8 @@ import {
   TokenWithdrawn,
   GMXYieldStrategy,
 } from '../../../generated/GMXYieldStrategy/GMXYieldStrategy';
-import {
-  VaultDepositWithdrawEntry,
-  VaultRebalance,
-} from '../../../generated/schema';
-import {
-  BigIntToBigDecimal,
-  generateId,
-  parsePriceX128,
-  safeDiv,
-} from '../../utils';
+import { VaultDepositWithdrawEntry, VaultRebalance } from '../../../generated/schema';
+import { BigIntToBigDecimal, generateId, parsePriceX128, safeDiv } from '../../utils';
 import { contracts } from '../../utils/addresses';
 import { BI_18, BI_6, ONE_BI, ZERO_BD } from '../../utils/constants';
 import {
@@ -52,9 +44,7 @@ export function handleDeposit(event: Deposit): void {
 
   let assetsPerShare = safeDiv(assetsInBigDecimal, sharesInBigDecimal);
 
-  let gmxYieldStrategyContract = GMXYieldStrategy.bind(
-    contracts.GMXYieldStrategy
-  );
+  let gmxYieldStrategyContract = GMXYieldStrategy.bind(contracts.GMXYieldStrategy);
   let assetPriceResult = gmxYieldStrategyContract.try_getPriceX128();
 
   if (assetPriceResult.reverted) {
@@ -87,16 +77,10 @@ export function handleDeposit(event: Deposit): void {
 
   //...........................................................................//
 
-  if (
-    event.params.caller.toHexString() ==
-    contracts.GMXBatchingManager.toHexString()
-  ) {
+  if (event.params.caller.toHexString() == contracts.GMXBatchingManager.toHexString()) {
     log.error(
       'custom_logs: handleDeposit event came from GMXBatchingManager - {} | caller - {}',
-      [
-        contracts.GMXBatchingManager.toHexString(),
-        event.params.caller.toHexString(),
-      ]
+      [contracts.GMXBatchingManager.toHexString(), event.params.caller.toHexString()]
     );
     return;
   }
@@ -197,9 +181,7 @@ export function handleWithdraw(event: Withdraw): void {
 
   entry.sharesTokenAmount = sharesInBigDecimal;
 
-  let gmxYieldStrategyContract = GMXYieldStrategy.bind(
-    contracts.GMXYieldStrategy
-  );
+  let gmxYieldStrategyContract = GMXYieldStrategy.bind(contracts.GMXYieldStrategy);
   let assetPriceResult = gmxYieldStrategyContract.try_getPriceX128();
 
   if (assetPriceResult.reverted) {
@@ -279,15 +261,11 @@ export function handleTokenWithdrawn(event: TokenWithdrawn): void {
 
   entry.sharesTokenAmount = sharesInBigDecimal;
 
-  let gmxYieldStrategyContract = GMXYieldStrategy.bind(
-    contracts.GMXYieldStrategy
-  );
+  let gmxYieldStrategyContract = GMXYieldStrategy.bind(contracts.GMXYieldStrategy);
   let assetPriceResult = gmxYieldStrategyContract.try_getPriceX128();
 
   if (assetPriceResult.reverted) {
-    log.error('custom_logs: getPriceX128 handleTokenWithdrawn reverted {}', [
-      '',
-    ]);
+    log.error('custom_logs: getPriceX128 handleTokenWithdrawn reverted {}', ['']);
     return;
   }
   let assetsPrice = parsePriceX128(assetPriceResult.value, BI_18, BI_6);

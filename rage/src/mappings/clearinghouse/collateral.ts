@@ -2,10 +2,7 @@ import { BigInt } from '@graphprotocol/graph-ts';
 import { Account, Collateral } from '../../../generated/schema';
 import { ZERO_BI } from '../../utils/constants';
 
-export function getCollateral(
-  account: Account,
-  collateralId: BigInt
-): Collateral {
+export function getCollateral(account: Account, collateralId: BigInt): Collateral {
   let collateral = Collateral.load(collateralId.toHexString());
   if (collateral === null) {
     // creating empty object

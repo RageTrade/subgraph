@@ -4,12 +4,7 @@ import {
   BatchDeposit,
   DepositToken,
 } from '../../../generated/GMXBatchingManager/GMXBatchingManager';
-import {
-  BigIntToBigDecimal,
-  generateId,
-  parsePriceX128,
-  safeDiv,
-} from '../../utils';
+import { BigIntToBigDecimal, generateId, parsePriceX128, safeDiv } from '../../utils';
 import { contracts } from '../../utils/addresses';
 import { getVault } from '../../utils/getVault';
 import { getOwner } from '../clearinghouse/owner';
@@ -56,9 +51,7 @@ export function handleGmxDepositToken(event: DepositToken): void {
 
   entry.action = 'deposit';
 
-  let gmxYieldStrategyContract = GMXYieldStrategy.bind(
-    contracts.GMXYieldStrategy
-  );
+  let gmxYieldStrategyContract = GMXYieldStrategy.bind(contracts.GMXYieldStrategy);
 
   entry.tokenAmount = BigIntToBigDecimal(event.params.amount, token.decimals);
   entry.assetsTokenAmount = BigIntToBigDecimal(event.params.glpStaked, BI_18);
@@ -141,11 +134,7 @@ export function handleGmxBatch(event: BatchDeposit): void {
       } else {
         log.debug(
           'custom_logs: handleGmxBatch owner - {} sharePrice - {} sharesInBigDecimal - {}',
-          [
-            owner.id,
-            entry.sharePrice.toString(),
-            entry.sharesTokenAmount.toString(),
-          ]
+          [owner.id, entry.sharePrice.toString(), entry.sharesTokenAmount.toString()]
         );
 
         owner.save();

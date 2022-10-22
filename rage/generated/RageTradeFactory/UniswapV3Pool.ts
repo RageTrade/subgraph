@@ -500,22 +500,10 @@ export class UniswapV3Pool__slot0Result {
     let map = new TypedMap<string, ethereum.Value>();
     map.set('value0', ethereum.Value.fromUnsignedBigInt(this.value0));
     map.set('value1', ethereum.Value.fromI32(this.value1));
-    map.set(
-      'value2',
-      ethereum.Value.fromUnsignedBigInt(BigInt.fromI32(this.value2))
-    );
-    map.set(
-      'value3',
-      ethereum.Value.fromUnsignedBigInt(BigInt.fromI32(this.value3))
-    );
-    map.set(
-      'value4',
-      ethereum.Value.fromUnsignedBigInt(BigInt.fromI32(this.value4))
-    );
-    map.set(
-      'value5',
-      ethereum.Value.fromUnsignedBigInt(BigInt.fromI32(this.value5))
-    );
+    map.set('value2', ethereum.Value.fromUnsignedBigInt(BigInt.fromI32(this.value2)));
+    map.set('value3', ethereum.Value.fromUnsignedBigInt(BigInt.fromI32(this.value3)));
+    map.set('value4', ethereum.Value.fromUnsignedBigInt(BigInt.fromI32(this.value4)));
+    map.set('value5', ethereum.Value.fromUnsignedBigInt(BigInt.fromI32(this.value5)));
     map.set('value6', ethereum.Value.fromBoolean(this.value6));
     return map;
   }
@@ -607,25 +595,14 @@ export class UniswapV3Pool extends ethereum.SmartContract {
     return new UniswapV3Pool('UniswapV3Pool', address);
   }
 
-  burn(
-    tickLower: i32,
-    tickUpper: i32,
-    amount: BigInt
-  ): UniswapV3Pool__burnResult {
-    let result = super.call(
-      'burn',
-      'burn(int24,int24,uint128):(uint256,uint256)',
-      [
-        ethereum.Value.fromI32(tickLower),
-        ethereum.Value.fromI32(tickUpper),
-        ethereum.Value.fromUnsignedBigInt(amount),
-      ]
-    );
+  burn(tickLower: i32, tickUpper: i32, amount: BigInt): UniswapV3Pool__burnResult {
+    let result = super.call('burn', 'burn(int24,int24,uint128):(uint256,uint256)', [
+      ethereum.Value.fromI32(tickLower),
+      ethereum.Value.fromI32(tickUpper),
+      ethereum.Value.fromUnsignedBigInt(amount),
+    ]);
 
-    return new UniswapV3Pool__burnResult(
-      result[0].toBigInt(),
-      result[1].toBigInt()
-    );
+    return new UniswapV3Pool__burnResult(result[0].toBigInt(), result[1].toBigInt());
   }
 
   try_burn(
@@ -633,15 +610,11 @@ export class UniswapV3Pool extends ethereum.SmartContract {
     tickUpper: i32,
     amount: BigInt
   ): ethereum.CallResult<UniswapV3Pool__burnResult> {
-    let result = super.tryCall(
-      'burn',
-      'burn(int24,int24,uint128):(uint256,uint256)',
-      [
-        ethereum.Value.fromI32(tickLower),
-        ethereum.Value.fromI32(tickUpper),
-        ethereum.Value.fromUnsignedBigInt(amount),
-      ]
-    );
+    let result = super.tryCall('burn', 'burn(int24,int24,uint128):(uint256,uint256)', [
+      ethereum.Value.fromI32(tickLower),
+      ethereum.Value.fromI32(tickUpper),
+      ethereum.Value.fromUnsignedBigInt(amount),
+    ]);
     if (result.reverted) {
       return new ethereum.CallResult();
     }
@@ -670,10 +643,7 @@ export class UniswapV3Pool extends ethereum.SmartContract {
       ]
     );
 
-    return new UniswapV3Pool__collectResult(
-      result[0].toBigInt(),
-      result[1].toBigInt()
-    );
+    return new UniswapV3Pool__collectResult(result[0].toBigInt(), result[1].toBigInt());
   }
 
   try_collect(
@@ -743,10 +713,7 @@ export class UniswapV3Pool extends ethereum.SmartContract {
     }
     let value = result.value;
     return ethereum.CallResult.fromValue(
-      new UniswapV3Pool__collectProtocolResult(
-        value[0].toBigInt(),
-        value[1].toBigInt()
-      )
+      new UniswapV3Pool__collectProtocolResult(value[0].toBigInt(), value[1].toBigInt())
     );
   }
 
@@ -842,11 +809,7 @@ export class UniswapV3Pool extends ethereum.SmartContract {
   }
 
   maxLiquidityPerTick(): BigInt {
-    let result = super.call(
-      'maxLiquidityPerTick',
-      'maxLiquidityPerTick():(uint128)',
-      []
-    );
+    let result = super.call('maxLiquidityPerTick', 'maxLiquidityPerTick():(uint128)', []);
 
     return result[0].toBigInt();
   }
@@ -883,10 +846,7 @@ export class UniswapV3Pool extends ethereum.SmartContract {
       ]
     );
 
-    return new UniswapV3Pool__mintResult(
-      result[0].toBigInt(),
-      result[1].toBigInt()
-    );
+    return new UniswapV3Pool__mintResult(result[0].toBigInt(), result[1].toBigInt());
   }
 
   try_mint(
@@ -954,11 +914,9 @@ export class UniswapV3Pool extends ethereum.SmartContract {
   }
 
   observe(secondsAgos: Array<BigInt>): UniswapV3Pool__observeResult {
-    let result = super.call(
-      'observe',
-      'observe(uint32[]):(int56[],uint160[])',
-      [ethereum.Value.fromUnsignedBigIntArray(secondsAgos)]
-    );
+    let result = super.call('observe', 'observe(uint32[]):(int56[],uint160[])', [
+      ethereum.Value.fromUnsignedBigIntArray(secondsAgos),
+    ]);
 
     return new UniswapV3Pool__observeResult(
       result[0].toBigIntArray(),
@@ -969,20 +927,15 @@ export class UniswapV3Pool extends ethereum.SmartContract {
   try_observe(
     secondsAgos: Array<BigInt>
   ): ethereum.CallResult<UniswapV3Pool__observeResult> {
-    let result = super.tryCall(
-      'observe',
-      'observe(uint32[]):(int56[],uint160[])',
-      [ethereum.Value.fromUnsignedBigIntArray(secondsAgos)]
-    );
+    let result = super.tryCall('observe', 'observe(uint32[]):(int56[],uint160[])', [
+      ethereum.Value.fromUnsignedBigIntArray(secondsAgos),
+    ]);
     if (result.reverted) {
       return new ethereum.CallResult();
     }
     let value = result.value;
     return ethereum.CallResult.fromValue(
-      new UniswapV3Pool__observeResult(
-        value[0].toBigIntArray(),
-        value[1].toBigIntArray()
-      )
+      new UniswapV3Pool__observeResult(value[0].toBigIntArray(), value[1].toBigIntArray())
     );
   }
 
@@ -1002,9 +955,7 @@ export class UniswapV3Pool extends ethereum.SmartContract {
     );
   }
 
-  try_positions(
-    key: Bytes
-  ): ethereum.CallResult<UniswapV3Pool__positionsResult> {
+  try_positions(key: Bytes): ethereum.CallResult<UniswapV3Pool__positionsResult> {
     let result = super.tryCall(
       'positions',
       'positions(bytes32):(uint128,uint256,uint256,uint128,uint128)',
@@ -1026,11 +977,7 @@ export class UniswapV3Pool extends ethereum.SmartContract {
   }
 
   protocolFees(): UniswapV3Pool__protocolFeesResult {
-    let result = super.call(
-      'protocolFees',
-      'protocolFees():(uint128,uint128)',
-      []
-    );
+    let result = super.call('protocolFees', 'protocolFees():(uint128,uint128)', []);
 
     return new UniswapV3Pool__protocolFeesResult(
       result[0].toBigInt(),
@@ -1039,20 +986,13 @@ export class UniswapV3Pool extends ethereum.SmartContract {
   }
 
   try_protocolFees(): ethereum.CallResult<UniswapV3Pool__protocolFeesResult> {
-    let result = super.tryCall(
-      'protocolFees',
-      'protocolFees():(uint128,uint128)',
-      []
-    );
+    let result = super.tryCall('protocolFees', 'protocolFees():(uint128,uint128)', []);
     if (result.reverted) {
       return new ethereum.CallResult();
     }
     let value = result.value;
     return ethereum.CallResult.fromValue(
-      new UniswapV3Pool__protocolFeesResult(
-        value[0].toBigInt(),
-        value[1].toBigInt()
-      )
+      new UniswapV3Pool__protocolFeesResult(value[0].toBigInt(), value[1].toBigInt())
     );
   }
 
@@ -1155,10 +1095,7 @@ export class UniswapV3Pool extends ethereum.SmartContract {
       ]
     );
 
-    return new UniswapV3Pool__swapResult(
-      result[0].toBigInt(),
-      result[1].toBigInt()
-    );
+    return new UniswapV3Pool__swapResult(result[0].toBigInt(), result[1].toBigInt());
   }
 
   try_swap(

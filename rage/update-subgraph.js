@@ -59,13 +59,10 @@ async function main() {
     insuranceFund,
     vPoolWrapperLogic,
   } = await sdk.core.getContracts(networkInfo.provider);
-  const { uniswapV3Factory } = await sdk.uniswap.getContracts(
+  const { uniswapV3Factory } = await sdk.uniswap.getContracts(networkInfo.provider);
+  const { curveYieldStrategy, vaultPeriphery } = await sdk.tricryptoVault.getContracts(
     networkInfo.provider
   );
-  const {
-    curveYieldStrategy,
-    vaultPeriphery,
-  } = await sdk.tricryptoVault.getContracts(networkInfo.provider);
   let gmxYieldStrategy;
   let gmxBatchingManager;
   let glpStakingManager;
@@ -180,17 +177,13 @@ async function main() {
     vaultPeripheryAddress: vaultPeriphery.address,
     curveTriCryptoLpTokenAddress: crv3.address,
     curveQuoterAddress: quoter.address,
-    gmxYieldStrategyAddress:
-      gmxYieldStrategy?.address ?? ethers.constants.AddressZero,
+    gmxYieldStrategyAddress: gmxYieldStrategy?.address ?? ethers.constants.AddressZero,
     gmxBatchingManagerAddress:
       gmxBatchingManager?.address ?? ethers.constants.AddressZero,
-    glpStakingManagerAddress:
-      glpStakingManager?.address ?? ethers.constants.AddressZero,
+    glpStakingManagerAddress: glpStakingManager?.address ?? ethers.constants.AddressZero,
     sGLPAddress: sGLP.address,
-    dnGmxSeniorVaultAddress:
-      dnGmxSeniorVault?.address ?? ethers.constants.AddressZero,
-    dnGmxJuniorVaultAddress:
-      dnGmxJuniorVault?.address ?? ethers.constants.AddressZero,
+    dnGmxSeniorVaultAddress: dnGmxSeniorVault?.address ?? ethers.constants.AddressZero,
+    dnGmxJuniorVaultAddress: dnGmxJuniorVault?.address ?? ethers.constants.AddressZero,
     dnGmxBatchingManagerAddress:
       dnGmxBatchingManager?.address ?? ethers.constants.AddressZero,
   });
@@ -204,26 +197,18 @@ function updateSubgraphYamlDataSources(
   contractAddress,
   startBlockNumber
 ) {
-  const dataSource = subgraphYaml.dataSources.find(
-    ({ name }) => name === contractName
-  );
+  const dataSource = subgraphYaml.dataSources.find(({ name }) => name === contractName);
   if (!dataSource) {
-    throw new Error(
-      `There is no ${contractName} data source in the subgraph.yaml`
-    );
+    throw new Error(`There is no ${contractName} data source in the subgraph.yaml`);
   }
   dataSource.network = networkInfo.subgraph;
   dataSource.source.startBlock = startBlockNumber;
   dataSource.source.address = contractAddress;
 }
 function updateSubgraphYamlTemplates(subgraphYaml, contractName) {
-  const template = subgraphYaml.templates.find(
-    ({ name }) => name === contractName
-  );
+  const template = subgraphYaml.templates.find(({ name }) => name === contractName);
   if (!template) {
-    throw new Error(
-      `There is no ${contractName} template in the subgraph.yaml`
-    );
+    throw new Error(`There is no ${contractName} template in the subgraph.yaml`);
   }
   template.network = networkInfo.subgraph;
 }

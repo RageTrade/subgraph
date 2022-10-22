@@ -4,10 +4,7 @@ import { generateId } from '../../utils';
 import { ZERO_BD, ZERO_BI } from '../../utils/constants';
 import { generateAccountId } from './account';
 
-export function getTokenPosition(
-  accountId: BigInt,
-  poolId: BigInt
-): TokenPosition {
+export function getTokenPosition(accountId: BigInt, poolId: BigInt): TokenPosition {
   let accountIdString = generateAccountId(accountId);
   let tokenPositionId = generateId([accountIdString, poolId.toHexString()]);
 

@@ -1,12 +1,7 @@
 import { log } from '@graphprotocol/graph-ts';
 import { VaultDepositWithdrawEntry } from '../../../generated/schema';
 import { DepositPeriphery } from '../../../generated/VaultPeriphery/VaultPeriphery';
-import {
-  BigIntToBigDecimal,
-  generateId,
-  parsePriceX128,
-  safeDiv,
-} from '../../utils';
+import { BigIntToBigDecimal, generateId, parsePriceX128, safeDiv } from '../../utils';
 import { contracts } from '../../utils/addresses';
 import { getVault } from '../../utils/getVault';
 import { getOwner } from '../clearinghouse/owner';
@@ -26,9 +21,7 @@ export function handleDepositPeriphery(event: DepositPeriphery): void {
       event.params.shares.toString(),
     ]
   );
-  let curveYieldStrategyContract = CurveYieldStrategy.bind(
-    contracts.CurveYieldStrategy
-  );
+  let curveYieldStrategyContract = CurveYieldStrategy.bind(contracts.CurveYieldStrategy);
 
   let vault = getVault(contracts.CurveYieldStrategy);
   let owner = getOwner(event.params.owner);

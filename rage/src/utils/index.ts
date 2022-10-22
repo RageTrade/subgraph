@@ -1,14 +1,7 @@
 /* eslint-disable prefer-const */
 import { BigInt, BigDecimal, ethereum, log } from '@graphprotocol/graph-ts';
 import { UniswapV3Transaction } from '../../generated/schema';
-import {
-  ONE_BI,
-  ZERO_BI,
-  ZERO_BD,
-  ONE_BD,
-  BI_18,
-  BI_6,
-} from '../utils/constants';
+import { ONE_BI, ZERO_BI, ZERO_BD, ONE_BD, BI_18, BI_6 } from '../utils/constants';
 import { Address } from '@graphprotocol/graph-ts';
 
 import { ClearingHouse } from '../../generated/ClearingHouse/ClearingHouse';
@@ -24,10 +17,7 @@ export function exponentToBigDecimal(decimals: BigInt): BigDecimal {
 }
 
 // return 0 if denominator is 0 in division
-export function safeDiv(
-  numerator: BigDecimal,
-  denominator: BigDecimal
-): BigDecimal {
+export function safeDiv(numerator: BigDecimal, denominator: BigDecimal): BigDecimal {
   if (denominator.equals(ZERO_BD)) {
     return ZERO_BD;
   } else {
@@ -35,10 +25,7 @@ export function safeDiv(
   }
 }
 
-export function bigDecimalExponated(
-  value: BigDecimal,
-  power: BigInt
-): BigDecimal {
+export function bigDecimalExponated(value: BigDecimal, power: BigInt): BigDecimal {
   if (power.equals(ZERO_BI)) {
     return ONE_BD;
   }
@@ -66,10 +53,7 @@ export function tokenAmountToDecimal(
   return tokenAmount.toBigDecimal().div(exponentToBigDecimal(exchangeDecimals));
 }
 
-export function priceToDecimal(
-  amount: BigDecimal,
-  exchangeDecimals: BigInt
-): BigDecimal {
+export function priceToDecimal(amount: BigDecimal, exchangeDecimals: BigInt): BigDecimal {
   if (exchangeDecimals == ZERO_BI) {
     return amount;
   }
@@ -86,10 +70,7 @@ export function equalToZero(value: BigDecimal): boolean {
 }
 
 export function isNullEthValue(value: string): boolean {
-  return (
-    value ==
-    '0x0000000000000000000000000000000000000000000000000000000000000001'
-  );
+  return value == '0x0000000000000000000000000000000000000000000000000000000000000001';
 }
 
 export function bigDecimalExp18(): BigDecimal {
@@ -111,13 +92,9 @@ export function convertEthToDecimal(eth: BigInt): BigDecimal {
 }
 
 export function loadTransaction(event: ethereum.Event): UniswapV3Transaction {
-  let transaction = UniswapV3Transaction.load(
-    event.transaction.hash.toHexString()
-  );
+  let transaction = UniswapV3Transaction.load(event.transaction.hash.toHexString());
   if (transaction === null) {
-    transaction = new UniswapV3Transaction(
-      event.transaction.hash.toHexString()
-    );
+    transaction = new UniswapV3Transaction(event.transaction.hash.toHexString());
   }
   transaction.blockNumber = event.block.number;
   transaction.timestamp = event.block.timestamp;
@@ -139,10 +116,7 @@ export function truncate(address: string): string {
   return '0x' + temp;
 }
 
-export function BigIntToBigDecimal(
-  value: BigInt,
-  decimals: BigInt
-): BigDecimal {
+export function BigIntToBigDecimal(value: BigInt, decimals: BigInt): BigDecimal {
   return value.toBigDecimal().div(tenPower(decimals));
 }
 
@@ -156,10 +130,7 @@ export function parsePriceX128(
   let vTokenUnit = tenPower(vTokenDecimals);
   let vQuoteUnit = tenPower(vQuoteDecimals);
 
-  let twoPow128 = bigDecimalExponated(
-    BigDecimal.fromString('2'),
-    BigInt.fromI32(128)
-  );
+  let twoPow128 = bigDecimalExponated(BigDecimal.fromString('2'), BigInt.fromI32(128));
 
   let value = safeDiv(price.times(vTokenUnit), vQuoteUnit).div(twoPow128);
 
@@ -198,20 +169,14 @@ export function getFundingRate(poolId: BigInt): BigDecimal {
     realPriceX128 = realResult.value;
     virtualPriceX128 = virtualResult.value;
   } else {
-    log.error(
-      'custom_logs: getFundingRate realResult or virtualResult reverted',
-      ['']
-    );
+    log.error('custom_logs: getFundingRate realResult or virtualResult reverted', ['']);
   }
 
-  log.debug(
-    'custom_logs: handleFundingPayment getFundingRate triggered {} {} {}',
-    [
-      contracts.ClearingHouse.toHexString(),
-      virtualPriceX128.toHexString(),
-      realPriceX128.toHexString(),
-    ]
-  );
+  log.debug('custom_logs: handleFundingPayment getFundingRate triggered {} {} {}', [
+    contracts.ClearingHouse.toHexString(),
+    virtualPriceX128.toHexString(),
+    realPriceX128.toHexString(),
+  ]);
 
   // TODO take decimals dynamically
   let realPrice = parsePriceX128(realPriceX128, BI_18, BI_6);
@@ -229,33 +194,25 @@ export function getFundingRate(poolId: BigInt): BigDecimal {
   return fundingRate;
 }
 
-export function getSumAX128(
-  vPoolWrapperAddress: Address
-): ethereum.CallResult<BigInt> {
+export function getSumAX128(vPoolWrapperAddress: Address): ethereum.CallResult<BigInt> {
   log.debug('custom_logs: getSumAX128, vPoolWrapperAddress is - {}', [
     vPoolWrapperAddress.toHexString(),
   ]);
 
   let contract = VPoolWrapperLogic.bind(vPoolWrapperAddress);
 
-  log.debug('custom_logs: getSumAX128-bind, contract is - {}', [
-    contract._name,
-  ]);
+  log.debug('custom_logs: getSumAX128-bind, contract is - {}', [contract._name]);
 
   return contract.try_getSumAX128();
 }
 
 export function parseSqrtPriceX96(val: BigInt): BigDecimal {
-  let output = parsePriceX128(
-    val.times(val).div(BigInt.fromI32(2).pow(64)),
-    BI_18,
-    BI_6
-  );
+  let output = parsePriceX128(val.times(val).div(BigInt.fromI32(2).pow(64)), BI_18, BI_6);
 
-  log.debug(
-    'custom_logs: parseSqrtPriceX96 [ inputValue - {} ] [ output - {} ]',
-    [val.toString(), output.toString()]
-  );
+  log.debug('custom_logs: parseSqrtPriceX96 [ inputValue - {} ] [ output - {} ]', [
+    val.toString(),
+    output.toString(),
+  ]);
 
   return output;
 }

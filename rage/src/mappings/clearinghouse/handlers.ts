@@ -32,23 +32,10 @@ import {
 } from '../../utils';
 import { UniswapV3Pool } from '../../../generated/templates/UniswapV3Pool/UniswapV3Pool';
 import { absBigDecimal, getPriceANDTick } from '../vPoolWrapper/utils';
-import {
-  BI_18,
-  BI_6,
-  ONE_BD,
-  ONE_BI,
-  ZERO_BD,
-  ZERO_BI,
-} from '../../utils/constants';
+import { BI_18, BI_6, ONE_BD, ONE_BI, ZERO_BD, ZERO_BI } from '../../utils/constants';
 import { getCollateral } from './collateral';
-import {
-  getRageTradePool,
-  getRageTradePoolId,
-} from '../ragetradeFactory/rageTradePool';
-import {
-  getLiquidationPrice,
-  updateAllLiquidationPrices,
-} from './liquidationPrice';
+import { getRageTradePool, getRageTradePoolId } from '../ragetradeFactory/rageTradePool';
+import { getLiquidationPrice, updateAllLiquidationPrices } from './liquidationPrice';
 
 // @entity Account
 export function handleAccountCreated(event: AccountCreated): void {
@@ -66,25 +53,19 @@ export function handleAccountCreated(event: AccountCreated): void {
 
 // @entity TokenPosition
 export function handleTokenPositionChanged(event: TokenPositionChanged): void {
-  log.warning(
-    'custom_logs: handleTokenPositionChanged triggered {} {} {} {} {} {}',
-    [
-      event.params.accountId.toHexString(),
-      event.params.poolId.toHexString(),
-      event.params.vTokenAmountOut.toString(),
-      event.params.vQuoteAmountOut.toString(),
-      event.params.sqrtPriceX96Start.toString(),
-      event.params.sqrtPriceX96End.toString(),
-    ]
-  );
+  log.warning('custom_logs: handleTokenPositionChanged triggered {} {} {} {} {} {}', [
+    event.params.accountId.toHexString(),
+    event.params.poolId.toHexString(),
+    event.params.vTokenAmountOut.toString(),
+    event.params.vQuoteAmountOut.toString(),
+    event.params.sqrtPriceX96Start.toString(),
+    event.params.sqrtPriceX96End.toString(),
+  ]);
 
   // update token position
   let account = getAccount(event.params.accountId);
 
-  let tokenPosition = getTokenPosition(
-    event.params.accountId,
-    event.params.poolId
-  );
+  let tokenPosition = getTokenPosition(event.params.accountId, event.params.poolId);
   let rageTradePool = getRageTradePool(tokenPosition.rageTradePool);
   let vPoolWrapperAddress = Address.fromString(rageTradePool.vPoolWrapper);
 
@@ -135,10 +116,7 @@ export function handleTokenPositionChanged(event: TokenPositionChanged): void {
     );
   }
 
-  let buyAvgPrice = safeDiv(
-    tokenPosition.buyVQuoteAmount,
-    tokenPosition.buyVTokenAmount
-  );
+  let buyAvgPrice = safeDiv(tokenPosition.buyVQuoteAmount, tokenPosition.buyVTokenAmount);
   let sellAvgPrice = safeDiv(
     tokenPosition.sellVQuoteAmount,
     tokenPosition.sellVTokenAmount
@@ -170,9 +148,7 @@ export function handleTokenPositionChanged(event: TokenPositionChanged): void {
     event.logIndex.toString(),
   ]);
 
-  let tokenPositionChangeEntry = new TokenPositionChangeEntry(
-    tokenPositionChangeEntryId
-  );
+  let tokenPositionChangeEntry = new TokenPositionChangeEntry(tokenPositionChangeEntryId);
 
   tokenPositionChangeEntry.account = account.id;
   tokenPositionChangeEntry.tokenPosition = tokenPosition.id;
@@ -199,12 +175,8 @@ export function handleTokenPositionChanged(event: TokenPositionChanged): void {
     tokenPositionChangeEntry.vTokenAmountOut
   );
 
-  tokenPositionChangeEntry.startPrice = parseSqrtPriceX96(
-    event.params.sqrtPriceX96Start
-  );
-  tokenPositionChangeEntry.endPrice = parseSqrtPriceX96(
-    event.params.sqrtPriceX96End
-  );
+  tokenPositionChangeEntry.startPrice = parseSqrtPriceX96(event.params.sqrtPriceX96Start);
+  tokenPositionChangeEntry.endPrice = parseSqrtPriceX96(event.params.sqrtPriceX96End);
 
   tokenPositionChangeEntry.entryPrice = absBigDecimal(
     BigIntToBigDecimal(event.params.vQuoteAmountOut, BI_6).div(
@@ -250,9 +222,7 @@ export function handleTokenPositionChanged(event: TokenPositionChanged): void {
   if (openPositionsIdArray != null) {
     if (openPositionsIdArray.length == 0) {
       tokenPosition.entryValue = tokenPosition.entryValue.plus(
-        tokenPositionChangeEntry.vTokenQuantity.times(
-          tokenPositionChangeEntry.entryPrice
-        )
+        tokenPositionChangeEntry.vTokenQuantity.times(tokenPositionChangeEntry.entryPrice)
       );
 
       tokenPosition.entryPrice = absBigDecimal(
@@ -261,10 +231,7 @@ export function handleTokenPositionChanged(event: TokenPositionChanged): void {
 
       log.debug(
         'custom_logs: handleTokenPositionChanged openPositionsIdArray.length == 0, entryValue - {} , entryPrice - {}',
-        [
-          tokenPosition.entryValue.toString(),
-          tokenPosition.entryPrice.toString(),
-        ]
+        [tokenPosition.entryValue.toString(), tokenPosition.entryPrice.toString()]
       );
 
       openPositionsIdArray.push(tokenPositionChangeEntry.id);
@@ -280,9 +247,7 @@ export function handleTokenPositionChanged(event: TokenPositionChanged): void {
 
     if (openPosition_0.side == tokenPositionChangeEntry.side) {
       tokenPosition.entryValue = tokenPosition.entryValue.plus(
-        tokenPositionChangeEntry.vTokenQuantity.times(
-          tokenPositionChangeEntry.entryPrice
-        )
+        tokenPositionChangeEntry.vTokenQuantity.times(tokenPositionChangeEntry.entryPrice)
       );
 
       tokenPosition.entryPrice = absBigDecimal(
@@ -294,10 +259,7 @@ export function handleTokenPositionChanged(event: TokenPositionChanged): void {
 
       log.debug(
         'custom_logs: handleTokenPositionChanged openPosition_0.side = tokenPositionChangeEntry.side entryValue - {} , entryPrice - {}',
-        [
-          tokenPosition.entryValue.toString(),
-          tokenPosition.entryPrice.toString(),
-        ]
+        [tokenPosition.entryValue.toString(), tokenPosition.entryPrice.toString()]
       );
 
       tokenPosition.save();
@@ -373,17 +335,12 @@ export function handleTokenPositionChanged(event: TokenPositionChanged): void {
 
       if (openPosition_00.vTokenQuantity.equals(ZERO_BD)) {
         openPositionsIdArray.shift(); // removes first element
-        log.debug('custom_logs: handleTokenPositionChanged shift id - {}', [
-          id_00,
-        ]);
+        log.debug('custom_logs: handleTokenPositionChanged shift id - {}', [id_00]);
 
         tokenPosition.openPositionEntries = openPositionsIdArray;
         log.debug(
           'custom_logs: handleTokenPositionChanged openPositionsIdArray.length == 0, entryValue - {} , entryPrice - {}',
-          [
-            tokenPosition.entryValue.toString(),
-            tokenPosition.entryPrice.toString(),
-          ]
+          [tokenPosition.entryValue.toString(), tokenPosition.entryPrice.toString()]
         );
       }
 
@@ -394,9 +351,7 @@ export function handleTokenPositionChanged(event: TokenPositionChanged): void {
 
     if (tokenPositionChangeEntry.vTokenQuantity.gt(ZERO_BD)) {
       tokenPosition.entryValue = tokenPosition.entryValue.plus(
-        tokenPositionChangeEntry.vTokenQuantity.times(
-          tokenPositionChangeEntry.entryPrice
-        )
+        tokenPositionChangeEntry.vTokenQuantity.times(tokenPositionChangeEntry.entryPrice)
       );
 
       tokenPosition.entryPrice = absBigDecimal(
@@ -429,9 +384,7 @@ export function handleMarginUpdated(event: MarginUpdated): void {
 
   // TODO: put trade margin changes in a separate table ?
   let toAdd = event.params.isSettleProfit ? ZERO_BI : ONE_BI;
-  account.marginChangeEntriesCount = account.marginChangeEntriesCount.plus(
-    toAdd
-  );
+  account.marginChangeEntriesCount = account.marginChangeEntriesCount.plus(toAdd);
   account.marginBalance = account.marginBalance.plus(
     BigIntToBigDecimal(event.params.amount, BI_6)
   );
@@ -476,10 +429,7 @@ export function handleTokenPositionFundingPaymentRealized(
   ]);
 
   let account = getAccount(event.params.accountId);
-  let tokenPosition = getTokenPosition(
-    event.params.accountId,
-    event.params.poolId
-  );
+  let tokenPosition = getTokenPosition(event.params.accountId, event.params.poolId);
   let rageTradePool = getRageTradePool(event.params.poolId.toHexString());
 
   account.vQuoteBalance = account.vQuoteBalance.plus(
@@ -494,21 +444,17 @@ export function handleTokenPositionFundingPaymentRealized(
   );
 
   if (rageTradePool === null) {
-    log.error('custom_logs: handleFundingPayment - rageTradePool is null', [
-      '',
-    ]);
+    log.error('custom_logs: handleFundingPayment - rageTradePool is null', ['']);
   }
 
   if (tokenPosition === null) {
-    log.error('custom_logs: handleFundingPayment - tokenPosition is null', [
-      '',
-    ]);
+    log.error('custom_logs: handleFundingPayment - tokenPosition is null', ['']);
   }
 
-  log.debug(
-    'custom_logs: handleFundingPayment tokenPosition - {} rageTradePool - {}',
-    [tokenPosition.id, rageTradePool.id]
-  );
+  log.debug('custom_logs: handleFundingPayment tokenPosition - {} rageTradePool - {}', [
+    tokenPosition.id,
+    rageTradePool.id,
+  ]);
 
   let fundingRateId = generateId([
     event.params.accountId.toString(),
@@ -557,10 +503,7 @@ export function handleTokenPositionFundingPaymentRealized(
         lastFundingEntry.virtualPriceAccumulator
       );
 
-      entry.avgTwapPrice = safeDiv(
-        twapPriceDifference,
-        timeDifference.toBigDecimal()
-      );
+      entry.avgTwapPrice = safeDiv(twapPriceDifference, timeDifference.toBigDecimal());
 
       // avgTwapPrice = twapPriceDifference / (time current - time previous)
       // funding amount * 3600 * 100 / ( (time current - time previous) * avgTwapPrice * net token position )
@@ -617,10 +560,9 @@ export function handleTokenPositionFundingPaymentRealized(
 }
 
 export function handlePoolSettingsUpdated(event: PoolSettingsUpdated): void {
-  log.debug(
-    'custom_logs: handlePoolSettingsUpdated triggered [ poolId - {} ]',
-    [event.params.poolId.toHexString()]
-  );
+  log.debug('custom_logs: handlePoolSettingsUpdated triggered [ poolId - {} ]', [
+    event.params.poolId.toHexString(),
+  ]);
 
   let rageTradePoolId = getRageTradePoolId(event.params.poolId);
   let rageTradePool = getRageTradePool(rageTradePoolId);
@@ -632,25 +574,17 @@ export function handlePoolSettingsUpdated(event: PoolSettingsUpdated): void {
   rageTradePool.save();
 }
 
-export function handleTokenPositionLiquidated(
-  event: TokenPositionLiquidated
-): void {
+export function handleTokenPositionLiquidated(event: TokenPositionLiquidated): void {
   log.debug('custom_logs: handleTokenPositionLiquidated triggered {}', [
     event.params.poolId.toHexString(),
   ]);
 
   let account = getAccount(event.params.accountId);
   let rageTradePool = getRageTradePool(event.params.poolId.toHexString());
-  let tokenPosition = getTokenPosition(
-    event.params.accountId,
-    event.params.poolId
-  );
+  let tokenPosition = getTokenPosition(event.params.accountId, event.params.poolId);
 
   account.vQuoteBalance = account.vQuoteBalance.minus(
-    BigIntToBigDecimal(
-      event.params.keeperFee.plus(event.params.insuranceFundFee),
-      BI_6
-    )
+    BigIntToBigDecimal(event.params.keeperFee.plus(event.params.insuranceFundFee), BI_6)
   );
 
   tokenPosition.liquidationPrice = getLiquidationPrice(
@@ -700,10 +634,7 @@ export function handleTokenPositionLiquidated(
   );
 
   entry.feeKeeper = BigIntToBigDecimal(event.params.keeperFee, BI_6);
-  entry.feeInsuranceFund = BigIntToBigDecimal(
-    event.params.insuranceFundFee,
-    BI_6
-  );
+  entry.feeInsuranceFund = BigIntToBigDecimal(event.params.insuranceFundFee, BI_6);
 
   account.save();
   tokenPosition.save();

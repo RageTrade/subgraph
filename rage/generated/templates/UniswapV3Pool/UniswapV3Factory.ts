@@ -152,33 +152,21 @@ export class UniswapV3Factory extends ethereum.SmartContract {
   }
 
   getPool(tokenA: Address, tokenB: Address, fee: i32): Address {
-    let result = super.call(
-      'getPool',
-      'getPool(address,address,uint24):(address)',
-      [
-        ethereum.Value.fromAddress(tokenA),
-        ethereum.Value.fromAddress(tokenB),
-        ethereum.Value.fromUnsignedBigInt(BigInt.fromI32(fee)),
-      ]
-    );
+    let result = super.call('getPool', 'getPool(address,address,uint24):(address)', [
+      ethereum.Value.fromAddress(tokenA),
+      ethereum.Value.fromAddress(tokenB),
+      ethereum.Value.fromUnsignedBigInt(BigInt.fromI32(fee)),
+    ]);
 
     return result[0].toAddress();
   }
 
-  try_getPool(
-    tokenA: Address,
-    tokenB: Address,
-    fee: i32
-  ): ethereum.CallResult<Address> {
-    let result = super.tryCall(
-      'getPool',
-      'getPool(address,address,uint24):(address)',
-      [
-        ethereum.Value.fromAddress(tokenA),
-        ethereum.Value.fromAddress(tokenB),
-        ethereum.Value.fromUnsignedBigInt(BigInt.fromI32(fee)),
-      ]
-    );
+  try_getPool(tokenA: Address, tokenB: Address, fee: i32): ethereum.CallResult<Address> {
+    let result = super.tryCall('getPool', 'getPool(address,address,uint24):(address)', [
+      ethereum.Value.fromAddress(tokenA),
+      ethereum.Value.fromAddress(tokenB),
+      ethereum.Value.fromUnsignedBigInt(BigInt.fromI32(fee)),
+    ]);
     if (result.reverted) {
       return new ethereum.CallResult();
     }

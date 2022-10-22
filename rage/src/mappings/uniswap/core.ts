@@ -96,14 +96,10 @@ export function handleMint(event: MintEvent): void {
   factory.totalValueLockedETH = factory.totalValueLockedETH.plus(
     pool.totalValueLockedETH
   );
-  factory.totalValueLockedUSD = factory.totalValueLockedETH.times(
-    bundle.ethPriceUSD
-  );
+  factory.totalValueLockedUSD = factory.totalValueLockedETH.times(bundle.ethPriceUSD);
 
   let transaction = loadTransaction(event);
-  let mint = new UniswapV3Mint(
-    transaction.id.toString() + '#' + pool.txCount.toString()
-  );
+  let mint = new UniswapV3Mint(transaction.id.toString() + '#' + pool.txCount.toString());
   mint.transaction = transaction.id;
   mint.timestamp = transaction.timestamp;
   mint.pool = pool.id;
@@ -197,9 +193,7 @@ export function handleBurn(event: BurnEvent): void {
   factory.totalValueLockedETH = factory.totalValueLockedETH.plus(
     pool.totalValueLockedETH
   );
-  factory.totalValueLockedUSD = factory.totalValueLockedETH.times(
-    bundle.ethPriceUSD
-  );
+  factory.totalValueLockedUSD = factory.totalValueLockedETH.times(bundle.ethPriceUSD);
 
   // burn entity
   let transaction = loadTransaction(event);

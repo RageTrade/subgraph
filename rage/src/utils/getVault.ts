@@ -20,9 +20,7 @@ export function getVault(vaultAddress: Address): Vault {
 
     let rageAccount = '';
 
-    let accountResult = CurveYieldStrategy.bind(
-      vaultAddress
-    ).try_rageAccountNo();
+    let accountResult = CurveYieldStrategy.bind(vaultAddress).try_rageAccountNo();
 
     if (accountResult.reverted) {
       rageAccount = '-1'; // handling for vaults that don't have rage accounts

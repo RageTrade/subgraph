@@ -224,24 +224,19 @@ export class ERC20 extends ethereum.SmartContract {
   }
 
   allowance(_owner: Address, _spender: Address): BigInt {
-    let result = super.call(
-      'allowance',
-      'allowance(address,address):(uint256)',
-      [ethereum.Value.fromAddress(_owner), ethereum.Value.fromAddress(_spender)]
-    );
+    let result = super.call('allowance', 'allowance(address,address):(uint256)', [
+      ethereum.Value.fromAddress(_owner),
+      ethereum.Value.fromAddress(_spender),
+    ]);
 
     return result[0].toBigInt();
   }
 
-  try_allowance(
-    _owner: Address,
-    _spender: Address
-  ): ethereum.CallResult<BigInt> {
-    let result = super.tryCall(
-      'allowance',
-      'allowance(address,address):(uint256)',
-      [ethereum.Value.fromAddress(_owner), ethereum.Value.fromAddress(_spender)]
-    );
+  try_allowance(_owner: Address, _spender: Address): ethereum.CallResult<BigInt> {
+    let result = super.tryCall('allowance', 'allowance(address,address):(uint256)', [
+      ethereum.Value.fromAddress(_owner),
+      ethereum.Value.fromAddress(_spender),
+    ]);
     if (result.reverted) {
       return new ethereum.CallResult();
     }

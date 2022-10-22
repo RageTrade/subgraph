@@ -22,9 +22,7 @@ export function getAccountById(accountId: string): Account {
   let account = Account.load(accountId);
   if (account === null) {
     // this should ideally not happen
-    log.warning('custom_logs: account {} did not exist in getAccount', [
-      accountId,
-    ]);
+    log.warning('custom_logs: account {} did not exist in getAccount', [accountId]);
     // creating empty account for other code to work
     account = new Account(accountId);
     account.marginBalance = ZERO_BD;

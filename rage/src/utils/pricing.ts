@@ -39,10 +39,7 @@ export function getEthPriceInUSD(): BigDecimal {
   let usdcPool = UniswapV3Pool.load(USDC_WETH_03_POOL); // usdc is token1
 
   // need to only count ETH as having valid USD price if lots of ETH in pool
-  if (
-    usdcPool !== null &&
-    usdcPool.totalValueLockedToken0.gt(MINIMUM_ETH_LOCKED)
-  ) {
+  if (usdcPool !== null && usdcPool.totalValueLockedToken0.gt(MINIMUM_ETH_LOCKED)) {
     return usdcPool.token1Price;
   } else {
     return ZERO_BD;
@@ -71,10 +68,7 @@ export function findEthPerToken(token: UniswapV3Token): BigDecimal {
         let token1 = UniswapV3Token.load(pool.token1);
         // get the derived ETH in pool
         let ethLocked = pool.totalValueLockedToken1.times(token1.derivedETH);
-        if (
-          ethLocked.gt(largestLiquidityETH) &&
-          ethLocked.gt(MINIMUM_ETH_LOCKED)
-        ) {
+        if (ethLocked.gt(largestLiquidityETH) && ethLocked.gt(MINIMUM_ETH_LOCKED)) {
           largestLiquidityETH = ethLocked;
           // token1 per our token * Eth per token1
           priceSoFar = pool.token1Price.times(token1.derivedETH as BigDecimal);
@@ -84,10 +78,7 @@ export function findEthPerToken(token: UniswapV3Token): BigDecimal {
         let token0 = UniswapV3Token.load(pool.token0);
         // get the derived ETH in pool
         let ethLocked = pool.totalValueLockedToken0.times(token0.derivedETH);
-        if (
-          ethLocked.gt(largestLiquidityETH) &&
-          ethLocked.gt(MINIMUM_ETH_LOCKED)
-        ) {
+        if (ethLocked.gt(largestLiquidityETH) && ethLocked.gt(MINIMUM_ETH_LOCKED)) {
           largestLiquidityETH = ethLocked;
           // token0 per our token * ETH per token0
           priceSoFar = pool.token0Price.times(token0.derivedETH as BigDecimal);
@@ -115,26 +106,17 @@ export function getTrackedAmountUSD(
   let price1USD = token1.derivedETH.times(bundle.ethPriceUSD);
 
   // both are whitelist tokens, return sum of both amounts
-  if (
-    WHITELIST_TOKENS.includes(token0.id) &&
-    WHITELIST_TOKENS.includes(token1.id)
-  ) {
+  if (WHITELIST_TOKENS.includes(token0.id) && WHITELIST_TOKENS.includes(token1.id)) {
     return tokenAmount0.times(price0USD).plus(tokenAmount1.times(price1USD));
   }
 
   // take double value of the whitelisted token amount
-  if (
-    WHITELIST_TOKENS.includes(token0.id) &&
-    !WHITELIST_TOKENS.includes(token1.id)
-  ) {
+  if (WHITELIST_TOKENS.includes(token0.id) && !WHITELIST_TOKENS.includes(token1.id)) {
     return tokenAmount0.times(price0USD).times(BigDecimal.fromString('2'));
   }
 
   // take double value of the whitelisted token amount
-  if (
-    !WHITELIST_TOKENS.includes(token0.id) &&
-    WHITELIST_TOKENS.includes(token1.id)
-  ) {
+  if (!WHITELIST_TOKENS.includes(token0.id) && WHITELIST_TOKENS.includes(token1.id)) {
     return tokenAmount1.times(price1USD).times(BigDecimal.fromString('2'));
   }
 

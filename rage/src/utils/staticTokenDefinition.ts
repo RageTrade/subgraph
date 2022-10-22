@@ -10,12 +10,7 @@ export class StaticTokenDefinition {
   decimals: BigInt;
 
   // Initialize a Token Definition with its attributes
-  constructor(
-    address: Address,
-    symbol: string,
-    name: string,
-    decimals: BigInt
-  ) {
+  constructor(address: Address, symbol: string, name: string, decimals: BigInt) {
     this.address = address;
     this.symbol = symbol;
     this.name = name;

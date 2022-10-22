@@ -9,11 +9,7 @@ import {
 } from '../../utils/constants';
 import { UniswapV3Factory } from '../../../generated/schema';
 import { PoolCreated } from '../../../generated/UniswapV3Factory/UniswapV3Factory';
-import {
-  UniswapV3Pool,
-  UniswapV3Token,
-  Bundle,
-} from '../../../generated/schema';
+import { UniswapV3Pool, UniswapV3Token, Bundle } from '../../../generated/schema';
 import { UniswapV3Pool as PoolTemplate } from '../../../generated/templates';
 import {
   fetchTokenSymbol,
@@ -26,8 +22,7 @@ import { log, BigInt, Address } from '@graphprotocol/graph-ts';
 export function handlePoolCreated(event: PoolCreated): void {
   // temp fix
   if (
-    event.params.pool ===
-    Address.fromString('0x8fe8d9bb8eeba3ed688069c3d6b556c9ca258248')
+    event.params.pool === Address.fromString('0x8fe8d9bb8eeba3ed688069c3d6b556c9ca258248')
   ) {
     return;
   }
@@ -57,9 +52,7 @@ export function handlePoolCreated(event: PoolCreated): void {
 
   factory.poolCount = factory.poolCount.plus(ONE_BI);
 
-  let pool = new UniswapV3Pool(
-    event.params.pool.toHexString()
-  ) as UniswapV3Pool;
+  let pool = new UniswapV3Pool(event.params.pool.toHexString()) as UniswapV3Pool;
   let token0 = UniswapV3Token.load(event.params.token0.toHexString());
   let token1 = UniswapV3Token.load(event.params.token1.toHexString());
 

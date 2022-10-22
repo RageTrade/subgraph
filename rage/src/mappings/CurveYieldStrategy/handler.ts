@@ -6,16 +6,8 @@ import {
   Withdraw,
 } from '../../../generated/CurveYieldStrategy/CurveYieldStrategy';
 import { CurveQuoter } from '../../../generated/CurveYieldStrategy/CurveQuoter';
-import {
-  VaultDepositWithdrawEntry,
-  VaultRebalance,
-} from '../../../generated/schema';
-import {
-  generateId,
-  BigIntToBigDecimal,
-  parsePriceX128,
-  safeDiv,
-} from '../../utils';
+import { VaultDepositWithdrawEntry, VaultRebalance } from '../../../generated/schema';
+import { generateId, BigIntToBigDecimal, parsePriceX128, safeDiv } from '../../utils';
 import { contracts } from '../../utils/addresses';
 import { BI_18, BI_6, ONE_BI } from '../../utils/constants';
 import { getOwner } from '../clearinghouse/owner';
@@ -29,15 +21,10 @@ import { getAccountById } from '../clearinghouse/account';
 
 export function handleDeposit(event: Deposit): void {
   // do not handle if deposit is coming from periphery
-  if (
-    contracts.VaultPeriphery.toHexString() == event.params.caller.toHexString()
-  ) {
+  if (contracts.VaultPeriphery.toHexString() == event.params.caller.toHexString()) {
     log.debug(
       'custom_logs: curve yield strategy/handleDeposit/ignore periphery callers',
-      [
-        contracts.VaultPeriphery.toHexString(),
-        event.params.caller.toHexString(),
-      ]
+      [contracts.VaultPeriphery.toHexString(), event.params.caller.toHexString()]
     );
     return;
   }
@@ -166,9 +153,7 @@ export function handleWithdraw(event: Withdraw): void {
   let assetsInBigDecimal = BigIntToBigDecimal(event.params.assets, BI_18);
   let sharesInBigDecimal = BigIntToBigDecimal(event.params.shares, BI_18);
 
-  let curveYieldStrategyContract = CurveYieldStrategy.bind(
-    contracts.CurveYieldStrategy
-  );
+  let curveYieldStrategyContract = CurveYieldStrategy.bind(contracts.CurveYieldStrategy);
 
   //...........................................................................//
 
@@ -209,9 +194,7 @@ export function handleWithdraw(event: Withdraw): void {
   let assetPriceResult = curveYieldStrategyContract.try_getPriceX128();
 
   if (assetPriceResult.reverted) {
-    log.error('custom_logs: getPriceX128 handleDepositPeriphery reverted {}', [
-      '',
-    ]);
+    log.error('custom_logs: getPriceX128 handleDepositPeriphery reverted {}', ['']);
     return;
   }
 

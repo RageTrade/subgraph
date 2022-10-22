@@ -356,30 +356,19 @@ export class DnGmxBatchingManager extends ethereum.SmartContract {
   }
 
   depositUsdc(amount: BigInt, receiver: Address): BigInt {
-    let result = super.call(
-      'depositUsdc',
-      'depositUsdc(uint256,address):(uint256)',
-      [
-        ethereum.Value.fromUnsignedBigInt(amount),
-        ethereum.Value.fromAddress(receiver),
-      ]
-    );
+    let result = super.call('depositUsdc', 'depositUsdc(uint256,address):(uint256)', [
+      ethereum.Value.fromUnsignedBigInt(amount),
+      ethereum.Value.fromAddress(receiver),
+    ]);
 
     return result[0].toBigInt();
   }
 
-  try_depositUsdc(
-    amount: BigInt,
-    receiver: Address
-  ): ethereum.CallResult<BigInt> {
-    let result = super.tryCall(
-      'depositUsdc',
-      'depositUsdc(uint256,address):(uint256)',
-      [
-        ethereum.Value.fromUnsignedBigInt(amount),
-        ethereum.Value.fromAddress(receiver),
-      ]
-    );
+  try_depositUsdc(amount: BigInt, receiver: Address): ethereum.CallResult<BigInt> {
+    let result = super.tryCall('depositUsdc', 'depositUsdc(uint256,address):(uint256)', [
+      ethereum.Value.fromUnsignedBigInt(amount),
+      ethereum.Value.fromAddress(receiver),
+    ]);
     if (result.reverted) {
       return new ethereum.CallResult();
     }
@@ -388,21 +377,13 @@ export class DnGmxBatchingManager extends ethereum.SmartContract {
   }
 
   dnGmxJuniorVault(): Address {
-    let result = super.call(
-      'dnGmxJuniorVault',
-      'dnGmxJuniorVault():(address)',
-      []
-    );
+    let result = super.call('dnGmxJuniorVault', 'dnGmxJuniorVault():(address)', []);
 
     return result[0].toAddress();
   }
 
   try_dnGmxJuniorVault(): ethereum.CallResult<Address> {
-    let result = super.tryCall(
-      'dnGmxJuniorVault',
-      'dnGmxJuniorVault():(address)',
-      []
-    );
+    let result = super.tryCall('dnGmxJuniorVault', 'dnGmxJuniorVault():(address)', []);
     if (result.reverted) {
       return new ethereum.CallResult();
     }
@@ -478,9 +459,7 @@ export class DnGmxBatchingManager extends ethereum.SmartContract {
     return ethereum.CallResult.fromValue(value[0].toBoolean());
   }
 
-  roundDeposits(
-    round: BigInt
-  ): DnGmxBatchingManager__roundDepositsResultValue0Struct {
+  roundDeposits(round: BigInt): DnGmxBatchingManager__roundDepositsResultValue0Struct {
     let result = super.call(
       'roundDeposits',
       'roundDeposits(uint256):((uint128,uint128))',
@@ -492,9 +471,7 @@ export class DnGmxBatchingManager extends ethereum.SmartContract {
 
   try_roundDeposits(
     round: BigInt
-  ): ethereum.CallResult<
-    DnGmxBatchingManager__roundDepositsResultValue0Struct
-  > {
+  ): ethereum.CallResult<DnGmxBatchingManager__roundDepositsResultValue0Struct> {
     let result = super.tryCall(
       'roundDeposits',
       'roundDeposits(uint256):((uint128,uint128))',
@@ -516,11 +493,7 @@ export class DnGmxBatchingManager extends ethereum.SmartContract {
   }
 
   try_roundGlpStaked(): ethereum.CallResult<BigInt> {
-    let result = super.tryCall(
-      'roundGlpStaked',
-      'roundGlpStaked():(uint256)',
-      []
-    );
+    let result = super.tryCall('roundGlpStaked', 'roundGlpStaked():(uint256)', []);
     if (result.reverted) {
       return new ethereum.CallResult();
     }
@@ -529,21 +502,13 @@ export class DnGmxBatchingManager extends ethereum.SmartContract {
   }
 
   roundUsdcBalance(): BigInt {
-    let result = super.call(
-      'roundUsdcBalance',
-      'roundUsdcBalance():(uint256)',
-      []
-    );
+    let result = super.call('roundUsdcBalance', 'roundUsdcBalance():(uint256)', []);
 
     return result[0].toBigInt();
   }
 
   try_roundUsdcBalance(): ethereum.CallResult<BigInt> {
-    let result = super.tryCall(
-      'roundUsdcBalance',
-      'roundUsdcBalance():(uint256)',
-      []
-    );
+    let result = super.tryCall('roundUsdcBalance', 'roundUsdcBalance():(uint256)', []);
     if (result.reverted) {
       return new ethereum.CallResult();
     }
@@ -575,21 +540,17 @@ export class DnGmxBatchingManager extends ethereum.SmartContract {
   }
 
   unclaimedShares(account: Address): BigInt {
-    let result = super.call(
-      'unclaimedShares',
-      'unclaimedShares(address):(uint256)',
-      [ethereum.Value.fromAddress(account)]
-    );
+    let result = super.call('unclaimedShares', 'unclaimedShares(address):(uint256)', [
+      ethereum.Value.fromAddress(account),
+    ]);
 
     return result[0].toBigInt();
   }
 
   try_unclaimedShares(account: Address): ethereum.CallResult<BigInt> {
-    let result = super.tryCall(
-      'unclaimedShares',
-      'unclaimedShares(address):(uint256)',
-      [ethereum.Value.fromAddress(account)]
-    );
+    let result = super.tryCall('unclaimedShares', 'unclaimedShares(address):(uint256)', [
+      ethereum.Value.fromAddress(account),
+    ]);
     if (result.reverted) {
       return new ethereum.CallResult();
     }
@@ -606,11 +567,9 @@ export class DnGmxBatchingManager extends ethereum.SmartContract {
   }
 
   try_usdcBalance(account: Address): ethereum.CallResult<BigInt> {
-    let result = super.tryCall(
-      'usdcBalance',
-      'usdcBalance(address):(uint256)',
-      [ethereum.Value.fromAddress(account)]
-    );
+    let result = super.tryCall('usdcBalance', 'usdcBalance(address):(uint256)', [
+      ethereum.Value.fromAddress(account),
+    ]);
     if (result.reverted) {
       return new ethereum.CallResult();
     }
@@ -618,9 +577,7 @@ export class DnGmxBatchingManager extends ethereum.SmartContract {
     return ethereum.CallResult.fromValue(value[0].toBigInt());
   }
 
-  userDeposits(
-    account: Address
-  ): DnGmxBatchingManager__userDepositsResultValue0Struct {
+  userDeposits(account: Address): DnGmxBatchingManager__userDepositsResultValue0Struct {
     let result = super.call(
       'userDeposits',
       'userDeposits(address):((uint256,uint128,uint128))',

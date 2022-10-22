@@ -12,8 +12,7 @@ type Owner @entity {
   "total count of all vaultDepositWithdrawEntries"
   vaultDepositWithdrawEntriesCount: BigInt!
   "list of vault deposits and withdraws"
-  vaultDepositWithdrawEntries: [VaultDepositWithdrawEntry!]!
-    @derivedFrom(field: "owner")
+  vaultDepositWithdrawEntries: [VaultDepositWithdrawEntry!]! @derivedFrom(field: "owner")
   "list of entry price entries"
   vaultAccounts: [VaultAccount!]! @derivedFrom(field: "owner")
 }
@@ -59,8 +58,7 @@ type Account @entity {
   "Total number of swaps made by the account"
   tokenPositionChangeEntriesCount: BigInt!
   "list all swaps made by the account"
-  tokenPositionChangeEntries: [TokenPositionChangeEntry!]!
-    @derivedFrom(field: "account")
+  tokenPositionChangeEntries: [TokenPositionChangeEntry!]! @derivedFrom(field: "account")
   "list of all margin/collateral tokens deposited by the account, currently only USDC"
   margin: [Collateral!]! @derivedFrom(field: "account")
   "total number time a funding payment realized for an account"
@@ -83,8 +81,7 @@ type Account @entity {
   liquidateToken: [Collateral!]! @derivedFrom(field: "account")
   liquidateRangePosition: [Collateral!]! @derivedFrom(field: "account")
   liquidityPosition: [LiquidityPosition!]! @derivedFrom(field: "account")
-  liquidityPositionEntry: [LiquidityPositionEntry!]!
-    @derivedFrom(field: "account")
+  liquidityPositionEntry: [LiquidityPositionEntry!]! @derivedFrom(field: "account")
 }
 
 type ERC20Token @entity {
@@ -560,8 +557,7 @@ type Vault @entity {
   "rebalance events"
   rebalances: [VaultRebalance!]! @derivedFrom(field: "vault")
   "rewards harvested event logs"
-  rewardsHarvestedEntries: [VaultRewardsHarvestedEntry!]!
-    @derivedFrom(field: "vault")
+  rewardsHarvestedEntries: [VaultRewardsHarvestedEntry!]! @derivedFrom(field: "vault")
 }
 
 """

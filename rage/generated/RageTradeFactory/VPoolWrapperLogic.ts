@@ -461,11 +461,7 @@ export class VPoolWrapperLogic extends ethereum.SmartContract {
   }
 
   accruedProtocolFee(): BigInt {
-    let result = super.call(
-      'accruedProtocolFee',
-      'accruedProtocolFee():(uint256)',
-      []
-    );
+    let result = super.call('accruedProtocolFee', 'accruedProtocolFee():(uint256)', []);
 
     return result[0].toBigInt();
   }
@@ -483,11 +479,7 @@ export class VPoolWrapperLogic extends ethereum.SmartContract {
     return ethereum.CallResult.fromValue(value[0].toBigInt());
   }
 
-  burn(
-    tickLower: i32,
-    tickUpper: i32,
-    liquidity: BigInt
-  ): VPoolWrapperLogic__burnResult {
+  burn(tickLower: i32, tickUpper: i32, liquidity: BigInt): VPoolWrapperLogic__burnResult {
     let result = super.call(
       'burn',
       'burn(int24,int24,uint128):(uint256,uint256,(int256,int256,int256,uint256))',
@@ -539,11 +531,7 @@ export class VPoolWrapperLogic extends ethereum.SmartContract {
   }
 
   try_clearingHouse(): ethereum.CallResult<Address> {
-    let result = super.tryCall(
-      'clearingHouse',
-      'clearingHouse():(address)',
-      []
-    );
+    let result = super.tryCall('clearingHouse', 'clearingHouse():(address)', []);
     if (result.reverted) {
       return new ethereum.CallResult();
     }
@@ -613,11 +601,7 @@ export class VPoolWrapperLogic extends ethereum.SmartContract {
   }
 
   fpGlobal(): VPoolWrapperLogic__fpGlobalResult {
-    let result = super.call(
-      'fpGlobal',
-      'fpGlobal():(int256,int256,int256,uint48)',
-      []
-    );
+    let result = super.call('fpGlobal', 'fpGlobal():(int256,int256,int256,uint48)', []);
 
     return new VPoolWrapperLogic__fpGlobalResult(
       result[0].toBigInt(),
@@ -808,21 +792,13 @@ export class VPoolWrapperLogic extends ethereum.SmartContract {
   }
 
   liquidityFeePips(): i32 {
-    let result = super.call(
-      'liquidityFeePips',
-      'liquidityFeePips():(uint24)',
-      []
-    );
+    let result = super.call('liquidityFeePips', 'liquidityFeePips():(uint24)', []);
 
     return result[0].toI32();
   }
 
   try_liquidityFeePips(): ethereum.CallResult<i32> {
-    let result = super.tryCall(
-      'liquidityFeePips',
-      'liquidityFeePips():(uint24)',
-      []
-    );
+    let result = super.tryCall('liquidityFeePips', 'liquidityFeePips():(uint24)', []);
     if (result.reverted) {
       return new ethereum.CallResult();
     }
@@ -830,11 +806,7 @@ export class VPoolWrapperLogic extends ethereum.SmartContract {
     return ethereum.CallResult.fromValue(value[0].toI32());
   }
 
-  mint(
-    tickLower: i32,
-    tickUpper: i32,
-    liquidity: BigInt
-  ): VPoolWrapperLogic__mintResult {
+  mint(tickLower: i32, tickUpper: i32, liquidity: BigInt): VPoolWrapperLogic__mintResult {
     let result = super.call(
       'mint',
       'mint(int24,int24,uint128):(uint256,uint256,(int256,int256,int256,uint256))',
@@ -880,21 +852,13 @@ export class VPoolWrapperLogic extends ethereum.SmartContract {
   }
 
   protocolFeePips(): i32 {
-    let result = super.call(
-      'protocolFeePips',
-      'protocolFeePips():(uint24)',
-      []
-    );
+    let result = super.call('protocolFeePips', 'protocolFeePips():(uint24)', []);
 
     return result[0].toI32();
   }
 
   try_protocolFeePips(): ethereum.CallResult<i32> {
-    let result = super.tryCall(
-      'protocolFeePips',
-      'protocolFeePips():(uint24)',
-      []
-    );
+    let result = super.tryCall('protocolFeePips', 'protocolFeePips():(uint24)', []);
     if (result.reverted) {
       return new ethereum.CallResult();
     }
@@ -903,21 +867,13 @@ export class VPoolWrapperLogic extends ethereum.SmartContract {
   }
 
   sumFeeGlobalX128(): BigInt {
-    let result = super.call(
-      'sumFeeGlobalX128',
-      'sumFeeGlobalX128():(uint256)',
-      []
-    );
+    let result = super.call('sumFeeGlobalX128', 'sumFeeGlobalX128():(uint256)', []);
 
     return result[0].toBigInt();
   }
 
   try_sumFeeGlobalX128(): ethereum.CallResult<BigInt> {
-    let result = super.tryCall(
-      'sumFeeGlobalX128',
-      'sumFeeGlobalX128():(uint256)',
-      []
-    );
+    let result = super.tryCall('sumFeeGlobalX128', 'sumFeeGlobalX128():(uint256)', []);
     if (result.reverted) {
       return new ethereum.CallResult();
     }

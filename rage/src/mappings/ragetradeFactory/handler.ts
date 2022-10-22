@@ -15,11 +15,7 @@ import { VPoolWrapperLogic } from '../../../generated/templates';
 import { generateId, truncate } from '../../utils';
 import { contracts } from '../../utils/addresses';
 import { ZERO_BD } from '../../utils/constants';
-import {
-  fetchTokenDecimals,
-  fetchTokenName,
-  fetchTokenSymbol,
-} from '../../utils/token';
+import { fetchTokenDecimals, fetchTokenName, fetchTokenSymbol } from '../../utils/token';
 import { getRageTradePool } from './rageTradePool';
 
 export function handlePoolInitialized(event: PoolInitialized): void {
@@ -41,10 +37,10 @@ export function handlePoolInitialized(event: PoolInitialized): void {
 
   let poolId = truncate(event.params.vToken.toHexString());
 
-  log.debug(
-    'custom_logs: handlePoolInitialized [[ vToken - {} ]] [[ poolId - {} ]]',
-    [event.params.vToken.toHexString(), poolId]
-  );
+  log.debug('custom_logs: handlePoolInitialized [[ vToken - {} ]] [[ poolId - {} ]]', [
+    event.params.vToken.toHexString(),
+    poolId,
+  ]);
 
   let rageTradePool = getRageTradePool(poolId);
 
@@ -102,9 +98,7 @@ export function handlePoolInitialized(event: PoolInitialized): void {
 
   protocol.save();
 
-  log.debug('custom_logs: protocol.rageTradePools.push - {}', [
-    rageTradePool.id,
-  ]);
+  log.debug('custom_logs: protocol.rageTradePools.push - {}', [rageTradePool.id]);
 
   let vPool = Temp_UniswapV3_Pool.load(event.params.vPool.toHexString());
   if (vPool == null) {
@@ -124,9 +118,7 @@ export function handlePoolInitialized(event: PoolInitialized): void {
   rageTradePool.factory = rageTradeFactory.id;
 
   let dayCollection = new Collection(generateId([rageTradePool.id, 'dayData']));
-  let hourCollection = new Collection(
-    generateId([rageTradePool.id, 'hourData'])
-  );
+  let hourCollection = new Collection(generateId([rageTradePool.id, 'hourData']));
 
   dayCollection.save();
   hourCollection.save();

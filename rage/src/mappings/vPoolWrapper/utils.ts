@@ -100,12 +100,7 @@ export function updateCandleData(
   vTokenIn: BigDecimal,
   vQuoteIn: BigDecimal
 ): Candle {
-  let candle = getCandle(
-    candleId,
-    timeStartUnix,
-    collectionId,
-    rageTradePool.price
-  );
+  let candle = getCandle(candleId, timeStartUnix, collectionId, rageTradePool.price);
 
   candle.txCount = candle.txCount.plus(ONE_BI);
 
@@ -165,7 +160,5 @@ export function getRageTradeVirtualPriceAccumulator(
     .minus(rageTradePool.checkpointTimestamp)
     .toBigDecimal();
 
-  return rageTradePool.virtualPriceAccumulator.plus(
-    currentPrice.times(timeDifference)
-  );
+  return rageTradePool.virtualPriceAccumulator.plus(currentPrice.times(timeDifference));
 }

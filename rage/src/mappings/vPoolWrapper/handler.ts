@@ -48,9 +48,7 @@ export function handleSwap(event: Swap): void {
 
   let rageTradePool = RageTradePool.load(vPoolWrapper.pool); // use poolId from vPoolWrapper entity
   if (rageTradePool === null) {
-    log.error('custom_logs: RageTradePool not found id - {}', [
-      vPoolWrapper.pool,
-    ]);
+    log.error('custom_logs: RageTradePool not found id - {}', [vPoolWrapper.pool]);
     return;
   }
 
@@ -118,9 +116,7 @@ export function handleMint(event: Mint): void {
 
   let rageTradePool = RageTradePool.load(vPoolWrapper.pool); // use poolId from vPoolWrapper entity
   if (rageTradePool == null) {
-    log.error('custom_logs: RageTradePool not found id - {}', [
-      vPoolWrapper.pool,
-    ]);
+    log.error('custom_logs: RageTradePool not found id - {}', [vPoolWrapper.pool]);
     return;
   }
 
@@ -162,9 +158,7 @@ export function handleBurn(event: Burn): void {
   let rageTradePool = RageTradePool.load(vPoolWrapper.pool); // use poolId from vPoolWrapper entity
 
   if (rageTradePool == null) {
-    log.error('custom_logs: RageTradePool not found id - {}', [
-      vPoolWrapper.pool,
-    ]);
+    log.error('custom_logs: RageTradePool not found id - {}', [vPoolWrapper.pool]);
     return;
   }
 

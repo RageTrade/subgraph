@@ -177,11 +177,7 @@ export class VaultPeriphery extends ethereum.SmartContract {
   }
 
   try_MAX_TOLERANCE(): ethereum.CallResult<BigInt> {
-    let result = super.tryCall(
-      'MAX_TOLERANCE',
-      'MAX_TOLERANCE():(uint256)',
-      []
-    );
+    let result = super.tryCall('MAX_TOLERANCE', 'MAX_TOLERANCE():(uint256)', []);
     if (result.reverted) {
       return new ethereum.CallResult();
     }
@@ -198,11 +194,9 @@ export class VaultPeriphery extends ethereum.SmartContract {
   }
 
   try_depositUsdc(amount: BigInt): ethereum.CallResult<BigInt> {
-    let result = super.tryCall(
-      'depositUsdc',
-      'depositUsdc(uint256):(uint256)',
-      [ethereum.Value.fromUnsignedBigInt(amount)]
-    );
+    let result = super.tryCall('depositUsdc', 'depositUsdc(uint256):(uint256)', [
+      ethereum.Value.fromUnsignedBigInt(amount),
+    ]);
     if (result.reverted) {
       return new ethereum.CallResult();
     }
@@ -219,11 +213,9 @@ export class VaultPeriphery extends ethereum.SmartContract {
   }
 
   try_depositWeth(amount: BigInt): ethereum.CallResult<BigInt> {
-    let result = super.tryCall(
-      'depositWeth',
-      'depositWeth(uint256):(uint256)',
-      [ethereum.Value.fromUnsignedBigInt(amount)]
-    );
+    let result = super.tryCall('depositWeth', 'depositWeth(uint256):(uint256)', [
+      ethereum.Value.fromUnsignedBigInt(amount),
+    ]);
     if (result.reverted) {
       return new ethereum.CallResult();
     }

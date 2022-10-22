@@ -5,12 +5,7 @@ import {
   DepositToken,
 } from '../../../generated/DnGmxBatchingManager/DnGmxBatchingManager';
 import { DnGmxJuniorVault } from '../../../generated/DnGmxJuniorVault/DnGmxJuniorVault';
-import {
-  BigIntToBigDecimal,
-  generateId,
-  parsePriceX128,
-  safeDiv,
-} from '../../utils';
+import { BigIntToBigDecimal, generateId, parsePriceX128, safeDiv } from '../../utils';
 import { contracts } from '../../utils/addresses';
 import { getVault } from '../../utils/getVault';
 import { getOwner } from '../clearinghouse/owner';
@@ -55,9 +50,7 @@ export function handleDepositToken(event: DepositToken): void {
 
   entry.action = 'deposit';
 
-  let dnGmxJuniorVaultContract = DnGmxJuniorVault.bind(
-    contracts.DnGmxJuniorVault
-  );
+  let dnGmxJuniorVaultContract = DnGmxJuniorVault.bind(contracts.DnGmxJuniorVault);
 
   entry.tokenAmount = BigIntToBigDecimal(event.params.amount, token.decimals);
   entry.assetsTokenAmount = BigIntToBigDecimal(event.params.glpStaked, BI_18);
@@ -146,11 +139,7 @@ export function handleBatchDeposit(event: BatchDeposit): void {
       } else {
         log.debug(
           'custom_logs: handleBatchDeposit_DN_GMX_Vault owner - {} sharePrice - {} sharesInBigDecimal - {}',
-          [
-            owner.id,
-            entry.sharePrice.toString(),
-            entry.sharesTokenAmount.toString(),
-          ]
+          [owner.id, entry.sharePrice.toString(), entry.sharesTokenAmount.toString()]
         );
 
         owner.save();

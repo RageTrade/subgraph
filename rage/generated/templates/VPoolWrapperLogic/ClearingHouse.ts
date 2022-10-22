@@ -815,11 +815,7 @@ export class ClearingHouse extends ethereum.SmartContract {
   }
 
   try_createAccount(): ethereum.CallResult<BigInt> {
-    let result = super.tryCall(
-      'createAccount',
-      'createAccount():(uint256)',
-      []
-    );
+    let result = super.tryCall('createAccount', 'createAccount():(uint256)', []);
     if (result.reverted) {
       return new ethereum.CallResult();
     }
@@ -919,9 +915,7 @@ export class ClearingHouse extends ethereum.SmartContract {
   try_getAccountMarketValueAndRequiredMargin(
     accountId: BigInt,
     isInitialMargin: boolean
-  ): ethereum.CallResult<
-    ClearingHouse__getAccountMarketValueAndRequiredMarginResult
-  > {
+  ): ethereum.CallResult<ClearingHouse__getAccountMarketValueAndRequiredMarginResult> {
     let result = super.tryCall(
       'getAccountMarketValueAndRequiredMargin',
       'getAccountMarketValueAndRequiredMargin(uint256,bool):(int256,int256)',
@@ -1059,21 +1053,13 @@ export class ClearingHouse extends ethereum.SmartContract {
   }
 
   governancePending(): Address {
-    let result = super.call(
-      'governancePending',
-      'governancePending():(address)',
-      []
-    );
+    let result = super.call('governancePending', 'governancePending():(address)', []);
 
     return result[0].toAddress();
   }
 
   try_governancePending(): ethereum.CallResult<Address> {
-    let result = super.tryCall(
-      'governancePending',
-      'governancePending():(address)',
-      []
-    );
+    let result = super.tryCall('governancePending', 'governancePending():(address)', []);
     if (result.reverted) {
       return new ethereum.CallResult();
     }
@@ -1088,11 +1074,7 @@ export class ClearingHouse extends ethereum.SmartContract {
   }
 
   try_insuranceFund(): ethereum.CallResult<Address> {
-    let result = super.tryCall(
-      'insuranceFund',
-      'insuranceFund():(address)',
-      []
-    );
+    let result = super.tryCall('insuranceFund', 'insuranceFund():(address)', []);
     if (result.reverted) {
       return new ethereum.CallResult();
     }
@@ -1134,9 +1116,7 @@ export class ClearingHouse extends ethereum.SmartContract {
 
   multicallWithSingleMarginCheck(
     accountId: BigInt,
-    operations: Array<
-      ClearingHouse__multicallWithSingleMarginCheckInputOperationsStruct
-    >
+    operations: Array<ClearingHouse__multicallWithSingleMarginCheckInputOperationsStruct>
   ): Array<Bytes> {
     let result = super.call(
       'multicallWithSingleMarginCheck',
@@ -1152,9 +1132,7 @@ export class ClearingHouse extends ethereum.SmartContract {
 
   try_multicallWithSingleMarginCheck(
     accountId: BigInt,
-    operations: Array<
-      ClearingHouse__multicallWithSingleMarginCheckInputOperationsStruct
-    >
+    operations: Array<ClearingHouse__multicallWithSingleMarginCheckInputOperationsStruct>
   ): ethereum.CallResult<Array<Bytes>> {
     let result = super.tryCall(
       'multicallWithSingleMarginCheck',
@@ -1239,10 +1217,7 @@ export class ClearingHouse extends ethereum.SmartContract {
       ]
     );
 
-    return new ClearingHouse__swapTokenResult(
-      result[0].toBigInt(),
-      result[1].toBigInt()
-    );
+    return new ClearingHouse__swapTokenResult(result[0].toBigInt(), result[1].toBigInt());
   }
 
   try_swapToken(
@@ -1264,10 +1239,7 @@ export class ClearingHouse extends ethereum.SmartContract {
     }
     let value = result.value;
     return ethereum.CallResult.fromValue(
-      new ClearingHouse__swapTokenResult(
-        value[0].toBigInt(),
-        value[1].toBigInt()
-      )
+      new ClearingHouse__swapTokenResult(value[0].toBigInt(), value[1].toBigInt())
     );
   }
 
@@ -1287,11 +1259,7 @@ export class ClearingHouse extends ethereum.SmartContract {
   }
 
   teamMultisigPending(): Address {
-    let result = super.call(
-      'teamMultisigPending',
-      'teamMultisigPending():(address)',
-      []
-    );
+    let result = super.call('teamMultisigPending', 'teamMultisigPending():(address)', []);
 
     return result[0].toAddress();
   }
@@ -1349,10 +1317,7 @@ export class ClearingHouse extends ethereum.SmartContract {
     }
     let value = result.value;
     return ethereum.CallResult.fromValue(
-      new ClearingHouse__updateRangeOrderResult(
-        value[0].toBigInt(),
-        value[1].toBigInt()
-      )
+      new ClearingHouse__updateRangeOrderResult(value[0].toBigInt(), value[1].toBigInt())
     );
   }
 }

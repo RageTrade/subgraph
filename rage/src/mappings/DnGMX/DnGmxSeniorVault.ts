@@ -1,8 +1,5 @@
 import { log } from '@graphprotocol/graph-ts';
-import {
-  Deposit,
-  Withdraw,
-} from '../../../generated/DnGmxSeniorVault/DnGmxSeniorVault';
+import { Deposit, Withdraw } from '../../../generated/DnGmxSeniorVault/DnGmxSeniorVault';
 import { VaultDepositWithdrawEntry } from '../../../generated/schema';
 import { BigIntToBigDecimal, safeDiv, generateId } from '../../utils';
 import { contracts } from '../../utils/addresses';

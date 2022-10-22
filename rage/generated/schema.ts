@@ -272,10 +272,7 @@ export class Account extends Entity {
   }
 
   set totalLiquidityPositionEarningsRealized(value: BigDecimal) {
-    this.set(
-      'totalLiquidityPositionEarningsRealized',
-      Value.fromBigDecimal(value)
-    );
+    this.set('totalLiquidityPositionEarningsRealized', Value.fromBigDecimal(value));
   }
 
   get tokenPositionChangeEntriesCount(): BigInt {
@@ -697,10 +694,7 @@ export class FundingPaymentRealizedEntry extends Entity {
 
   save(): void {
     let id = this.get('id');
-    assert(
-      id !== null,
-      'Cannot save FundingPaymentRealizedEntry entity without an ID'
-    );
+    assert(id !== null, 'Cannot save FundingPaymentRealizedEntry entity without an ID');
     assert(
       id.kind == ValueKind.STRING,
       'Cannot save FundingPaymentRealizedEntry entity with non-string ID. ' +
@@ -1156,10 +1150,7 @@ export class TokenPositionChangeEntry extends Entity {
 
   save(): void {
     let id = this.get('id');
-    assert(
-      id !== null,
-      'Cannot save TokenPositionChangeEntry entity without an ID'
-    );
+    assert(id !== null, 'Cannot save TokenPositionChangeEntry entity without an ID');
     assert(
       id.kind == ValueKind.STRING,
       'Cannot save TokenPositionChangeEntry entity with non-string ID. ' +
@@ -1169,10 +1160,7 @@ export class TokenPositionChangeEntry extends Entity {
   }
 
   static load(id: string): TokenPositionChangeEntry | null {
-    return store.get(
-      'TokenPositionChangeEntry',
-      id
-    ) as TokenPositionChangeEntry | null;
+    return store.get('TokenPositionChangeEntry', id) as TokenPositionChangeEntry | null;
   }
 
   get id(): string {
@@ -1319,10 +1307,7 @@ export class TokenPositionLiquidatedEntry extends Entity {
 
   save(): void {
     let id = this.get('id');
-    assert(
-      id !== null,
-      'Cannot save TokenPositionLiquidatedEntry entity without an ID'
-    );
+    assert(id !== null, 'Cannot save TokenPositionLiquidatedEntry entity without an ID');
     assert(
       id.kind == ValueKind.STRING,
       'Cannot save TokenPositionLiquidatedEntry entity with non-string ID. ' +
@@ -1464,10 +1449,7 @@ export class LiquidateRangePosition extends Entity {
 
   save(): void {
     let id = this.get('id');
-    assert(
-      id !== null,
-      'Cannot save LiquidateRangePosition entity without an ID'
-    );
+    assert(id !== null, 'Cannot save LiquidateRangePosition entity without an ID');
     assert(
       id.kind == ValueKind.STRING,
       'Cannot save LiquidateRangePosition entity with non-string ID. ' +
@@ -1477,10 +1459,7 @@ export class LiquidateRangePosition extends Entity {
   }
 
   static load(id: string): LiquidateRangePosition | null {
-    return store.get(
-      'LiquidateRangePosition',
-      id
-    ) as LiquidateRangePosition | null;
+    return store.get('LiquidateRangePosition', id) as LiquidateRangePosition | null;
   }
 
   get id(): string {
@@ -1776,10 +1755,7 @@ export class LiquidityPositionEntry extends Entity {
 
   save(): void {
     let id = this.get('id');
-    assert(
-      id !== null,
-      'Cannot save LiquidityPositionEntry entity without an ID'
-    );
+    assert(id !== null, 'Cannot save LiquidityPositionEntry entity without an ID');
     assert(
       id.kind == ValueKind.STRING,
       'Cannot save LiquidityPositionEntry entity with non-string ID. ' +
@@ -1789,10 +1765,7 @@ export class LiquidityPositionEntry extends Entity {
   }
 
   static load(id: string): LiquidityPositionEntry | null {
-    return store.get(
-      'LiquidityPositionEntry',
-      id
-    ) as LiquidityPositionEntry | null;
+    return store.get('LiquidityPositionEntry', id) as LiquidityPositionEntry | null;
   }
 
   get id(): string {
@@ -2524,10 +2497,7 @@ export class Vault extends Entity {
   }
 
   set totalLiquidityPositionEarningsRealized(value: BigDecimal) {
-    this.set(
-      'totalLiquidityPositionEarningsRealized',
-      Value.fromBigDecimal(value)
-    );
+    this.set('totalLiquidityPositionEarningsRealized', Value.fromBigDecimal(value));
   }
 
   get rebalances(): Array<string> {
@@ -2557,10 +2527,7 @@ export class VaultRewardsHarvestedEntry extends Entity {
 
   save(): void {
     let id = this.get('id');
-    assert(
-      id !== null,
-      'Cannot save VaultRewardsHarvestedEntry entity without an ID'
-    );
+    assert(id !== null, 'Cannot save VaultRewardsHarvestedEntry entity without an ID');
     assert(
       id.kind == ValueKind.STRING,
       'Cannot save VaultRewardsHarvestedEntry entity with non-string ID. ' +
@@ -2742,10 +2709,7 @@ export class VaultDepositWithdrawEntry extends Entity {
 
   save(): void {
     let id = this.get('id');
-    assert(
-      id !== null,
-      'Cannot save VaultDepositWithdrawEntry entity without an ID'
-    );
+    assert(id !== null, 'Cannot save VaultDepositWithdrawEntry entity without an ID');
     assert(
       id.kind == ValueKind.STRING,
       'Cannot save VaultDepositWithdrawEntry entity with non-string ID. ' +
@@ -2755,10 +2719,7 @@ export class VaultDepositWithdrawEntry extends Entity {
   }
 
   static load(id: string): VaultDepositWithdrawEntry | null {
-    return store.get(
-      'VaultDepositWithdrawEntry',
-      id
-    ) as VaultDepositWithdrawEntry | null;
+    return store.get('VaultDepositWithdrawEntry', id) as VaultDepositWithdrawEntry | null;
   }
 
   get id(): string {
@@ -3827,10 +3788,7 @@ export class UniswapV3Transaction extends Entity {
 
   save(): void {
     let id = this.get('id');
-    assert(
-      id !== null,
-      'Cannot save UniswapV3Transaction entity without an ID'
-    );
+    assert(id !== null, 'Cannot save UniswapV3Transaction entity without an ID');
     assert(
       id.kind == ValueKind.STRING,
       'Cannot save UniswapV3Transaction entity with non-string ID. ' +
