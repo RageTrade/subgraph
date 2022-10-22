@@ -225,6 +225,8 @@ dataSources:
           handler: handleWithdraw
         - event: Rebalanced()
           handler: handleRebalance
+        - event: RewardsHarvested(uint256,uint256,uint256,uint256,uint256,uint256)
+          handler: handleRewardsHarvested
   - kind: ethereum/contract
     name: DnGmxBatchingManager
     network: arbitrum-goerli

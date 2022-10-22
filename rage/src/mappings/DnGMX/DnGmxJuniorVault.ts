@@ -3,18 +3,15 @@ import {
   Deposit,
   DnGmxJuniorVault,
   Rebalanced,
+  RewardsHarvested,
   Withdraw,
 } from '../../../generated/DnGmxJuniorVault/DnGmxJuniorVault';
 import {
   VaultDepositWithdrawEntry,
   VaultRebalance,
+  VaultRewardsHarvestedEntry,
 } from '../../../generated/schema';
-import {
-  BigIntToBigDecimal,
-  generateId,
-  parsePriceX128,
-  safeDiv,
-} from '../../utils';
+import { BigIntToBigDecimal, generateId, parsePriceX128, safeDiv } from '../../utils';
 import { contracts } from '../../utils/addresses';
 import { BI_18, BI_6, ONE_BI, ZERO_BD } from '../../utils/constants';
 import {
@@ -45,9 +42,7 @@ export function handleDeposit(event: Deposit): void {
 
   let assetsPerShare = safeDiv(assetsInBigDecimal, sharesInBigDecimal);
 
-  let dnGmxJuniorVaultContract = DnGmxJuniorVault.bind(
-    contracts.DnGmxJuniorVault
-  );
+  let dnGmxJuniorVaultContract = DnGmxJuniorVault.bind(contracts.DnGmxJuniorVault);
   let assetPriceResult = dnGmxJuniorVaultContract.try_getPriceX128();
 
   if (assetPriceResult.reverted) {
@@ -80,16 +75,10 @@ export function handleDeposit(event: Deposit): void {
 
   //...........................................................................//
 
-  if (
-    event.params.caller.toHexString() ==
-    contracts.DnGmxBatchingManager.toHexString()
-  ) {
+  if (event.params.caller.toHexString() == contracts.DnGmxBatchingManager.toHexString()) {
     log.error(
       'custom_logs: handleDeposit event came from DnGmxBatchingManager - {} | caller - {}',
-      [
-        contracts.DnGmxBatchingManager.toHexString(),
-        event.params.caller.toHexString(),
-      ]
+      [contracts.DnGmxBatchingManager.toHexString(), event.params.caller.toHexString()]
     );
     return;
   }
@@ -190,9 +179,7 @@ export function handleWithdraw(event: Withdraw): void {
 
   entry.sharesTokenAmount = sharesInBigDecimal;
 
-  let dnGmxJuniorVaultContract = DnGmxJuniorVault.bind(
-    contracts.DnGmxJuniorVault
-  );
+  let dnGmxJuniorVaultContract = DnGmxJuniorVault.bind(contracts.DnGmxJuniorVault);
   let assetPriceResult = dnGmxJuniorVaultContract.try_getPriceX128();
 
   if (assetPriceResult.reverted) {
@@ -236,4 +223,42 @@ export function handleRebalance(event: Rebalanced): void {
     BI_6
   );
   vr.save();
+}
+
+export function handleRewardsHarvested(event: RewardsHarvested) {
+  log.debug(
+    'custom_logs: handleRewardsHarvested triggered [ wethHarvested - {} ] [ esGmxStaked - {} ] [ juniorVaultWeth - {} ] [ seniorVaultWeth - {} ] [ juniorVaultGlp - {} ] [ seniorVaultAUsdc - {} ]',
+    [
+      event.params.wethHarvested.toString(),
+      event.params.esGmxStaked.toString(),
+      event.params.juniorVaultWeth.toString(),
+      event.params.seniorVaultWeth.toString(),
+      event.params.juniorVaultGlp.toString(),
+      event.params.seniorVaultAUsdc.toString(),
+    ]
+  );
+
+  let vault = getVault(event.address);
+
+  let entry = new VaultRewardsHarvestedEntry(
+    generateId([
+      vault.id,
+      event.transaction.hash.toHexString(),
+      event.logIndex.toString(),
+    ])
+  );
+
+  entry.vault = vault.id;
+
+  entry.timestamp = event.block.timestamp;
+  entry.blockNumber = event.block.number;
+
+  entry.wethHarvested = BigIntToBigDecimal(event.params.wethHarvested, BI_18);
+  entry.esGmxStaked = BigIntToBigDecimal(event.params.esGmxStaked, BI_18);
+  entry.juniorVaultWeth = BigIntToBigDecimal(event.params.juniorVaultWeth, BI_18);
+  entry.seniorVaultWeth = BigIntToBigDecimal(event.params.seniorVaultWeth, BI_18);
+  entry.juniorVaultGlp = BigIntToBigDecimal(event.params.juniorVaultGlp, BI_18);
+  entry.seniorVaultAUsdc = BigIntToBigDecimal(event.params.seniorVaultAUsdc, BI_6);
+
+  entry.save();
 }
