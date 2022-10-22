@@ -225,7 +225,7 @@ export function handleRebalance(event: Rebalanced): void {
   vr.save();
 }
 
-export function handleRewardsHarvested(event: RewardsHarvested) {
+export function handleRewardsHarvested(event: RewardsHarvested): void {
   log.debug(
     'custom_logs: handleRewardsHarvested triggered [ wethHarvested - {} ] [ esGmxStaked - {} ] [ juniorVaultWeth - {} ] [ seniorVaultWeth - {} ] [ juniorVaultGlp - {} ] [ seniorVaultAUsdc - {} ]',
     [
