@@ -559,6 +559,29 @@ type Vault @entity {
   totalLiquidityPositionEarningsRealized: BigDecimal!
   "rebalance events"
   rebalances: [VaultRebalance!]! @derivedFrom(field: "vault")
+  "rewards harvested event logs"
+  rewardsHarvestedEntries: [VaultRewardsHarvestedEntry!]!
+    @derivedFrom(field: "vault")
+}
+
+"""
+rewards harvested entries of vaults
+"""
+type VaultRewardsHarvestedEntry @entity {
+  "id of this entry"
+  id: ID!
+  "timestamp of the event"
+  timestamp: BigInt!
+  "block number of the events"
+  blockNumber: BigInt!
+  "vault this entry belongs to"
+  vault: Vault!
+  wethHarvested: BigDecimal!
+  esGmxStaked: BigDecimal!
+  juniorVaultWeth: BigDecimal!
+  seniorVaultWeth: BigDecimal!
+  juniorVaultGlp: BigDecimal!
+  seniorVaultAUsdc: BigDecimal!
 }
 
 """

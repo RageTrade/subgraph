@@ -2538,6 +2538,133 @@ export class Vault extends Entity {
   set rebalances(value: Array<string>) {
     this.set('rebalances', Value.fromStringArray(value));
   }
+
+  get rewardsHarvestedEntries(): Array<string> {
+    let value = this.get('rewardsHarvestedEntries');
+    return value.toStringArray();
+  }
+
+  set rewardsHarvestedEntries(value: Array<string>) {
+    this.set('rewardsHarvestedEntries', Value.fromStringArray(value));
+  }
+}
+
+export class VaultRewardsHarvestedEntry extends Entity {
+  constructor(id: string) {
+    super();
+    this.set('id', Value.fromString(id));
+  }
+
+  save(): void {
+    let id = this.get('id');
+    assert(
+      id !== null,
+      'Cannot save VaultRewardsHarvestedEntry entity without an ID'
+    );
+    assert(
+      id.kind == ValueKind.STRING,
+      'Cannot save VaultRewardsHarvestedEntry entity with non-string ID. ' +
+        'Considering using .toHex() to convert the "id" to a string.'
+    );
+    store.set('VaultRewardsHarvestedEntry', id.toString(), this);
+  }
+
+  static load(id: string): VaultRewardsHarvestedEntry | null {
+    return store.get(
+      'VaultRewardsHarvestedEntry',
+      id
+    ) as VaultRewardsHarvestedEntry | null;
+  }
+
+  get id(): string {
+    let value = this.get('id');
+    return value.toString();
+  }
+
+  set id(value: string) {
+    this.set('id', Value.fromString(value));
+  }
+
+  get timestamp(): BigInt {
+    let value = this.get('timestamp');
+    return value.toBigInt();
+  }
+
+  set timestamp(value: BigInt) {
+    this.set('timestamp', Value.fromBigInt(value));
+  }
+
+  get blockNumber(): BigInt {
+    let value = this.get('blockNumber');
+    return value.toBigInt();
+  }
+
+  set blockNumber(value: BigInt) {
+    this.set('blockNumber', Value.fromBigInt(value));
+  }
+
+  get vault(): string {
+    let value = this.get('vault');
+    return value.toString();
+  }
+
+  set vault(value: string) {
+    this.set('vault', Value.fromString(value));
+  }
+
+  get wethHarvested(): BigDecimal {
+    let value = this.get('wethHarvested');
+    return value.toBigDecimal();
+  }
+
+  set wethHarvested(value: BigDecimal) {
+    this.set('wethHarvested', Value.fromBigDecimal(value));
+  }
+
+  get esGmxStaked(): BigDecimal {
+    let value = this.get('esGmxStaked');
+    return value.toBigDecimal();
+  }
+
+  set esGmxStaked(value: BigDecimal) {
+    this.set('esGmxStaked', Value.fromBigDecimal(value));
+  }
+
+  get juniorVaultWeth(): BigDecimal {
+    let value = this.get('juniorVaultWeth');
+    return value.toBigDecimal();
+  }
+
+  set juniorVaultWeth(value: BigDecimal) {
+    this.set('juniorVaultWeth', Value.fromBigDecimal(value));
+  }
+
+  get seniorVaultWeth(): BigDecimal {
+    let value = this.get('seniorVaultWeth');
+    return value.toBigDecimal();
+  }
+
+  set seniorVaultWeth(value: BigDecimal) {
+    this.set('seniorVaultWeth', Value.fromBigDecimal(value));
+  }
+
+  get juniorVaultGlp(): BigDecimal {
+    let value = this.get('juniorVaultGlp');
+    return value.toBigDecimal();
+  }
+
+  set juniorVaultGlp(value: BigDecimal) {
+    this.set('juniorVaultGlp', Value.fromBigDecimal(value));
+  }
+
+  get seniorVaultAUsdc(): BigDecimal {
+    let value = this.get('seniorVaultAUsdc');
+    return value.toBigDecimal();
+  }
+
+  set seniorVaultAUsdc(value: BigDecimal) {
+    this.set('seniorVaultAUsdc', Value.fromBigDecimal(value));
+  }
 }
 
 export class VaultRebalance extends Entity {
