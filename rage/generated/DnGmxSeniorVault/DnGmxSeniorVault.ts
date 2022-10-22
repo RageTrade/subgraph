@@ -343,6 +343,29 @@ export class DnGmxSeniorVault extends ethereum.SmartContract {
     return ethereum.CallResult.fromValue(value[0].toAddress());
   }
 
+  availableBorrow(borrower: Address): BigInt {
+    let result = super.call(
+      'availableBorrow',
+      'availableBorrow(address):(uint256)',
+      [ethereum.Value.fromAddress(borrower)]
+    );
+
+    return result[0].toBigInt();
+  }
+
+  try_availableBorrow(borrower: Address): ethereum.CallResult<BigInt> {
+    let result = super.tryCall(
+      'availableBorrow',
+      'availableBorrow(address):(uint256)',
+      [ethereum.Value.fromAddress(borrower)]
+    );
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toBigInt());
+  }
+
   balanceOf(account: Address): BigInt {
     let result = super.call('balanceOf', 'balanceOf(address):(uint256)', [
       ethereum.Value.fromAddress(account),
@@ -354,6 +377,25 @@ export class DnGmxSeniorVault extends ethereum.SmartContract {
   try_balanceOf(account: Address): ethereum.CallResult<BigInt> {
     let result = super.tryCall('balanceOf', 'balanceOf(address):(uint256)', [
       ethereum.Value.fromAddress(account),
+    ]);
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toBigInt());
+  }
+
+  borrowCaps(param0: Address): BigInt {
+    let result = super.call('borrowCaps', 'borrowCaps(address):(uint256)', [
+      ethereum.Value.fromAddress(param0),
+    ]);
+
+    return result[0].toBigInt();
+  }
+
+  try_borrowCaps(param0: Address): ethereum.CallResult<BigInt> {
+    let result = super.tryCall('borrowCaps', 'borrowCaps(address):(uint256)', [
+      ethereum.Value.fromAddress(param0),
     ]);
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -718,27 +760,27 @@ export class DnGmxSeniorVault extends ethereum.SmartContract {
     return ethereum.CallResult.fromValue(value[0].toBigInt());
   }
 
-  maxUtilizationBps(): i32 {
+  maxUtilizationBps(): BigInt {
     let result = super.call(
       'maxUtilizationBps',
-      'maxUtilizationBps():(uint16)',
+      'maxUtilizationBps():(uint256)',
       []
     );
 
-    return result[0].toI32();
+    return result[0].toBigInt();
   }
 
-  try_maxUtilizationBps(): ethereum.CallResult<i32> {
+  try_maxUtilizationBps(): ethereum.CallResult<BigInt> {
     let result = super.tryCall(
       'maxUtilizationBps',
-      'maxUtilizationBps():(uint16)',
+      'maxUtilizationBps():(uint256)',
       []
     );
     if (result.reverted) {
       return new ethereum.CallResult();
     }
     let value = result.value;
-    return ethereum.CallResult.fromValue(value[0].toI32());
+    return ethereum.CallResult.fromValue(value[0].toBigInt());
   }
 
   maxWithdraw(owner: Address): BigInt {
@@ -1075,25 +1117,6 @@ export class DnGmxSeniorVault extends ethereum.SmartContract {
     }
     let value = result.value;
     return ethereum.CallResult.fromValue(value[0].toBoolean());
-  }
-
-  vaultCaps(param0: Address): BigInt {
-    let result = super.call('vaultCaps', 'vaultCaps(address):(uint256)', [
-      ethereum.Value.fromAddress(param0),
-    ]);
-
-    return result[0].toBigInt();
-  }
-
-  try_vaultCaps(param0: Address): ethereum.CallResult<BigInt> {
-    let result = super.tryCall('vaultCaps', 'vaultCaps(address):(uint256)', [
-      ethereum.Value.fromAddress(param0),
-    ]);
-    if (result.reverted) {
-      return new ethereum.CallResult();
-    }
-    let value = result.value;
-    return ethereum.CallResult.fromValue(value[0].toBigInt());
   }
 
   withdraw(assets: BigInt, receiver: Address, owner: Address): BigInt {
@@ -1578,6 +1601,36 @@ export class SetDnGmxJuniorVaultCall__Outputs {
   }
 }
 
+export class SetLeveragePoolCall extends ethereum.Call {
+  get inputs(): SetLeveragePoolCall__Inputs {
+    return new SetLeveragePoolCall__Inputs(this);
+  }
+
+  get outputs(): SetLeveragePoolCall__Outputs {
+    return new SetLeveragePoolCall__Outputs(this);
+  }
+}
+
+export class SetLeveragePoolCall__Inputs {
+  _call: SetLeveragePoolCall;
+
+  constructor(call: SetLeveragePoolCall) {
+    this._call = call;
+  }
+
+  get _leveragePool(): Address {
+    return this._call.inputValues[0].value.toAddress();
+  }
+}
+
+export class SetLeveragePoolCall__Outputs {
+  _call: SetLeveragePoolCall;
+
+  constructor(call: SetLeveragePoolCall) {
+    this._call = call;
+  }
+}
+
 export class SetMaxUtilizationBpsCall extends ethereum.Call {
   get inputs(): SetMaxUtilizationBpsCall__Inputs {
     return new SetMaxUtilizationBpsCall__Inputs(this);
@@ -1595,8 +1648,8 @@ export class SetMaxUtilizationBpsCall__Inputs {
     this._call = call;
   }
 
-  get _maxUtilizationBps(): i32 {
-    return this._call.inputValues[0].value.toI32();
+  get _maxUtilizationBps(): BigInt {
+    return this._call.inputValues[0].value.toBigInt();
   }
 }
 

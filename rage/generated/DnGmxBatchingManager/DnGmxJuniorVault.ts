@@ -134,21 +134,25 @@ export class DnGmxSeniorVaultUpdated__Params {
   }
 }
 
-export class FeeRecipientUpdated extends ethereum.Event {
-  get params(): FeeRecipientUpdated__Params {
-    return new FeeRecipientUpdated__Params(this);
+export class FeeParamsUpdated extends ethereum.Event {
+  get params(): FeeParamsUpdated__Params {
+    return new FeeParamsUpdated__Params(this);
   }
 }
 
-export class FeeRecipientUpdated__Params {
-  _event: FeeRecipientUpdated;
+export class FeeParamsUpdated__Params {
+  _event: FeeParamsUpdated;
 
-  constructor(event: FeeRecipientUpdated) {
+  constructor(event: FeeParamsUpdated) {
     this._event = event;
   }
 
+  get feeBps(): BigInt {
+    return this._event.parameters[0].value.toBigInt();
+  }
+
   get _newFeeRecipient(): Address {
-    return this._event.parameters[0].value.toAddress();
+    return this._event.parameters[1].value.toAddress();
   }
 }
 
@@ -295,12 +299,28 @@ export class RewardsHarvested__Params {
     this._event = event;
   }
 
-  get totalEthAmount(): BigInt {
+  get wethHarvested(): BigInt {
     return this._event.parameters[0].value.toBigInt();
   }
 
-  get juniorVaultShare(): BigInt {
+  get esGmxStaked(): BigInt {
     return this._event.parameters[1].value.toBigInt();
+  }
+
+  get juniorVaultWeth(): BigInt {
+    return this._event.parameters[2].value.toBigInt();
+  }
+
+  get seniorVaultWeth(): BigInt {
+    return this._event.parameters[3].value.toBigInt();
+  }
+
+  get juniorVaultGlp(): BigInt {
+    return this._event.parameters[4].value.toBigInt();
+  }
+
+  get seniorVaultAUsdc(): BigInt {
+    return this._event.parameters[5].value.toBigInt();
   }
 }
 
@@ -413,7 +433,7 @@ export class YieldParamsUpdated__Params {
     this._event = event;
   }
 
-  get usdcRedeemSlippage(): i32 {
+  get slippageThresholdGmx(): i32 {
     return this._event.parameters[0].value.toI32();
   }
 
@@ -421,128 +441,56 @@ export class YieldParamsUpdated__Params {
     return this._event.parameters[1].value.toBigInt();
   }
 
-  get seniorVaultWethConversionThreshold(): BigInt {
+  get wethConversionThreshold(): BigInt {
     return this._event.parameters[2].value.toBigInt();
+  }
+
+  get hedgeUsdcAmountThreshold(): BigInt {
+    return this._event.parameters[3].value.toBigInt();
+  }
+
+  get hfThreshold(): BigInt {
+    return this._event.parameters[4].value.toBigInt();
+  }
+}
+
+export class DnGmxJuniorVault__getCurrentBorrowsResult {
+  value0: BigInt;
+  value1: BigInt;
+
+  constructor(value0: BigInt, value1: BigInt) {
+    this.value0 = value0;
+    this.value1 = value1;
+  }
+
+  toMap(): TypedMap<string, ethereum.Value> {
+    let map = new TypedMap<string, ethereum.Value>();
+    map.set('value0', ethereum.Value.fromUnsignedBigInt(this.value0));
+    map.set('value1', ethereum.Value.fromUnsignedBigInt(this.value1));
+    return map;
+  }
+}
+
+export class DnGmxJuniorVault__getOptimalBorrowsResult {
+  value0: BigInt;
+  value1: BigInt;
+
+  constructor(value0: BigInt, value1: BigInt) {
+    this.value0 = value0;
+    this.value1 = value1;
+  }
+
+  toMap(): TypedMap<string, ethereum.Value> {
+    let map = new TypedMap<string, ethereum.Value>();
+    map.set('value0', ethereum.Value.fromUnsignedBigInt(this.value0));
+    map.set('value1', ethereum.Value.fromUnsignedBigInt(this.value1));
+    return map;
   }
 }
 
 export class DnGmxJuniorVault extends ethereum.SmartContract {
   static bind(address: Address): DnGmxJuniorVault {
     return new DnGmxJuniorVault('DnGmxJuniorVault', address);
-  }
-
-  FEE(): BigInt {
-    let result = super.call('FEE', 'FEE():(uint256)', []);
-
-    return result[0].toBigInt();
-  }
-
-  try_FEE(): ethereum.CallResult<BigInt> {
-    let result = super.tryCall('FEE', 'FEE():(uint256)', []);
-    if (result.reverted) {
-      return new ethereum.CallResult();
-    }
-    let value = result.value;
-    return ethereum.CallResult.fromValue(value[0].toBigInt());
-  }
-
-  MAX_BPS(): i32 {
-    let result = super.call('MAX_BPS', 'MAX_BPS():(uint16)', []);
-
-    return result[0].toI32();
-  }
-
-  try_MAX_BPS(): ethereum.CallResult<i32> {
-    let result = super.tryCall('MAX_BPS', 'MAX_BPS():(uint16)', []);
-    if (result.reverted) {
-      return new ethereum.CallResult();
-    }
-    let value = result.value;
-    return ethereum.CallResult.fromValue(value[0].toI32());
-  }
-
-  PRICE_PRECISION(): BigInt {
-    let result = super.call(
-      'PRICE_PRECISION',
-      'PRICE_PRECISION():(uint256)',
-      []
-    );
-
-    return result[0].toBigInt();
-  }
-
-  try_PRICE_PRECISION(): ethereum.CallResult<BigInt> {
-    let result = super.tryCall(
-      'PRICE_PRECISION',
-      'PRICE_PRECISION():(uint256)',
-      []
-    );
-    if (result.reverted) {
-      return new ethereum.CallResult();
-    }
-    let value = result.value;
-    return ethereum.CallResult.fromValue(value[0].toBigInt());
-  }
-
-  USDG_DECIMALS(): BigInt {
-    let result = super.call('USDG_DECIMALS', 'USDG_DECIMALS():(uint256)', []);
-
-    return result[0].toBigInt();
-  }
-
-  try_USDG_DECIMALS(): ethereum.CallResult<BigInt> {
-    let result = super.tryCall(
-      'USDG_DECIMALS',
-      'USDG_DECIMALS():(uint256)',
-      []
-    );
-    if (result.reverted) {
-      return new ethereum.CallResult();
-    }
-    let value = result.value;
-    return ethereum.CallResult.fromValue(value[0].toBigInt());
-  }
-
-  VARIABLE_INTEREST_MODE(): BigInt {
-    let result = super.call(
-      'VARIABLE_INTEREST_MODE',
-      'VARIABLE_INTEREST_MODE():(uint256)',
-      []
-    );
-
-    return result[0].toBigInt();
-  }
-
-  try_VARIABLE_INTEREST_MODE(): ethereum.CallResult<BigInt> {
-    let result = super.tryCall(
-      'VARIABLE_INTEREST_MODE',
-      'VARIABLE_INTEREST_MODE():(uint256)',
-      []
-    );
-    if (result.reverted) {
-      return new ethereum.CallResult();
-    }
-    let value = result.value;
-    return ethereum.CallResult.fromValue(value[0].toBigInt());
-  }
-
-  WETH_DECIMALS(): BigInt {
-    let result = super.call('WETH_DECIMALS', 'WETH_DECIMALS():(uint256)', []);
-
-    return result[0].toBigInt();
-  }
-
-  try_WETH_DECIMALS(): ethereum.CallResult<BigInt> {
-    let result = super.tryCall(
-      'WETH_DECIMALS',
-      'WETH_DECIMALS():(uint256)',
-      []
-    );
-    if (result.reverted) {
-      return new ethereum.CallResult();
-    }
-    let value = result.value;
-    return ethereum.CallResult.fromValue(value[0].toBigInt());
   }
 
   allowance(owner: Address, spender: Address): BigInt {
@@ -756,42 +704,60 @@ export class DnGmxJuniorVault extends ethereum.SmartContract {
     return ethereum.CallResult.fromValue(value[0].toBigInt());
   }
 
-  dnGmxSeniorVault(): Address {
+  dnUsdcDeposited(): BigInt {
     let result = super.call(
-      'dnGmxSeniorVault',
-      'dnGmxSeniorVault():(address)',
+      'dnUsdcDeposited',
+      'dnUsdcDeposited():(int256)',
       []
     );
 
-    return result[0].toAddress();
+    return result[0].toBigInt();
   }
 
-  try_dnGmxSeniorVault(): ethereum.CallResult<Address> {
+  try_dnUsdcDeposited(): ethereum.CallResult<BigInt> {
     let result = super.tryCall(
-      'dnGmxSeniorVault',
-      'dnGmxSeniorVault():(address)',
+      'dnUsdcDeposited',
+      'dnUsdcDeposited():(int256)',
       []
     );
     if (result.reverted) {
       return new ethereum.CallResult();
     }
     let value = result.value;
-    return ethereum.CallResult.fromValue(value[0].toAddress());
+    return ethereum.CallResult.fromValue(value[0].toBigInt());
   }
 
-  feeRecipient(): Address {
-    let result = super.call('feeRecipient', 'feeRecipient():(address)', []);
+  getCurrentBorrows(): DnGmxJuniorVault__getCurrentBorrowsResult {
+    let result = super.call(
+      'getCurrentBorrows',
+      'getCurrentBorrows():(uint256,uint256)',
+      []
+    );
 
-    return result[0].toAddress();
+    return new DnGmxJuniorVault__getCurrentBorrowsResult(
+      result[0].toBigInt(),
+      result[1].toBigInt()
+    );
   }
 
-  try_feeRecipient(): ethereum.CallResult<Address> {
-    let result = super.tryCall('feeRecipient', 'feeRecipient():(address)', []);
+  try_getCurrentBorrows(): ethereum.CallResult<
+    DnGmxJuniorVault__getCurrentBorrowsResult
+  > {
+    let result = super.tryCall(
+      'getCurrentBorrows',
+      'getCurrentBorrows():(uint256,uint256)',
+      []
+    );
     if (result.reverted) {
       return new ethereum.CallResult();
     }
     let value = result.value;
-    return ethereum.CallResult.fromValue(value[0].toAddress());
+    return ethereum.CallResult.fromValue(
+      new DnGmxJuniorVault__getCurrentBorrowsResult(
+        value[0].toBigInt(),
+        value[1].toBigInt()
+      )
+    );
   }
 
   getMarketValue(assetAmount: BigInt): BigInt {
@@ -810,6 +776,60 @@ export class DnGmxJuniorVault extends ethereum.SmartContract {
       'getMarketValue(uint256):(uint256)',
       [ethereum.Value.fromUnsignedBigInt(assetAmount)]
     );
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toBigInt());
+  }
+
+  getOptimalBorrows(
+    glpDeposited: BigInt
+  ): DnGmxJuniorVault__getOptimalBorrowsResult {
+    let result = super.call(
+      'getOptimalBorrows',
+      'getOptimalBorrows(uint256):(uint256,uint256)',
+      [ethereum.Value.fromUnsignedBigInt(glpDeposited)]
+    );
+
+    return new DnGmxJuniorVault__getOptimalBorrowsResult(
+      result[0].toBigInt(),
+      result[1].toBigInt()
+    );
+  }
+
+  try_getOptimalBorrows(
+    glpDeposited: BigInt
+  ): ethereum.CallResult<DnGmxJuniorVault__getOptimalBorrowsResult> {
+    let result = super.tryCall(
+      'getOptimalBorrows',
+      'getOptimalBorrows(uint256):(uint256,uint256)',
+      [ethereum.Value.fromUnsignedBigInt(glpDeposited)]
+    );
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(
+      new DnGmxJuniorVault__getOptimalBorrowsResult(
+        value[0].toBigInt(),
+        value[1].toBigInt()
+      )
+    );
+  }
+
+  getPrice(maximize: boolean): BigInt {
+    let result = super.call('getPrice', 'getPrice(bool):(uint256)', [
+      ethereum.Value.fromBoolean(maximize),
+    ]);
+
+    return result[0].toBigInt();
+  }
+
+  try_getPrice(maximize: boolean): ethereum.CallResult<BigInt> {
+    let result = super.tryCall('getPrice', 'getPrice(bool):(uint256)', [
+      ethereum.Value.fromBoolean(maximize),
+    ]);
     if (result.reverted) {
       return new ethereum.CallResult();
     }
@@ -933,44 +953,6 @@ export class DnGmxJuniorVault extends ethereum.SmartContract {
     return ethereum.CallResult.fromValue(value[0].toBoolean());
   }
 
-  keeper(): Address {
-    let result = super.call('keeper', 'keeper():(address)', []);
-
-    return result[0].toAddress();
-  }
-
-  try_keeper(): ethereum.CallResult<Address> {
-    let result = super.tryCall('keeper', 'keeper():(address)', []);
-    if (result.reverted) {
-      return new ethereum.CallResult();
-    }
-    let value = result.value;
-    return ethereum.CallResult.fromValue(value[0].toAddress());
-  }
-
-  lastRebalanceTS(): BigInt {
-    let result = super.call(
-      'lastRebalanceTS',
-      'lastRebalanceTS():(uint64)',
-      []
-    );
-
-    return result[0].toBigInt();
-  }
-
-  try_lastRebalanceTS(): ethereum.CallResult<BigInt> {
-    let result = super.tryCall(
-      'lastRebalanceTS',
-      'lastRebalanceTS():(uint64)',
-      []
-    );
-    if (result.reverted) {
-      return new ethereum.CallResult();
-    }
-    let value = result.value;
-    return ethereum.CallResult.fromValue(value[0].toBigInt());
-  }
-
   maxDeposit(param0: Address): BigInt {
     let result = super.call('maxDeposit', 'maxDeposit(address):(uint256)', [
       ethereum.Value.fromAddress(param0),
@@ -990,17 +972,17 @@ export class DnGmxJuniorVault extends ethereum.SmartContract {
     return ethereum.CallResult.fromValue(value[0].toBigInt());
   }
 
-  maxMint(param0: Address): BigInt {
+  maxMint(receiver: Address): BigInt {
     let result = super.call('maxMint', 'maxMint(address):(uint256)', [
-      ethereum.Value.fromAddress(param0),
+      ethereum.Value.fromAddress(receiver),
     ]);
 
     return result[0].toBigInt();
   }
 
-  try_maxMint(param0: Address): ethereum.CallResult<BigInt> {
+  try_maxMint(receiver: Address): ethereum.CallResult<BigInt> {
     let result = super.tryCall('maxMint', 'maxMint(address):(uint256)', [
-      ethereum.Value.fromAddress(param0),
+      ethereum.Value.fromAddress(receiver),
     ]);
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -1205,67 +1187,6 @@ export class DnGmxJuniorVault extends ethereum.SmartContract {
     return ethereum.CallResult.fromValue(value[0].toBigInt());
   }
 
-  protocolFee(): BigInt {
-    let result = super.call('protocolFee', 'protocolFee():(uint256)', []);
-
-    return result[0].toBigInt();
-  }
-
-  try_protocolFee(): ethereum.CallResult<BigInt> {
-    let result = super.tryCall('protocolFee', 'protocolFee():(uint256)', []);
-    if (result.reverted) {
-      return new ethereum.CallResult();
-    }
-    let value = result.value;
-    return ethereum.CallResult.fromValue(value[0].toBigInt());
-  }
-
-  rebalanceDeltaThreshold(): i32 {
-    let result = super.call(
-      'rebalanceDeltaThreshold',
-      'rebalanceDeltaThreshold():(uint16)',
-      []
-    );
-
-    return result[0].toI32();
-  }
-
-  try_rebalanceDeltaThreshold(): ethereum.CallResult<i32> {
-    let result = super.tryCall(
-      'rebalanceDeltaThreshold',
-      'rebalanceDeltaThreshold():(uint16)',
-      []
-    );
-    if (result.reverted) {
-      return new ethereum.CallResult();
-    }
-    let value = result.value;
-    return ethereum.CallResult.fromValue(value[0].toI32());
-  }
-
-  rebalanceTimeThreshold(): BigInt {
-    let result = super.call(
-      'rebalanceTimeThreshold',
-      'rebalanceTimeThreshold():(uint32)',
-      []
-    );
-
-    return result[0].toBigInt();
-  }
-
-  try_rebalanceTimeThreshold(): ethereum.CallResult<BigInt> {
-    let result = super.tryCall(
-      'rebalanceTimeThreshold',
-      'rebalanceTimeThreshold():(uint32)',
-      []
-    );
-    if (result.reverted) {
-      return new ethereum.CallResult();
-    }
-    let value = result.value;
-    return ethereum.CallResult.fromValue(value[0].toBigInt());
-  }
-
   redeem(shares: BigInt, receiver: Address, owner: Address): BigInt {
     let result = super.call(
       'redeem',
@@ -1293,75 +1214,6 @@ export class DnGmxJuniorVault extends ethereum.SmartContract {
         ethereum.Value.fromAddress(receiver),
         ethereum.Value.fromAddress(owner),
       ]
-    );
-    if (result.reverted) {
-      return new ethereum.CallResult();
-    }
-    let value = result.value;
-    return ethereum.CallResult.fromValue(value[0].toBigInt());
-  }
-
-  seniorVaultWethConversionThreshold(): BigInt {
-    let result = super.call(
-      'seniorVaultWethConversionThreshold',
-      'seniorVaultWethConversionThreshold():(uint256)',
-      []
-    );
-
-    return result[0].toBigInt();
-  }
-
-  try_seniorVaultWethConversionThreshold(): ethereum.CallResult<BigInt> {
-    let result = super.tryCall(
-      'seniorVaultWethConversionThreshold',
-      'seniorVaultWethConversionThreshold():(uint256)',
-      []
-    );
-    if (result.reverted) {
-      return new ethereum.CallResult();
-    }
-    let value = result.value;
-    return ethereum.CallResult.fromValue(value[0].toBigInt());
-  }
-
-  seniorVaultWethRewards(): BigInt {
-    let result = super.call(
-      'seniorVaultWethRewards',
-      'seniorVaultWethRewards():(uint256)',
-      []
-    );
-
-    return result[0].toBigInt();
-  }
-
-  try_seniorVaultWethRewards(): ethereum.CallResult<BigInt> {
-    let result = super.tryCall(
-      'seniorVaultWethRewards',
-      'seniorVaultWethRewards():(uint256)',
-      []
-    );
-    if (result.reverted) {
-      return new ethereum.CallResult();
-    }
-    let value = result.value;
-    return ethereum.CallResult.fromValue(value[0].toBigInt());
-  }
-
-  slippageThreshold(): BigInt {
-    let result = super.call(
-      'slippageThreshold',
-      'slippageThreshold():(uint256)',
-      []
-    );
-
-    return result[0].toBigInt();
-  }
-
-  try_slippageThreshold(): ethereum.CallResult<BigInt> {
-    let result = super.tryCall(
-      'slippageThreshold',
-      'slippageThreshold():(uint256)',
-      []
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -1471,71 +1323,6 @@ export class DnGmxJuniorVault extends ethereum.SmartContract {
     return ethereum.CallResult.fromValue(value[0].toBoolean());
   }
 
-  usdcConversionThreshold(): BigInt {
-    let result = super.call(
-      'usdcConversionThreshold',
-      'usdcConversionThreshold():(uint240)',
-      []
-    );
-
-    return result[0].toBigInt();
-  }
-
-  try_usdcConversionThreshold(): ethereum.CallResult<BigInt> {
-    let result = super.tryCall(
-      'usdcConversionThreshold',
-      'usdcConversionThreshold():(uint240)',
-      []
-    );
-    if (result.reverted) {
-      return new ethereum.CallResult();
-    }
-    let value = result.value;
-    return ethereum.CallResult.fromValue(value[0].toBigInt());
-  }
-
-  usdcRedeemSlippage(): i32 {
-    let result = super.call(
-      'usdcRedeemSlippage',
-      'usdcRedeemSlippage():(uint16)',
-      []
-    );
-
-    return result[0].toI32();
-  }
-
-  try_usdcRedeemSlippage(): ethereum.CallResult<i32> {
-    let result = super.tryCall(
-      'usdcRedeemSlippage',
-      'usdcRedeemSlippage():(uint16)',
-      []
-    );
-    if (result.reverted) {
-      return new ethereum.CallResult();
-    }
-    let value = result.value;
-    return ethereum.CallResult.fromValue(value[0].toI32());
-  }
-
-  wethThreshold(): BigInt {
-    let result = super.call('wethThreshold', 'wethThreshold():(uint256)', []);
-
-    return result[0].toBigInt();
-  }
-
-  try_wethThreshold(): ethereum.CallResult<BigInt> {
-    let result = super.tryCall(
-      'wethThreshold',
-      'wethThreshold():(uint256)',
-      []
-    );
-    if (result.reverted) {
-      return new ethereum.CallResult();
-    }
-    let value = result.value;
-    return ethereum.CallResult.fromValue(value[0].toBigInt());
-  }
-
   withdraw(assets: BigInt, receiver: Address, owner: Address): BigInt {
     let result = super.call(
       'withdraw',
@@ -1563,25 +1350,6 @@ export class DnGmxJuniorVault extends ethereum.SmartContract {
         ethereum.Value.fromAddress(receiver),
         ethereum.Value.fromAddress(owner),
       ]
-    );
-    if (result.reverted) {
-      return new ethereum.CallResult();
-    }
-    let value = result.value;
-    return ethereum.CallResult.fromValue(value[0].toBigInt());
-  }
-
-  withdrawFeeBps(): BigInt {
-    let result = super.call('withdrawFeeBps', 'withdrawFeeBps():(uint256)', []);
-
-    return result[0].toBigInt();
-  }
-
-  try_withdrawFeeBps(): ethereum.CallResult<BigInt> {
-    let result = super.tryCall(
-      'withdrawFeeBps',
-      'withdrawFeeBps():(uint256)',
-      []
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -1626,6 +1394,32 @@ export class ApproveCall__Outputs {
 
   get value0(): boolean {
     return this._call.outputValues[0].value.toBoolean();
+  }
+}
+
+export class ClaimVestedGmxCall extends ethereum.Call {
+  get inputs(): ClaimVestedGmxCall__Inputs {
+    return new ClaimVestedGmxCall__Inputs(this);
+  }
+
+  get outputs(): ClaimVestedGmxCall__Outputs {
+    return new ClaimVestedGmxCall__Outputs(this);
+  }
+}
+
+export class ClaimVestedGmxCall__Inputs {
+  _call: ClaimVestedGmxCall;
+
+  constructor(call: ClaimVestedGmxCall) {
+    this._call = call;
+  }
+}
+
+export class ClaimVestedGmxCall__Outputs {
+  _call: ClaimVestedGmxCall;
+
+  constructor(call: ClaimVestedGmxCall) {
+    this._call = call;
   }
 }
 
@@ -1828,16 +1622,12 @@ export class InitializeCall__Inputs {
     return this._call.inputValues[3].value.toAddress();
   }
 
-  get _tricryptoPool(): Address {
-    return this._call.inputValues[4].value.toAddress();
-  }
-
   get _tokens(): InitializeCall_tokensStruct {
-    return this._call.inputValues[5].value.toTuple() as InitializeCall_tokensStruct;
+    return this._call.inputValues[4].value.toTuple() as InitializeCall_tokensStruct;
   }
 
   get _poolAddressesProvider(): Address {
-    return this._call.inputValues[6].value.toAddress();
+    return this._call.inputValues[5].value.toAddress();
   }
 }
 
@@ -1864,10 +1654,6 @@ export class InitializeCall_tokensStruct extends ethereum.Tuple {
 
   get usdc(): Address {
     return this[3].toAddress();
-  }
-
-  get usdt(): Address {
-    return this[4].toAddress();
   }
 }
 
@@ -2071,122 +1857,82 @@ export class RenounceOwnershipCall__Outputs {
   }
 }
 
-export class SetBatchingManagerCall extends ethereum.Call {
-  get inputs(): SetBatchingManagerCall__Inputs {
-    return new SetBatchingManagerCall__Inputs(this);
+export class SetAdminParamsCall extends ethereum.Call {
+  get inputs(): SetAdminParamsCall__Inputs {
+    return new SetAdminParamsCall__Inputs(this);
   }
 
-  get outputs(): SetBatchingManagerCall__Outputs {
-    return new SetBatchingManagerCall__Outputs(this);
+  get outputs(): SetAdminParamsCall__Outputs {
+    return new SetAdminParamsCall__Outputs(this);
   }
 }
 
-export class SetBatchingManagerCall__Inputs {
-  _call: SetBatchingManagerCall;
+export class SetAdminParamsCall__Inputs {
+  _call: SetAdminParamsCall;
 
-  constructor(call: SetBatchingManagerCall) {
+  constructor(call: SetAdminParamsCall) {
     this._call = call;
   }
 
-  get _batchingManager(): Address {
+  get _newKeeper(): Address {
     return this._call.inputValues[0].value.toAddress();
-  }
-}
-
-export class SetBatchingManagerCall__Outputs {
-  _call: SetBatchingManagerCall;
-
-  constructor(call: SetBatchingManagerCall) {
-    this._call = call;
-  }
-}
-
-export class SetDepositCapCall extends ethereum.Call {
-  get inputs(): SetDepositCapCall__Inputs {
-    return new SetDepositCapCall__Inputs(this);
-  }
-
-  get outputs(): SetDepositCapCall__Outputs {
-    return new SetDepositCapCall__Outputs(this);
-  }
-}
-
-export class SetDepositCapCall__Inputs {
-  _call: SetDepositCapCall;
-
-  constructor(call: SetDepositCapCall) {
-    this._call = call;
-  }
-
-  get _newDepositCap(): BigInt {
-    return this._call.inputValues[0].value.toBigInt();
-  }
-}
-
-export class SetDepositCapCall__Outputs {
-  _call: SetDepositCapCall;
-
-  constructor(call: SetDepositCapCall) {
-    this._call = call;
-  }
-}
-
-export class SetDnGmxSeniorVaultCall extends ethereum.Call {
-  get inputs(): SetDnGmxSeniorVaultCall__Inputs {
-    return new SetDnGmxSeniorVaultCall__Inputs(this);
-  }
-
-  get outputs(): SetDnGmxSeniorVaultCall__Outputs {
-    return new SetDnGmxSeniorVaultCall__Outputs(this);
-  }
-}
-
-export class SetDnGmxSeniorVaultCall__Inputs {
-  _call: SetDnGmxSeniorVaultCall;
-
-  constructor(call: SetDnGmxSeniorVaultCall) {
-    this._call = call;
   }
 
   get _dnGmxSeniorVault(): Address {
-    return this._call.inputValues[0].value.toAddress();
+    return this._call.inputValues[1].value.toAddress();
+  }
+
+  get _newDepositCap(): BigInt {
+    return this._call.inputValues[2].value.toBigInt();
+  }
+
+  get _batchingManager(): Address {
+    return this._call.inputValues[3].value.toAddress();
+  }
+
+  get _withdrawFeeBps(): BigInt {
+    return this._call.inputValues[4].value.toBigInt();
   }
 }
 
-export class SetDnGmxSeniorVaultCall__Outputs {
-  _call: SetDnGmxSeniorVaultCall;
+export class SetAdminParamsCall__Outputs {
+  _call: SetAdminParamsCall;
 
-  constructor(call: SetDnGmxSeniorVaultCall) {
+  constructor(call: SetAdminParamsCall) {
     this._call = call;
   }
 }
 
-export class SetFeeRecipientCall extends ethereum.Call {
-  get inputs(): SetFeeRecipientCall__Inputs {
-    return new SetFeeRecipientCall__Inputs(this);
+export class SetFeeParamsCall extends ethereum.Call {
+  get inputs(): SetFeeParamsCall__Inputs {
+    return new SetFeeParamsCall__Inputs(this);
   }
 
-  get outputs(): SetFeeRecipientCall__Outputs {
-    return new SetFeeRecipientCall__Outputs(this);
+  get outputs(): SetFeeParamsCall__Outputs {
+    return new SetFeeParamsCall__Outputs(this);
   }
 }
 
-export class SetFeeRecipientCall__Inputs {
-  _call: SetFeeRecipientCall;
+export class SetFeeParamsCall__Inputs {
+  _call: SetFeeParamsCall;
 
-  constructor(call: SetFeeRecipientCall) {
+  constructor(call: SetFeeParamsCall) {
     this._call = call;
+  }
+
+  get _feeBps(): BigInt {
+    return this._call.inputValues[0].value.toBigInt();
   }
 
   get _feeRecipient(): Address {
-    return this._call.inputValues[0].value.toAddress();
+    return this._call.inputValues[1].value.toAddress();
   }
 }
 
-export class SetFeeRecipientCall__Outputs {
-  _call: SetFeeRecipientCall;
+export class SetFeeParamsCall__Outputs {
+  _call: SetFeeParamsCall;
 
-  constructor(call: SetFeeRecipientCall) {
+  constructor(call: SetFeeParamsCall) {
     this._call = call;
   }
 }
@@ -2208,8 +1954,20 @@ export class SetHedgeParamsCall__Inputs {
     this._call = call;
   }
 
-  get _hedgeParams(): SetHedgeParamsCall_hedgeParamsStruct {
-    return this._call.inputValues[0].value.toTuple() as SetHedgeParamsCall_hedgeParamsStruct;
+  get _vault(): Address {
+    return this._call.inputValues[0].value.toAddress();
+  }
+
+  get _swapRouter(): Address {
+    return this._call.inputValues[1].value.toAddress();
+  }
+
+  get _targetHealthFactor(): BigInt {
+    return this._call.inputValues[2].value.toBigInt();
+  }
+
+  get _aaveRewardsController(): Address {
+    return this._call.inputValues[3].value.toAddress();
   }
 }
 
@@ -2217,54 +1975,6 @@ export class SetHedgeParamsCall__Outputs {
   _call: SetHedgeParamsCall;
 
   constructor(call: SetHedgeParamsCall) {
-    this._call = call;
-  }
-}
-
-export class SetHedgeParamsCall_hedgeParamsStruct extends ethereum.Tuple {
-  get vault(): Address {
-    return this[0].toAddress();
-  }
-
-  get swapRouter(): Address {
-    return this[1].toAddress();
-  }
-
-  get targetHealthFactor(): BigInt {
-    return this[2].toBigInt();
-  }
-
-  get aaveRewardsController(): Address {
-    return this[3].toAddress();
-  }
-}
-
-export class SetKeeperCall extends ethereum.Call {
-  get inputs(): SetKeeperCall__Inputs {
-    return new SetKeeperCall__Inputs(this);
-  }
-
-  get outputs(): SetKeeperCall__Outputs {
-    return new SetKeeperCall__Outputs(this);
-  }
-}
-
-export class SetKeeperCall__Inputs {
-  _call: SetKeeperCall;
-
-  constructor(call: SetKeeperCall) {
-    this._call = call;
-  }
-
-  get _newKeeper(): Address {
-    return this._call.inputValues[0].value.toAddress();
-  }
-}
-
-export class SetKeeperCall__Outputs {
-  _call: SetKeeperCall;
-
-  constructor(call: SetKeeperCall) {
     this._call = call;
   }
 }
@@ -2286,8 +1996,12 @@ export class SetRebalanceParamsCall__Inputs {
     this._call = call;
   }
 
-  get _rsParams(): SetRebalanceParamsCall_rsParamsStruct {
-    return this._call.inputValues[0].value.toTuple() as SetRebalanceParamsCall_rsParamsStruct;
+  get _rebalanceTimeThreshold(): BigInt {
+    return this._call.inputValues[0].value.toBigInt();
+  }
+
+  get _rebalanceDeltaThreshold(): i32 {
+    return this._call.inputValues[1].value.toI32();
   }
 }
 
@@ -2296,16 +2010,6 @@ export class SetRebalanceParamsCall__Outputs {
 
   constructor(call: SetRebalanceParamsCall) {
     this._call = call;
-  }
-}
-
-export class SetRebalanceParamsCall_rsParamsStruct extends ethereum.Tuple {
-  get rebalanceTimeThreshold(): BigInt {
-    return this[0].toBigInt();
-  }
-
-  get rebalanceDeltaThreshold(): i32 {
-    return this[1].toI32();
   }
 }
 
@@ -2326,8 +2030,28 @@ export class SetThresholdsCall__Inputs {
     this._call = call;
   }
 
-  get _ysParams(): SetThresholdsCall_ysParamsStruct {
-    return this._call.inputValues[0].value.toTuple() as SetThresholdsCall_ysParamsStruct;
+  get _slippageThresholdSwap(): i32 {
+    return this._call.inputValues[0].value.toI32();
+  }
+
+  get _slippageThresholdGmx(): i32 {
+    return this._call.inputValues[1].value.toI32();
+  }
+
+  get _usdcConversionThreshold(): BigInt {
+    return this._call.inputValues[2].value.toBigInt();
+  }
+
+  get _hfThreshold(): BigInt {
+    return this._call.inputValues[3].value.toBigInt();
+  }
+
+  get _wethConversionThreshold(): BigInt {
+    return this._call.inputValues[4].value.toBigInt();
+  }
+
+  get _hedgeUsdcAmountThreshold(): BigInt {
+    return this._call.inputValues[5].value.toBigInt();
   }
 }
 
@@ -2339,46 +2063,28 @@ export class SetThresholdsCall__Outputs {
   }
 }
 
-export class SetThresholdsCall_ysParamsStruct extends ethereum.Tuple {
-  get usdcRedeemSlippage(): i32 {
-    return this[0].toI32();
+export class StopVestAndStakeEsGmxCall extends ethereum.Call {
+  get inputs(): StopVestAndStakeEsGmxCall__Inputs {
+    return new StopVestAndStakeEsGmxCall__Inputs(this);
   }
 
-  get usdcConversionThreshold(): BigInt {
-    return this[1].toBigInt();
-  }
-
-  get seniorVaultWethConversionThreshold(): BigInt {
-    return this[2].toBigInt();
+  get outputs(): StopVestAndStakeEsGmxCall__Outputs {
+    return new StopVestAndStakeEsGmxCall__Outputs(this);
   }
 }
 
-export class SetWithdrawFeeCall extends ethereum.Call {
-  get inputs(): SetWithdrawFeeCall__Inputs {
-    return new SetWithdrawFeeCall__Inputs(this);
-  }
+export class StopVestAndStakeEsGmxCall__Inputs {
+  _call: StopVestAndStakeEsGmxCall;
 
-  get outputs(): SetWithdrawFeeCall__Outputs {
-    return new SetWithdrawFeeCall__Outputs(this);
-  }
-}
-
-export class SetWithdrawFeeCall__Inputs {
-  _call: SetWithdrawFeeCall;
-
-  constructor(call: SetWithdrawFeeCall) {
+  constructor(call: StopVestAndStakeEsGmxCall) {
     this._call = call;
   }
-
-  get _withdrawFeeBps(): BigInt {
-    return this._call.inputValues[0].value.toBigInt();
-  }
 }
 
-export class SetWithdrawFeeCall__Outputs {
-  _call: SetWithdrawFeeCall;
+export class StopVestAndStakeEsGmxCall__Outputs {
+  _call: StopVestAndStakeEsGmxCall;
 
-  constructor(call: SetWithdrawFeeCall) {
+  constructor(call: StopVestAndStakeEsGmxCall) {
     this._call = call;
   }
 }
@@ -2515,6 +2221,32 @@ export class UnpauseCall__Outputs {
   _call: UnpauseCall;
 
   constructor(call: UnpauseCall) {
+    this._call = call;
+  }
+}
+
+export class UnstakeAndVestEsGmxCall extends ethereum.Call {
+  get inputs(): UnstakeAndVestEsGmxCall__Inputs {
+    return new UnstakeAndVestEsGmxCall__Inputs(this);
+  }
+
+  get outputs(): UnstakeAndVestEsGmxCall__Outputs {
+    return new UnstakeAndVestEsGmxCall__Outputs(this);
+  }
+}
+
+export class UnstakeAndVestEsGmxCall__Inputs {
+  _call: UnstakeAndVestEsGmxCall;
+
+  constructor(call: UnstakeAndVestEsGmxCall) {
+    this._call = call;
+  }
+}
+
+export class UnstakeAndVestEsGmxCall__Outputs {
+  _call: UnstakeAndVestEsGmxCall;
+
+  constructor(call: UnstakeAndVestEsGmxCall) {
     this._call = call;
   }
 }

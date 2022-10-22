@@ -202,6 +202,24 @@ export class SharesClaimed__Params {
   }
 }
 
+export class ThresholdsUpdated extends ethereum.Event {
+  get params(): ThresholdsUpdated__Params {
+    return new ThresholdsUpdated__Params(this);
+  }
+}
+
+export class ThresholdsUpdated__Params {
+  _event: ThresholdsUpdated;
+
+  constructor(event: ThresholdsUpdated) {
+    this._event = event;
+  }
+
+  get newSlippageThresholdGmx(): BigInt {
+    return this._event.parameters[0].value.toBigInt();
+  }
+}
+
 export class Unpaused extends ethereum.Event {
   get params(): Unpaused__Params {
     return new Unpaused__Params(this);
@@ -216,24 +234,6 @@ export class Unpaused__Params {
   }
 
   get account(): Address {
-    return this._event.parameters[0].value.toAddress();
-  }
-}
-
-export class VaultAdded extends ethereum.Event {
-  get params(): VaultAdded__Params {
-    return new VaultAdded__Params(this);
-  }
-}
-
-export class VaultAdded__Params {
-  _event: VaultAdded;
-
-  constructor(event: VaultAdded) {
-    this._event = event;
-  }
-
-  get vault(): Address {
     return this._event.parameters[0].value.toAddress();
   }
 }
@@ -551,6 +551,29 @@ export class DnGmxBatchingManager extends ethereum.SmartContract {
     return ethereum.CallResult.fromValue(value[0].toBigInt());
   }
 
+  slippageThresholdGmx(): BigInt {
+    let result = super.call(
+      'slippageThresholdGmx',
+      'slippageThresholdGmx():(uint256)',
+      []
+    );
+
+    return result[0].toBigInt();
+  }
+
+  try_slippageThresholdGmx(): ethereum.CallResult<BigInt> {
+    let result = super.tryCall(
+      'slippageThresholdGmx',
+      'slippageThresholdGmx():(uint256)',
+      []
+    );
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toBigInt());
+  }
+
   unclaimedShares(account: Address): BigInt {
     let result = super.call(
       'unclaimedShares',
@@ -657,21 +680,6 @@ export class DnGmxBatchingManager extends ethereum.SmartContract {
         value[2].toBigInt()
       )
     );
-  }
-
-  vaultCount(): i32 {
-    let result = super.call('vaultCount', 'vaultCount():(uint16)', []);
-
-    return result[0].toI32();
-  }
-
-  try_vaultCount(): ethereum.CallResult<i32> {
-    let result = super.tryCall('vaultCount', 'vaultCount():(uint16)', []);
-    if (result.reverted) {
-      return new ethereum.CallResult();
-    }
-    let value = result.value;
-    return ethereum.CallResult.fromValue(value[0].toI32());
   }
 }
 
@@ -995,6 +1003,36 @@ export class SetKeeperCall__Outputs {
   _call: SetKeeperCall;
 
   constructor(call: SetKeeperCall) {
+    this._call = call;
+  }
+}
+
+export class SetThresholdsCall extends ethereum.Call {
+  get inputs(): SetThresholdsCall__Inputs {
+    return new SetThresholdsCall__Inputs(this);
+  }
+
+  get outputs(): SetThresholdsCall__Outputs {
+    return new SetThresholdsCall__Outputs(this);
+  }
+}
+
+export class SetThresholdsCall__Inputs {
+  _call: SetThresholdsCall;
+
+  constructor(call: SetThresholdsCall) {
+    this._call = call;
+  }
+
+  get _slippageThresholdGmx(): BigInt {
+    return this._call.inputValues[0].value.toBigInt();
+  }
+}
+
+export class SetThresholdsCall__Outputs {
+  _call: SetThresholdsCall;
+
+  constructor(call: SetThresholdsCall) {
     this._call = call;
   }
 }
