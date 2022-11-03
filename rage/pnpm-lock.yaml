@@ -6,7 +6,7 @@ overrides:
 specifiers:
   '@graphprotocol/graph-cli': ^0.20.0
   '@graphprotocol/graph-ts': ^0.20.0
-  '@ragetrade/sdk': 1.0.0-alpha.27
+  '@ragetrade/sdk': 1.0.0-alpha.28
   '@typescript-eslint/eslint-plugin': ^2.0.0
   '@typescript-eslint/parser': ^2.0.0
   babel-polyfill: ^6.26.0
@@ -24,7 +24,7 @@ specifiers:
   yaml: ^1.10.2
 
 dependencies:
-  '@ragetrade/sdk': 1.0.0-alpha.27_h4qtpcxkfvtpy6ldthi4lq2o6i
+  '@ragetrade/sdk': 1.0.0-alpha.28_h4qtpcxkfvtpy6ldthi4lq2o6i
   babel-polyfill: 6.26.0
   babel-register: 6.26.0
   ethers: 5.7.1
@@ -998,8 +998,8 @@ packages:
   /@protobufjs/utf8/1.1.0:
     resolution: {integrity: sha512-Vvn3zZrhQZkkBE8LSuW3em98c0FwgO4nxzv6OdSxPKJIEKY2bGbHn+mhGIPerzI4twdxaP8/0+06HBpwf345Lw==}
 
-  /@ragetrade/sdk/1.0.0-alpha.27_h4qtpcxkfvtpy6ldthi4lq2o6i:
-    resolution: {integrity: sha512-FbGzFs1l0eBSmilXCw6YDviPWJTHlkpMLrqrGdiM7M29PqZ4q4FdmiQ05YoKt5NOf/0p1Pqrmzio3P9GdwppMQ==}
+  /@ragetrade/sdk/1.0.0-alpha.28_h4qtpcxkfvtpy6ldthi4lq2o6i:
+    resolution: {integrity: sha512-TCTh+EY0QhvINSXRwa0YiBDWWCnRiGbc3l8HSlmiDDsv8PrA5MR41Ik0kPAOCU2x8Ox3X4giMwUlv/N51jfu8w==}
     engines: {node: '>=10'}
     hasBin: true
     peerDependencies:
