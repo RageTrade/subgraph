@@ -2,6 +2,38 @@
   {
     "type": "event",
     "anonymous": false,
+    "name": "AdminParamsUpdated",
+    "inputs": [
+      {
+        "type": "address",
+        "name": "newKeeper",
+        "indexed": false
+      },
+      {
+        "type": "address",
+        "name": "dnGmxSeniorVault",
+        "indexed": false
+      },
+      {
+        "type": "uint256",
+        "name": "newDepositCap",
+        "indexed": false
+      },
+      {
+        "type": "address",
+        "name": "batchingManager",
+        "indexed": false
+      },
+      {
+        "type": "uint16",
+        "name": "withdrawFeeBps",
+        "indexed": false
+      }
+    ]
+  },
+  {
+    "type": "event",
+    "anonymous": false,
     "name": "AllowancesGranted",
     "inputs": []
   },
@@ -122,6 +154,43 @@
   {
     "type": "event",
     "anonymous": false,
+    "name": "HedgeParamsUpdated",
+    "inputs": [
+      {
+        "type": "address",
+        "name": "vault",
+        "indexed": false
+      },
+      {
+        "type": "address",
+        "name": "swapRouter",
+        "indexed": false
+      },
+      {
+        "type": "uint256",
+        "name": "targetHealthFactor",
+        "indexed": false
+      },
+      {
+        "type": "address",
+        "name": "aaveRewardsController",
+        "indexed": false
+      },
+      {
+        "type": "address",
+        "name": "pool",
+        "indexed": false
+      },
+      {
+        "type": "address",
+        "name": "oracle",
+        "indexed": false
+      }
+    ]
+  },
+  {
+    "type": "event",
+    "anonymous": false,
     "name": "Initialized",
     "inputs": [
       {
@@ -180,12 +249,17 @@
       {
         "type": "uint32",
         "name": "rebalanceTimeThreshold",
-        "indexed": true
+        "indexed": false
       },
       {
         "type": "uint16",
-        "name": "rebalanceDeltaThreshold",
-        "indexed": true
+        "name": "rebalanceDeltaThresholdBps",
+        "indexed": false
+      },
+      {
+        "type": "uint16",
+        "name": "rebalanceHfThresholdBps",
+        "indexed": false
       }
     ]
   },
@@ -198,36 +272,46 @@
   {
     "type": "event",
     "anonymous": false,
-    "name": "RewardsHarvested",
+    "name": "ThresholdsUpdated",
     "inputs": [
       {
-        "type": "uint256",
-        "name": "wethHarvested",
+        "type": "uint16",
+        "name": "slippageThresholdSwapBtcBps",
         "indexed": false
       },
       {
-        "type": "uint256",
-        "name": "esGmxStaked",
+        "type": "uint16",
+        "name": "slippageThresholdSwapEthBps",
         "indexed": false
       },
       {
-        "type": "uint256",
-        "name": "juniorVaultWeth",
+        "type": "uint16",
+        "name": "slippageThresholdGmxBps",
         "indexed": false
       },
       {
-        "type": "uint256",
-        "name": "seniorVaultWeth",
+        "type": "uint128",
+        "name": "usdcConversionThreshold",
         "indexed": false
       },
       {
-        "type": "uint256",
-        "name": "juniorVaultGlp",
+        "type": "uint128",
+        "name": "wethConversionThreshold",
         "indexed": false
       },
       {
-        "type": "uint256",
-        "name": "seniorVaultAUsdc",
+        "type": "uint128",
+        "name": "hedgeUsdcAmountThreshold",
+        "indexed": false
+      },
+      {
+        "type": "uint128",
+        "name": "partialBtcHedgeUsdcAmountThreshold",
+        "indexed": false
+      },
+      {
+        "type": "uint128",
+        "name": "partialEthHedgeUsdcAmountThreshold",
         "indexed": false
       }
     ]
@@ -306,38 +390,6 @@
       {
         "type": "uint256",
         "name": "_withdrawFeeBps",
-        "indexed": false
-      }
-    ]
-  },
-  {
-    "type": "event",
-    "anonymous": false,
-    "name": "YieldParamsUpdated",
-    "inputs": [
-      {
-        "type": "uint16",
-        "name": "slippageThresholdGmx",
-        "indexed": false
-      },
-      {
-        "type": "uint240",
-        "name": "usdcConversionThreshold",
-        "indexed": false
-      },
-      {
-        "type": "uint256",
-        "name": "wethConversionThreshold",
-        "indexed": false
-      },
-      {
-        "type": "uint256",
-        "name": "hedgeUsdcAmountThreshold",
-        "indexed": false
-      },
-      {
-        "type": "uint256",
-        "name": "hfThreshold",
         "indexed": false
       }
     ]
@@ -554,6 +606,36 @@
   },
   {
     "type": "function",
+    "name": "getAdminParams",
+    "constant": true,
+    "stateMutability": "view",
+    "payable": false,
+    "inputs": [],
+    "outputs": [
+      {
+        "type": "address",
+        "name": "keeper"
+      },
+      {
+        "type": "address",
+        "name": "dnGmxSeniorVault"
+      },
+      {
+        "type": "uint256",
+        "name": "depositCap"
+      },
+      {
+        "type": "address",
+        "name": "batchingManager"
+      },
+      {
+        "type": "uint16",
+        "name": "withdrawFeeBps"
+      }
+    ]
+  },
+  {
+    "type": "function",
     "name": "getCurrentBorrows",
     "constant": true,
     "stateMutability": "view",
@@ -567,6 +649,32 @@
       {
         "type": "uint256",
         "name": "currentEthBorrow"
+      }
+    ]
+  },
+  {
+    "type": "function",
+    "name": "getHedgeParams",
+    "constant": true,
+    "stateMutability": "view",
+    "payable": false,
+    "inputs": [],
+    "outputs": [
+      {
+        "type": "address",
+        "name": "balancerVault"
+      },
+      {
+        "type": "address",
+        "name": "swapRouter"
+      },
+      {
+        "type": "uint256",
+        "name": "targetHealthFactor"
+      },
+      {
+        "type": "address",
+        "name": "aaveRewardsController"
       }
     ]
   },
@@ -642,6 +750,70 @@
       {
         "type": "uint256",
         "name": ""
+      }
+    ]
+  },
+  {
+    "type": "function",
+    "name": "getRebalanceParams",
+    "constant": true,
+    "stateMutability": "view",
+    "payable": false,
+    "inputs": [],
+    "outputs": [
+      {
+        "type": "uint32",
+        "name": "rebalanceTimeThreshold"
+      },
+      {
+        "type": "uint16",
+        "name": "rebalanceDeltaThresholdBps"
+      },
+      {
+        "type": "uint16",
+        "name": "rebalanceHfThresholdBps"
+      }
+    ]
+  },
+  {
+    "type": "function",
+    "name": "getThresholds",
+    "constant": true,
+    "stateMutability": "view",
+    "payable": false,
+    "inputs": [],
+    "outputs": [
+      {
+        "type": "uint16",
+        "name": "slippageThresholdSwapBtcBps"
+      },
+      {
+        "type": "uint16",
+        "name": "slippageThresholdSwapEthBps"
+      },
+      {
+        "type": "uint16",
+        "name": "slippageThresholdGmxBps"
+      },
+      {
+        "type": "uint128",
+        "name": "usdcConversionThreshold"
+      },
+      {
+        "type": "uint128",
+        "name": "wethConversionThreshold"
+      },
+      {
+        "type": "uint128",
+        "name": "hedgeUsdcAmountThreshold"
+      },
+      {
+        "type": "uint128",
+        "name": "partialBtcHedgeUsdcAmountThreshold"
+      },
+      {
+        "type": "uint128",
+        "name": "partialEthHedgeUsdcAmountThreshold"
       }
     ]
   },
@@ -1075,23 +1247,23 @@
     "inputs": [
       {
         "type": "address",
-        "name": "_newKeeper"
+        "name": "newKeeper"
       },
       {
         "type": "address",
-        "name": "_dnGmxSeniorVault"
+        "name": "dnGmxSeniorVault"
       },
       {
         "type": "uint256",
-        "name": "_newDepositCap"
+        "name": "newDepositCap"
       },
       {
         "type": "address",
-        "name": "_batchingManager"
+        "name": "batchingManager"
       },
       {
-        "type": "uint256",
-        "name": "_withdrawFeeBps"
+        "type": "uint16",
+        "name": "withdrawFeeBps"
       }
     ],
     "outputs": []
@@ -1103,7 +1275,7 @@
     "payable": false,
     "inputs": [
       {
-        "type": "uint256",
+        "type": "uint16",
         "name": "_feeBps"
       },
       {
@@ -1121,19 +1293,19 @@
     "inputs": [
       {
         "type": "address",
-        "name": "_vault"
+        "name": "vault"
       },
       {
         "type": "address",
-        "name": "_swapRouter"
+        "name": "swapRouter"
       },
       {
         "type": "uint256",
-        "name": "_targetHealthFactor"
+        "name": "targetHealthFactor"
       },
       {
         "type": "address",
-        "name": "_aaveRewardsController"
+        "name": "aaveRewardsController"
       }
     ],
     "outputs": []
@@ -1146,11 +1318,15 @@
     "inputs": [
       {
         "type": "uint32",
-        "name": "_rebalanceTimeThreshold"
+        "name": "rebalanceTimeThreshold"
       },
       {
         "type": "uint16",
-        "name": "_rebalanceDeltaThreshold"
+        "name": "rebalanceDeltaThresholdBps"
+      },
+      {
+        "type": "uint16",
+        "name": "rebalanceHfThresholdBps"
       }
     ],
     "outputs": []
@@ -1163,27 +1339,35 @@
     "inputs": [
       {
         "type": "uint16",
-        "name": "_slippageThresholdSwap"
+        "name": "slippageThresholdSwapBtcBps"
       },
       {
         "type": "uint16",
-        "name": "_slippageThresholdGmx"
+        "name": "slippageThresholdSwapEthBps"
       },
       {
-        "type": "uint208",
-        "name": "_usdcConversionThreshold"
+        "type": "uint16",
+        "name": "slippageThresholdGmxBps"
       },
       {
-        "type": "uint256",
-        "name": "_hfThreshold"
+        "type": "uint128",
+        "name": "usdcConversionThreshold"
       },
       {
-        "type": "uint256",
-        "name": "_wethConversionThreshold"
+        "type": "uint128",
+        "name": "wethConversionThreshold"
       },
       {
-        "type": "uint256",
-        "name": "_hedgeUsdcAmountThreshold"
+        "type": "uint128",
+        "name": "hedgeUsdcAmountThreshold"
+      },
+      {
+        "type": "uint128",
+        "name": "partialBtcHedgeUsdcAmountThreshold"
+      },
+      {
+        "type": "uint128",
+        "name": "partialEthHedgeUsdcAmountThreshold"
       }
     ],
     "outputs": []

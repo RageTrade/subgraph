@@ -37,7 +37,7 @@ export let contracts: Contracts = {
   GMXBatchingManager: Address.fromString('0x3d38Ff7Cbf232b314623510f0Ccda847414148c9'),
   GlpStakingManager: Address.fromString('0x5215aD536Ed3d0F827470B2C89bCf60001948990'),
   sGLP: Address.fromString('0x28Fa343Dc9af1B976688C6551784FF9AC20D2937'),
-  DnGmxSeniorVault: Address.fromString('0xaAb3Ad95963326A931B590D708f6b43441b9D5f7'),
-  DnGmxJuniorVault: Address.fromString('0xe5677C63dE20C8C3aa50ee76A7be31d6e33A058D'),
-  DnGmxBatchingManager: Address.fromString('0x7CD9a855D4cB633B45935668ceE2bFe5FA935E38'),
+  DnGmxSeniorVault: Address.fromString('0x24bDC1038997F638E6447CBA68039984B958774c'),
+  DnGmxJuniorVault: Address.fromString('0x72d684E81De1301da44b34a69d8994AE2F1913C8'),
+  DnGmxBatchingManager: Address.fromString('0x407c5C5B2BEe0fF1D06240189A4501472bCdcCDD'),
 };

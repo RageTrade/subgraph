@@ -51,6 +51,33 @@
   {
     "type": "event",
     "anonymous": false,
+    "name": "ClaimedAndRedeemed",
+    "inputs": [
+      {
+        "type": "address",
+        "name": "claimer",
+        "indexed": true
+      },
+      {
+        "type": "address",
+        "name": "receiver",
+        "indexed": true
+      },
+      {
+        "type": "uint256",
+        "name": "shares",
+        "indexed": false
+      },
+      {
+        "type": "uint256",
+        "name": "assetsReceived",
+        "indexed": false
+      }
+    ]
+  },
+  {
+    "type": "event",
+    "anonymous": false,
     "name": "DepositToken",
     "inputs": [
       {
@@ -207,6 +234,24 @@
       }
     ],
     "outputs": []
+  },
+  {
+    "type": "function",
+    "name": "claimAndRedeem",
+    "constant": false,
+    "payable": false,
+    "inputs": [
+      {
+        "type": "address",
+        "name": "receiver"
+      }
+    ],
+    "outputs": [
+      {
+        "type": "uint256",
+        "name": "glpReceived"
+      }
+    ]
   },
   {
     "type": "function",
@@ -491,14 +536,14 @@
     "inputs": [
       {
         "type": "uint256",
-        "name": "_slippageThresholdGmx"
+        "name": "_slippageThresholdGmxBps"
       }
     ],
     "outputs": []
   },
   {
     "type": "function",
-    "name": "slippageThresholdGmx",
+    "name": "slippageThresholdGmxBps",
     "constant": true,
     "stateMutability": "view",
     "payable": false,
