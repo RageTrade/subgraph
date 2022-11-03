@@ -120,6 +120,24 @@ export class DepositCapUpdated__Params {
   }
 }
 
+export class DnGmxJuniorVaultUpdated extends ethereum.Event {
+  get params(): DnGmxJuniorVaultUpdated__Params {
+    return new DnGmxJuniorVaultUpdated__Params(this);
+  }
+}
+
+export class DnGmxJuniorVaultUpdated__Params {
+  _event: DnGmxJuniorVaultUpdated;
+
+  constructor(event: DnGmxJuniorVaultUpdated) {
+    this._event = event;
+  }
+
+  get dnGmxJuniorVault(): Address {
+    return this._event.parameters[0].value.toAddress();
+  }
+}
+
 export class Initialized extends ethereum.Event {
   get params(): Initialized__Params {
     return new Initialized__Params(this);
@@ -135,6 +153,42 @@ export class Initialized__Params {
 
   get version(): i32 {
     return this._event.parameters[0].value.toI32();
+  }
+}
+
+export class LeveragePoolUpdated extends ethereum.Event {
+  get params(): LeveragePoolUpdated__Params {
+    return new LeveragePoolUpdated__Params(this);
+  }
+}
+
+export class LeveragePoolUpdated__Params {
+  _event: LeveragePoolUpdated;
+
+  constructor(event: LeveragePoolUpdated) {
+    this._event = event;
+  }
+
+  get leveragePool(): Address {
+    return this._event.parameters[0].value.toAddress();
+  }
+}
+
+export class MaxUtilizationBpsUpdated extends ethereum.Event {
+  get params(): MaxUtilizationBpsUpdated__Params {
+    return new MaxUtilizationBpsUpdated__Params(this);
+  }
+}
+
+export class MaxUtilizationBpsUpdated__Params {
+  _event: MaxUtilizationBpsUpdated;
+
+  constructor(event: MaxUtilizationBpsUpdated) {
+    this._event = event;
+  }
+
+  get maxUtilizationBps(): BigInt {
+    return this._event.parameters[0].value.toBigInt();
   }
 }
 
@@ -537,7 +591,7 @@ export class DnGmxSeniorVault extends ethereum.SmartContract {
   feeStrategy(): DnGmxSeniorVault__feeStrategyResult {
     let result = super.call(
       'feeStrategy',
-      'feeStrategy():(uint256,uint256,uint256,uint256)',
+      'feeStrategy():(uint128,uint128,uint128,uint128)',
       []
     );
 
@@ -552,7 +606,7 @@ export class DnGmxSeniorVault extends ethereum.SmartContract {
   try_feeStrategy(): ethereum.CallResult<DnGmxSeniorVault__feeStrategyResult> {
     let result = super.tryCall(
       'feeStrategy',
-      'feeStrategy():(uint256,uint256,uint256,uint256)',
+      'feeStrategy():(uint128,uint128,uint128,uint128)',
       []
     );
     if (result.reverted) {

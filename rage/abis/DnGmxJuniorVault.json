@@ -1532,5 +1532,91 @@
     "payable": false,
     "inputs": [],
     "outputs": []
+  },
+  {
+    "type": "event",
+    "anonymous": false,
+    "name": "GlpSwapped",
+    "inputs": [
+      {
+        "type": "uint256",
+        "name": "glpQuantity",
+        "indexed": false
+      },
+      {
+        "type": "uint256",
+        "name": "usdcQuantity",
+        "indexed": false
+      },
+      {
+        "type": "bool",
+        "name": "fromGlpToUsdc",
+        "indexed": false
+      }
+    ]
+  },
+  {
+    "type": "event",
+    "anonymous": false,
+    "name": "RewardsHarvested",
+    "inputs": [
+      {
+        "type": "uint256",
+        "name": "wethHarvested",
+        "indexed": false
+      },
+      {
+        "type": "uint256",
+        "name": "esGmxStaked",
+        "indexed": false
+      },
+      {
+        "type": "uint256",
+        "name": "juniorVaultWeth",
+        "indexed": false
+      },
+      {
+        "type": "uint256",
+        "name": "seniorVaultWeth",
+        "indexed": false
+      },
+      {
+        "type": "uint256",
+        "name": "juniorVaultGlp",
+        "indexed": false
+      },
+      {
+        "type": "uint256",
+        "name": "seniorVaultAUsdc",
+        "indexed": false
+      }
+    ]
+  },
+  {
+    "type": "event",
+    "anonymous": false,
+    "name": "TokenSwapped",
+    "inputs": [
+      {
+        "type": "address",
+        "name": "fromToken",
+        "indexed": true
+      },
+      {
+        "type": "address",
+        "name": "toToken",
+        "indexed": true
+      },
+      {
+        "type": "uint256",
+        "name": "fromQuantity",
+        "indexed": false
+      },
+      {
+        "type": "uint256",
+        "name": "toQuantity",
+        "indexed": false
+      }
+    ]
   }
 ]

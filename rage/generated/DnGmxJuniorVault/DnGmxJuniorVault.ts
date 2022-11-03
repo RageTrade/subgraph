@@ -10,6 +10,40 @@ import {
   BigInt,
 } from '@graphprotocol/graph-ts';
 
+export class AdminParamsUpdated extends ethereum.Event {
+  get params(): AdminParamsUpdated__Params {
+    return new AdminParamsUpdated__Params(this);
+  }
+}
+
+export class AdminParamsUpdated__Params {
+  _event: AdminParamsUpdated;
+
+  constructor(event: AdminParamsUpdated) {
+    this._event = event;
+  }
+
+  get newKeeper(): Address {
+    return this._event.parameters[0].value.toAddress();
+  }
+
+  get dnGmxSeniorVault(): Address {
+    return this._event.parameters[1].value.toAddress();
+  }
+
+  get newDepositCap(): BigInt {
+    return this._event.parameters[2].value.toBigInt();
+  }
+
+  get batchingManager(): Address {
+    return this._event.parameters[3].value.toAddress();
+  }
+
+  get withdrawFeeBps(): i32 {
+    return this._event.parameters[4].value.toI32();
+  }
+}
+
 export class AllowancesGranted extends ethereum.Event {
   get params(): AllowancesGranted__Params {
     return new AllowancesGranted__Params(this);
@@ -174,6 +208,44 @@ export class FeesWithdrawn__Params {
   }
 }
 
+export class HedgeParamsUpdated extends ethereum.Event {
+  get params(): HedgeParamsUpdated__Params {
+    return new HedgeParamsUpdated__Params(this);
+  }
+}
+
+export class HedgeParamsUpdated__Params {
+  _event: HedgeParamsUpdated;
+
+  constructor(event: HedgeParamsUpdated) {
+    this._event = event;
+  }
+
+  get vault(): Address {
+    return this._event.parameters[0].value.toAddress();
+  }
+
+  get swapRouter(): Address {
+    return this._event.parameters[1].value.toAddress();
+  }
+
+  get targetHealthFactor(): BigInt {
+    return this._event.parameters[2].value.toBigInt();
+  }
+
+  get aaveRewardsController(): Address {
+    return this._event.parameters[3].value.toAddress();
+  }
+
+  get pool(): Address {
+    return this._event.parameters[4].value.toAddress();
+  }
+
+  get oracle(): Address {
+    return this._event.parameters[5].value.toAddress();
+  }
+}
+
 export class Initialized extends ethereum.Event {
   get params(): Initialized__Params {
     return new Initialized__Params(this);
@@ -267,8 +339,12 @@ export class RebalanceParamsUpdated__Params {
     return this._event.parameters[0].value.toBigInt();
   }
 
-  get rebalanceDeltaThreshold(): i32 {
+  get rebalanceDeltaThresholdBps(): i32 {
     return this._event.parameters[1].value.toI32();
+  }
+
+  get rebalanceHfThresholdBps(): i32 {
+    return this._event.parameters[2].value.toI32();
   }
 }
 
@@ -286,41 +362,49 @@ export class Rebalanced__Params {
   }
 }
 
-export class RewardsHarvested extends ethereum.Event {
-  get params(): RewardsHarvested__Params {
-    return new RewardsHarvested__Params(this);
+export class ThresholdsUpdated extends ethereum.Event {
+  get params(): ThresholdsUpdated__Params {
+    return new ThresholdsUpdated__Params(this);
   }
 }
 
-export class RewardsHarvested__Params {
-  _event: RewardsHarvested;
+export class ThresholdsUpdated__Params {
+  _event: ThresholdsUpdated;
 
-  constructor(event: RewardsHarvested) {
+  constructor(event: ThresholdsUpdated) {
     this._event = event;
   }
 
-  get wethHarvested(): BigInt {
-    return this._event.parameters[0].value.toBigInt();
+  get slippageThresholdSwapBtcBps(): i32 {
+    return this._event.parameters[0].value.toI32();
   }
 
-  get esGmxStaked(): BigInt {
-    return this._event.parameters[1].value.toBigInt();
+  get slippageThresholdSwapEthBps(): i32 {
+    return this._event.parameters[1].value.toI32();
   }
 
-  get juniorVaultWeth(): BigInt {
-    return this._event.parameters[2].value.toBigInt();
+  get slippageThresholdGmxBps(): i32 {
+    return this._event.parameters[2].value.toI32();
   }
 
-  get seniorVaultWeth(): BigInt {
+  get usdcConversionThreshold(): BigInt {
     return this._event.parameters[3].value.toBigInt();
   }
 
-  get juniorVaultGlp(): BigInt {
+  get wethConversionThreshold(): BigInt {
     return this._event.parameters[4].value.toBigInt();
   }
 
-  get seniorVaultAUsdc(): BigInt {
+  get hedgeUsdcAmountThreshold(): BigInt {
     return this._event.parameters[5].value.toBigInt();
+  }
+
+  get partialBtcHedgeUsdcAmountThreshold(): BigInt {
+    return this._event.parameters[6].value.toBigInt();
+  }
+
+  get partialEthHedgeUsdcAmountThreshold(): BigInt {
+    return this._event.parameters[7].value.toBigInt();
   }
 }
 
@@ -420,37 +504,129 @@ export class WithdrawFeeUpdated__Params {
   }
 }
 
-export class YieldParamsUpdated extends ethereum.Event {
-  get params(): YieldParamsUpdated__Params {
-    return new YieldParamsUpdated__Params(this);
+export class GlpSwapped extends ethereum.Event {
+  get params(): GlpSwapped__Params {
+    return new GlpSwapped__Params(this);
   }
 }
 
-export class YieldParamsUpdated__Params {
-  _event: YieldParamsUpdated;
+export class GlpSwapped__Params {
+  _event: GlpSwapped;
 
-  constructor(event: YieldParamsUpdated) {
+  constructor(event: GlpSwapped) {
     this._event = event;
   }
 
-  get slippageThresholdGmx(): i32 {
-    return this._event.parameters[0].value.toI32();
+  get glpQuantity(): BigInt {
+    return this._event.parameters[0].value.toBigInt();
   }
 
-  get usdcConversionThreshold(): BigInt {
+  get usdcQuantity(): BigInt {
     return this._event.parameters[1].value.toBigInt();
   }
 
-  get wethConversionThreshold(): BigInt {
+  get fromGlpToUsdc(): boolean {
+    return this._event.parameters[2].value.toBoolean();
+  }
+}
+
+export class RewardsHarvested extends ethereum.Event {
+  get params(): RewardsHarvested__Params {
+    return new RewardsHarvested__Params(this);
+  }
+}
+
+export class RewardsHarvested__Params {
+  _event: RewardsHarvested;
+
+  constructor(event: RewardsHarvested) {
+    this._event = event;
+  }
+
+  get wethHarvested(): BigInt {
+    return this._event.parameters[0].value.toBigInt();
+  }
+
+  get esGmxStaked(): BigInt {
+    return this._event.parameters[1].value.toBigInt();
+  }
+
+  get juniorVaultWeth(): BigInt {
     return this._event.parameters[2].value.toBigInt();
   }
 
-  get hedgeUsdcAmountThreshold(): BigInt {
+  get seniorVaultWeth(): BigInt {
     return this._event.parameters[3].value.toBigInt();
   }
 
-  get hfThreshold(): BigInt {
+  get juniorVaultGlp(): BigInt {
     return this._event.parameters[4].value.toBigInt();
+  }
+
+  get seniorVaultAUsdc(): BigInt {
+    return this._event.parameters[5].value.toBigInt();
+  }
+}
+
+export class TokenSwapped extends ethereum.Event {
+  get params(): TokenSwapped__Params {
+    return new TokenSwapped__Params(this);
+  }
+}
+
+export class TokenSwapped__Params {
+  _event: TokenSwapped;
+
+  constructor(event: TokenSwapped) {
+    this._event = event;
+  }
+
+  get fromToken(): Address {
+    return this._event.parameters[0].value.toAddress();
+  }
+
+  get toToken(): Address {
+    return this._event.parameters[1].value.toAddress();
+  }
+
+  get fromQuantity(): BigInt {
+    return this._event.parameters[2].value.toBigInt();
+  }
+
+  get toQuantity(): BigInt {
+    return this._event.parameters[3].value.toBigInt();
+  }
+}
+
+export class DnGmxJuniorVault__getAdminParamsResult {
+  value0: Address;
+  value1: Address;
+  value2: BigInt;
+  value3: Address;
+  value4: i32;
+
+  constructor(
+    value0: Address,
+    value1: Address,
+    value2: BigInt,
+    value3: Address,
+    value4: i32
+  ) {
+    this.value0 = value0;
+    this.value1 = value1;
+    this.value2 = value2;
+    this.value3 = value3;
+    this.value4 = value4;
+  }
+
+  toMap(): TypedMap<string, ethereum.Value> {
+    let map = new TypedMap<string, ethereum.Value>();
+    map.set('value0', ethereum.Value.fromAddress(this.value0));
+    map.set('value1', ethereum.Value.fromAddress(this.value1));
+    map.set('value2', ethereum.Value.fromUnsignedBigInt(this.value2));
+    map.set('value3', ethereum.Value.fromAddress(this.value3));
+    map.set('value4', ethereum.Value.fromUnsignedBigInt(BigInt.fromI32(this.value4)));
+    return map;
   }
 }
 
@@ -471,6 +647,29 @@ export class DnGmxJuniorVault__getCurrentBorrowsResult {
   }
 }
 
+export class DnGmxJuniorVault__getHedgeParamsResult {
+  value0: Address;
+  value1: Address;
+  value2: BigInt;
+  value3: Address;
+
+  constructor(value0: Address, value1: Address, value2: BigInt, value3: Address) {
+    this.value0 = value0;
+    this.value1 = value1;
+    this.value2 = value2;
+    this.value3 = value3;
+  }
+
+  toMap(): TypedMap<string, ethereum.Value> {
+    let map = new TypedMap<string, ethereum.Value>();
+    map.set('value0', ethereum.Value.fromAddress(this.value0));
+    map.set('value1', ethereum.Value.fromAddress(this.value1));
+    map.set('value2', ethereum.Value.fromUnsignedBigInt(this.value2));
+    map.set('value3', ethereum.Value.fromAddress(this.value3));
+    return map;
+  }
+}
+
 export class DnGmxJuniorVault__getOptimalBorrowsResult {
   value0: BigInt;
   value1: BigInt;
@@ -484,6 +683,70 @@ export class DnGmxJuniorVault__getOptimalBorrowsResult {
     let map = new TypedMap<string, ethereum.Value>();
     map.set('value0', ethereum.Value.fromUnsignedBigInt(this.value0));
     map.set('value1', ethereum.Value.fromUnsignedBigInt(this.value1));
+    return map;
+  }
+}
+
+export class DnGmxJuniorVault__getRebalanceParamsResult {
+  value0: BigInt;
+  value1: i32;
+  value2: i32;
+
+  constructor(value0: BigInt, value1: i32, value2: i32) {
+    this.value0 = value0;
+    this.value1 = value1;
+    this.value2 = value2;
+  }
+
+  toMap(): TypedMap<string, ethereum.Value> {
+    let map = new TypedMap<string, ethereum.Value>();
+    map.set('value0', ethereum.Value.fromUnsignedBigInt(this.value0));
+    map.set('value1', ethereum.Value.fromUnsignedBigInt(BigInt.fromI32(this.value1)));
+    map.set('value2', ethereum.Value.fromUnsignedBigInt(BigInt.fromI32(this.value2)));
+    return map;
+  }
+}
+
+export class DnGmxJuniorVault__getThresholdsResult {
+  value0: i32;
+  value1: i32;
+  value2: i32;
+  value3: BigInt;
+  value4: BigInt;
+  value5: BigInt;
+  value6: BigInt;
+  value7: BigInt;
+
+  constructor(
+    value0: i32,
+    value1: i32,
+    value2: i32,
+    value3: BigInt,
+    value4: BigInt,
+    value5: BigInt,
+    value6: BigInt,
+    value7: BigInt
+  ) {
+    this.value0 = value0;
+    this.value1 = value1;
+    this.value2 = value2;
+    this.value3 = value3;
+    this.value4 = value4;
+    this.value5 = value5;
+    this.value6 = value6;
+    this.value7 = value7;
+  }
+
+  toMap(): TypedMap<string, ethereum.Value> {
+    let map = new TypedMap<string, ethereum.Value>();
+    map.set('value0', ethereum.Value.fromUnsignedBigInt(BigInt.fromI32(this.value0)));
+    map.set('value1', ethereum.Value.fromUnsignedBigInt(BigInt.fromI32(this.value1)));
+    map.set('value2', ethereum.Value.fromUnsignedBigInt(BigInt.fromI32(this.value2)));
+    map.set('value3', ethereum.Value.fromUnsignedBigInt(this.value3));
+    map.set('value4', ethereum.Value.fromUnsignedBigInt(this.value4));
+    map.set('value5', ethereum.Value.fromUnsignedBigInt(this.value5));
+    map.set('value6', ethereum.Value.fromUnsignedBigInt(this.value6));
+    map.set('value7', ethereum.Value.fromUnsignedBigInt(this.value7));
     return map;
   }
 }
@@ -705,6 +968,43 @@ export class DnGmxJuniorVault extends ethereum.SmartContract {
     return ethereum.CallResult.fromValue(value[0].toBigInt());
   }
 
+  getAdminParams(): DnGmxJuniorVault__getAdminParamsResult {
+    let result = super.call(
+      'getAdminParams',
+      'getAdminParams():(address,address,uint256,address,uint16)',
+      []
+    );
+
+    return new DnGmxJuniorVault__getAdminParamsResult(
+      result[0].toAddress(),
+      result[1].toAddress(),
+      result[2].toBigInt(),
+      result[3].toAddress(),
+      result[4].toI32()
+    );
+  }
+
+  try_getAdminParams(): ethereum.CallResult<DnGmxJuniorVault__getAdminParamsResult> {
+    let result = super.tryCall(
+      'getAdminParams',
+      'getAdminParams():(address,address,uint256,address,uint16)',
+      []
+    );
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(
+      new DnGmxJuniorVault__getAdminParamsResult(
+        value[0].toAddress(),
+        value[1].toAddress(),
+        value[2].toBigInt(),
+        value[3].toAddress(),
+        value[4].toI32()
+      )
+    );
+  }
+
   getCurrentBorrows(): DnGmxJuniorVault__getCurrentBorrowsResult {
     let result = super.call(
       'getCurrentBorrows',
@@ -734,6 +1034,41 @@ export class DnGmxJuniorVault extends ethereum.SmartContract {
       new DnGmxJuniorVault__getCurrentBorrowsResult(
         value[0].toBigInt(),
         value[1].toBigInt()
+      )
+    );
+  }
+
+  getHedgeParams(): DnGmxJuniorVault__getHedgeParamsResult {
+    let result = super.call(
+      'getHedgeParams',
+      'getHedgeParams():(address,address,uint256,address)',
+      []
+    );
+
+    return new DnGmxJuniorVault__getHedgeParamsResult(
+      result[0].toAddress(),
+      result[1].toAddress(),
+      result[2].toBigInt(),
+      result[3].toAddress()
+    );
+  }
+
+  try_getHedgeParams(): ethereum.CallResult<DnGmxJuniorVault__getHedgeParamsResult> {
+    let result = super.tryCall(
+      'getHedgeParams',
+      'getHedgeParams():(address,address,uint256,address)',
+      []
+    );
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(
+      new DnGmxJuniorVault__getHedgeParamsResult(
+        value[0].toAddress(),
+        value[1].toAddress(),
+        value[2].toBigInt(),
+        value[3].toAddress()
       )
     );
   }
@@ -822,6 +1157,84 @@ export class DnGmxJuniorVault extends ethereum.SmartContract {
     }
     let value = result.value;
     return ethereum.CallResult.fromValue(value[0].toBigInt());
+  }
+
+  getRebalanceParams(): DnGmxJuniorVault__getRebalanceParamsResult {
+    let result = super.call(
+      'getRebalanceParams',
+      'getRebalanceParams():(uint32,uint16,uint16)',
+      []
+    );
+
+    return new DnGmxJuniorVault__getRebalanceParamsResult(
+      result[0].toBigInt(),
+      result[1].toI32(),
+      result[2].toI32()
+    );
+  }
+
+  try_getRebalanceParams(): ethereum.CallResult<
+    DnGmxJuniorVault__getRebalanceParamsResult
+  > {
+    let result = super.tryCall(
+      'getRebalanceParams',
+      'getRebalanceParams():(uint32,uint16,uint16)',
+      []
+    );
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(
+      new DnGmxJuniorVault__getRebalanceParamsResult(
+        value[0].toBigInt(),
+        value[1].toI32(),
+        value[2].toI32()
+      )
+    );
+  }
+
+  getThresholds(): DnGmxJuniorVault__getThresholdsResult {
+    let result = super.call(
+      'getThresholds',
+      'getThresholds():(uint16,uint16,uint16,uint128,uint128,uint128,uint128,uint128)',
+      []
+    );
+
+    return new DnGmxJuniorVault__getThresholdsResult(
+      result[0].toI32(),
+      result[1].toI32(),
+      result[2].toI32(),
+      result[3].toBigInt(),
+      result[4].toBigInt(),
+      result[5].toBigInt(),
+      result[6].toBigInt(),
+      result[7].toBigInt()
+    );
+  }
+
+  try_getThresholds(): ethereum.CallResult<DnGmxJuniorVault__getThresholdsResult> {
+    let result = super.tryCall(
+      'getThresholds',
+      'getThresholds():(uint16,uint16,uint16,uint128,uint128,uint128,uint128,uint128)',
+      []
+    );
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(
+      new DnGmxJuniorVault__getThresholdsResult(
+        value[0].toI32(),
+        value[1].toI32(),
+        value[2].toI32(),
+        value[3].toBigInt(),
+        value[4].toBigInt(),
+        value[5].toBigInt(),
+        value[6].toBigInt(),
+        value[7].toBigInt()
+      )
+    );
   }
 
   getUsdcBorrowed(): BigInt {
@@ -1792,24 +2205,24 @@ export class SetAdminParamsCall__Inputs {
     this._call = call;
   }
 
-  get _newKeeper(): Address {
+  get newKeeper(): Address {
     return this._call.inputValues[0].value.toAddress();
   }
 
-  get _dnGmxSeniorVault(): Address {
+  get dnGmxSeniorVault(): Address {
     return this._call.inputValues[1].value.toAddress();
   }
 
-  get _newDepositCap(): BigInt {
+  get newDepositCap(): BigInt {
     return this._call.inputValues[2].value.toBigInt();
   }
 
-  get _batchingManager(): Address {
+  get batchingManager(): Address {
     return this._call.inputValues[3].value.toAddress();
   }
 
-  get _withdrawFeeBps(): BigInt {
-    return this._call.inputValues[4].value.toBigInt();
+  get withdrawFeeBps(): i32 {
+    return this._call.inputValues[4].value.toI32();
   }
 }
 
@@ -1838,8 +2251,8 @@ export class SetFeeParamsCall__Inputs {
     this._call = call;
   }
 
-  get _feeBps(): BigInt {
-    return this._call.inputValues[0].value.toBigInt();
+  get _feeBps(): i32 {
+    return this._call.inputValues[0].value.toI32();
   }
 
   get _feeRecipient(): Address {
@@ -1872,19 +2285,19 @@ export class SetHedgeParamsCall__Inputs {
     this._call = call;
   }
 
-  get _vault(): Address {
+  get vault(): Address {
     return this._call.inputValues[0].value.toAddress();
   }
 
-  get _swapRouter(): Address {
+  get swapRouter(): Address {
     return this._call.inputValues[1].value.toAddress();
   }
 
-  get _targetHealthFactor(): BigInt {
+  get targetHealthFactor(): BigInt {
     return this._call.inputValues[2].value.toBigInt();
   }
 
-  get _aaveRewardsController(): Address {
+  get aaveRewardsController(): Address {
     return this._call.inputValues[3].value.toAddress();
   }
 }
@@ -1914,12 +2327,16 @@ export class SetRebalanceParamsCall__Inputs {
     this._call = call;
   }
 
-  get _rebalanceTimeThreshold(): BigInt {
+  get rebalanceTimeThreshold(): BigInt {
     return this._call.inputValues[0].value.toBigInt();
   }
 
-  get _rebalanceDeltaThreshold(): i32 {
+  get rebalanceDeltaThresholdBps(): i32 {
     return this._call.inputValues[1].value.toI32();
+  }
+
+  get rebalanceHfThresholdBps(): i32 {
+    return this._call.inputValues[2].value.toI32();
   }
 }
 
@@ -1948,28 +2365,36 @@ export class SetThresholdsCall__Inputs {
     this._call = call;
   }
 
-  get _slippageThresholdSwap(): i32 {
+  get slippageThresholdSwapBtcBps(): i32 {
     return this._call.inputValues[0].value.toI32();
   }
 
-  get _slippageThresholdGmx(): i32 {
+  get slippageThresholdSwapEthBps(): i32 {
     return this._call.inputValues[1].value.toI32();
   }
 
-  get _usdcConversionThreshold(): BigInt {
-    return this._call.inputValues[2].value.toBigInt();
+  get slippageThresholdGmxBps(): i32 {
+    return this._call.inputValues[2].value.toI32();
   }
 
-  get _hfThreshold(): BigInt {
+  get usdcConversionThreshold(): BigInt {
     return this._call.inputValues[3].value.toBigInt();
   }
 
-  get _wethConversionThreshold(): BigInt {
+  get wethConversionThreshold(): BigInt {
     return this._call.inputValues[4].value.toBigInt();
   }
 
-  get _hedgeUsdcAmountThreshold(): BigInt {
+  get hedgeUsdcAmountThreshold(): BigInt {
     return this._call.inputValues[5].value.toBigInt();
+  }
+
+  get partialBtcHedgeUsdcAmountThreshold(): BigInt {
+    return this._call.inputValues[6].value.toBigInt();
+  }
+
+  get partialEthHedgeUsdcAmountThreshold(): BigInt {
+    return this._call.inputValues[7].value.toBigInt();
   }
 }
 

@@ -66,6 +66,36 @@ export class BatchStake__Params {
   }
 }
 
+export class ClaimedAndRedeemed extends ethereum.Event {
+  get params(): ClaimedAndRedeemed__Params {
+    return new ClaimedAndRedeemed__Params(this);
+  }
+}
+
+export class ClaimedAndRedeemed__Params {
+  _event: ClaimedAndRedeemed;
+
+  constructor(event: ClaimedAndRedeemed) {
+    this._event = event;
+  }
+
+  get claimer(): Address {
+    return this._event.parameters[0].value.toAddress();
+  }
+
+  get receiver(): Address {
+    return this._event.parameters[1].value.toAddress();
+  }
+
+  get shares(): BigInt {
+    return this._event.parameters[2].value.toBigInt();
+  }
+
+  get assetsReceived(): BigInt {
+    return this._event.parameters[3].value.toBigInt();
+  }
+}
+
 export class DepositToken extends ethereum.Event {
   get params(): DepositToken__Params {
     return new DepositToken__Params(this);
@@ -305,6 +335,25 @@ export class DnGmxBatchingManager extends ethereum.SmartContract {
     return new DnGmxBatchingManager('DnGmxBatchingManager', address);
   }
 
+  claimAndRedeem(receiver: Address): BigInt {
+    let result = super.call('claimAndRedeem', 'claimAndRedeem(address):(uint256)', [
+      ethereum.Value.fromAddress(receiver),
+    ]);
+
+    return result[0].toBigInt();
+  }
+
+  try_claimAndRedeem(receiver: Address): ethereum.CallResult<BigInt> {
+    let result = super.tryCall('claimAndRedeem', 'claimAndRedeem(address):(uint256)', [
+      ethereum.Value.fromAddress(receiver),
+    ]);
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toBigInt());
+  }
+
   currentRound(): BigInt {
     let result = super.call('currentRound', 'currentRound():(uint256)', []);
 
@@ -516,20 +565,20 @@ export class DnGmxBatchingManager extends ethereum.SmartContract {
     return ethereum.CallResult.fromValue(value[0].toBigInt());
   }
 
-  slippageThresholdGmx(): BigInt {
+  slippageThresholdGmxBps(): BigInt {
     let result = super.call(
-      'slippageThresholdGmx',
-      'slippageThresholdGmx():(uint256)',
+      'slippageThresholdGmxBps',
+      'slippageThresholdGmxBps():(uint256)',
       []
     );
 
     return result[0].toBigInt();
   }
 
-  try_slippageThresholdGmx(): ethereum.CallResult<BigInt> {
+  try_slippageThresholdGmxBps(): ethereum.CallResult<BigInt> {
     let result = super.tryCall(
-      'slippageThresholdGmx',
-      'slippageThresholdGmx():(uint256)',
+      'slippageThresholdGmxBps',
+      'slippageThresholdGmxBps():(uint256)',
       []
     );
     if (result.reverted) {
@@ -671,6 +720,40 @@ export class ClaimCall__Outputs {
 
   constructor(call: ClaimCall) {
     this._call = call;
+  }
+}
+
+export class ClaimAndRedeemCall extends ethereum.Call {
+  get inputs(): ClaimAndRedeemCall__Inputs {
+    return new ClaimAndRedeemCall__Inputs(this);
+  }
+
+  get outputs(): ClaimAndRedeemCall__Outputs {
+    return new ClaimAndRedeemCall__Outputs(this);
+  }
+}
+
+export class ClaimAndRedeemCall__Inputs {
+  _call: ClaimAndRedeemCall;
+
+  constructor(call: ClaimAndRedeemCall) {
+    this._call = call;
+  }
+
+  get receiver(): Address {
+    return this._call.inputValues[0].value.toAddress();
+  }
+}
+
+export class ClaimAndRedeemCall__Outputs {
+  _call: ClaimAndRedeemCall;
+
+  constructor(call: ClaimAndRedeemCall) {
+    this._call = call;
+  }
+
+  get glpReceived(): BigInt {
+    return this._call.outputValues[0].value.toBigInt();
   }
 }
 
@@ -981,7 +1064,7 @@ export class SetThresholdsCall__Inputs {
     this._call = call;
   }
 
-  get _slippageThresholdGmx(): BigInt {
+  get _slippageThresholdGmxBps(): BigInt {
     return this._call.inputValues[0].value.toBigInt();
   }
 }
