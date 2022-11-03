@@ -77,7 +77,7 @@ async function main() {
     dnGmxSeniorVault,
     dnGmxJuniorVault,
     dnGmxBatchingManager,
-  } = await sdk.dnLbVault.getContracts(networkInfo.provider);
+  } = await sdk.deltaNeutralGmxVaults.getContracts(networkInfo.provider);
   const { crv3, quoter } = await sdk.curve.getContracts(networkInfo.provider);
   const { sGLP, usdc } = await sdk.tokens.getContracts(networkInfo.provider);
 
