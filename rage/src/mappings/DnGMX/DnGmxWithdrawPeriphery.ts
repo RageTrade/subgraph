@@ -6,10 +6,10 @@ import { getVault } from '../../utils/getVault';
 import { getOwner } from '../clearinghouse/owner';
 import { getERC20Token } from '../../utils/getERC20Token';
 import { BI_18, BI_6, ONE_BI } from '../../utils/constants';
-import { TokenWithdrawn } from '../../../generated/DnGmxWithdrawPeriphery/DnGmxWithdrawPeriphery';
+import { TokenRedeemed } from '../../../generated/DnGmxWithdrawPeriphery/DnGmxWithdrawPeriphery';
 import { DnGmxJuniorVault } from '../../../generated/DnGmxJuniorVault/DnGmxJuniorVault';
 
-export function handleTokenWithdrawn(event: TokenWithdrawn): void {
+export function handleTokenWithdraw(event: TokenRedeemed): void {
   log.debug(
     'custom_logs: handleTokenWithdrawn triggered [ from - {} ] [ receiver - {} ] [ token - {} ] [ assets - {} ] [ shares - {} ] [ tokensReceived - {} ]',
     [
