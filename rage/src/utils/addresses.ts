@@ -18,6 +18,7 @@ class Contracts {
   DnGmxSeniorVault: Address;
   DnGmxJuniorVault: Address;
   DnGmxBatchingManager: Address;
+  DnGmxWithdrawPeriphery: Address;
 }
 
 export let contracts: Contracts = {
@@ -40,4 +41,7 @@ export let contracts: Contracts = {
   DnGmxSeniorVault: Address.fromString('0x24bDC1038997F638E6447CBA68039984B958774c'),
   DnGmxJuniorVault: Address.fromString('0x72d684E81De1301da44b34a69d8994AE2F1913C8'),
   DnGmxBatchingManager: Address.fromString('0x407c5C5B2BEe0fF1D06240189A4501472bCdcCDD'),
+  DnGmxWithdrawPeriphery: Address.fromString(
+    '0x2D65027A7541bAE835E3E2bF55a582bf0bCed087'
+  ),
 };

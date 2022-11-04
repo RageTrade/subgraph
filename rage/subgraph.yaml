@@ -264,6 +264,39 @@ dataSources:
         - event: BatchDeposit(indexed uint256,uint256,uint256,uint256)
           handler: handleBatchDeposit
   - kind: ethereum/contract
+    name: DnGmxWithdrawPeriphery
+    network: arbitrum-goerli
+    source:
+      address: '0x2D65027A7541bAE835E3E2bF55a582bf0bCed087'
+      abi: DnGmxWithdrawPeriphery
+      startBlock: 587666
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.4
+      language: wasm/assemblyscript
+      entities:
+        - VaultDepositWithdrawEntry
+        - Vault
+        - Owner
+        - ERC20Token
+      abis:
+        - name: DnGmxJuniorVault
+          file: ./abis/DnGmxJuniorVault.json
+        - name: DnGmxWithdrawPeriphery
+          file: ./abis/DnGmxWithdrawPeriphery.json
+        - name: CurveYieldStrategy
+          file: ./abis/CurveYieldStrategy.json
+        - name: ERC20
+          file: ./abis/ERC20.json
+        - name: ERC20SymbolBytes
+          file: ./abis/ERC20SymbolBytes.json
+        - name: ERC20NameBytes
+          file: ./abis/ERC20NameBytes.json
+      file: ./src/mappings/DnGMX/DnGmxWithdrawPeriphery.ts
+      eventHandlers:
+        - event: TokenWithdrawn(indexed address,indexed address,address,uint256,uint256)
+          handler: handleTokenWithdrawn
+  - kind: ethereum/contract
     name: GMXBatchingManager
     network: arbitrum-goerli
     source:
