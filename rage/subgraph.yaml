@@ -294,7 +294,8 @@ dataSources:
           file: ./abis/ERC20NameBytes.json
       file: ./src/mappings/DnGMX/DnGmxWithdrawPeriphery.ts
       eventHandlers:
-        - event: TokenRedeemed(indexed address,indexed address,address,uint256,uint256,uint256)
+        - event: TokenRedeemed(indexed address,indexed
+            address,address,uint256,uint256,uint256)
           handler: handleTokenWithdraw
   - kind: ethereum/contract
     name: GMXBatchingManager
