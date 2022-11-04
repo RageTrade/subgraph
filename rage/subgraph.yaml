@@ -267,7 +267,7 @@ dataSources:
     name: DnGmxWithdrawPeriphery
     network: arbitrum-goerli
     source:
-      address: '0x2D65027A7541bAE835E3E2bF55a582bf0bCed087'
+      address: '0x6d1408aa10A528eDB832e5Cf44e7877D666E9492'
       abi: DnGmxWithdrawPeriphery
       startBlock: 587666
     mapping:
@@ -294,7 +294,7 @@ dataSources:
           file: ./abis/ERC20NameBytes.json
       file: ./src/mappings/DnGMX/DnGmxWithdrawPeriphery.ts
       eventHandlers:
-        - event: TokenWithdrawn(indexed address,indexed address,address,uint256,uint256)
+        - event: TokenWithdrawn(indexed address,indexed address,address,uint256,uint256,uint256)
           handler: handleTokenWithdrawn
   - kind: ethereum/contract
     name: GMXBatchingManager

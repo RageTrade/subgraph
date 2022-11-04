@@ -42,6 +42,6 @@ export let contracts: Contracts = {
   DnGmxJuniorVault: Address.fromString('0x72d684E81De1301da44b34a69d8994AE2F1913C8'),
   DnGmxBatchingManager: Address.fromString('0x407c5C5B2BEe0fF1D06240189A4501472bCdcCDD'),
   DnGmxWithdrawPeriphery: Address.fromString(
-    '0x2D65027A7541bAE835E3E2bF55a582bf0bCed087'
+    '0x6d1408aa10A528eDB832e5Cf44e7877D666E9492'
   ),
 };
