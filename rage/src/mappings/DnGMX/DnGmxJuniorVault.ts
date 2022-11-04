@@ -42,7 +42,7 @@ export function handleDeposit(event: Deposit): void {
 
   let assetsPerShare = safeDiv(assetsInBigDecimal, sharesInBigDecimal);
 
-  let dnGmxJuniorVaultContract = `DnGmxJuniorVault`.bind(contracts.DnGmxJuniorVault);
+  let dnGmxJuniorVaultContract = DnGmxJuniorVault.bind(contracts.DnGmxJuniorVault);
   let assetPriceResult = dnGmxJuniorVaultContract.try_getPriceX128();
 
   if (assetPriceResult.reverted) {
