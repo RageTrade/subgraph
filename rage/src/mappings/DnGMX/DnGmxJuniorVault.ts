@@ -42,7 +42,7 @@ export function handleDeposit(event: Deposit): void {
 
   let assetsPerShare = safeDiv(assetsInBigDecimal, sharesInBigDecimal);
 
-  let dnGmxJuniorVaultContract = DnGmxJuniorVault.bind(contracts.DnGmxJuniorVault);
+  let dnGmxJuniorVaultContract = `DnGmxJuniorVault`.bind(contracts.DnGmxJuniorVault);
   let assetPriceResult = dnGmxJuniorVaultContract.try_getPriceX128();
 
   if (assetPriceResult.reverted) {
@@ -153,6 +153,14 @@ export function handleWithdraw(event: Withdraw): void {
   ]);
 
   //...........................................................................//
+
+  if (event.params.caller.toHexString() == contracts.DnGmxWithdrawPeriphery.toHexString()) {
+    log.error(
+      'custom_logs: handleWithdraw event came from DnGmxWithdrawPeriphery - {} | caller - {}',
+      [contracts.DnGmxWithdrawPeriphery.toHexString(), event.params.caller.toHexString()]
+    );
+    return;
+  }
 
   let vaultDepositWithdrawEntryId = generateId([
     vault.id,
