@@ -1,251 +1,284 @@
 [
   {
-    "type": "event",
     "anonymous": false,
-    "name": "AddressesUpdated",
     "inputs": [
       {
-        "type": "address",
+        "indexed": false,
+        "internalType": "address",
         "name": "juniorVault",
-        "indexed": false
+        "type": "address"
       },
       {
-        "type": "address",
+        "indexed": false,
+        "internalType": "address",
         "name": "rewardRouter",
-        "indexed": false
+        "type": "address"
       }
-    ]
+    ],
+    "name": "AddressesUpdated",
+    "type": "event"
   },
   {
-    "type": "event",
     "anonymous": false,
-    "name": "OwnershipTransferred",
     "inputs": [
       {
-        "type": "address",
+        "indexed": true,
+        "internalType": "address",
         "name": "previousOwner",
-        "indexed": true
+        "type": "address"
       },
       {
-        "type": "address",
+        "indexed": true,
+        "internalType": "address",
         "name": "newOwner",
-        "indexed": true
+        "type": "address"
       }
-    ]
+    ],
+    "name": "OwnershipTransferred",
+    "type": "event"
   },
   {
-    "type": "event",
     "anonymous": false,
-    "name": "SlippageThresholdUpdated",
     "inputs": [
       {
-        "type": "uint256",
+        "indexed": false,
+        "internalType": "uint256",
         "name": "newSlippageThreshold",
-        "indexed": false
+        "type": "uint256"
       }
-    ]
+    ],
+    "name": "SlippageThresholdUpdated",
+    "type": "event"
   },
   {
-    "type": "event",
     "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "from",
+        "type": "address"
+      },
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "receiver",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "token",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "assets",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "shares",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "tokensReceived",
+        "type": "uint256"
+      }
+    ],
     "name": "TokenRedeemed",
-    "inputs": [
-      {
-        "type": "address",
-        "name": "from",
-        "indexed": true
-      },
-      {
-        "type": "address",
-        "name": "receiver",
-        "indexed": true
-      },
-      {
-        "type": "address",
-        "name": "token",
-        "indexed": false
-      },
-      {
-        "type": "uint256",
-        "name": "sharesAmount",
-        "indexed": false
-      },
-      {
-        "type": "uint256",
-        "name": "tokensRecevied",
-        "indexed": false
-      }
-    ]
+    "type": "event"
   },
   {
-    "type": "event",
     "anonymous": false,
-    "name": "TokenWithdrawn",
     "inputs": [
       {
-        "type": "address",
+        "indexed": true,
+        "internalType": "address",
         "name": "from",
-        "indexed": true
+        "type": "address"
       },
       {
-        "type": "address",
+        "indexed": true,
+        "internalType": "address",
         "name": "receiver",
-        "indexed": true
+        "type": "address"
       },
       {
-        "type": "address",
+        "indexed": false,
+        "internalType": "address",
         "name": "token",
-        "indexed": false
+        "type": "address"
       },
       {
-        "type": "uint256",
-        "name": "sGlpAmount",
-        "indexed": false
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "assets",
+        "type": "uint256"
       },
       {
-        "type": "uint256",
-        "name": "tokensRecevied",
-        "indexed": false
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "shares",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "tokensReceived",
+        "type": "uint256"
       }
-    ]
+    ],
+    "name": "TokenWithdrawn",
+    "type": "event"
   },
   {
-    "type": "function",
+    "inputs": [],
     "name": "owner",
-    "constant": true,
-    "stateMutability": "view",
-    "payable": false,
-    "inputs": [],
     "outputs": [
       {
-        "type": "address",
-        "name": ""
+        "internalType": "address",
+        "name": "",
+        "type": "address"
       }
-    ]
+    ],
+    "stateMutability": "view",
+    "type": "function"
   },
   {
-    "type": "function",
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "from",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "token",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "receiver",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "sharesAmount",
+        "type": "uint256"
+      }
+    ],
     "name": "redeemToken",
-    "constant": false,
-    "payable": false,
-    "inputs": [
-      {
-        "type": "address",
-        "name": "from"
-      },
-      {
-        "type": "address",
-        "name": "token"
-      },
-      {
-        "type": "address",
-        "name": "receiver"
-      },
-      {
-        "type": "uint256",
-        "name": "sharesAmount"
-      }
-    ],
     "outputs": [
       {
-        "type": "uint256",
-        "name": "amountOut"
+        "internalType": "uint256",
+        "name": "amountOut",
+        "type": "uint256"
       }
-    ]
+    ],
+    "stateMutability": "nonpayable",
+    "type": "function"
   },
   {
-    "type": "function",
+    "inputs": [],
     "name": "renounceOwnership",
-    "constant": false,
-    "payable": false,
-    "inputs": [],
-    "outputs": []
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
   },
   {
-    "type": "function",
+    "inputs": [
+      {
+        "internalType": "contract IDnGmxJuniorVault",
+        "name": "_dnGmxJuniorVault",
+        "type": "address"
+      },
+      {
+        "internalType": "contract IRewardRouterV2",
+        "name": "_rewardRouter",
+        "type": "address"
+      }
+    ],
     "name": "setAddresses",
-    "constant": false,
-    "payable": false,
-    "inputs": [
-      {
-        "type": "address",
-        "name": "_dnGmxJuniorVault"
-      },
-      {
-        "type": "address",
-        "name": "_rewardRouter"
-      }
-    ],
-    "outputs": []
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
   },
   {
-    "type": "function",
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "_slippageThreshold",
+        "type": "uint256"
+      }
+    ],
     "name": "setSlippageThreshold",
-    "constant": false,
-    "payable": false,
-    "inputs": [
-      {
-        "type": "uint256",
-        "name": "_slippageThreshold"
-      }
-    ],
-    "outputs": []
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
   },
   {
-    "type": "function",
-    "name": "slippageThreshold",
-    "constant": true,
-    "stateMutability": "view",
-    "payable": false,
     "inputs": [],
+    "name": "slippageThreshold",
     "outputs": [
       {
-        "type": "uint256",
-        "name": ""
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
       }
-    ]
+    ],
+    "stateMutability": "view",
+    "type": "function"
   },
   {
-    "type": "function",
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "newOwner",
+        "type": "address"
+      }
+    ],
     "name": "transferOwnership",
-    "constant": false,
-    "payable": false,
-    "inputs": [
-      {
-        "type": "address",
-        "name": "newOwner"
-      }
-    ],
-    "outputs": []
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
   },
   {
-    "type": "function",
-    "name": "withdrawToken",
-    "constant": false,
-    "payable": false,
     "inputs": [
       {
-        "type": "address",
-        "name": "from"
+        "internalType": "address",
+        "name": "from",
+        "type": "address"
       },
       {
-        "type": "address",
-        "name": "token"
+        "internalType": "address",
+        "name": "token",
+        "type": "address"
       },
       {
-        "type": "address",
-        "name": "receiver"
+        "internalType": "address",
+        "name": "receiver",
+        "type": "address"
       },
       {
-        "type": "uint256",
-        "name": "sGlpAmount"
+        "internalType": "uint256",
+        "name": "sGlpAmount",
+        "type": "uint256"
       }
     ],
+    "name": "withdrawToken",
     "outputs": [
       {
-        "type": "uint256",
-        "name": "amountOut"
+        "internalType": "uint256",
+        "name": "amountOut",
+        "type": "uint256"
       }
-    ]
+    ],
+    "stateMutability": "nonpayable",
+    "type": "function"
   }
 ]

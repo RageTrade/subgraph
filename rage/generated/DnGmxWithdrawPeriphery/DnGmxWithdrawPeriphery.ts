@@ -97,12 +97,16 @@ export class TokenRedeemed__Params {
     return this._event.parameters[2].value.toAddress();
   }
 
-  get sharesAmount(): BigInt {
+  get assets(): BigInt {
     return this._event.parameters[3].value.toBigInt();
   }
 
-  get tokensRecevied(): BigInt {
+  get shares(): BigInt {
     return this._event.parameters[4].value.toBigInt();
+  }
+
+  get tokensReceived(): BigInt {
+    return this._event.parameters[5].value.toBigInt();
   }
 }
 
@@ -131,12 +135,16 @@ export class TokenWithdrawn__Params {
     return this._event.parameters[2].value.toAddress();
   }
 
-  get sGlpAmount(): BigInt {
+  get assets(): BigInt {
     return this._event.parameters[3].value.toBigInt();
   }
 
-  get tokensRecevied(): BigInt {
+  get shares(): BigInt {
     return this._event.parameters[4].value.toBigInt();
+  }
+
+  get tokensReceived(): BigInt {
+    return this._event.parameters[5].value.toBigInt();
   }
 }
 
