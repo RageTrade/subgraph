@@ -231,7 +231,7 @@ dataSources:
     name: DnGmxBatchingManager
     network: arbitrum-goerli
     source:
-      address: '0x407c5C5B2BEe0fF1D06240189A4501472bCdcCDD'
+      address: '0x80641B713f9a95D7855f82A8F86bD3ae35C418dC'
       abi: DnGmxBatchingManager
       startBlock: 947160
     mapping:

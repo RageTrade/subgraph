@@ -517,6 +517,19 @@
   },
   {
     "type": "function",
+    "name": "setBypass",
+    "constant": false,
+    "payable": false,
+    "inputs": [
+      {
+        "type": "address",
+        "name": "_bypass"
+      }
+    ],
+    "outputs": []
+  },
+  {
+    "type": "function",
     "name": "setKeeper",
     "constant": false,
     "payable": false,

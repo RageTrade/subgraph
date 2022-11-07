@@ -40,7 +40,7 @@ export let contracts: Contracts = {
   sGLP: Address.fromString('0x28Fa343Dc9af1B976688C6551784FF9AC20D2937'),
   DnGmxSeniorVault: Address.fromString('0x24bDC1038997F638E6447CBA68039984B958774c'),
   DnGmxJuniorVault: Address.fromString('0x72d684E81De1301da44b34a69d8994AE2F1913C8'),
-  DnGmxBatchingManager: Address.fromString('0x407c5C5B2BEe0fF1D06240189A4501472bCdcCDD'),
+  DnGmxBatchingManager: Address.fromString('0x80641B713f9a95D7855f82A8F86bD3ae35C418dC'),
   DnGmxWithdrawPeriphery: Address.fromString(
     '0x6d1408aa10A528eDB832e5Cf44e7877D666E9492'
   ),
