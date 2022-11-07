@@ -2691,13 +2691,22 @@ export class VaultRebalance extends Entity {
     this.set('vault', Value.fromString(value));
   }
 
-  get valueMarketValue(): BigDecimal {
-    let value = this.get('valueMarketValue');
+  get vaultMarketValue(): BigDecimal {
+    let value = this.get('vaultMarketValue');
     return value.toBigDecimal();
   }
 
-  set valueMarketValue(value: BigDecimal) {
-    this.set('valueMarketValue', Value.fromBigDecimal(value));
+  set vaultMarketValue(value: BigDecimal) {
+    this.set('vaultMarketValue', Value.fromBigDecimal(value));
+  }
+
+  get partnerVaultMarketValue(): BigDecimal {
+    let value = this.get('partnerVaultMarketValue');
+    return value.toBigDecimal();
+  }
+
+  set partnerVaultMarketValue(value: BigDecimal) {
+    this.set('partnerVaultMarketValue', Value.fromBigDecimal(value));
   }
 }
 

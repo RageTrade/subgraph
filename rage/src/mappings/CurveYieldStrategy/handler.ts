@@ -9,7 +9,7 @@ import { CurveQuoter } from '../../../generated/CurveYieldStrategy/CurveQuoter';
 import { VaultDepositWithdrawEntry, VaultRebalance } from '../../../generated/schema';
 import { generateId, BigIntToBigDecimal, parsePriceX128, safeDiv } from '../../utils';
 import { contracts } from '../../utils/addresses';
-import { BI_18, BI_6, ONE_BI } from '../../utils/constants';
+import { BI_18, BI_6, ONE_BI, ZERO_BD } from '../../utils/constants';
 import { getOwner } from '../clearinghouse/owner';
 import { getERC20Token } from '../../utils/getERC20Token';
 import { getVault } from '../../utils/getVault';
@@ -238,11 +238,12 @@ export function handleRebalance(event: Rebalance): void {
   vr.timestamp = event.block.timestamp;
   vr.liquidityPositionEarningsRealized = earnings;
   vr.vault = vault.id;
-  vr.valueMarketValue = BigIntToBigDecimal(
+  vr.vaultMarketValue = BigIntToBigDecimal(
     // TODO change to BaseVault
     CurveYieldStrategy.bind(event.address).getVaultMarketValue(),
     BI_6
   );
+  vr.partnerVaultMarketValue = ZERO_BD;
 
   vr.save();
 }

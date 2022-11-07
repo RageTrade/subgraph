@@ -593,7 +593,9 @@ type VaultRebalance @entity {
   "vault reference"
   vault: Vault!
   "vault market value when rebalance took place"
-  valueMarketValue: BigDecimal!
+  vaultMarketValue: BigDecimal!
+  "vault market value of partner vault(dn vaults) when rebalance took place"
+  partnerVaultMarketValue: BigDecimal!
 }
 
 """
