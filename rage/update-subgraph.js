@@ -47,10 +47,25 @@ switch (networkInput) {
 }
 
 async function main() {
-  // just for getting startBlockNumber
-  const factoryDeployment = sdk.core.getDeployments(networkInfo.sdk)
-    .RageTradeFactoryDeployment;
-  const startBlockNumber = factoryDeployment.receipt.blockNumber;
+  const coreStartBlockNumber = sdk.core.getDeployments(networkInfo.sdk)
+    .RageTradeFactoryDeployment.receipt?.blockNumber;
+  const triCryptoStartBlockNumber = sdk.tricryptoVault.getDeployments(networkInfo.sdk)
+    .SwapManagerLibraryDeployment.receipt?.blockNumber;
+  const gmxStartBlockNumber = sdk.gmxVault.getDeployments(networkInfo.sdk)
+    .GlpStakingManagerLogicDeployment.receipt?.blockNumber;
+  const deltaNeutralGMXStartBlockNumber = sdk.deltaNeutralGmxVaults.getDeployments(
+    networkInfo.sdk
+  ).DnGmxJuniorVaultDeployment.receipt?.blockNumber;
+
+  if (
+    !coreStartBlockNumber ||
+    !triCryptoStartBlockNumber ||
+    !gmxStartBlockNumber ||
+    !deltaNeutralGMXStartBlockNumber
+  ) {
+    console.error('Start block number not found');
+    return;
+  }
 
   const {
     rageTradeFactory,
@@ -106,69 +121,81 @@ async function main() {
     subgraphYaml,
     'ClearingHouse',
     clearingHouse.address,
-    startBlockNumber
+    coreStartBlockNumber
   );
   updateSubgraphYamlDataSources(
     subgraphYaml,
     'RageTradeFactory',
     rageTradeFactory.address,
-    startBlockNumber
+    coreStartBlockNumber
   );
+
+  // ------------------------------------------------------------------------------ //
+
   updateSubgraphYamlDataSources(
     subgraphYaml,
     'CurveYieldStrategy',
     curveYieldStrategy.address,
-    startBlockNumber
+    triCryptoStartBlockNumber
   );
   updateSubgraphYamlDataSources(
     subgraphYaml,
     'VaultPeriphery',
     vaultPeriphery.address,
-    startBlockNumber
+    triCryptoStartBlockNumber
   );
+
+  // ------------------------------------------------------------------------------ //
+
   updateSubgraphYamlDataSources(
     subgraphYaml,
     'GMXYieldStrategy',
     gmxYieldStrategy?.address ?? ethers.constants.AddressZero,
-    startBlockNumber
+    gmxStartBlockNumber
   );
   updateSubgraphYamlDataSources(
     subgraphYaml,
     'GMXBatchingManager',
     gmxBatchingManager?.address ?? ethers.constants.AddressZero,
-    startBlockNumber
+    gmxStartBlockNumber
   );
+
+  // ------------------------------------------------------------------------------ //
+
   updateSubgraphYamlDataSources(
     subgraphYaml,
     'UniswapV3Factory',
     uniswapV3Factory.address,
-    startBlockNumber
+    coreStartBlockNumber
   );
   updateSubgraphYamlTemplates(subgraphYaml, 'UniswapV3Pool');
   updateSubgraphYamlTemplates(subgraphYaml, 'VPoolWrapperLogic');
+
+  // ------------------------------------------------------------------------------ //
+
   updateSubgraphYamlDataSources(
     subgraphYaml,
     'DnGmxSeniorVault',
     dnGmxSeniorVault?.address ?? ethers.constants.AddressZero,
-    startBlockNumber
+    deltaNeutralGMXStartBlockNumber
   );
   updateSubgraphYamlDataSources(
     subgraphYaml,
     'DnGmxJuniorVault',
     dnGmxJuniorVault?.address ?? ethers.constants.AddressZero,
-    startBlockNumber
+    deltaNeutralGMXStartBlockNumber
   );
   updateSubgraphYamlDataSources(
     subgraphYaml,
     'DnGmxBatchingManager',
     dnGmxBatchingManager?.address ?? ethers.constants.AddressZero,
-    startBlockNumber
+    deltaNeutralGMXStartBlockNumber
   );
   updateSubgraphYamlDataSources(
     subgraphYaml,
     'DnGmxWithdrawPeriphery',
     withdrawPeriphery?.address ?? ethers.constants.AddressZero,
-    startBlockNumber
+    deltaNeutralGMXStartBlockNumber
   );
   // write subgraphYaml
   fs.writeFile('./subgraph.yaml', yaml.stringify(subgraphYaml, { indent: 2 }));

@@ -59,7 +59,7 @@ dataSources:
     source:
       address: '0xddDcfF2D6CB373C2F1A115bAC6B1862b72b812f4'
       abi: CurveYieldStrategy
-      startBlock: 587666
+      startBlock: 620600
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.4
@@ -94,7 +94,7 @@ dataSources:
     source:
       address: '0x5d44c28E34343888923aCFAc34AF617461657f9B'
       abi: VaultPeriphery
-      startBlock: 587666
+      startBlock: 620600
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.4
@@ -125,7 +125,7 @@ dataSources:
     source:
       address: '0x4AB3e468C0afee9e0941D9FB26CDFDb438cff8dF'
       abi: GMXYieldStrategy
-      startBlock: 587666
+      startBlock: 620810
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.4
@@ -163,7 +163,7 @@ dataSources:
     source:
       address: '0x24bDC1038997F638E6447CBA68039984B958774c'
       abi: DnGmxSeniorVault
-      startBlock: 587666
+      startBlock: 947160
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.4
@@ -196,7 +196,7 @@ dataSources:
     source:
       address: '0x72d684E81De1301da44b34a69d8994AE2F1913C8'
       abi: DnGmxJuniorVault
-      startBlock: 587666
+      startBlock: 947160
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.4
@@ -233,7 +233,7 @@ dataSources:
     source:
       address: '0x407c5C5B2BEe0fF1D06240189A4501472bCdcCDD'
       abi: DnGmxBatchingManager
-      startBlock: 587666
+      startBlock: 947160
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.4
@@ -269,7 +269,7 @@ dataSources:
     source:
       address: '0x6d1408aa10A528eDB832e5Cf44e7877D666E9492'
       abi: DnGmxWithdrawPeriphery
-      startBlock: 587666
+      startBlock: 947160
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.4
@@ -303,7 +303,7 @@ dataSources:
     source:
       address: '0x3d38Ff7Cbf232b314623510f0Ccda847414148c9'
       abi: GMXBatchingManager
-      startBlock: 587666
+      startBlock: 620810
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.4
