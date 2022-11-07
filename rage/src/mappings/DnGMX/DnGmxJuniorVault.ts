@@ -227,9 +227,13 @@ export function handleRebalance(event: Rebalanced): void {
   vr.timestamp = event.block.timestamp;
   vr.liquidityPositionEarningsRealized = ZERO_BD;
   vr.vault = vault.id;
-  vr.valueMarketValue = BigIntToBigDecimal(
+  vr.vaultMarketValue = BigIntToBigDecimal(
     // TODO change to BaseVault
     DnGmxJuniorVault.bind(event.address).getVaultMarketValue(),
+    BI_6
+  );
+  vr.partnerVaultMarketValue = BigIntToBigDecimal(
+    DnGmxJuniorVault.bind(contracts.DnGmxSeniorVault).getVaultMarketValue(),
     BI_6
   );
   vr.save();
