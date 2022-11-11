@@ -101,11 +101,11 @@ export function handleGmxBatch(event: BatchDeposit): void {
         []
       );
     } else {
-      entry.sharesTokenAmount = safeDiv(
-        entry.assetsTokenAmount.times(
-          BigIntToBigDecimal(event.params.userShareAmount, BI_18)
-        ),
-        BigIntToBigDecimal(event.params.userGlpAmount, BI_18)
+      entry.sharesTokenAmount = entry.assetsTokenAmount.times(
+        safeDiv(
+          BigIntToBigDecimal(event.params.userShareAmount, BI_18),
+          BigIntToBigDecimal(event.params.userGlpAmount, BI_18)
+        )
       );
 
       entry.sharePrice = safeDiv(
