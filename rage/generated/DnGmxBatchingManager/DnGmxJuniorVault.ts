@@ -628,6 +628,26 @@ export class DnGmxJuniorVault__getAdminParamsResult {
     map.set('value4', ethereum.Value.fromUnsignedBigInt(BigInt.fromI32(this.value4)));
     return map;
   }
+
+  getKeeper(): Address {
+    return this.value0;
+  }
+
+  getDnGmxSeniorVault(): Address {
+    return this.value1;
+  }
+
+  getDepositCap(): BigInt {
+    return this.value2;
+  }
+
+  getBatchingManager(): Address {
+    return this.value3;
+  }
+
+  getWithdrawFeeBps(): i32 {
+    return this.value4;
+  }
 }
 
 export class DnGmxJuniorVault__getCurrentBorrowsResult {
@@ -644,6 +664,14 @@ export class DnGmxJuniorVault__getCurrentBorrowsResult {
     map.set('value0', ethereum.Value.fromUnsignedBigInt(this.value0));
     map.set('value1', ethereum.Value.fromUnsignedBigInt(this.value1));
     return map;
+  }
+
+  getCurrentBtcBorrow(): BigInt {
+    return this.value0;
+  }
+
+  getCurrentEthBorrow(): BigInt {
+    return this.value1;
   }
 }
 
@@ -668,6 +696,22 @@ export class DnGmxJuniorVault__getHedgeParamsResult {
     map.set('value3', ethereum.Value.fromAddress(this.value3));
     return map;
   }
+
+  getBalancerVault(): Address {
+    return this.value0;
+  }
+
+  getSwapRouter(): Address {
+    return this.value1;
+  }
+
+  getTargetHealthFactor(): BigInt {
+    return this.value2;
+  }
+
+  getAaveRewardsController(): Address {
+    return this.value3;
+  }
 }
 
 export class DnGmxJuniorVault__getOptimalBorrowsResult {
@@ -684,6 +728,14 @@ export class DnGmxJuniorVault__getOptimalBorrowsResult {
     map.set('value0', ethereum.Value.fromUnsignedBigInt(this.value0));
     map.set('value1', ethereum.Value.fromUnsignedBigInt(this.value1));
     return map;
+  }
+
+  getOptimalBtcBorrow(): BigInt {
+    return this.value0;
+  }
+
+  getOptimalEthBorrow(): BigInt {
+    return this.value1;
   }
 }
 
@@ -704,6 +756,18 @@ export class DnGmxJuniorVault__getRebalanceParamsResult {
     map.set('value1', ethereum.Value.fromUnsignedBigInt(BigInt.fromI32(this.value1)));
     map.set('value2', ethereum.Value.fromUnsignedBigInt(BigInt.fromI32(this.value2)));
     return map;
+  }
+
+  getRebalanceTimeThreshold(): BigInt {
+    return this.value0;
+  }
+
+  getRebalanceDeltaThresholdBps(): i32 {
+    return this.value1;
+  }
+
+  getRebalanceHfThresholdBps(): i32 {
+    return this.value2;
   }
 }
 
@@ -748,6 +812,38 @@ export class DnGmxJuniorVault__getThresholdsResult {
     map.set('value6', ethereum.Value.fromUnsignedBigInt(this.value6));
     map.set('value7', ethereum.Value.fromUnsignedBigInt(this.value7));
     return map;
+  }
+
+  getSlippageThresholdSwapBtcBps(): i32 {
+    return this.value0;
+  }
+
+  getSlippageThresholdSwapEthBps(): i32 {
+    return this.value1;
+  }
+
+  getSlippageThresholdGmxBps(): i32 {
+    return this.value2;
+  }
+
+  getUsdcConversionThreshold(): BigInt {
+    return this.value3;
+  }
+
+  getWethConversionThreshold(): BigInt {
+    return this.value4;
+  }
+
+  getHedgeUsdcAmountThreshold(): BigInt {
+    return this.value5;
+  }
+
+  getPartialBtcHedgeUsdcAmountThreshold(): BigInt {
+    return this.value6;
+  }
+
+  getPartialEthHedgeUsdcAmountThreshold(): BigInt {
+    return this.value7;
   }
 }
 
@@ -1954,7 +2050,9 @@ export class InitializeCall__Inputs {
   }
 
   get _tokens(): InitializeCall_tokensStruct {
-    return this._call.inputValues[4].value.toTuple() as InitializeCall_tokensStruct;
+    return changetype<InitializeCall_tokensStruct>(
+      this._call.inputValues[4].value.toTuple()
+    );
   }
 
   get _poolAddressesProvider(): Address {

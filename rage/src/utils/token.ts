@@ -5,7 +5,7 @@ import { ERC20NameBytes } from '../../generated/UniswapV3Factory/ERC20NameBytes'
 import { StaticTokenDefinition } from './staticTokenDefinition';
 import { BigInt, Address, BigDecimal } from '@graphprotocol/graph-ts';
 import { BigIntToBigDecimal, isNullEthValue, tenPower } from './index';
-import { ZERO_BI } from './constants';
+import { BI_18, ZERO_BI } from './constants';
 
 export function fetchTokenSymbol(tokenAddress: Address): string {
   let contract = ERC20.bind(tokenAddress);
@@ -69,18 +69,17 @@ export function fetchTokenName(tokenAddress: Address): string {
 
 export function fetchTokenTotalSupply(tokenAddress: Address): BigInt {
   let contract = ERC20.bind(tokenAddress);
-  let totalSupplyValue = null;
   let totalSupplyResult = contract.try_totalSupply();
-  if (!totalSupplyResult.reverted) {
-    totalSupplyValue = totalSupplyResult as i32;
+
+  if (totalSupplyResult.reverted) {
+    return ZERO_BI;
   }
-  return BigInt.fromI32(totalSupplyValue as i32);
+
+  return totalSupplyResult.value;
 }
 
 export function fetchTokenDecimals(tokenAddress: Address): BigInt {
   let contract = ERC20.bind(tokenAddress);
-  // try types uint8 for decimals
-  let decimalValue = null;
 
   // try with the static definition
   let staticTokenDefinition = StaticTokenDefinition.fromAddress(tokenAddress);
@@ -89,11 +88,12 @@ export function fetchTokenDecimals(tokenAddress: Address): BigInt {
   }
 
   let decimalResult = contract.try_decimals();
-  if (!decimalResult.reverted) {
-    decimalValue = decimalResult.value;
+
+  if (decimalResult.reverted) {
+    return BI_18;
   }
 
-  return BigInt.fromI32(decimalValue as i32);
+  return  BigInt.fromI32(decimalResult.value);
 }
 
 /**

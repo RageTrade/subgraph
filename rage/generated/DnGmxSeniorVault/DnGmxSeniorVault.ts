@@ -331,6 +331,22 @@ export class DnGmxSeniorVault__feeStrategyResult {
     map.set('value3', ethereum.Value.fromUnsignedBigInt(this.value3));
     return map;
   }
+
+  getOptimalUtilizationRate(): BigInt {
+    return this.value0;
+  }
+
+  getBaseVariableBorrowRate(): BigInt {
+    return this.value1;
+  }
+
+  getVariableRateSlope1(): BigInt {
+    return this.value2;
+  }
+
+  getVariableRateSlope2(): BigInt {
+    return this.value3;
+  }
 }
 
 export class DnGmxSeniorVault extends ethereum.SmartContract {
@@ -1797,7 +1813,9 @@ export class UpdateFeeStrategyParamsCall__Inputs {
   }
 
   get _feeStrategy(): UpdateFeeStrategyParamsCall_feeStrategyStruct {
-    return this._call.inputValues[0].value.toTuple() as UpdateFeeStrategyParamsCall_feeStrategyStruct;
+    return changetype<UpdateFeeStrategyParamsCall_feeStrategyStruct>(
+      this._call.inputValues[0].value.toTuple()
+    );
   }
 }
 

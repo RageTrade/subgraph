@@ -25,6 +25,14 @@ export class ClearingHouseLens__getAccountCollateralInfoResult {
     map.set('value1', ethereum.Value.fromUnsignedBigInt(this.value1));
     return map;
   }
+
+  getCollateral(): Address {
+    return this.value0;
+  }
+
+  getBalance(): BigInt {
+    return this.value1;
+  }
 }
 
 export class ClearingHouseLens__getAccountInfoResult {
@@ -52,6 +60,22 @@ export class ClearingHouseLens__getAccountInfoResult {
     map.set('value2', ethereum.Value.fromUnsignedBigIntArray(this.value2));
     map.set('value3', ethereum.Value.fromUnsignedBigIntArray(this.value3));
     return map;
+  }
+
+  getOwner(): Address {
+    return this.value0;
+  }
+
+  getVQuoteBalance(): BigInt {
+    return this.value1;
+  }
+
+  getActiveCollateralIds(): Array<BigInt> {
+    return this.value2;
+  }
+
+  getActivePoolIds(): Array<BigInt> {
+    return this.value3;
   }
 }
 
@@ -92,6 +116,34 @@ export class ClearingHouseLens__getAccountLiquidityPositionInfoResult {
     map.set('value5', ethereum.Value.fromSignedBigInt(this.value5));
     map.set('value6', ethereum.Value.fromUnsignedBigInt(this.value6));
     return map;
+  }
+
+  getLimitOrderType(): i32 {
+    return this.value0;
+  }
+
+  getLiquidity(): BigInt {
+    return this.value1;
+  }
+
+  getVTokenAmountIn(): BigInt {
+    return this.value2;
+  }
+
+  getSumALastX128(): BigInt {
+    return this.value3;
+  }
+
+  getSumBInsideLastX128(): BigInt {
+    return this.value4;
+  }
+
+  getSumFpInsideLastX128(): BigInt {
+    return this.value5;
+  }
+
+  getSumFeeInsideLastX128(): BigInt {
+    return this.value6;
   }
 }
 
@@ -141,6 +193,24 @@ export class ClearingHouseLens__getAccountPositionInfoResult {
     map.set('value3', ethereum.Value.fromTupleArray(this.value3));
     return map;
   }
+
+  getBalance(): BigInt {
+    return this.value0;
+  }
+
+  getNetTraderPosition(): BigInt {
+    return this.value1;
+  }
+
+  getSumALastX128(): BigInt {
+    return this.value2;
+  }
+
+  getActiveTickRanges(): Array<
+    ClearingHouseLens__getAccountPositionInfoResultActiveTickRangesStruct
+  > {
+    return this.value3;
+  }
 }
 
 export class ClearingHouseLens__getAccountTokenPositionInfoResult {
@@ -161,6 +231,18 @@ export class ClearingHouseLens__getAccountTokenPositionInfoResult {
     map.set('value2', ethereum.Value.fromSignedBigInt(this.value2));
     return map;
   }
+
+  getBalance(): BigInt {
+    return this.value0;
+  }
+
+  getNetTraderPosition(): BigInt {
+    return this.value1;
+  }
+
+  getSumALastX128(): BigInt {
+    return this.value2;
+  }
 }
 
 export class ClearingHouseLens__getCollateralInfoResultValue0Struct extends ethereum.Tuple {
@@ -169,7 +251,9 @@ export class ClearingHouseLens__getCollateralInfoResultValue0Struct extends ethe
   }
 
   get settings(): ClearingHouseLens__getCollateralInfoResultValue0SettingsStruct {
-    return this[1].toTuple() as ClearingHouseLens__getCollateralInfoResultValue0SettingsStruct;
+    return changetype<ClearingHouseLens__getCollateralInfoResultValue0SettingsStruct>(
+      this[1].toTuple()
+    );
   }
 }
 
@@ -201,7 +285,9 @@ export class ClearingHouseLens__getPoolInfoResultPoolStruct extends ethereum.Tup
   }
 
   get settings(): ClearingHouseLens__getPoolInfoResultPoolSettingsStruct {
-    return this[3].toTuple() as ClearingHouseLens__getPoolInfoResultPoolSettingsStruct;
+    return changetype<ClearingHouseLens__getPoolInfoResultPoolSettingsStruct>(
+      this[3].toTuple()
+    );
   }
 }
 
@@ -333,6 +419,30 @@ export class ClearingHouseLens__getProtocolInfoResult {
     map.set('value5', ethereum.Value.fromUnsignedBigInt(this.value5));
     return map;
   }
+
+  getSettlementToken(): Address {
+    return this.value0;
+  }
+
+  getVQuote(): Address {
+    return this.value1;
+  }
+
+  getLiquidationParams(): ClearingHouseLens__getProtocolInfoResultLiquidationParamsStruct {
+    return this.value2;
+  }
+
+  getMinRequiredMargin(): BigInt {
+    return this.value3;
+  }
+
+  getRemoveLimitOrderFee(): BigInt {
+    return this.value4;
+  }
+
+  getMinimumOrderNotional(): BigInt {
+    return this.value5;
+  }
 }
 
 export class ClearingHouseLens__getVPoolAndTwapDurationResult {
@@ -349,6 +459,14 @@ export class ClearingHouseLens__getVPoolAndTwapDurationResult {
     map.set('value0', ethereum.Value.fromAddress(this.value0));
     map.set('value1', ethereum.Value.fromUnsignedBigInt(this.value1));
     return map;
+  }
+
+  getVPool(): Address {
+    return this.value0;
+  }
+
+  getTwapDuration(): BigInt {
+    return this.value1;
   }
 }
 
@@ -695,7 +813,9 @@ export class ClearingHouseLens extends ethereum.SmartContract {
       [ethereum.Value.fromUnsignedBigInt(collateralId)]
     );
 
-    return result[0].toTuple() as ClearingHouseLens__getCollateralInfoResultValue0Struct;
+    return changetype<ClearingHouseLens__getCollateralInfoResultValue0Struct>(
+      result[0].toTuple()
+    );
   }
 
   try_getCollateralInfo(
@@ -711,7 +831,9 @@ export class ClearingHouseLens extends ethereum.SmartContract {
     }
     let value = result.value;
     return ethereum.CallResult.fromValue(
-      value[0].toTuple() as ClearingHouseLens__getCollateralInfoResultValue0Struct
+      changetype<ClearingHouseLens__getCollateralInfoResultValue0Struct>(
+        value[0].toTuple()
+      )
     );
   }
 
@@ -722,7 +844,9 @@ export class ClearingHouseLens extends ethereum.SmartContract {
       [ethereum.Value.fromUnsignedBigInt(poolId)]
     );
 
-    return result[0].toTuple() as ClearingHouseLens__getPoolInfoResultPoolStruct;
+    return changetype<ClearingHouseLens__getPoolInfoResultPoolStruct>(
+      result[0].toTuple()
+    );
   }
 
   try_getPoolInfo(
@@ -738,7 +862,7 @@ export class ClearingHouseLens extends ethereum.SmartContract {
     }
     let value = result.value;
     return ethereum.CallResult.fromValue(
-      value[0].toTuple() as ClearingHouseLens__getPoolInfoResultPoolStruct
+      changetype<ClearingHouseLens__getPoolInfoResultPoolStruct>(value[0].toTuple())
     );
   }
 
@@ -751,7 +875,9 @@ export class ClearingHouseLens extends ethereum.SmartContract {
       [ethereum.Value.fromUnsignedBigInt(poolId)]
     );
 
-    return result[0].toTuple() as ClearingHouseLens__getPoolSettingsResultSettingsStruct;
+    return changetype<ClearingHouseLens__getPoolSettingsResultSettingsStruct>(
+      result[0].toTuple()
+    );
   }
 
   try_getPoolSettings(
@@ -767,7 +893,9 @@ export class ClearingHouseLens extends ethereum.SmartContract {
     }
     let value = result.value;
     return ethereum.CallResult.fromValue(
-      value[0].toTuple() as ClearingHouseLens__getPoolSettingsResultSettingsStruct
+      changetype<ClearingHouseLens__getPoolSettingsResultSettingsStruct>(
+        value[0].toTuple()
+      )
     );
   }
 
@@ -781,7 +909,9 @@ export class ClearingHouseLens extends ethereum.SmartContract {
     return new ClearingHouseLens__getProtocolInfoResult(
       result[0].toAddress(),
       result[1].toAddress(),
-      result[2].toTuple() as ClearingHouseLens__getProtocolInfoResultLiquidationParamsStruct,
+      changetype<ClearingHouseLens__getProtocolInfoResultLiquidationParamsStruct>(
+        result[2].toTuple()
+      ),
       result[3].toBigInt(),
       result[4].toBigInt(),
       result[5].toBigInt()
@@ -802,7 +932,9 @@ export class ClearingHouseLens extends ethereum.SmartContract {
       new ClearingHouseLens__getProtocolInfoResult(
         value[0].toAddress(),
         value[1].toAddress(),
-        value[2].toTuple() as ClearingHouseLens__getProtocolInfoResultLiquidationParamsStruct,
+        changetype<ClearingHouseLens__getProtocolInfoResultLiquidationParamsStruct>(
+          value[2].toTuple()
+        ),
         value[3].toBigInt(),
         value[4].toBigInt(),
         value[5].toBigInt()

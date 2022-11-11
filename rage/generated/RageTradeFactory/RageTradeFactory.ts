@@ -332,7 +332,9 @@ export class InitializePoolCall__Inputs {
   }
 
   get initializePoolParams(): InitializePoolCallInitializePoolParamsStruct {
-    return this._call.inputValues[0].value.toTuple() as InitializePoolCallInitializePoolParamsStruct;
+    return changetype<InitializePoolCallInitializePoolParamsStruct>(
+      this._call.inputValues[0].value.toTuple()
+    );
   }
 }
 
@@ -346,11 +348,15 @@ export class InitializePoolCall__Outputs {
 
 export class InitializePoolCallInitializePoolParamsStruct extends ethereum.Tuple {
   get deployVTokenParams(): InitializePoolCallInitializePoolParamsDeployVTokenParamsStruct {
-    return this[0].toTuple() as InitializePoolCallInitializePoolParamsDeployVTokenParamsStruct;
+    return changetype<InitializePoolCallInitializePoolParamsDeployVTokenParamsStruct>(
+      this[0].toTuple()
+    );
   }
 
   get poolInitialSettings(): InitializePoolCallInitializePoolParamsPoolInitialSettingsStruct {
-    return this[1].toTuple() as InitializePoolCallInitializePoolParamsPoolInitialSettingsStruct;
+    return changetype<InitializePoolCallInitializePoolParamsPoolInitialSettingsStruct>(
+      this[1].toTuple()
+    );
   }
 
   get liquidityFeePips(): i32 {

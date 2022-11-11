@@ -836,9 +836,9 @@ type UniswapV3Transaction @entity {
   gasUsed: BigInt!
   gasPrice: BigInt!
   "derived values"
-  mints: [UniswapV3Mint]! @derivedFrom(field: "transaction")
-  burns: [UniswapV3Burn]! @derivedFrom(field: "transaction")
-  collects: [UniswapV3Collect]! @derivedFrom(field: "transaction")
+  mints: [UniswapV3Mint!] @derivedFrom(field: "transaction")
+  burns: [UniswapV3Burn!] @derivedFrom(field: "transaction")
+  collects: [UniswapV3Collect!] @derivedFrom(field: "transaction")
 }
 
 type UniswapV3Mint @entity {

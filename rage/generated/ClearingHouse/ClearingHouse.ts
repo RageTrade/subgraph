@@ -50,7 +50,9 @@ export class CollateralSettingsUpdated__Params {
   }
 
   get cTokenInfo(): CollateralSettingsUpdatedCTokenInfoStruct {
-    return this._event.parameters[1].value.toTuple() as CollateralSettingsUpdatedCTokenInfoStruct;
+    return changetype<CollateralSettingsUpdatedCTokenInfoStruct>(
+      this._event.parameters[1].value.toTuple()
+    );
   }
 }
 
@@ -166,7 +168,9 @@ export class PoolSettingsUpdated__Params {
   }
 
   get settings(): PoolSettingsUpdatedSettingsStruct {
-    return this._event.parameters[1].value.toTuple() as PoolSettingsUpdatedSettingsStruct;
+    return changetype<PoolSettingsUpdatedSettingsStruct>(
+      this._event.parameters[1].value.toTuple()
+    );
   }
 }
 
@@ -214,7 +218,9 @@ export class ProtocolSettingsUpdated__Params {
   }
 
   get liquidationParams(): ProtocolSettingsUpdatedLiquidationParamsStruct {
-    return this._event.parameters[0].value.toTuple() as ProtocolSettingsUpdatedLiquidationParamsStruct;
+    return changetype<ProtocolSettingsUpdatedLiquidationParamsStruct>(
+      this._event.parameters[0].value.toTuple()
+    );
   }
 
   get removeLimitOrderFee(): BigInt {
@@ -701,6 +707,14 @@ export class ClearingHouse__getAccountMarketValueAndRequiredMarginResult {
     map.set('value1', ethereum.Value.fromSignedBigInt(this.value1));
     return map;
   }
+
+  getMarketValue(): BigInt {
+    return this.value0;
+  }
+
+  getRequiredMargin(): BigInt {
+    return this.value1;
+  }
 }
 
 export class ClearingHouse__multicallWithSingleMarginCheckInputOperationsStruct extends ethereum.Tuple {
@@ -727,6 +741,14 @@ export class ClearingHouse__swapTokenResult {
     map.set('value0', ethereum.Value.fromSignedBigInt(this.value0));
     map.set('value1', ethereum.Value.fromSignedBigInt(this.value1));
     return map;
+  }
+
+  getVTokenAmountOut(): BigInt {
+    return this.value0;
+  }
+
+  getVQuoteAmountOut(): BigInt {
+    return this.value1;
   }
 }
 
@@ -766,6 +788,14 @@ export class ClearingHouse__updateRangeOrderResult {
     map.set('value0', ethereum.Value.fromSignedBigInt(this.value0));
     map.set('value1', ethereum.Value.fromSignedBigInt(this.value1));
     return map;
+  }
+
+  getVTokenAmountOut(): BigInt {
+    return this.value0;
+  }
+
+  getVQuoteAmountOut(): BigInt {
+    return this.value1;
   }
 }
 
@@ -1756,7 +1786,9 @@ export class RegisterPoolCall__Inputs {
   }
 
   get poolInfo(): RegisterPoolCallPoolInfoStruct {
-    return this._call.inputValues[0].value.toTuple() as RegisterPoolCallPoolInfoStruct;
+    return changetype<RegisterPoolCallPoolInfoStruct>(
+      this._call.inputValues[0].value.toTuple()
+    );
   }
 }
 
@@ -1782,7 +1814,7 @@ export class RegisterPoolCallPoolInfoStruct extends ethereum.Tuple {
   }
 
   get settings(): RegisterPoolCallPoolInfoSettingsStruct {
-    return this[3].toTuple() as RegisterPoolCallPoolInfoSettingsStruct;
+    return changetype<RegisterPoolCallPoolInfoSettingsStruct>(this[3].toTuple());
   }
 }
 
@@ -1914,7 +1946,9 @@ export class SwapTokenCall__Inputs {
   }
 
   get swapParams(): SwapTokenCallSwapParamsStruct {
-    return this._call.inputValues[2].value.toTuple() as SwapTokenCallSwapParamsStruct;
+    return changetype<SwapTokenCallSwapParamsStruct>(
+      this._call.inputValues[2].value.toTuple()
+    );
   }
 }
 
@@ -2008,7 +2042,9 @@ export class UpdateCollateralSettingsCall__Inputs {
   }
 
   get collateralSettings(): UpdateCollateralSettingsCallCollateralSettingsStruct {
-    return this._call.inputValues[1].value.toTuple() as UpdateCollateralSettingsCallCollateralSettingsStruct;
+    return changetype<UpdateCollateralSettingsCallCollateralSettingsStruct>(
+      this._call.inputValues[1].value.toTuple()
+    );
   }
 }
 
@@ -2094,7 +2130,9 @@ export class UpdatePoolSettingsCall__Inputs {
   }
 
   get newSettings(): UpdatePoolSettingsCallNewSettingsStruct {
-    return this._call.inputValues[1].value.toTuple() as UpdatePoolSettingsCallNewSettingsStruct;
+    return changetype<UpdatePoolSettingsCallNewSettingsStruct>(
+      this._call.inputValues[1].value.toTuple()
+    );
   }
 }
 
@@ -2188,7 +2226,9 @@ export class UpdateProtocolSettingsCall__Inputs {
   }
 
   get _liquidationParams(): UpdateProtocolSettingsCall_liquidationParamsStruct {
-    return this._call.inputValues[0].value.toTuple() as UpdateProtocolSettingsCall_liquidationParamsStruct;
+    return changetype<UpdateProtocolSettingsCall_liquidationParamsStruct>(
+      this._call.inputValues[0].value.toTuple()
+    );
   }
 
   get _removeLimitOrderFee(): BigInt {
@@ -2272,7 +2312,9 @@ export class UpdateRangeOrderCall__Inputs {
   }
 
   get liquidityChangeParams(): UpdateRangeOrderCallLiquidityChangeParamsStruct {
-    return this._call.inputValues[2].value.toTuple() as UpdateRangeOrderCallLiquidityChangeParamsStruct;
+    return changetype<UpdateRangeOrderCallLiquidityChangeParamsStruct>(
+      this._call.inputValues[2].value.toTuple()
+    );
   }
 }
 

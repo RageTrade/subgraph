@@ -1,4 +1,4 @@
-specVersion: 0.0.2
+specVersion: 0.0.6
 description: Rage Perpswap Contracts
 repository: https://github.com/rage-trade/perpswap-contracts
 schema:
@@ -13,7 +13,7 @@ dataSources:
       startBlock: 587666
     mapping:
       kind: ethereum/events
-      apiVersion: 0.0.4
+      apiVersion: 0.0.6
       language: wasm/assemblyscript
       entities:
         - Account
@@ -62,7 +62,7 @@ dataSources:
       startBlock: 620600
     mapping:
       kind: ethereum/events
-      apiVersion: 0.0.4
+      apiVersion: 0.0.6
       language: wasm/assemblyscript
       entities:
         - VaultDepositWithdrawEntry
@@ -97,7 +97,7 @@ dataSources:
       startBlock: 620600
     mapping:
       kind: ethereum/events
-      apiVersion: 0.0.4
+      apiVersion: 0.0.6
       language: wasm/assemblyscript
       entities:
         - VaultDepositWithdrawEntry
@@ -128,7 +128,7 @@ dataSources:
       startBlock: 620810
     mapping:
       kind: ethereum/events
-      apiVersion: 0.0.4
+      apiVersion: 0.0.6
       language: wasm/assemblyscript
       entities:
         - VaultDepositWithdrawEntry
@@ -166,7 +166,7 @@ dataSources:
       startBlock: 947160
     mapping:
       kind: ethereum/events
-      apiVersion: 0.0.4
+      apiVersion: 0.0.6
       language: wasm/assemblyscript
       entities:
         - VaultDepositWithdrawEntry
@@ -199,7 +199,7 @@ dataSources:
       startBlock: 947160
     mapping:
       kind: ethereum/events
-      apiVersion: 0.0.4
+      apiVersion: 0.0.6
       language: wasm/assemblyscript
       entities:
         - VaultDepositWithdrawEntry
@@ -236,7 +236,7 @@ dataSources:
       startBlock: 947160
     mapping:
       kind: ethereum/events
-      apiVersion: 0.0.4
+      apiVersion: 0.0.6
       language: wasm/assemblyscript
       entities:
         - VaultDepositWithdrawEntry
@@ -272,7 +272,7 @@ dataSources:
       startBlock: 947160
     mapping:
       kind: ethereum/events
-      apiVersion: 0.0.4
+      apiVersion: 0.0.6
       language: wasm/assemblyscript
       entities:
         - VaultDepositWithdrawEntry
@@ -306,7 +306,7 @@ dataSources:
       startBlock: 620810
     mapping:
       kind: ethereum/events
-      apiVersion: 0.0.4
+      apiVersion: 0.0.6
       language: wasm/assemblyscript
       entities:
         - VaultDepositWithdrawEntry
@@ -342,7 +342,7 @@ dataSources:
       startBlock: 587666
     mapping:
       kind: ethereum/events
-      apiVersion: 0.0.4
+      apiVersion: 0.0.6
       language: wasm/assemblyscript
       entities:
         - RageTradePool
@@ -376,7 +376,7 @@ dataSources:
       startBlock: 587666
     mapping:
       kind: ethereum/events
-      apiVersion: 0.0.4
+      apiVersion: 0.0.6
       language: wasm/assemblyscript
       file: ./src/mappings/uniswap/factory.ts
       entities:
@@ -404,7 +404,7 @@ templates:
       abi: UniswapV3Pool
     mapping:
       kind: ethereum/events
-      apiVersion: 0.0.4
+      apiVersion: 0.0.6
       language: wasm/assemblyscript
       file: ./src/mappings/uniswap/core.ts
       entities:
@@ -430,7 +430,7 @@ templates:
       abi: VPoolWrapperLogic
     mapping:
       kind: ethereum/events
-      apiVersion: 0.0.4
+      apiVersion: 0.0.6
       language: wasm/assemblyscript
       file: ./src/mappings/vPoolWrapper/handler.ts
       entities:

@@ -265,6 +265,14 @@ export class GMXBatchingManager__vaultBatchingStateResult {
     map.set('value1', ethereum.Value.fromUnsignedBigInt(this.value1));
     return map;
   }
+
+  getCurrentRound(): BigInt {
+    return this.value0;
+  }
+
+  getRoundGlpBalance(): BigInt {
+    return this.value1;
+  }
 }
 
 export class GMXBatchingManager extends ethereum.SmartContract {
@@ -491,7 +499,9 @@ export class GMXBatchingManager extends ethereum.SmartContract {
       [ethereum.Value.fromAddress(vault), ethereum.Value.fromUnsignedBigInt(round)]
     );
 
-    return result[0].toTuple() as GMXBatchingManager__roundDepositsResultValue0Struct;
+    return changetype<GMXBatchingManager__roundDepositsResultValue0Struct>(
+      result[0].toTuple()
+    );
   }
 
   try_roundDeposits(
@@ -508,7 +518,7 @@ export class GMXBatchingManager extends ethereum.SmartContract {
     }
     let value = result.value;
     return ethereum.CallResult.fromValue(
-      value[0].toTuple() as GMXBatchingManager__roundDepositsResultValue0Struct
+      changetype<GMXBatchingManager__roundDepositsResultValue0Struct>(value[0].toTuple())
     );
   }
 
@@ -602,7 +612,9 @@ export class GMXBatchingManager extends ethereum.SmartContract {
       [ethereum.Value.fromAddress(vault), ethereum.Value.fromAddress(account)]
     );
 
-    return result[0].toTuple() as GMXBatchingManager__userDepositsResultValue0Struct;
+    return changetype<GMXBatchingManager__userDepositsResultValue0Struct>(
+      result[0].toTuple()
+    );
   }
 
   try_userDeposits(
@@ -619,7 +631,7 @@ export class GMXBatchingManager extends ethereum.SmartContract {
     }
     let value = result.value;
     return ethereum.CallResult.fromValue(
-      value[0].toTuple() as GMXBatchingManager__userDepositsResultValue0Struct
+      changetype<GMXBatchingManager__userDepositsResultValue0Struct>(value[0].toTuple())
     );
   }
 

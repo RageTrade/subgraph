@@ -1602,7 +1602,9 @@ export class InitializeCall__Inputs {
   }
 
   get curveYieldStrategyInitParams(): InitializeCallCurveYieldStrategyInitParamsStruct {
-    return this._call.inputValues[0].value.toTuple() as InitializeCallCurveYieldStrategyInitParamsStruct;
+    return changetype<InitializeCallCurveYieldStrategyInitParamsStruct>(
+      this._call.inputValues[0].value.toTuple()
+    );
   }
 }
 
@@ -1616,7 +1618,9 @@ export class InitializeCall__Outputs {
 
 export class InitializeCallCurveYieldStrategyInitParamsStruct extends ethereum.Tuple {
   get eightyTwentyRangeStrategyVaultInitParams(): InitializeCallCurveYieldStrategyInitParamsEightyTwentyRangeStrategyVaultInitParamsStruct {
-    return this[0].toTuple() as InitializeCallCurveYieldStrategyInitParamsEightyTwentyRangeStrategyVaultInitParamsStruct;
+    return changetype<
+      InitializeCallCurveYieldStrategyInitParamsEightyTwentyRangeStrategyVaultInitParamsStruct
+    >(this[0].toTuple());
   }
 
   get usdt(): Address {
@@ -1654,7 +1658,9 @@ export class InitializeCallCurveYieldStrategyInitParamsStruct extends ethereum.T
 
 export class InitializeCallCurveYieldStrategyInitParamsEightyTwentyRangeStrategyVaultInitParamsStruct extends ethereum.Tuple {
   get baseVaultInitParams(): InitializeCallCurveYieldStrategyInitParamsEightyTwentyRangeStrategyVaultInitParamsBaseVaultInitParamsStruct {
-    return this[0].toTuple() as InitializeCallCurveYieldStrategyInitParamsEightyTwentyRangeStrategyVaultInitParamsBaseVaultInitParamsStruct;
+    return changetype<
+      InitializeCallCurveYieldStrategyInitParamsEightyTwentyRangeStrategyVaultInitParamsBaseVaultInitParamsStruct
+    >(this[0].toTuple());
   }
 
   get closePositionSlippageSqrtToleranceBps(): i32 {
@@ -1672,7 +1678,9 @@ export class InitializeCallCurveYieldStrategyInitParamsEightyTwentyRangeStrategy
 
 export class InitializeCallCurveYieldStrategyInitParamsEightyTwentyRangeStrategyVaultInitParamsBaseVaultInitParamsStruct extends ethereum.Tuple {
   get rageErc4626InitParams(): InitializeCallCurveYieldStrategyInitParamsEightyTwentyRangeStrategyVaultInitParamsBaseVaultInitParamsRageErc4626InitParamsStruct {
-    return this[0].toTuple() as InitializeCallCurveYieldStrategyInitParamsEightyTwentyRangeStrategyVaultInitParamsBaseVaultInitParamsRageErc4626InitParamsStruct;
+    return changetype<
+      InitializeCallCurveYieldStrategyInitParamsEightyTwentyRangeStrategyVaultInitParamsBaseVaultInitParamsRageErc4626InitParamsStruct
+    >(this[0].toTuple());
   }
 
   get ethPoolId(): BigInt {

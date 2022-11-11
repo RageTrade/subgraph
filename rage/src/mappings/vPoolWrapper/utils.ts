@@ -44,6 +44,11 @@ export function getCandle(
 class PriceANDTick {
   price: BigDecimal;
   tick: BigInt;
+
+  constructor() {
+    this.price = ZERO_BD;
+    this.tick = ZERO_BI;
+  }
 }
 
 /**

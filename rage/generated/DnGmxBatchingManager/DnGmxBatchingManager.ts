@@ -328,6 +328,18 @@ export class DnGmxBatchingManager__vaultBatchingStateResult {
     map.set('value2', ethereum.Value.fromUnsignedBigInt(this.value2));
     return map;
   }
+
+  getCurrentRound(): BigInt {
+    return this.value0;
+  }
+
+  getRoundGlpStaked(): BigInt {
+    return this.value1;
+  }
+
+  getRoundUsdcBalance(): BigInt {
+    return this.value2;
+  }
 }
 
 export class DnGmxBatchingManager extends ethereum.SmartContract {
@@ -515,7 +527,9 @@ export class DnGmxBatchingManager extends ethereum.SmartContract {
       [ethereum.Value.fromUnsignedBigInt(round)]
     );
 
-    return result[0].toTuple() as DnGmxBatchingManager__roundDepositsResultValue0Struct;
+    return changetype<DnGmxBatchingManager__roundDepositsResultValue0Struct>(
+      result[0].toTuple()
+    );
   }
 
   try_roundDeposits(
@@ -531,7 +545,9 @@ export class DnGmxBatchingManager extends ethereum.SmartContract {
     }
     let value = result.value;
     return ethereum.CallResult.fromValue(
-      value[0].toTuple() as DnGmxBatchingManager__roundDepositsResultValue0Struct
+      changetype<DnGmxBatchingManager__roundDepositsResultValue0Struct>(
+        value[0].toTuple()
+      )
     );
   }
 
@@ -633,7 +649,9 @@ export class DnGmxBatchingManager extends ethereum.SmartContract {
       [ethereum.Value.fromAddress(account)]
     );
 
-    return result[0].toTuple() as DnGmxBatchingManager__userDepositsResultValue0Struct;
+    return changetype<DnGmxBatchingManager__userDepositsResultValue0Struct>(
+      result[0].toTuple()
+    );
   }
 
   try_userDeposits(
@@ -649,7 +667,7 @@ export class DnGmxBatchingManager extends ethereum.SmartContract {
     }
     let value = result.value;
     return ethereum.CallResult.fromValue(
-      value[0].toTuple() as DnGmxBatchingManager__userDepositsResultValue0Struct
+      changetype<DnGmxBatchingManager__userDepositsResultValue0Struct>(value[0].toTuple())
     );
   }
 
@@ -1013,6 +1031,36 @@ export class RenounceOwnershipCall__Outputs {
   _call: RenounceOwnershipCall;
 
   constructor(call: RenounceOwnershipCall) {
+    this._call = call;
+  }
+}
+
+export class SetBypassCall extends ethereum.Call {
+  get inputs(): SetBypassCall__Inputs {
+    return new SetBypassCall__Inputs(this);
+  }
+
+  get outputs(): SetBypassCall__Outputs {
+    return new SetBypassCall__Outputs(this);
+  }
+}
+
+export class SetBypassCall__Inputs {
+  _call: SetBypassCall;
+
+  constructor(call: SetBypassCall) {
+    this._call = call;
+  }
+
+  get _bypass(): Address {
+    return this._call.inputValues[0].value.toAddress();
+  }
+}
+
+export class SetBypassCall__Outputs {
+  _call: SetBypassCall;
+
+  constructor(call: SetBypassCall) {
     this._call = call;
   }
 }

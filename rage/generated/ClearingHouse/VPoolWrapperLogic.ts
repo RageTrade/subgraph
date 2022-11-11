@@ -164,7 +164,7 @@ export class Swap__Params {
   }
 
   get swapResult(): SwapSwapResultStruct {
-    return this._event.parameters[0].value.toTuple() as SwapSwapResultStruct;
+    return changetype<SwapSwapResultStruct>(this._event.parameters[0].value.toTuple());
   }
 }
 
@@ -212,7 +212,9 @@ export class FundingPaymentStateUpdated__Params {
   }
 
   get fundingPayment(): FundingPaymentStateUpdatedFundingPaymentStruct {
-    return this._event.parameters[0].value.toTuple() as FundingPaymentStateUpdatedFundingPaymentStruct;
+    return changetype<FundingPaymentStateUpdatedFundingPaymentStruct>(
+      this._event.parameters[0].value.toTuple()
+    );
   }
 
   get fundingRateX128(): BigInt {
@@ -282,6 +284,18 @@ export class VPoolWrapperLogic__burnResult {
     map.set('value2', ethereum.Value.fromTuple(this.value2));
     return map;
   }
+
+  getVTokenPrincipal(): BigInt {
+    return this.value0;
+  }
+
+  getVQuotePrincipal(): BigInt {
+    return this.value1;
+  }
+
+  getWrapperValuesInside(): VPoolWrapperLogic__burnResultWrapperValuesInsideStruct {
+    return this.value2;
+  }
 }
 
 export class VPoolWrapperLogic__fpGlobalResult {
@@ -304,6 +318,22 @@ export class VPoolWrapperLogic__fpGlobalResult {
     map.set('value2', ethereum.Value.fromSignedBigInt(this.value2));
     map.set('value3', ethereum.Value.fromUnsignedBigInt(this.value3));
     return map;
+  }
+
+  getSumAX128(): BigInt {
+    return this.value0;
+  }
+
+  getSumBX128(): BigInt {
+    return this.value1;
+  }
+
+  getSumFpX128(): BigInt {
+    return this.value2;
+  }
+
+  getTimestampLast(): BigInt {
+    return this.value3;
   }
 }
 
@@ -339,6 +369,14 @@ export class VPoolWrapperLogic__getFundingRateAndVirtualPriceResult {
     map.set('value0', ethereum.Value.fromSignedBigInt(this.value0));
     map.set('value1', ethereum.Value.fromUnsignedBigInt(this.value1));
     return map;
+  }
+
+  getFundingRateX128(): BigInt {
+    return this.value0;
+  }
+
+  getVirtualPriceX128(): BigInt {
+    return this.value1;
   }
 }
 
@@ -400,6 +438,18 @@ export class VPoolWrapperLogic__mintResult {
     map.set('value2', ethereum.Value.fromTuple(this.value2));
     return map;
   }
+
+  getVTokenPrincipal(): BigInt {
+    return this.value0;
+  }
+
+  getVQuotePrincipal(): BigInt {
+    return this.value1;
+  }
+
+  getWrapperValuesInside(): VPoolWrapperLogic__mintResultWrapperValuesInsideStruct {
+    return this.value2;
+  }
 }
 
 export class VPoolWrapperLogic__swapResultSwapResultStruct extends ethereum.Tuple {
@@ -453,6 +503,22 @@ export class VPoolWrapperLogic__ticksExtendedResult {
     map.set('value3', ethereum.Value.fromUnsignedBigInt(this.value3));
     return map;
   }
+
+  getSumALastX128(): BigInt {
+    return this.value0;
+  }
+
+  getSumBOutsideX128(): BigInt {
+    return this.value1;
+  }
+
+  getSumFpOutsideX128(): BigInt {
+    return this.value2;
+  }
+
+  getSumFeeOutsideX128(): BigInt {
+    return this.value3;
+  }
 }
 
 export class VPoolWrapperLogic extends ethereum.SmartContract {
@@ -493,7 +559,9 @@ export class VPoolWrapperLogic extends ethereum.SmartContract {
     return new VPoolWrapperLogic__burnResult(
       result[0].toBigInt(),
       result[1].toBigInt(),
-      result[2].toTuple() as VPoolWrapperLogic__burnResultWrapperValuesInsideStruct
+      changetype<VPoolWrapperLogic__burnResultWrapperValuesInsideStruct>(
+        result[2].toTuple()
+      )
     );
   }
 
@@ -519,7 +587,9 @@ export class VPoolWrapperLogic extends ethereum.SmartContract {
       new VPoolWrapperLogic__burnResult(
         value[0].toBigInt(),
         value[1].toBigInt(),
-        value[2].toTuple() as VPoolWrapperLogic__burnResultWrapperValuesInsideStruct
+        changetype<VPoolWrapperLogic__burnResultWrapperValuesInsideStruct>(
+          value[2].toTuple()
+        )
       )
     );
   }
@@ -687,7 +757,9 @@ export class VPoolWrapperLogic extends ethereum.SmartContract {
       [ethereum.Value.fromI32(tickLower), ethereum.Value.fromI32(tickUpper)]
     );
 
-    return result[0].toTuple() as VPoolWrapperLogic__getExtrapolatedValuesInsideResultWrapperValuesInsideStruct;
+    return changetype<
+      VPoolWrapperLogic__getExtrapolatedValuesInsideResultWrapperValuesInsideStruct
+    >(result[0].toTuple());
   }
 
   try_getExtrapolatedValuesInside(
@@ -706,7 +778,9 @@ export class VPoolWrapperLogic extends ethereum.SmartContract {
     }
     let value = result.value;
     return ethereum.CallResult.fromValue(
-      value[0].toTuple() as VPoolWrapperLogic__getExtrapolatedValuesInsideResultWrapperValuesInsideStruct
+      changetype<
+        VPoolWrapperLogic__getExtrapolatedValuesInsideResultWrapperValuesInsideStruct
+      >(value[0].toTuple())
     );
   }
 
@@ -768,7 +842,9 @@ export class VPoolWrapperLogic extends ethereum.SmartContract {
       [ethereum.Value.fromI32(tickLower), ethereum.Value.fromI32(tickUpper)]
     );
 
-    return result[0].toTuple() as VPoolWrapperLogic__getValuesInsideResultWrapperValuesInsideStruct;
+    return changetype<VPoolWrapperLogic__getValuesInsideResultWrapperValuesInsideStruct>(
+      result[0].toTuple()
+    );
   }
 
   try_getValuesInside(
@@ -787,7 +863,9 @@ export class VPoolWrapperLogic extends ethereum.SmartContract {
     }
     let value = result.value;
     return ethereum.CallResult.fromValue(
-      value[0].toTuple() as VPoolWrapperLogic__getValuesInsideResultWrapperValuesInsideStruct
+      changetype<VPoolWrapperLogic__getValuesInsideResultWrapperValuesInsideStruct>(
+        value[0].toTuple()
+      )
     );
   }
 
@@ -820,7 +898,9 @@ export class VPoolWrapperLogic extends ethereum.SmartContract {
     return new VPoolWrapperLogic__mintResult(
       result[0].toBigInt(),
       result[1].toBigInt(),
-      result[2].toTuple() as VPoolWrapperLogic__mintResultWrapperValuesInsideStruct
+      changetype<VPoolWrapperLogic__mintResultWrapperValuesInsideStruct>(
+        result[2].toTuple()
+      )
     );
   }
 
@@ -846,7 +926,9 @@ export class VPoolWrapperLogic extends ethereum.SmartContract {
       new VPoolWrapperLogic__mintResult(
         value[0].toBigInt(),
         value[1].toBigInt(),
-        value[2].toTuple() as VPoolWrapperLogic__mintResultWrapperValuesInsideStruct
+        changetype<VPoolWrapperLogic__mintResultWrapperValuesInsideStruct>(
+          value[2].toTuple()
+        )
       )
     );
   }
@@ -896,7 +978,7 @@ export class VPoolWrapperLogic extends ethereum.SmartContract {
       ]
     );
 
-    return result[0].toTuple() as VPoolWrapperLogic__swapResultSwapResultStruct;
+    return changetype<VPoolWrapperLogic__swapResultSwapResultStruct>(result[0].toTuple());
   }
 
   try_swap(
@@ -918,7 +1000,7 @@ export class VPoolWrapperLogic extends ethereum.SmartContract {
     }
     let value = result.value;
     return ethereum.CallResult.fromValue(
-      value[0].toTuple() as VPoolWrapperLogic__swapResultSwapResultStruct
+      changetype<VPoolWrapperLogic__swapResultSwapResultStruct>(value[0].toTuple())
     );
   }
 
@@ -1051,7 +1133,9 @@ export class BurnCall__Outputs {
   }
 
   get wrapperValuesInside(): BurnCallWrapperValuesInsideStruct {
-    return this._call.outputValues[2].value.toTuple() as BurnCallWrapperValuesInsideStruct;
+    return changetype<BurnCallWrapperValuesInsideStruct>(
+      this._call.outputValues[2].value.toTuple()
+    );
   }
 }
 
@@ -1121,7 +1205,9 @@ export class InitializeCall__Inputs {
   }
 
   get params(): InitializeCallParamsStruct {
-    return this._call.inputValues[0].value.toTuple() as InitializeCallParamsStruct;
+    return changetype<InitializeCallParamsStruct>(
+      this._call.inputValues[0].value.toTuple()
+    );
   }
 }
 
@@ -1205,7 +1291,9 @@ export class MintCall__Outputs {
   }
 
   get wrapperValuesInside(): MintCallWrapperValuesInsideStruct {
-    return this._call.outputValues[2].value.toTuple() as MintCallWrapperValuesInsideStruct;
+    return changetype<MintCallWrapperValuesInsideStruct>(
+      this._call.outputValues[2].value.toTuple()
+    );
   }
 }
 
@@ -1355,7 +1443,9 @@ export class SwapCall__Outputs {
   }
 
   get swapResult(): SwapCallSwapResultStruct {
-    return this._call.outputValues[0].value.toTuple() as SwapCallSwapResultStruct;
+    return changetype<SwapCallSwapResultStruct>(
+      this._call.outputValues[0].value.toTuple()
+    );
   }
 }
 

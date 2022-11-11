@@ -58,6 +58,11 @@ export function getLiquidationPrice(
  */
 export function updateAllLiquidationPrices(account: Account): void {
   let protocol = Protocol.load('rage_trade');
+  if (protocol == null) {
+    log.error('custom_logs: protocol not found', []);
+    return;
+  }
+
   let rageTradePools = protocol.rageTradePools;
 
   log.debug('custom_logs: handleMarginUpdated rageTradePools.length - {} ', [
