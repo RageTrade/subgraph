@@ -122,11 +122,11 @@ export function BigIntToBigDecimal(value: BigInt, decimals: BigInt): BigDecimal 
 
 /**
  * for parsing price formatted as 10 ** 30
- * 
- * @param priceX128 
- * @param vTokenDecimals 
- * @param vQuoteDecimals 
- * @returns 
+ *
+ * @param priceX128
+ * @param vTokenDecimals
+ * @param vQuoteDecimals
+ * @returns
  */
 export function parsePrice10Pow30(
   priceX128: BigInt,
