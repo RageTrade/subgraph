@@ -112,7 +112,7 @@ export function handleBatchDeposit(event: BatchDeposit): void {
       entry.save();
 
       updateEntryPrices_deposit(
-        Address.fromHexString(entry.owner) as Address,
+        Address.fromString(entry.owner),
         contracts.DnGmxJuniorVault,
         entry.assetsTokenAmount,
         entry.sharesTokenAmount,
