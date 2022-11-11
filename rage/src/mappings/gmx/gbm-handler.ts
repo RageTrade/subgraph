@@ -55,7 +55,7 @@ export function handleGmxDepositToken(event: DepositToken): void {
 
   entry.tokenAmount = BigIntToBigDecimal(event.params.amount, token.decimals);
   entry.assetsTokenAmount = BigIntToBigDecimal(event.params.glpStaked, BI_18);
-  entry.sharesTokenAmount = BigIntToBigDecimal(ZERO_BI, BI_18); // TODO update shares from batch deposit
+  entry.sharesTokenAmount = ZERO_BD; // updated in handleGmxBatch
 
   let assetPrice = event.params.token.equals(contracts.USDC)
     ? safeDiv(entry.tokenAmount, entry.assetsTokenAmount)
