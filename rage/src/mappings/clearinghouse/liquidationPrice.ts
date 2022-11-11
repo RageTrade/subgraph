@@ -74,27 +74,24 @@ export function updateAllLiquidationPrices(account: Account): void {
     let rageTradePool = RageTradePool.load(poolId);
 
     if (rageTradePool == null) {
-      log.error('custom_logs: handleMarginUpdated rageTradePool == null {}', [poolId]);
+      log.error('custom_logs: handleMarginUpdated rageTradePool is null poolId - {}', [
+        poolId,
+      ]);
       return;
     }
 
     let tokenPositionId = generateId([account.id, poolId]);
     let tokenPosition = TokenPosition.load(tokenPositionId);
 
-    if (tokenPosition == null) {
-      log.error('custom_logs: handleMarginUpdated tokenPosition == null {}', [
-        tokenPositionId,
-      ]);
-      return;
+    if (tokenPosition != null) {
+      tokenPosition.liquidationPrice = getLiquidationPrice(
+        tokenPosition.netPosition,
+        account.vQuoteBalance,
+        account.marginBalance,
+        rageTradePool.maintenanceMarginRatioBps
+      );
+
+      tokenPosition.save();
     }
-
-    tokenPosition.liquidationPrice = getLiquidationPrice(
-      tokenPosition.netPosition,
-      account.vQuoteBalance,
-      account.marginBalance,
-      rageTradePool.maintenanceMarginRatioBps
-    );
-
-    tokenPosition.save();
   }
 }
