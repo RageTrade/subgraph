@@ -11,7 +11,7 @@ import {
   VaultRebalance,
   VaultRewardsHarvestedEntry,
 } from '../../../generated/schema';
-import { BigIntToBigDecimal, generateId, parsePriceX128, safeDiv } from '../../utils';
+import { BigIntToBigDecimal, generateId, parsePrice10Pow30, safeDiv } from '../../utils';
 import { contracts } from '../../utils/addresses';
 import { BI_18, BI_6, ONE_BI, ZERO_BD } from '../../utils/constants';
 import {
@@ -43,14 +43,14 @@ export function handleDeposit(event: Deposit): void {
   let assetsPerShare = safeDiv(assetsInBigDecimal, sharesInBigDecimal);
 
   let dnGmxJuniorVaultContract = DnGmxJuniorVault.bind(contracts.DnGmxJuniorVault);
-  let assetPriceResult = dnGmxJuniorVaultContract.try_getPriceX128();
+  let assetPriceResult = dnGmxJuniorVaultContract.try_getPrice(false);
 
   if (assetPriceResult.reverted) {
     log.error('custom_logs: getPriceX128 handleWithdraw reverted {}', ['']);
     return;
   }
 
-  let assetPrice = parsePriceX128(assetPriceResult.value, BI_18, BI_6);
+  let assetPrice = parsePrice10Pow30(assetPriceResult.value, BI_18, BI_6);
   let sharePrice = assetPrice.times(assetsPerShare);
 
   updateEntryPrices_deposit(
@@ -190,13 +190,13 @@ export function handleWithdraw(event: Withdraw): void {
   entry.sharesTokenAmount = sharesInBigDecimal;
 
   let dnGmxJuniorVaultContract = DnGmxJuniorVault.bind(contracts.DnGmxJuniorVault);
-  let assetPriceResult = dnGmxJuniorVaultContract.try_getPriceX128();
+  let assetPriceResult = dnGmxJuniorVaultContract.try_getPrice(false); // 10 ** 30
 
   if (assetPriceResult.reverted) {
     log.error('custom_logs: getPriceX128 handleWithdraw reverted {}', ['']);
     return;
   }
-  let assetsPrice = parsePriceX128(assetPriceResult.value, BI_18, BI_6);
+  let assetsPrice = parsePrice10Pow30(assetPriceResult.value, BI_18, BI_6);
 
   entry.assetPrice = assetsPrice;
   entry.sharePrice = safeDiv(

@@ -120,6 +120,42 @@ export function BigIntToBigDecimal(value: BigInt, decimals: BigInt): BigDecimal 
   return value.toBigDecimal().div(tenPower(decimals));
 }
 
+/**
+ * for parsing price formatted as 10 ** 30
+ * 
+ * @param priceX128 
+ * @param vTokenDecimals 
+ * @param vQuoteDecimals 
+ * @returns 
+ */
+export function parsePrice10Pow30(
+  priceX128: BigInt,
+  vTokenDecimals: BigInt,
+  vQuoteDecimals: BigInt
+): BigDecimal {
+  let price = priceX128.toBigDecimal();
+
+  let vTokenUnit = tenPower(vTokenDecimals);
+  let vQuoteUnit = tenPower(vQuoteDecimals);
+
+  let tenPow30 = bigDecimalExponated(BigDecimal.fromString('10'), BigInt.fromI32(30));
+
+  let value = safeDiv(price.times(vTokenUnit), vQuoteUnit).div(tenPow30);
+
+  log.debug(
+    'custom_logs: parsePriceX128 [ vTokenUnit - {} ] [ vQuoteUnit - {} ] [ price - {} ] [ returnValue - {} ] [ tenPow30 - {}]',
+    [
+      vTokenUnit.toString(),
+      vQuoteUnit.toString(),
+      price.toString(),
+      value.toString(),
+      tenPow30.toString(),
+    ]
+  );
+
+  return value;
+}
+
 export function parsePriceX128(
   priceX128: BigInt,
   vTokenDecimals: BigInt,
