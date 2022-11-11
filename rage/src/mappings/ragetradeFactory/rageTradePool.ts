@@ -42,5 +42,5 @@ export function getRageTradePool(poolId: string): RageTradePool {
     rageTradePool.save();
   }
 
-  return rageTradePool as RageTradePool;
+  return rageTradePool;
 }

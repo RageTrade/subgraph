@@ -25,5 +25,5 @@ export function getERC20Token(tokenAddress: Address): ERC20Token {
     token.save();
   }
 
-  return token as ERC20Token;
+  return token;
 }

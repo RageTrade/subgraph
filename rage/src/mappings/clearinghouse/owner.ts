@@ -14,6 +14,7 @@ export function generateOwnerId(ownerAddress: Address): string {
 export function getOwner(ownerAddress: Address): Owner {
   let ownerId = generateOwnerId(ownerAddress);
   let owner = Owner.load(ownerId);
+
   if (owner === null) {
     // creating empty account for other code to work
     owner = new Owner(ownerId);
@@ -22,5 +23,5 @@ export function getOwner(ownerAddress: Address): Owner {
     owner.save();
   }
 
-  return owner as Owner;
+  return owner;
 }

@@ -56,12 +56,9 @@ export function handleSwap(event: Swap): void {
 
   rageTradePool.price = price_tick.price;
   rageTradePool.tick = price_tick.tick;
-  rageTradePool.vTotalValueLocked = getRageTradePoolTvl(
-    rageTradePool as RageTradePool,
-    price_tick.price
-  );
+  rageTradePool.vTotalValueLocked = getRageTradePoolTvl(rageTradePool, price_tick.price);
   rageTradePool.virtualPriceAccumulator = getRageTradeVirtualPriceAccumulator(
-    rageTradePool as RageTradePool,
+    rageTradePool,
     price_tick.price,
     event.block.timestamp
   );
@@ -79,7 +76,7 @@ export function handleSwap(event: Swap): void {
   updateCandleData(
     hourPoolID,
     rageTradePool.hourData,
-    rageTradePool as RageTradePool,
+    rageTradePool,
     vPoolWrapperAddress,
     hourStartUnix,
     vTokenInBD,
@@ -90,7 +87,7 @@ export function handleSwap(event: Swap): void {
   updateCandleData(
     dayPoolID,
     rageTradePool.dayData,
-    rageTradePool as RageTradePool,
+    rageTradePool,
     vPoolWrapperAddress,
     dayStartUnix,
     vTokenInBD,
@@ -124,13 +121,10 @@ export function handleMint(event: Mint): void {
 
   rageTradePool.price = price_tick.price;
   rageTradePool.tick = price_tick.tick;
-  rageTradePool.vTotalValueLocked = getRageTradePoolTvl(
-    rageTradePool as RageTradePool,
-    price_tick.price
-  );
+  rageTradePool.vTotalValueLocked = getRageTradePoolTvl(rageTradePool, price_tick.price);
 
   rageTradePool.virtualPriceAccumulator = getRageTradeVirtualPriceAccumulator(
-    rageTradePool as RageTradePool,
+    rageTradePool,
     price_tick.price,
     event.block.timestamp
   );
@@ -166,12 +160,9 @@ export function handleBurn(event: Burn): void {
 
   rageTradePool.price = price_tick.price;
   rageTradePool.tick = price_tick.tick;
-  rageTradePool.vTotalValueLocked = getRageTradePoolTvl(
-    rageTradePool as RageTradePool,
-    price_tick.price
-  );
+  rageTradePool.vTotalValueLocked = getRageTradePoolTvl(rageTradePool, price_tick.price);
   rageTradePool.virtualPriceAccumulator = getRageTradeVirtualPriceAccumulator(
-    rageTradePool as RageTradePool,
+    rageTradePool,
     price_tick.price,
     event.block.timestamp
   );

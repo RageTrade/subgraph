@@ -137,5 +137,5 @@ function getVaultAccount(ownerAddress: Address, vaultAddress: Address): VaultAcc
     entry.save();
   }
 
-  return entry as VaultAccount;
+  return entry;
 }

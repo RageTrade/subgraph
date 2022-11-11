@@ -104,8 +104,8 @@ export function handleMint(event: MintEvent): void {
   // We only want to update it on mint if the new position includes the current tick.
   if (
     pool.tick !== null &&
-    BigInt.fromI32(event.params.tickLower).le(pool.tick as BigInt) &&
-    BigInt.fromI32(event.params.tickUpper).gt(pool.tick as BigInt)
+    BigInt.fromI32(event.params.tickLower).le(pool.tick!) &&
+    BigInt.fromI32(event.params.tickUpper).gt(pool.tick!)
   ) {
     pool.liquidity = pool.liquidity.plus(event.params.amount);
   }
@@ -124,6 +124,12 @@ export function handleMint(event: MintEvent): void {
   factory.totalValueLockedUSD = factory.totalValueLockedETH.times(bundle.ethPriceUSD);
 
   let transaction = loadTransaction(event);
+
+  if (transaction == null) {
+    log.error('transaction is null - {}', [event.transaction.hash.toHexString()]);
+    return;
+  }
+
   let mint = new UniswapV3Mint(transaction.id.toString() + '#' + pool.txCount.toString());
   mint.transaction = transaction.id;
   mint.timestamp = transaction.timestamp;
@@ -146,10 +152,10 @@ export function handleMint(event: MintEvent): void {
   updateUniswapDayData(event);
   updatePoolDayData(event);
   updatePoolHourData(event);
-  updateTokenDayData(token0 as UniswapV3Token, event);
-  updateTokenDayData(token1 as UniswapV3Token, event);
-  updateTokenHourData(token0 as UniswapV3Token, event);
-  updateTokenHourData(token1 as UniswapV3Token, event);
+  updateTokenDayData(token0, event);
+  updateTokenDayData(token1, event);
+  updateTokenHourData(token0, event);
+  updateTokenHourData(token1, event);
 
   token0.save();
   token1.save();
@@ -221,8 +227,8 @@ export function handleBurn(event: BurnEvent): void {
   // We only want to update it on burn if the position being burnt includes the current tick.
   if (
     pool.tick !== null &&
-    BigInt.fromI32(event.params.tickLower).le(pool.tick as BigInt) &&
-    BigInt.fromI32(event.params.tickUpper).gt(pool.tick as BigInt)
+    BigInt.fromI32(event.params.tickLower).le(pool.tick!) &&
+    BigInt.fromI32(event.params.tickUpper).gt(pool.tick!)
   ) {
     pool.liquidity = pool.liquidity.minus(event.params.amount);
   }
@@ -242,6 +248,12 @@ export function handleBurn(event: BurnEvent): void {
 
   // burn entity
   let transaction = loadTransaction(event);
+
+  if (transaction == null) {
+    log.error('transaction is null - {}', [event.transaction.hash.toHexString()]);
+    return;
+  }
+
   let burn = new UniswapV3Burn(transaction.id + '#' + pool.txCount.toString());
   burn.transaction = transaction.id;
   burn.timestamp = transaction.timestamp;
@@ -261,10 +273,10 @@ export function handleBurn(event: BurnEvent): void {
   updateUniswapDayData(event);
   updatePoolDayData(event);
   updatePoolHourData(event);
-  updateTokenDayData(token0 as UniswapV3Token, event);
-  updateTokenDayData(token1 as UniswapV3Token, event);
-  updateTokenHourData(token0 as UniswapV3Token, event);
-  updateTokenHourData(token1 as UniswapV3Token, event);
+  updateTokenDayData(token0, event);
+  updateTokenDayData(token1, event);
+  updateTokenHourData(token0, event);
+  updateTokenHourData(token1, event);
 
   token0.save();
   token1.save();

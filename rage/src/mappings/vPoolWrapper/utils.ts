@@ -38,7 +38,7 @@ export function getCandle(
     candle.save();
   }
 
-  return candle as Candle;
+  return candle;
 }
 
 class PriceANDTick {

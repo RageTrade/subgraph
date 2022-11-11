@@ -46,5 +46,5 @@ export function getTokenPosition(accountId: BigInt, poolId: BigInt): TokenPositi
     tokenPosition.save();
   }
 
-  return tokenPosition as TokenPosition;
+  return tokenPosition;
 }

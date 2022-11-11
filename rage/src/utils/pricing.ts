@@ -72,7 +72,7 @@ export function findEthPerToken(token: UniswapV3Token): BigDecimal {
         if (ethLocked.gt(largestLiquidityETH) && ethLocked.gt(MINIMUM_ETH_LOCKED)) {
           largestLiquidityETH = ethLocked;
           // token1 per our token * Eth per token1
-          priceSoFar = pool.token1Price.times(token1.derivedETH as BigDecimal);
+          priceSoFar = pool.token1Price.times(token1.derivedETH);
         }
       }
       if (pool.token1 == token.id) {
@@ -82,7 +82,7 @@ export function findEthPerToken(token: UniswapV3Token): BigDecimal {
         if (ethLocked.gt(largestLiquidityETH) && ethLocked.gt(MINIMUM_ETH_LOCKED)) {
           largestLiquidityETH = ethLocked;
           // token0 per our token * ETH per token0
-          priceSoFar = pool.token0Price.times(token0.derivedETH as BigDecimal);
+          priceSoFar = pool.token0Price.times(token0.derivedETH);
         }
       }
     }

@@ -10,7 +10,7 @@ import { contracts } from './addresses';
 
 export function exponentToBigDecimal(decimals: BigInt): BigDecimal {
   let bd = BigDecimal.fromString('1');
-  for (let i = ZERO_BI; i.lt(decimals as BigInt); i = i.plus(ONE_BI)) {
+  for (let i = ZERO_BI; i.lt(decimals); i = i.plus(ONE_BI)) {
     bd = bd.times(BigDecimal.fromString('10'));
   }
   return bd;
@@ -93,21 +93,19 @@ export function convertEthToDecimal(eth: BigInt): BigDecimal {
 
 export function loadTransaction(event: ethereum.Event): UniswapV3Transaction {
   let transaction = UniswapV3Transaction.load(event.transaction.hash.toHexString());
-  if (transaction === null) {
+
+  if (transaction == null) {
     transaction = new UniswapV3Transaction(event.transaction.hash.toHexString());
   }
+
   transaction.blockNumber = event.block.number;
   transaction.timestamp = event.block.timestamp;
   transaction.gasPrice = event.transaction.gasPrice;
-
-  if (event.receipt) {
-    transaction.gasUsed = event.receipt!.gasUsed;
-  } else {
-    transaction.gasUsed = ZERO_BI;
-  }
+  transaction.gasUsed = ZERO_BI;
 
   transaction.save();
-  return transaction as UniswapV3Transaction;
+
+  return transaction;
 }
 
 export function generateId(strings: string[]): string {
@@ -192,7 +190,7 @@ export function parsePriceX128(
 
 export function tenPower(power: BigInt): BigDecimal {
   let val = ONE_BD;
-  for (let i = ZERO_BI; i.lt(power as BigInt); i = i.plus(ONE_BI)) {
+  for (let i = ZERO_BI; i.lt(power); i = i.plus(ONE_BI)) {
     val = val.times(BigDecimal.fromString('10'));
   }
   return val;

@@ -34,10 +34,11 @@ export function updateUniswapDayData(event: ethereum.Event): UniswapDayData {
     uniswapDayData.volumeUSDUntracked = ZERO_BD;
     uniswapDayData.feesUSD = ZERO_BD;
   }
+
   uniswapDayData.tvlUSD = uniswap.totalValueLockedUSD;
   uniswapDayData.txCount = uniswap.txCount;
   uniswapDayData.save();
-  return uniswapDayData as UniswapDayData;
+  return uniswapDayData;
 }
 
 export function updatePoolDayData(event: ethereum.Event): PoolDayData {
@@ -83,7 +84,7 @@ export function updatePoolDayData(event: ethereum.Event): PoolDayData {
   poolDayData.txCount = poolDayData.txCount.plus(ONE_BI);
   poolDayData.save();
 
-  return poolDayData as PoolDayData;
+  return poolDayData;
 }
 
 export function updatePoolHourData(event: ethereum.Event): PoolHourData {
@@ -130,7 +131,7 @@ export function updatePoolHourData(event: ethereum.Event): PoolHourData {
   poolHourData.save();
 
   // test
-  return poolHourData as PoolHourData;
+  return poolHourData;
 }
 
 export function updateTokenDayData(
@@ -176,7 +177,7 @@ export function updateTokenDayData(
   tokenDayData.totalValueLockedUSD = token.totalValueLockedUSD;
   tokenDayData.save();
 
-  return tokenDayData as TokenDayData;
+  return tokenDayData;
 }
 
 export function updateTokenHourData(
@@ -222,7 +223,7 @@ export function updateTokenHourData(
   tokenHourData.totalValueLockedUSD = token.totalValueLockedUSD;
   tokenHourData.save();
 
-  return tokenHourData as TokenHourData;
+  return tokenHourData;
 }
 
 export function updateTickDayData(
@@ -249,5 +250,5 @@ export function updateTickDayData(
 
   tickDayData.save();
 
-  return tickDayData as TickDayData;
+  return tickDayData;
 }

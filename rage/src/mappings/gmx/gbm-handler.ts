@@ -116,7 +116,7 @@ export function handleGmxBatch(event: BatchDeposit): void {
       entry.save();
 
       updateEntryPrices_deposit(
-        Address.fromHexString(entry.owner) as Address,
+        Address.fromString(entry.owner),
         contracts.GMXYieldStrategy,
         entry.assetsTokenAmount,
         entry.sharesTokenAmount,

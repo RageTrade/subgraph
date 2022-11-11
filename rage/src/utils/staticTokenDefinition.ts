@@ -18,8 +18,8 @@ export class StaticTokenDefinition {
   }
 
   // Get all tokens with a static defintion
-  static getStaticDefinitions(): Array<StaticTokenDefinition> {
-    let staticDefinitions = new Array<StaticTokenDefinition>(6);
+  static getStaticDefinitions(): Array<StaticTokenDefinition | null> {
+    let staticDefinitions = new Array<StaticTokenDefinition | null>(6);
 
     // Add WETH
     let tokenWETH = new StaticTokenDefinition(
@@ -50,7 +50,7 @@ export class StaticTokenDefinition {
     // Search the definition using the address
     for (let i = 0; i < staticDefinitions.length; i++) {
       let staticDefinition = staticDefinitions[i];
-      if (staticDefinition.address.toHexString() == tokenAddressHex) {
+      if (staticDefinition && staticDefinition.address.toHexString() == tokenAddressHex) {
         return staticDefinition;
       }
     }

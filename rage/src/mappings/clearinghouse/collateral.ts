@@ -16,5 +16,5 @@ export function getCollateral(account: Account, collateralId: BigInt): Collatera
     collateral.save();
   }
 
-  return collateral as Collateral;
+  return collateral;
 }
