@@ -157,7 +157,7 @@ export function handleWithdraw(event: Withdraw): void {
   if (
     event.params.caller.toHexString() == contracts.DnGmxWithdrawPeriphery.toHexString()
   ) {
-    log.error(
+    log.info(
       'custom_logs: handleWithdraw event came from DnGmxWithdrawPeriphery - {} | caller - {}',
       [contracts.DnGmxWithdrawPeriphery.toHexString(), event.params.caller.toHexString()]
     );
