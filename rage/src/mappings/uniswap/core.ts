@@ -7,7 +7,7 @@ import {
   UniswapV3Pool,
   UniswapV3Token,
 } from '../../../generated/schema';
-import { BigInt } from '@graphprotocol/graph-ts';
+import { BigInt, log } from '@graphprotocol/graph-ts';
 import {
   Burn as BurnEvent,
   Initialize,
@@ -26,6 +26,12 @@ import {
 
 export function handleInitialize(event: Initialize): void {
   let pool = UniswapV3Pool.load(event.address.toHexString());
+
+  if (pool == null) {
+    log.error('pool is null address - {}', [event.address.toHexString()]);
+    return;
+  }
+
   pool.sqrtPrice = event.params.sqrtPriceX96;
   pool.tick = BigInt.fromI32(event.params.tick);
   // update token prices
@@ -37,12 +43,31 @@ export function handleInitialize(event: Initialize): void {
 export function handleMint(event: MintEvent): void {
   let bundle = Bundle.load('1');
 
+  if (bundle == null) {
+    log.error('bundle is null', []);
+    return;
+  }
+
   let poolAddress = event.address.toHexString();
   let pool = UniswapV3Pool.load(poolAddress);
   let factory = UniswapV3Factory.load(FACTORY_ADDRESS);
 
+  if (pool == null || factory == null) {
+    log.error('pool is null address - {} factory - {}', [
+      event.address.toHexString(),
+      FACTORY_ADDRESS,
+    ]);
+    return;
+  }
+
   let token0 = UniswapV3Token.load(pool.token0);
   let token1 = UniswapV3Token.load(pool.token1);
+
+  if (token0 == null || token1 == null) {
+    log.error('token0 is null token0 - {} token1 - {}', [pool.token0, pool.token1]);
+    return;
+  }
+
   let amount0 = convertTokenToDecimal(event.params.amount0, token0.decimals);
   let amount1 = convertTokenToDecimal(event.params.amount1, token1.decimals);
 
@@ -135,12 +160,32 @@ export function handleMint(event: MintEvent): void {
 
 export function handleBurn(event: BurnEvent): void {
   let bundle = Bundle.load('1');
+
+  if (bundle == null) {
+    log.error('bundle is null', []);
+    return;
+  }
+
   let poolAddress = event.address.toHexString();
   let pool = UniswapV3Pool.load(poolAddress);
   let factory = UniswapV3Factory.load(FACTORY_ADDRESS);
 
+  if (pool == null || factory == null) {
+    log.error('pool is null address - {} factory - {}', [
+      event.address.toHexString(),
+      FACTORY_ADDRESS,
+    ]);
+    return;
+  }
+
   let token0 = UniswapV3Token.load(pool.token0);
   let token1 = UniswapV3Token.load(pool.token1);
+
+  if (token0 == null || token1 == null) {
+    log.error('token0 is null token0 - {} token1 - {}', [pool.token0, pool.token1]);
+    return;
+  }
+
   let amount0 = convertTokenToDecimal(event.params.amount0, token0.decimals);
   let amount1 = convertTokenToDecimal(event.params.amount1, token1.decimals);
 

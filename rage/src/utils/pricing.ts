@@ -62,10 +62,11 @@ export function findEthPerToken(token: UniswapV3Token): BigDecimal {
   for (let i = 0; i < whiteList.length; ++i) {
     let poolAddress = whiteList[i];
     let pool = UniswapV3Pool.load(poolAddress);
-    if (pool.liquidity.gt(ZERO_BI)) {
+
+    if (pool && pool.liquidity.gt(ZERO_BI)) {
       if (pool.token0 == token.id) {
         // whitelist token is token1
-        let token1 = UniswapV3Token.load(pool.token1);
+        let token1 = UniswapV3Token.load(pool.token1)!;
         // get the derived ETH in pool
         let ethLocked = pool.totalValueLockedToken1.times(token1.derivedETH);
         if (ethLocked.gt(largestLiquidityETH) && ethLocked.gt(MINIMUM_ETH_LOCKED)) {
@@ -75,7 +76,7 @@ export function findEthPerToken(token: UniswapV3Token): BigDecimal {
         }
       }
       if (pool.token1 == token.id) {
-        let token0 = UniswapV3Token.load(pool.token0);
+        let token0 = UniswapV3Token.load(pool.token0)!;
         // get the derived ETH in pool
         let ethLocked = pool.totalValueLockedToken0.times(token0.derivedETH);
         if (ethLocked.gt(largestLiquidityETH) && ethLocked.gt(MINIMUM_ETH_LOCKED)) {
@@ -101,7 +102,7 @@ export function getTrackedAmountUSD(
   tokenAmount1: BigDecimal,
   token1: UniswapV3Token
 ): BigDecimal {
-  let bundle = Bundle.load('1');
+  let bundle = Bundle.load('1')!;
   let price0USD = token0.derivedETH.times(bundle.ethPriceUSD);
   let price1USD = token1.derivedETH.times(bundle.ethPriceUSD);
 

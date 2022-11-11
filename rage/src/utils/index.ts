@@ -98,8 +98,14 @@ export function loadTransaction(event: ethereum.Event): UniswapV3Transaction {
   }
   transaction.blockNumber = event.block.number;
   transaction.timestamp = event.block.timestamp;
-  transaction.gasUsed = event.transaction.gasUsed;
   transaction.gasPrice = event.transaction.gasPrice;
+
+  if (event.receipt) {
+    transaction.gasUsed = event.receipt!.gasUsed;
+  } else {
+    transaction.gasUsed = ZERO_BI;
+  }
+
   transaction.save();
   return transaction as UniswapV3Transaction;
 }

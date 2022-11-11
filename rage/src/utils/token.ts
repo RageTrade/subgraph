@@ -93,7 +93,7 @@ export function fetchTokenDecimals(tokenAddress: Address): BigInt {
     return BI_18;
   }
 
-  return  BigInt.fromI32(decimalResult.value);
+  return BigInt.fromI32(decimalResult.value);
 }
 
 /**

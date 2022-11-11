@@ -21,7 +21,7 @@ import { ethereum } from '@graphprotocol/graph-ts';
  * @param event
  */
 export function updateUniswapDayData(event: ethereum.Event): UniswapDayData {
-  let uniswap = UniswapV3Factory.load(FACTORY_ADDRESS);
+  let uniswap = UniswapV3Factory.load(FACTORY_ADDRESS)!;
   let timestamp = event.block.timestamp.toI32();
   let dayID = timestamp / 86400; // rounded
   let dayStartTimestamp = dayID * 86400;
@@ -48,7 +48,7 @@ export function updatePoolDayData(event: ethereum.Event): PoolDayData {
     .toHexString()
     .concat('-')
     .concat(dayID.toString());
-  let pool = UniswapV3Pool.load(event.address.toHexString());
+  let pool = UniswapV3Pool.load(event.address.toHexString())!;
   let poolDayData = PoolDayData.load(dayPoolID);
   if (poolDayData === null) {
     poolDayData = new PoolDayData(dayPoolID);
@@ -94,7 +94,7 @@ export function updatePoolHourData(event: ethereum.Event): PoolHourData {
     .toHexString()
     .concat('-')
     .concat(hourIndex.toString());
-  let pool = UniswapV3Pool.load(event.address.toHexString());
+  let pool = UniswapV3Pool.load(event.address.toHexString())!;
   let poolHourData = PoolHourData.load(hourPoolID);
   if (poolHourData === null) {
     poolHourData = new PoolHourData(hourPoolID);
@@ -137,7 +137,7 @@ export function updateTokenDayData(
   token: UniswapV3Token,
   event: ethereum.Event
 ): TokenDayData {
-  let bundle = Bundle.load('1');
+  let bundle = Bundle.load('1')!;
   let timestamp = event.block.timestamp.toI32();
   let dayID = timestamp / 86400;
   let dayStartTimestamp = dayID * 86400;
@@ -148,7 +148,7 @@ export function updateTokenDayData(
   let tokenPrice = token.derivedETH.times(bundle.ethPriceUSD);
 
   let tokenDayData = TokenDayData.load(tokenDayID);
-  if (tokenDayData === null) {
+  if (tokenDayData == null) {
     tokenDayData = new TokenDayData(tokenDayID);
     tokenDayData.date = dayStartTimestamp;
     tokenDayData.token = token.id;
@@ -183,7 +183,7 @@ export function updateTokenHourData(
   token: UniswapV3Token,
   event: ethereum.Event
 ): TokenHourData {
-  let bundle = Bundle.load('1');
+  let bundle = Bundle.load('1')!;
   let timestamp = event.block.timestamp.toI32();
   let hourIndex = timestamp / 3600; // get unique hour within unix history
   let hourStartUnix = hourIndex * 3600; // want the rounded effect
