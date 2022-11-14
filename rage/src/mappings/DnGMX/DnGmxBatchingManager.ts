@@ -4,13 +4,14 @@ import {
   BatchDeposit,
   DepositToken,
 } from '../../../generated/DnGmxBatchingManager/DnGmxBatchingManager';
-import { BigIntToBigDecimal, generateId, safeDiv } from '../../utils';
+import { BigIntToBigDecimal, generateId, parsePrice10Pow30, safeDiv } from '../../utils';
 import { contracts } from '../../utils/addresses';
 import { getVault } from '../../utils/getVault';
 import { getOwner } from '../clearinghouse/owner';
 import { getERC20Token } from '../../utils/getERC20Token';
 import { BI_18, BI_6, ONE_BI, ZERO_BD } from '../../utils/constants';
 import { updateEntryPrices_deposit } from '../../utils/entry-price';
+import { DnGmxJuniorVault } from '../../../generated/DnGmxJuniorVault/DnGmxJuniorVault';
 
 // only for the DnGmxJuniorVault, which also allows deposit of USDC
 
@@ -85,6 +86,16 @@ export function handleBatchDeposit(event: BatchDeposit): void {
 
   let pendingDeposits = vault.pendingDeposits; // copy to mem
 
+  let dnGmxJuniorVaultContract = DnGmxJuniorVault.bind(contracts.DnGmxJuniorVault);
+  let assetPriceResult = dnGmxJuniorVaultContract.try_getPrice(false);
+
+  if (assetPriceResult.reverted) {
+    log.error('custom_logs: getPriceX128 handleWithdraw reverted {}', ['']);
+    return;
+  }
+
+  let assetPrice = parsePrice10Pow30(assetPriceResult.value, BI_18, BI_6);
+
   for (let i = 0; i < pendingDeposits.length; i++) {
     let entry = VaultDepositWithdrawEntry.load(pendingDeposits[i]);
     if (entry == null) {
@@ -105,6 +116,11 @@ export function handleBatchDeposit(event: BatchDeposit): void {
           BigIntToBigDecimal(event.params.userGlpAmount, BI_18),
           BigIntToBigDecimal(event.params.userUsdcAmount, BI_6)
         )
+      );
+
+      entry.assetPrice = assetPrice;
+      entry.sharePrice = assetPrice.times(
+        safeDiv(entry.assetsTokenAmount, entry.sharesTokenAmount)
       );
 
       entry.sharesTokenDollarValue = entry.tokenAmount;
