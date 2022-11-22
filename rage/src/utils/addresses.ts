@@ -38,10 +38,10 @@ export let contracts: Contracts = {
   GMXBatchingManager: Address.fromString('0x0000000000000000000000000000000000000000'),
   GlpStakingManager: Address.fromString('0x0000000000000000000000000000000000000000'),
   sGLP: Address.fromString('0x2F546AD4eDD93B956C8999Be404cdCAFde3E89AE'),
-  DnGmxSeniorVault: Address.fromString('0xF18aC7De839D45D0f004A95438c3BCe8e27710c2'),
-  DnGmxJuniorVault: Address.fromString('0xeD347C555cAd6699A88D70c0733C3E492C460CDd'),
-  DnGmxBatchingManager: Address.fromString('0xF98E7Cc12f1F301238C45394efCed41E78B24F85'),
+  DnGmxSeniorVault: Address.fromString('0xf5F77BD63Daab15568ace0EB4B5b16D8BB69d534'),
+  DnGmxJuniorVault: Address.fromString('0x2873eFd2867fc2faFD77fE7acAe393D6e6275f0D'),
+  DnGmxBatchingManager: Address.fromString('0x4631148BCF05B5eF3cD250962D2c7988ebB2402C'),
   DnGmxWithdrawPeriphery: Address.fromString(
-    '0x362D31179A22e4c39D178dED4e2991c3aC803027'
+    '0x4cA7B221Af4846baa4Ff457EA9161f50e5feA7b5'
   ),
 };
