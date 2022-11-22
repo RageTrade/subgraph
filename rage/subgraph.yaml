@@ -6,11 +6,11 @@ schema:
 dataSources:
   - kind: ethereum/contract
     name: ClearingHouse
-    network: arbitrum-one
+    network: arbitrum-goerli
     source:
-      address: '0x4521916972A76D5BFA65Fb539Cf7a0C2592050Ac'
+      address: '0x7047343e3eF25505263116212EE74430A2A12257'
       abi: ClearingHouse
-      startBlock: 17185390
+      startBlock: 587666
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6
@@ -55,11 +55,11 @@ dataSources:
           handler: handleLiquidityPositionEarningsRealized
   - kind: ethereum/contract
     name: CurveYieldStrategy
-    network: arbitrum-one
+    network: arbitrum-goerli
     source:
-      address: '0x1d42783E7eeacae12EbC315D1D2D0E3C6230a068'
+      address: '0xddDcfF2D6CB373C2F1A115bAC6B1862b72b812f4'
       abi: CurveYieldStrategy
-      startBlock: 17185561
+      startBlock: 620600
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6
@@ -90,11 +90,11 @@ dataSources:
           handler: handleRebalance
   - kind: ethereum/contract
     name: VaultPeriphery
-    network: arbitrum-one
+    network: arbitrum-goerli
     source:
-      address: '0x4b928aFd7CA775C7f4ECdf2c00B7e608962AbbDc'
+      address: '0x5d44c28E34343888923aCFAc34AF617461657f9B'
       abi: VaultPeriphery
-      startBlock: 17185561
+      startBlock: 620600
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6
@@ -121,11 +121,11 @@ dataSources:
           handler: handleDepositPeriphery
   - kind: ethereum/contract
     name: GMXYieldStrategy
-    network: arbitrum-one
+    network: arbitrum-goerli
     source:
-      address: '0x0000000000000000000000000000000000000000'
+      address: '0x4AB3e468C0afee9e0941D9FB26CDFDb438cff8dF'
       abi: GMXYieldStrategy
-      startBlock: 40202811
+      startBlock: 620810
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6
@@ -159,11 +159,11 @@ dataSources:
           handler: handleRebalance
   - kind: ethereum/contract
     name: DnGmxSeniorVault
-    network: arbitrum-one
+    network: arbitrum-goerli
     source:
-      address: '0xf5F77BD63Daab15568ace0EB4B5b16D8BB69d534'
+      address: '0x24bDC1038997F638E6447CBA68039984B958774c'
       abi: DnGmxSeniorVault
-      startBlock: 40202811
+      startBlock: 947160
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6
@@ -192,11 +192,11 @@ dataSources:
           handler: handleWithdraw
   - kind: ethereum/contract
     name: DnGmxJuniorVault
-    network: arbitrum-one
+    network: arbitrum-goerli
     source:
-      address: '0x2873eFd2867fc2faFD77fE7acAe393D6e6275f0D'
+      address: '0x72d684E81De1301da44b34a69d8994AE2F1913C8'
       abi: DnGmxJuniorVault
-      startBlock: 40202811
+      startBlock: 947160
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6
@@ -229,11 +229,11 @@ dataSources:
           handler: handleRewardsHarvested
   - kind: ethereum/contract
     name: DnGmxBatchingManager
-    network: arbitrum-one
+    network: arbitrum-goerli
     source:
-      address: '0x4631148BCF05B5eF3cD250962D2c7988ebB2402C'
+      address: '0x80641B713f9a95D7855f82A8F86bD3ae35C418dC'
       abi: DnGmxBatchingManager
-      startBlock: 40202811
+      startBlock: 947160
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6
@@ -265,11 +265,11 @@ dataSources:
           handler: handleBatchDeposit
   - kind: ethereum/contract
     name: DnGmxWithdrawPeriphery
-    network: arbitrum-one
+    network: arbitrum-goerli
     source:
-      address: '0x4cA7B221Af4846baa4Ff457EA9161f50e5feA7b5'
+      address: '0x6d1408aa10A528eDB832e5Cf44e7877D666E9492'
       abi: DnGmxWithdrawPeriphery
-      startBlock: 40202811
+      startBlock: 947160
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6
@@ -299,11 +299,11 @@ dataSources:
           handler: handleTokenWithdraw
   - kind: ethereum/contract
     name: GMXBatchingManager
-    network: arbitrum-one
+    network: arbitrum-goerli
     source:
-      address: '0x0000000000000000000000000000000000000000'
+      address: '0x3d38Ff7Cbf232b314623510f0Ccda847414148c9'
       abi: GMXBatchingManager
-      startBlock: 40202811
+      startBlock: 620810
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6
@@ -335,11 +335,11 @@ dataSources:
           handler: handleGmxBatch
   - kind: ethereum/contract
     name: RageTradeFactory
-    network: arbitrum-one
+    network: arbitrum-goerli
     source:
-      address: '0x14FcC60f9be14087FAC729df48fF33f2b3052C12'
+      address: '0x400E797E9ad4A8E5759Fbb5F39F5f34e074133D2'
       abi: RageTradeFactory
-      startBlock: 17185390
+      startBlock: 587666
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6
@@ -369,11 +369,11 @@ dataSources:
           handler: handlePoolInitialized
   - kind: ethereum/contract
     name: UniswapV3Factory
-    network: arbitrum-one
+    network: arbitrum-goerli
     source:
-      address: '0x1F98431c8aD98523631AE4a59f267346ea31F984'
+      address: '0x4584E64B9cae7c86810a8a0A3c4469c4d164459f'
       abi: UniswapV3Factory
-      startBlock: 17185390
+      startBlock: 587666
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6
@@ -399,7 +399,7 @@ dataSources:
 templates:
   - kind: ethereum/contract
     name: UniswapV3Pool
-    network: arbitrum-one
+    network: arbitrum-goerli
     source:
       abi: UniswapV3Pool
     mapping:
@@ -425,7 +425,7 @@ templates:
           handler: handleBurn
   - kind: ethereum/contract
     name: VPoolWrapperLogic
-    network: arbitrum-one
+    network: arbitrum-goerli
     source:
       abi: VPoolWrapperLogic
     mapping:
