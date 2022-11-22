@@ -416,27 +416,6 @@ export class DnGmxBatchingManager extends ethereum.SmartContract {
     return ethereum.CallResult.fromValue(value[0].toBigInt());
   }
 
-  depositUsdc(amount: BigInt, receiver: Address): BigInt {
-    let result = super.call('depositUsdc', 'depositUsdc(uint256,address):(uint256)', [
-      ethereum.Value.fromUnsignedBigInt(amount),
-      ethereum.Value.fromAddress(receiver),
-    ]);
-
-    return result[0].toBigInt();
-  }
-
-  try_depositUsdc(amount: BigInt, receiver: Address): ethereum.CallResult<BigInt> {
-    let result = super.tryCall('depositUsdc', 'depositUsdc(uint256,address):(uint256)', [
-      ethereum.Value.fromUnsignedBigInt(amount),
-      ethereum.Value.fromAddress(receiver),
-    ]);
-    if (result.reverted) {
-      return new ethereum.CallResult();
-    }
-    let value = result.value;
-    return ethereum.CallResult.fromValue(value[0].toBigInt());
-  }
-
   dnGmxJuniorVault(): Address {
     let result = super.call('dnGmxJuniorVault', 'dnGmxJuniorVault():(address)', []);
 
@@ -848,10 +827,6 @@ export class DepositUsdcCall__Outputs {
 
   constructor(call: DepositUsdcCall) {
     this._call = call;
-  }
-
-  get glpStaked(): BigInt {
-    return this._call.outputValues[0].value.toBigInt();
   }
 }
 

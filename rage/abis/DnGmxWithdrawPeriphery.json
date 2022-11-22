@@ -141,10 +141,6 @@
     "inputs": [
       {
         "type": "address",
-        "name": "from"
-      },
-      {
-        "type": "address",
         "name": "token"
       },
       {
@@ -234,10 +230,6 @@
     "constant": false,
     "payable": false,
     "inputs": [
-      {
-        "type": "address",
-        "name": "from"
-      },
       {
         "type": "address",
         "name": "token"

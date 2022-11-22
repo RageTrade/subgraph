@@ -604,19 +604,22 @@ export class DnGmxJuniorVault__getAdminParamsResult {
   value2: BigInt;
   value3: Address;
   value4: i32;
+  value5: i32;
 
   constructor(
     value0: Address,
     value1: Address,
     value2: BigInt,
     value3: Address,
-    value4: i32
+    value4: i32,
+    value5: i32
   ) {
     this.value0 = value0;
     this.value1 = value1;
     this.value2 = value2;
     this.value3 = value3;
     this.value4 = value4;
+    this.value5 = value5;
   }
 
   toMap(): TypedMap<string, ethereum.Value> {
@@ -626,6 +629,7 @@ export class DnGmxJuniorVault__getAdminParamsResult {
     map.set('value2', ethereum.Value.fromUnsignedBigInt(this.value2));
     map.set('value3', ethereum.Value.fromAddress(this.value3));
     map.set('value4', ethereum.Value.fromUnsignedBigInt(BigInt.fromI32(this.value4)));
+    map.set('value5', ethereum.Value.fromUnsignedBigInt(BigInt.fromI32(this.value5)));
     return map;
   }
 
@@ -647,6 +651,10 @@ export class DnGmxJuniorVault__getAdminParamsResult {
 
   getWithdrawFeeBps(): i32 {
     return this.value4;
+  }
+
+  getFeeTierWethWbtcPool(): i32 {
+    return this.value5;
   }
 }
 
@@ -1067,7 +1075,7 @@ export class DnGmxJuniorVault extends ethereum.SmartContract {
   getAdminParams(): DnGmxJuniorVault__getAdminParamsResult {
     let result = super.call(
       'getAdminParams',
-      'getAdminParams():(address,address,uint256,address,uint16)',
+      'getAdminParams():(address,address,uint256,address,uint16,uint24)',
       []
     );
 
@@ -1076,14 +1084,15 @@ export class DnGmxJuniorVault extends ethereum.SmartContract {
       result[1].toAddress(),
       result[2].toBigInt(),
       result[3].toAddress(),
-      result[4].toI32()
+      result[4].toI32(),
+      result[5].toI32()
     );
   }
 
   try_getAdminParams(): ethereum.CallResult<DnGmxJuniorVault__getAdminParamsResult> {
     let result = super.tryCall(
       'getAdminParams',
-      'getAdminParams():(address,address,uint256,address,uint16)',
+      'getAdminParams():(address,address,uint256,address,uint16,uint24)',
       []
     );
     if (result.reverted) {
@@ -1096,7 +1105,8 @@ export class DnGmxJuniorVault extends ethereum.SmartContract {
         value[1].toAddress(),
         value[2].toBigInt(),
         value[3].toAddress(),
-        value[4].toI32()
+        value[4].toI32(),
+        value[5].toI32()
       )
     );
   }
@@ -2321,6 +2331,10 @@ export class SetAdminParamsCall__Inputs {
 
   get withdrawFeeBps(): i32 {
     return this._call.inputValues[4].value.toI32();
+  }
+
+  get feeTierWethWbtcPool(): i32 {
+    return this._call.inputValues[5].value.toI32();
   }
 }
 

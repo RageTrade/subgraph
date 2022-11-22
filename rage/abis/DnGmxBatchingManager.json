@@ -308,12 +308,7 @@
         "name": "receiver"
       }
     ],
-    "outputs": [
-      {
-        "type": "uint256",
-        "name": "glpStaked"
-      }
-    ]
+    "outputs": []
   },
   {
     "type": "function",

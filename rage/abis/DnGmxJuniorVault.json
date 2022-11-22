@@ -631,6 +631,10 @@
       {
         "type": "uint16",
         "name": "withdrawFeeBps"
+      },
+      {
+        "type": "uint24",
+        "name": "feeTierWethWbtcPool"
       }
     ]
   },
@@ -1264,6 +1268,10 @@
       {
         "type": "uint16",
         "name": "withdrawFeeBps"
+      },
+      {
+        "type": "uint24",
+        "name": "feeTierWethWbtcPool"
       }
     ],
     "outputs": []

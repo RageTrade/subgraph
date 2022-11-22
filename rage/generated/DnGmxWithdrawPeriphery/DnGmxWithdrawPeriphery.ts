@@ -168,17 +168,11 @@ export class DnGmxWithdrawPeriphery extends ethereum.SmartContract {
     return ethereum.CallResult.fromValue(value[0].toAddress());
   }
 
-  redeemToken(
-    from: Address,
-    token: Address,
-    receiver: Address,
-    sharesAmount: BigInt
-  ): BigInt {
+  redeemToken(token: Address, receiver: Address, sharesAmount: BigInt): BigInt {
     let result = super.call(
       'redeemToken',
-      'redeemToken(address,address,address,uint256):(uint256)',
+      'redeemToken(address,address,uint256):(uint256)',
       [
-        ethereum.Value.fromAddress(from),
         ethereum.Value.fromAddress(token),
         ethereum.Value.fromAddress(receiver),
         ethereum.Value.fromUnsignedBigInt(sharesAmount),
@@ -189,16 +183,14 @@ export class DnGmxWithdrawPeriphery extends ethereum.SmartContract {
   }
 
   try_redeemToken(
-    from: Address,
     token: Address,
     receiver: Address,
     sharesAmount: BigInt
   ): ethereum.CallResult<BigInt> {
     let result = super.tryCall(
       'redeemToken',
-      'redeemToken(address,address,address,uint256):(uint256)',
+      'redeemToken(address,address,uint256):(uint256)',
       [
-        ethereum.Value.fromAddress(from),
         ethereum.Value.fromAddress(token),
         ethereum.Value.fromAddress(receiver),
         ethereum.Value.fromUnsignedBigInt(sharesAmount),
@@ -226,17 +218,11 @@ export class DnGmxWithdrawPeriphery extends ethereum.SmartContract {
     return ethereum.CallResult.fromValue(value[0].toBigInt());
   }
 
-  withdrawToken(
-    from: Address,
-    token: Address,
-    receiver: Address,
-    sGlpAmount: BigInt
-  ): BigInt {
+  withdrawToken(token: Address, receiver: Address, sGlpAmount: BigInt): BigInt {
     let result = super.call(
       'withdrawToken',
-      'withdrawToken(address,address,address,uint256):(uint256)',
+      'withdrawToken(address,address,uint256):(uint256)',
       [
-        ethereum.Value.fromAddress(from),
         ethereum.Value.fromAddress(token),
         ethereum.Value.fromAddress(receiver),
         ethereum.Value.fromUnsignedBigInt(sGlpAmount),
@@ -247,16 +233,14 @@ export class DnGmxWithdrawPeriphery extends ethereum.SmartContract {
   }
 
   try_withdrawToken(
-    from: Address,
     token: Address,
     receiver: Address,
     sGlpAmount: BigInt
   ): ethereum.CallResult<BigInt> {
     let result = super.tryCall(
       'withdrawToken',
-      'withdrawToken(address,address,address,uint256):(uint256)',
+      'withdrawToken(address,address,uint256):(uint256)',
       [
-        ethereum.Value.fromAddress(from),
         ethereum.Value.fromAddress(token),
         ethereum.Value.fromAddress(receiver),
         ethereum.Value.fromUnsignedBigInt(sGlpAmount),
@@ -287,20 +271,16 @@ export class RedeemTokenCall__Inputs {
     this._call = call;
   }
 
-  get from(): Address {
+  get token(): Address {
     return this._call.inputValues[0].value.toAddress();
   }
 
-  get token(): Address {
+  get receiver(): Address {
     return this._call.inputValues[1].value.toAddress();
   }
 
-  get receiver(): Address {
-    return this._call.inputValues[2].value.toAddress();
-  }
-
   get sharesAmount(): BigInt {
-    return this._call.inputValues[3].value.toBigInt();
+    return this._call.inputValues[2].value.toBigInt();
   }
 }
 
@@ -453,20 +433,16 @@ export class WithdrawTokenCall__Inputs {
     this._call = call;
   }
 
-  get from(): Address {
+  get token(): Address {
     return this._call.inputValues[0].value.toAddress();
   }
 
-  get token(): Address {
+  get receiver(): Address {
     return this._call.inputValues[1].value.toAddress();
   }
 
-  get receiver(): Address {
-    return this._call.inputValues[2].value.toAddress();
-  }
-
   get sGlpAmount(): BigInt {
-    return this._call.inputValues[3].value.toBigInt();
+    return this._call.inputValues[2].value.toBigInt();
   }
 }
 
