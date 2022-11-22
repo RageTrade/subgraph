@@ -64,7 +64,7 @@ async function main() {
     !deltaNeutralGMXStartBlockNumber
   ) {
     console.error('Start block number not found');
-    return;
+    process.exit();
   }
 
   const {
@@ -342,4 +342,7 @@ export let contracts: Contracts = {
   console.log('updated contract-address.ts');
 }
 
-main().catch(console.error);
+main().catch(e => {
+  console.error(e);
+  process.exit();
+});
