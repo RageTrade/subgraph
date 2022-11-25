@@ -310,15 +310,13 @@ export function handleTokenPositionChanged(event: TokenPositionChanged): void {
         safeDiv(tokenPosition.entryValue, tokenPosition.netPosition)
       );
 
-      // let realizedPnL = vTokenQuantity * (newPosition.endPrice - openPositions[0].endPrice)
+      // let realizedPnL += vTokenQuantity * (newPosition.endPrice - openPositions[0].endPrice)
 
-      tokenPositionChangeEntry.realizedPnL = vTokenQuantityMatched.times(
-        tokenPositionChangeEntry.entryPrice.minus(openPosition_00.entryPrice)
+      tokenPositionChangeEntry.realizedPnL = tokenPositionChangeEntry.realizedPnL.plus(
+        vTokenQuantityMatched.times(
+          tokenPositionChangeEntry.entryPrice.minus(openPosition_00.entryPrice)
+        )
       );
-
-      if (openPosition_00.side == 'short') {
-        tokenPositionChangeEntry.realizedPnL = tokenPositionChangeEntry.realizedPnL.neg();
-      }
 
       log.debug(
         'custom_logs: handleTokenPositionChanged in while loop account.id - {}, vTokenQuantityMatched - {} , tokenPositionChangeEntry.vTokenQuantity - {}, openPosition_00.vTokenQuantity - {}, entryPrice - {}, entryValue - {}, netPosition - {}, ',
@@ -347,6 +345,12 @@ export function handleTokenPositionChanged(event: TokenPositionChanged): void {
       tokenPosition.save();
       tokenPositionChangeEntry.save();
       openPosition_00.save();
+    }
+
+    if (tokenPositionChangeEntry.side == 'long') {
+      tokenPositionChangeEntry.realizedPnL = tokenPositionChangeEntry.realizedPnL.neg();
+
+      tokenPositionChangeEntry.save();
     }
 
     if (tokenPositionChangeEntry.vTokenQuantity.gt(ZERO_BD)) {
