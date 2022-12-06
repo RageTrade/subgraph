@@ -93,6 +93,7 @@ async function main() {
     dnGmxJuniorVault,
     dnGmxBatchingManager,
     withdrawPeriphery,
+    depositPeriphery: dnDmxDepositPeriphery,
   } = await sdk.deltaNeutralGmxVaults.getContracts(networkInfo.provider);
   const { crv3, quoter } = await sdk.curve.getContracts(networkInfo.provider);
   const { sGLP, usdc } = await sdk.tokens.getContracts(networkInfo.provider);
@@ -114,6 +115,7 @@ async function main() {
   await copyAbi(dnGmxJuniorVault, 'DnGmxJuniorVault');
   await copyAbi(dnGmxBatchingManager, 'DnGmxBatchingManager');
   await copyAbi(withdrawPeriphery, 'DnGmxWithdrawPeriphery');
+  await copyAbi(dnDmxDepositPeriphery, 'DnGmxDepositPeriphery');
 
   // STEP 2: Update ClearingHouse and other contract address in subgraph.yaml
   const subgraphYaml = yaml.parse(fs.readFileSync('./subgraph.yaml', 'utf8'));
@@ -197,6 +199,12 @@ async function main() {
     withdrawPeriphery?.address ?? ethers.constants.AddressZero,
     deltaNeutralGMXStartBlockNumber
   );
+  updateSubgraphYamlDataSources(
+    subgraphYaml,
+    'DnGmxDepositPeriphery',
+    dnDmxDepositPeriphery?.address ?? ethers.constants.AddressZero,
+    deltaNeutralGMXStartBlockNumber
+  );
   // write subgraphYaml
   fs.writeFile('./subgraph.yaml', yaml.stringify(subgraphYaml, { indent: 2 }));
 
@@ -223,6 +231,8 @@ async function main() {
       dnGmxBatchingManager?.address ?? ethers.constants.AddressZero,
     dnGmxWithdrawPeripheryAddress:
       withdrawPeriphery?.address ?? ethers.constants.AddressZero,
+    dnGmxDepositPeripheryAddress:
+      dnDmxDepositPeriphery?.address ?? ethers.constants.AddressZero,
   });
 
   console.log('Updated subgraph.yaml');
@@ -290,6 +300,7 @@ function writeContractAddress({
   dnGmxJuniorVaultAddress,
   dnGmxBatchingManagerAddress,
   dnGmxWithdrawPeripheryAddress,
+  dnGmxDepositPeripheryAddress,
 }) {
   const file = `import { Address } from '@graphprotocol/graph-ts'
 
@@ -312,6 +323,7 @@ class Contracts {
   DnGmxJuniorVault: Address;
   DnGmxBatchingManager: Address;
   DnGmxWithdrawPeriphery: Address;
+  DnGmxDepositPeriphery: Address;
 }
 
 export let contracts: Contracts = { 
@@ -333,6 +345,7 @@ export let contracts: Contracts = {
   DnGmxJuniorVault: Address.fromString("${dnGmxJuniorVaultAddress}"),
   DnGmxBatchingManager: Address.fromString("${dnGmxBatchingManagerAddress}"),
   DnGmxWithdrawPeriphery: Address.fromString("${dnGmxWithdrawPeripheryAddress}"),
+  DnGmxDepositPeriphery: Address.fromString("${dnGmxDepositPeripheryAddress}"),
  };`;
 
   fs.writeFile('./src/utils/addresses.ts', file, {
