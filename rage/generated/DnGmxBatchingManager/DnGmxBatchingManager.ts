@@ -96,6 +96,24 @@ export class ClaimedAndRedeemed__Params {
   }
 }
 
+export class DepositCapUpdated extends ethereum.Event {
+  get params(): DepositCapUpdated__Params {
+    return new DepositCapUpdated__Params(this);
+  }
+}
+
+export class DepositCapUpdated__Params {
+  _event: DepositCapUpdated;
+
+  constructor(event: DepositCapUpdated) {
+    this._event = event;
+  }
+
+  get newDepositCap(): BigInt {
+    return this._event.parameters[0].value.toBigInt();
+  }
+}
+
 export class DepositToken extends ethereum.Event {
   get params(): DepositToken__Params {
     return new DepositToken__Params(this);
@@ -188,6 +206,32 @@ export class OwnershipTransferred__Params {
   }
 }
 
+export class PartialBatchDeposit extends ethereum.Event {
+  get params(): PartialBatchDeposit__Params {
+    return new PartialBatchDeposit__Params(this);
+  }
+}
+
+export class PartialBatchDeposit__Params {
+  _event: PartialBatchDeposit;
+
+  constructor(event: PartialBatchDeposit) {
+    this._event = event;
+  }
+
+  get round(): BigInt {
+    return this._event.parameters[0].value.toBigInt();
+  }
+
+  get partialGlpAmount(): BigInt {
+    return this._event.parameters[1].value.toBigInt();
+  }
+
+  get partialShareAmount(): BigInt {
+    return this._event.parameters[2].value.toBigInt();
+  }
+}
+
 export class Paused extends ethereum.Event {
   get params(): Paused__Params {
     return new Paused__Params(this);
@@ -247,6 +291,10 @@ export class ThresholdsUpdated__Params {
 
   get newSlippageThresholdGmx(): BigInt {
     return this._event.parameters[0].value.toBigInt();
+  }
+
+  get newGlpDepositPendingThreshold(): BigInt {
+    return this._event.parameters[1].value.toBigInt();
   }
 }
 
@@ -314,11 +362,21 @@ export class DnGmxBatchingManager__vaultBatchingStateResult {
   value0: BigInt;
   value1: BigInt;
   value2: BigInt;
+  value3: BigInt;
+  value4: BigInt;
 
-  constructor(value0: BigInt, value1: BigInt, value2: BigInt) {
+  constructor(
+    value0: BigInt,
+    value1: BigInt,
+    value2: BigInt,
+    value3: BigInt,
+    value4: BigInt
+  ) {
     this.value0 = value0;
     this.value1 = value1;
     this.value2 = value2;
+    this.value3 = value3;
+    this.value4 = value4;
   }
 
   toMap(): TypedMap<string, ethereum.Value> {
@@ -326,6 +384,8 @@ export class DnGmxBatchingManager__vaultBatchingStateResult {
     map.set('value0', ethereum.Value.fromUnsignedBigInt(this.value0));
     map.set('value1', ethereum.Value.fromUnsignedBigInt(this.value1));
     map.set('value2', ethereum.Value.fromUnsignedBigInt(this.value2));
+    map.set('value3', ethereum.Value.fromUnsignedBigInt(this.value3));
+    map.set('value4', ethereum.Value.fromUnsignedBigInt(this.value4));
     return map;
   }
 
@@ -333,12 +393,20 @@ export class DnGmxBatchingManager__vaultBatchingStateResult {
     return this.value0;
   }
 
-  getRoundGlpStaked(): BigInt {
+  getRoundGlpDepositPending(): BigInt {
     return this.value1;
   }
 
-  getRoundUsdcBalance(): BigInt {
+  getRoundSharesMinted(): BigInt {
     return this.value2;
+  }
+
+  getRoundGlpStaked(): BigInt {
+    return this.value3;
+  }
+
+  getRoundUsdcBalance(): BigInt {
+    return this.value4;
   }
 }
 
@@ -374,6 +442,21 @@ export class DnGmxBatchingManager extends ethereum.SmartContract {
 
   try_currentRound(): ethereum.CallResult<BigInt> {
     let result = super.tryCall('currentRound', 'currentRound():(uint256)', []);
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toBigInt());
+  }
+
+  depositCap(): BigInt {
+    let result = super.call('depositCap', 'depositCap():(uint256)', []);
+
+    return result[0].toBigInt();
+  }
+
+  try_depositCap(): ethereum.CallResult<BigInt> {
+    let result = super.tryCall('depositCap', 'depositCap():(uint256)', []);
     if (result.reverted) {
       return new ethereum.CallResult();
     }
@@ -445,6 +528,29 @@ export class DnGmxBatchingManager extends ethereum.SmartContract {
     let result = super.tryCall(
       'dnGmxJuniorVaultGlpBalance',
       'dnGmxJuniorVaultGlpBalance():(uint256)',
+      []
+    );
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toBigInt());
+  }
+
+  glpDepositPendingThreshold(): BigInt {
+    let result = super.call(
+      'glpDepositPendingThreshold',
+      'glpDepositPendingThreshold():(uint256)',
+      []
+    );
+
+    return result[0].toBigInt();
+  }
+
+  try_glpDepositPendingThreshold(): ethereum.CallResult<BigInt> {
+    let result = super.tryCall(
+      'glpDepositPendingThreshold',
+      'glpDepositPendingThreshold():(uint256)',
       []
     );
     if (result.reverted) {
@@ -530,6 +636,29 @@ export class DnGmxBatchingManager extends ethereum.SmartContract {
     );
   }
 
+  roundGlpDepositPending(): BigInt {
+    let result = super.call(
+      'roundGlpDepositPending',
+      'roundGlpDepositPending():(uint256)',
+      []
+    );
+
+    return result[0].toBigInt();
+  }
+
+  try_roundGlpDepositPending(): ethereum.CallResult<BigInt> {
+    let result = super.tryCall(
+      'roundGlpDepositPending',
+      'roundGlpDepositPending():(uint256)',
+      []
+    );
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toBigInt());
+  }
+
   roundGlpStaked(): BigInt {
     let result = super.call('roundGlpStaked', 'roundGlpStaked():(uint256)', []);
 
@@ -538,6 +667,21 @@ export class DnGmxBatchingManager extends ethereum.SmartContract {
 
   try_roundGlpStaked(): ethereum.CallResult<BigInt> {
     let result = super.tryCall('roundGlpStaked', 'roundGlpStaked():(uint256)', []);
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toBigInt());
+  }
+
+  roundSharesMinted(): BigInt {
+    let result = super.call('roundSharesMinted', 'roundSharesMinted():(uint256)', []);
+
+    return result[0].toBigInt();
+  }
+
+  try_roundSharesMinted(): ethereum.CallResult<BigInt> {
+    let result = super.tryCall('roundSharesMinted', 'roundSharesMinted():(uint256)', []);
     if (result.reverted) {
       return new ethereum.CallResult();
     }
@@ -653,14 +797,16 @@ export class DnGmxBatchingManager extends ethereum.SmartContract {
   vaultBatchingState(): DnGmxBatchingManager__vaultBatchingStateResult {
     let result = super.call(
       'vaultBatchingState',
-      'vaultBatchingState():(uint256,uint256,uint256)',
+      'vaultBatchingState():(uint256,uint256,uint256,uint256,uint256)',
       []
     );
 
     return new DnGmxBatchingManager__vaultBatchingStateResult(
       result[0].toBigInt(),
       result[1].toBigInt(),
-      result[2].toBigInt()
+      result[2].toBigInt(),
+      result[3].toBigInt(),
+      result[4].toBigInt()
     );
   }
 
@@ -669,7 +815,7 @@ export class DnGmxBatchingManager extends ethereum.SmartContract {
   > {
     let result = super.tryCall(
       'vaultBatchingState',
-      'vaultBatchingState():(uint256,uint256,uint256)',
+      'vaultBatchingState():(uint256,uint256,uint256,uint256,uint256)',
       []
     );
     if (result.reverted) {
@@ -680,7 +826,9 @@ export class DnGmxBatchingManager extends ethereum.SmartContract {
       new DnGmxBatchingManager__vaultBatchingStateResult(
         value[0].toBigInt(),
         value[1].toBigInt(),
-        value[2].toBigInt()
+        value[2].toBigInt(),
+        value[3].toBigInt(),
+        value[4].toBigInt()
       )
     );
   }
@@ -845,6 +993,10 @@ export class ExecuteBatchDepositCall__Inputs {
 
   constructor(call: ExecuteBatchDepositCall) {
     this._call = call;
+  }
+
+  get depositAmount(): BigInt {
+    return this._call.inputValues[0].value.toBigInt();
   }
 }
 
@@ -1040,6 +1192,36 @@ export class SetBypassCall__Outputs {
   }
 }
 
+export class SetDepositCapCall extends ethereum.Call {
+  get inputs(): SetDepositCapCall__Inputs {
+    return new SetDepositCapCall__Inputs(this);
+  }
+
+  get outputs(): SetDepositCapCall__Outputs {
+    return new SetDepositCapCall__Outputs(this);
+  }
+}
+
+export class SetDepositCapCall__Inputs {
+  _call: SetDepositCapCall;
+
+  constructor(call: SetDepositCapCall) {
+    this._call = call;
+  }
+
+  get _depositCap(): BigInt {
+    return this._call.inputValues[0].value.toBigInt();
+  }
+}
+
+export class SetDepositCapCall__Outputs {
+  _call: SetDepositCapCall;
+
+  constructor(call: SetDepositCapCall) {
+    this._call = call;
+  }
+}
+
 export class SetKeeperCall extends ethereum.Call {
   get inputs(): SetKeeperCall__Inputs {
     return new SetKeeperCall__Inputs(this);
@@ -1089,6 +1271,10 @@ export class SetThresholdsCall__Inputs {
 
   get _slippageThresholdGmxBps(): BigInt {
     return this._call.inputValues[0].value.toBigInt();
+  }
+
+  get _glpDepositPendingThreshold(): BigInt {
+    return this._call.inputValues[1].value.toBigInt();
   }
 }
 

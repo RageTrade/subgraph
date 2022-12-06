@@ -2059,14 +2059,18 @@ export class InitializeCall__Inputs {
     return this._call.inputValues[3].value.toAddress();
   }
 
+  get _mintBurnRewardRouter(): Address {
+    return this._call.inputValues[4].value.toAddress();
+  }
+
   get _tokens(): InitializeCall_tokensStruct {
     return changetype<InitializeCall_tokensStruct>(
-      this._call.inputValues[4].value.toTuple()
+      this._call.inputValues[5].value.toTuple()
     );
   }
 
   get _poolAddressesProvider(): Address {
-    return this._call.inputValues[5].value.toAddress();
+    return this._call.inputValues[6].value.toAddress();
   }
 }
 
