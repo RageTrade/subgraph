@@ -75,10 +75,13 @@ export function handleDeposit(event: Deposit): void {
 
   //...........................................................................//
 
-  if (event.params.caller.toHexString() == contracts.DnGmxBatchingManager.toHexString()) {
+  if (
+    event.params.caller.toHexString() == contracts.DnGmxBatchingManager.toHexString() ||
+    event.params.caller.toHexString() == contracts.DnGmxDepositPeriphery.toHexString()
+  ) {
     log.error(
-      'custom_logs: handleDeposit event came from DnGmxBatchingManager - {} | caller - {}',
-      [contracts.DnGmxBatchingManager.toHexString(), event.params.caller.toHexString()]
+      'custom_logs: handleDeposit event came from DnGmxBatchingManager or DnGmxDepositPeriphery | caller - {}',
+      [event.params.caller.toHexString()]
     );
     return;
   }
