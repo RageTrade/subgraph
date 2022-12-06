@@ -910,6 +910,10 @@
         "name": "_rewardRouter"
       },
       {
+        "type": "address",
+        "name": "_mintBurnRewardRouter"
+      },
+      {
         "type": "tuple",
         "name": "_tokens",
         "components": [

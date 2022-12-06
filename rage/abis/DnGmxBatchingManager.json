@@ -78,6 +78,18 @@
   {
     "type": "event",
     "anonymous": false,
+    "name": "DepositCapUpdated",
+    "inputs": [
+      {
+        "type": "uint256",
+        "name": "newDepositCap",
+        "indexed": false
+      }
+    ]
+  },
+  {
+    "type": "event",
+    "anonymous": false,
     "name": "DepositToken",
     "inputs": [
       {
@@ -151,6 +163,28 @@
   {
     "type": "event",
     "anonymous": false,
+    "name": "PartialBatchDeposit",
+    "inputs": [
+      {
+        "type": "uint256",
+        "name": "round",
+        "indexed": true
+      },
+      {
+        "type": "uint256",
+        "name": "partialGlpAmount",
+        "indexed": false
+      },
+      {
+        "type": "uint256",
+        "name": "partialShareAmount",
+        "indexed": false
+      }
+    ]
+  },
+  {
+    "type": "event",
+    "anonymous": false,
     "name": "Paused",
     "inputs": [
       {
@@ -190,6 +224,11 @@
       {
         "type": "uint256",
         "name": "newSlippageThresholdGmx",
+        "indexed": false
+      },
+      {
+        "type": "uint256",
+        "name": "newGlpDepositPendingThreshold",
         "indexed": false
       }
     ]
@@ -256,6 +295,20 @@
   {
     "type": "function",
     "name": "currentRound",
+    "constant": true,
+    "stateMutability": "view",
+    "payable": false,
+    "inputs": [],
+    "outputs": [
+      {
+        "type": "uint256",
+        "name": ""
+      }
+    ]
+  },
+  {
+    "type": "function",
+    "name": "depositCap",
     "constant": true,
     "stateMutability": "view",
     "payable": false,
@@ -343,7 +396,12 @@
     "name": "executeBatchDeposit",
     "constant": false,
     "payable": false,
-    "inputs": [],
+    "inputs": [
+      {
+        "type": "uint256",
+        "name": "depositAmount"
+      }
+    ],
     "outputs": []
   },
   {
@@ -353,6 +411,20 @@
     "payable": false,
     "inputs": [],
     "outputs": []
+  },
+  {
+    "type": "function",
+    "name": "glpDepositPendingThreshold",
+    "constant": true,
+    "stateMutability": "view",
+    "payable": false,
+    "inputs": [],
+    "outputs": [
+      {
+        "type": "uint256",
+        "name": ""
+      }
+    ]
   },
   {
     "type": "function",
@@ -484,7 +556,35 @@
   },
   {
     "type": "function",
+    "name": "roundGlpDepositPending",
+    "constant": true,
+    "stateMutability": "view",
+    "payable": false,
+    "inputs": [],
+    "outputs": [
+      {
+        "type": "uint256",
+        "name": ""
+      }
+    ]
+  },
+  {
+    "type": "function",
     "name": "roundGlpStaked",
+    "constant": true,
+    "stateMutability": "view",
+    "payable": false,
+    "inputs": [],
+    "outputs": [
+      {
+        "type": "uint256",
+        "name": ""
+      }
+    ]
+  },
+  {
+    "type": "function",
+    "name": "roundSharesMinted",
     "constant": true,
     "stateMutability": "view",
     "payable": false,
@@ -525,6 +625,19 @@
   },
   {
     "type": "function",
+    "name": "setDepositCap",
+    "constant": false,
+    "payable": false,
+    "inputs": [
+      {
+        "type": "uint256",
+        "name": "_depositCap"
+      }
+    ],
+    "outputs": []
+  },
+  {
+    "type": "function",
     "name": "setKeeper",
     "constant": false,
     "payable": false,
@@ -545,6 +658,10 @@
       {
         "type": "uint256",
         "name": "_slippageThresholdGmxBps"
+      },
+      {
+        "type": "uint256",
+        "name": "_glpDepositPendingThreshold"
       }
     ],
     "outputs": []
@@ -666,6 +783,14 @@
       {
         "type": "uint256",
         "name": "currentRound"
+      },
+      {
+        "type": "uint256",
+        "name": "roundGlpDepositPending"
+      },
+      {
+        "type": "uint256",
+        "name": "roundSharesMinted"
       },
       {
         "type": "uint256",

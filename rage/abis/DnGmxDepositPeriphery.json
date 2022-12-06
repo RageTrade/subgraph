@@ -1,0 +1,190 @@
+[
+  {
+    "type": "event",
+    "anonymous": false,
+    "name": "AddressesUpdated",
+    "inputs": [
+      {
+        "type": "address",
+        "name": "juniorVault",
+        "indexed": false
+      },
+      {
+        "type": "address",
+        "name": "rewardRouter",
+        "indexed": false
+      }
+    ]
+  },
+  {
+    "type": "event",
+    "anonymous": false,
+    "name": "OwnershipTransferred",
+    "inputs": [
+      {
+        "type": "address",
+        "name": "previousOwner",
+        "indexed": true
+      },
+      {
+        "type": "address",
+        "name": "newOwner",
+        "indexed": true
+      }
+    ]
+  },
+  {
+    "type": "event",
+    "anonymous": false,
+    "name": "SlippageThresholdUpdated",
+    "inputs": [
+      {
+        "type": "uint256",
+        "name": "newSlippageThreshold",
+        "indexed": false
+      }
+    ]
+  },
+  {
+    "type": "event",
+    "anonymous": false,
+    "name": "TokenDeposited",
+    "inputs": [
+      {
+        "type": "address",
+        "name": "from",
+        "indexed": true
+      },
+      {
+        "type": "address",
+        "name": "receiver",
+        "indexed": true
+      },
+      {
+        "type": "address",
+        "name": "token",
+        "indexed": false
+      },
+      {
+        "type": "uint256",
+        "name": "assets",
+        "indexed": false
+      },
+      {
+        "type": "uint256",
+        "name": "shares",
+        "indexed": false
+      },
+      {
+        "type": "uint256",
+        "name": "tokensSpent",
+        "indexed": false
+      }
+    ]
+  },
+  {
+    "type": "function",
+    "name": "depositToken",
+    "constant": false,
+    "payable": false,
+    "inputs": [
+      {
+        "type": "address",
+        "name": "token"
+      },
+      {
+        "type": "address",
+        "name": "receiver"
+      },
+      {
+        "type": "uint256",
+        "name": "tokenAmount"
+      }
+    ],
+    "outputs": [
+      {
+        "type": "uint256",
+        "name": "sharesReceived"
+      }
+    ]
+  },
+  {
+    "type": "function",
+    "name": "owner",
+    "constant": true,
+    "stateMutability": "view",
+    "payable": false,
+    "inputs": [],
+    "outputs": [
+      {
+        "type": "address",
+        "name": ""
+      }
+    ]
+  },
+  {
+    "type": "function",
+    "name": "renounceOwnership",
+    "constant": false,
+    "payable": false,
+    "inputs": [],
+    "outputs": []
+  },
+  {
+    "type": "function",
+    "name": "setAddresses",
+    "constant": false,
+    "payable": false,
+    "inputs": [
+      {
+        "type": "address",
+        "name": "_dnGmxJuniorVault"
+      },
+      {
+        "type": "address",
+        "name": "_rewardRouter"
+      }
+    ],
+    "outputs": []
+  },
+  {
+    "type": "function",
+    "name": "setSlippageThreshold",
+    "constant": false,
+    "payable": false,
+    "inputs": [
+      {
+        "type": "uint256",
+        "name": "_slippageThreshold"
+      }
+    ],
+    "outputs": []
+  },
+  {
+    "type": "function",
+    "name": "slippageThreshold",
+    "constant": true,
+    "stateMutability": "view",
+    "payable": false,
+    "inputs": [],
+    "outputs": [
+      {
+        "type": "uint256",
+        "name": ""
+      }
+    ]
+  },
+  {
+    "type": "function",
+    "name": "transferOwnership",
+    "constant": false,
+    "payable": false,
+    "inputs": [
+      {
+        "type": "address",
+        "name": "newOwner"
+      }
+    ],
+    "outputs": []
+  }
+]
