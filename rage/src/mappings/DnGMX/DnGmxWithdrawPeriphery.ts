@@ -1,6 +1,6 @@
 import { log } from '@graphprotocol/graph-ts';
 import { VaultDepositWithdrawEntry } from '../../../generated/schema';
-import { BigIntToBigDecimal, generateId, parsePriceX128, safeDiv } from '../../utils';
+import { BigIntToBigDecimal, generateId, parsePrice10Pow30, parsePriceX128, safeDiv } from '../../utils';
 import { contracts } from '../../utils/addresses';
 import { getVault } from '../../utils/getVault';
 import { getOwner } from '../clearinghouse/owner';
@@ -55,7 +55,7 @@ export function handleTokenWithdraw(event: TokenRedeemed): void {
 
   let assetPrice = event.params.token.equals(contracts.USDC)
     ? safeDiv(entry.tokenAmount, entry.assetsTokenAmount)
-    : parsePriceX128(dnGmxJuniorVaultContract.getPriceX128(), BI_18, BI_6);
+    : parsePrice10Pow30(dnGmxJuniorVaultContract.getPrice(false), BI_18, BI_6);
 
   entry.assetPrice = assetPrice;
   entry.sharePrice = safeDiv(
