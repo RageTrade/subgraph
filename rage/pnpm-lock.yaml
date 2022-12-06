@@ -6,7 +6,7 @@ overrides:
 specifiers:
   '@graphprotocol/graph-cli': ^0.35.0
   '@graphprotocol/graph-ts': ^0.29.0
-  '@ragetrade/sdk': 1.0.0-alpha.43
+  '@ragetrade/sdk': 1.0.0-alpha.51
   '@typescript-eslint/eslint-plugin': ^2.0.0
   '@typescript-eslint/parser': ^2.0.0
   babel-polyfill: ^6.26.0
@@ -24,7 +24,7 @@ specifiers:
   yaml: ^1.10.2
 
 dependencies:
-  '@ragetrade/sdk': 1.0.0-alpha.43_h4qtpcxkfvtpy6ldthi4lq2o6i
+  '@ragetrade/sdk': 1.0.0-alpha.51_h4qtpcxkfvtpy6ldthi4lq2o6i
   babel-polyfill: 6.26.0
   babel-register: 6.26.0
   ethers: 5.7.1
@@ -999,8 +999,8 @@ packages:
     dev: false
     optional: true
 
-  /@ragetrade/sdk/1.0.0-alpha.43_h4qtpcxkfvtpy6ldthi4lq2o6i:
-    resolution: {integrity: sha512-GPX4vsK/Dse2T0aW3kO8P948gkGXRx8vD9aFSIS1wo4cobOz/4kHZhM9ySzabSTZ24uR9l31vefCyQ26NmRadQ==}
+  /@ragetrade/sdk/1.0.0-alpha.51_h4qtpcxkfvtpy6ldthi4lq2o6i:
+    resolution: {integrity: sha512-WTcocA+CnEN1KHZ0fzUsvbWEoPjbFjIoq4Zn4b0EN9GRF7bPkwrT5MTbZEwD3ZN+RrXpkj3oAHcewvw3gjz8VA==}
     engines: {node: '>=10'}
     hasBin: true
     peerDependencies:
