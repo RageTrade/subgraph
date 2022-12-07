@@ -143,6 +143,10 @@
       {
         "type": "address",
         "name": "_rewardRouter"
+      },
+      {
+        "type": "address",
+        "name": "_glpManager"
       }
     ],
     "outputs": []

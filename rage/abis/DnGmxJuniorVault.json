@@ -1299,6 +1299,19 @@
   },
   {
     "type": "function",
+    "name": "setGmxParams",
+    "constant": false,
+    "payable": false,
+    "inputs": [
+      {
+        "type": "address",
+        "name": "_glpManager"
+      }
+    ],
+    "outputs": []
+  },
+  {
+    "type": "function",
     "name": "setHedgeParams",
     "constant": false,
     "payable": false,
