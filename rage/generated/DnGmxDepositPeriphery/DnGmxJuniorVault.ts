@@ -2384,6 +2384,36 @@ export class SetFeeParamsCall__Outputs {
   }
 }
 
+export class SetGmxParamsCall extends ethereum.Call {
+  get inputs(): SetGmxParamsCall__Inputs {
+    return new SetGmxParamsCall__Inputs(this);
+  }
+
+  get outputs(): SetGmxParamsCall__Outputs {
+    return new SetGmxParamsCall__Outputs(this);
+  }
+}
+
+export class SetGmxParamsCall__Inputs {
+  _call: SetGmxParamsCall;
+
+  constructor(call: SetGmxParamsCall) {
+    this._call = call;
+  }
+
+  get _glpManager(): Address {
+    return this._call.inputValues[0].value.toAddress();
+  }
+}
+
+export class SetGmxParamsCall__Outputs {
+  _call: SetGmxParamsCall;
+
+  constructor(call: SetGmxParamsCall) {
+    this._call = call;
+  }
+}
+
 export class SetHedgeParamsCall extends ethereum.Call {
   get inputs(): SetHedgeParamsCall__Inputs {
     return new SetHedgeParamsCall__Inputs(this);

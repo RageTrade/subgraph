@@ -273,6 +273,10 @@ export class SetAddressesCall__Inputs {
   get _rewardRouter(): Address {
     return this._call.inputValues[1].value.toAddress();
   }
+
+  get _glpManager(): Address {
+    return this._call.inputValues[2].value.toAddress();
+  }
 }
 
 export class SetAddressesCall__Outputs {
