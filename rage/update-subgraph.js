@@ -51,8 +51,9 @@ async function main() {
     .RageTradeFactoryDeployment.receipt?.blockNumber;
   const triCryptoStartBlockNumber = sdk.tricryptoVault.getDeployments(networkInfo.sdk)
     .SwapManagerLibraryDeployment.receipt?.blockNumber;
-  const gmxStartBlockNumber = sdk.gmxVault.getDeployments(networkInfo.sdk)
-    .GlpStakingManagerLogicDeployment.receipt?.blockNumber;
+  const gmxStartBlockNumber = 44106843;
+  //  sdk.gmxVault.getDeployments(networkInfo.sdk)
+  //   .GlpStakingManagerLogicDeployment.receipt?.blockNumber;
   const deltaNeutralGMXStartBlockNumber = sdk.deltaNeutralGmxVaults.getDeployments(
     networkInfo.sdk
   ).DnGmxJuniorVaultDeployment.receipt?.blockNumber;
