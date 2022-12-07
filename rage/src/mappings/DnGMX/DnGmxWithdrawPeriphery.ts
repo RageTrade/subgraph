@@ -1,6 +1,6 @@
 import { log } from '@graphprotocol/graph-ts';
 import { VaultDepositWithdrawEntry } from '../../../generated/schema';
-import { BigIntToBigDecimal, generateId, parsePrice10Pow30, parsePriceX128, safeDiv } from '../../utils';
+import { BigIntToBigDecimal, generateId, parsePrice10Pow30, safeDiv } from '../../utils';
 import { contracts } from '../../utils/addresses';
 import { getVault } from '../../utils/getVault';
 import { getOwner } from '../clearinghouse/owner';
