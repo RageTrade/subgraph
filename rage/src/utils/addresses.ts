@@ -39,11 +39,11 @@ export let contracts: Contracts = {
   GMXBatchingManager: Address.fromString('0x0000000000000000000000000000000000000000'),
   GlpStakingManager: Address.fromString('0x0000000000000000000000000000000000000000'),
   sGLP: Address.fromString('0x2F546AD4eDD93B956C8999Be404cdCAFde3E89AE'),
-  DnGmxSeniorVault: Address.fromString('0x5FF92b1991504A35d7Eaa74998663F402187c9aE'),
-  DnGmxJuniorVault: Address.fromString('0x87821D7B7dda83ad03dE7aF947308E3009Ef4350'),
-  DnGmxBatchingManager: Address.fromString('0x4fCDe8Fe25d1EDfA8f055172e60A27ac72DBAB55'),
+  DnGmxSeniorVault: Address.fromString('0xf9305009FbA7E381b3337b5fA157936d73c2CF36'),
+  DnGmxJuniorVault: Address.fromString('0x8478AB5064EbAC770DdCE77E7D31D969205F041E'),
+  DnGmxBatchingManager: Address.fromString('0x519Eb01fa6Ed3d72E96e40770a45b13531CEf63d'),
   DnGmxWithdrawPeriphery: Address.fromString(
-    '0xD8d479F10379d3B7a84dd24DbB4327745bcE314b'
+    '0xBA55D7f67Fa22DF5E92487d5b306DdB1aA543d10'
   ),
-  DnGmxDepositPeriphery: Address.fromString('0x9B381A96FD6fb410Fb9Fd60eFcf71B95ac58f3A7'),
+  DnGmxDepositPeriphery: Address.fromString('0x7CA90dD6813256BD040a8e13BbceD857B1C0C90c'),
 };
