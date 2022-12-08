@@ -161,9 +161,9 @@ dataSources:
     name: DnGmxSeniorVault
     network: arbitrum-one
     source:
-      address: '0x5FF92b1991504A35d7Eaa74998663F402187c9aE'
+      address: '0xf9305009FbA7E381b3337b5fA157936d73c2CF36'
       abi: DnGmxSeniorVault
-      startBlock: 44320790
+      startBlock: 44505365
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6
@@ -194,9 +194,9 @@ dataSources:
     name: DnGmxJuniorVault
     network: arbitrum-one
     source:
-      address: '0x87821D7B7dda83ad03dE7aF947308E3009Ef4350'
+      address: '0x8478AB5064EbAC770DdCE77E7D31D969205F041E'
       abi: DnGmxJuniorVault
-      startBlock: 44320790
+      startBlock: 44505365
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6
@@ -231,9 +231,9 @@ dataSources:
     name: DnGmxBatchingManager
     network: arbitrum-one
     source:
-      address: '0x4fCDe8Fe25d1EDfA8f055172e60A27ac72DBAB55'
+      address: '0x519Eb01fa6Ed3d72E96e40770a45b13531CEf63d'
       abi: DnGmxBatchingManager
-      startBlock: 44320790
+      startBlock: 44505365
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6
@@ -267,9 +267,9 @@ dataSources:
     name: DnGmxDepositPeriphery
     network: arbitrum-one
     source:
-      address: '0x9B381A96FD6fb410Fb9Fd60eFcf71B95ac58f3A7'
+      address: '0x7CA90dD6813256BD040a8e13BbceD857B1C0C90c'
       abi: DnGmxDepositPeriphery
-      startBlock: 44320790
+      startBlock: 44505365
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6
@@ -301,9 +301,9 @@ dataSources:
     name: DnGmxWithdrawPeriphery
     network: arbitrum-one
     source:
-      address: '0xD8d479F10379d3B7a84dd24DbB4327745bcE314b'
+      address: '0xBA55D7f67Fa22DF5E92487d5b306DdB1aA543d10'
       abi: DnGmxWithdrawPeriphery
-      startBlock: 44320790
+      startBlock: 44505365
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6
