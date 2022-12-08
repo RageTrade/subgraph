@@ -125,6 +125,21 @@ export function handleBatchDeposit(event: BatchDeposit): void {
 
       entry.sharesTokenDollarValue = entry.tokenAmount;
 
+      log.debug(
+        'custom_logs: dn_Gmx_handleBatchDeposit [ batchShares - {} ] [ batchAssets - {} ] [ batchUSDC - {} ] [ userUSDC - {} ] [ userShares - {} ] [ userAssets - {} ] [ assetPrice - {} ] [ sharePrice - {} ] [ userSharesDollarValue - {} ]',
+        [
+          BigIntToBigDecimal(event.params.userShareAmount, BI_18).toString(),
+          BigIntToBigDecimal(event.params.userGlpAmount, BI_18).toString(),
+          BigIntToBigDecimal(event.params.userUsdcAmount, BI_6).toString(),
+          entry.tokenAmount.toString(),
+          entry.sharesTokenAmount.toString(),
+          entry.assetsTokenAmount.toString(),
+          entry.assetPrice.toString(),
+          entry.sharePrice.toString(),
+          entry.sharesTokenDollarValue.toString(),
+        ]
+      );
+
       entry.save();
 
       updateEntryPrices_deposit(
