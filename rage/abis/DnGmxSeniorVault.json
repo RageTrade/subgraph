@@ -758,6 +758,14 @@
   },
   {
     "type": "function",
+    "name": "pause",
+    "constant": false,
+    "payable": false,
+    "inputs": [],
+    "outputs": []
+  },
+  {
+    "type": "function",
     "name": "paused",
     "constant": true,
     "stateMutability": "view",
@@ -1060,6 +1068,14 @@
         "name": "newOwner"
       }
     ],
+    "outputs": []
+  },
+  {
+    "type": "function",
+    "name": "unpause",
+    "constant": false,
+    "payable": false,
+    "inputs": [],
     "outputs": []
   },
   {
