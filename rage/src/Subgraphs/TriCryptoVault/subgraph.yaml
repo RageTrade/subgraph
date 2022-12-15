@@ -1,0 +1,72 @@
+specVersion: 0.0.6
+description: Rage Perpswap Contracts
+repository: https://github.com/rage-trade/perpswap-contracts
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum/contract
+    name: CurveYieldStrategy
+    network: arbitrum-one
+    source:
+      address: '0x1d42783E7eeacae12EbC315D1D2D0E3C6230a068'
+      abi: CurveYieldStrategy
+      startBlock: 17185561
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      entities:
+        - VaultDepositWithdrawEntry
+        - Vault
+        - Owner
+        - ERC20Token
+      abis:
+        - name: CurveQuoter
+          file: ./abis/CurveQuoter.json
+        - name: CurveYieldStrategy
+          file: ./abis/CurveYieldStrategy.json
+        - name: ERC20
+          file: ./abis/ERC20.json
+        - name: ERC20SymbolBytes
+          file: ./abis/ERC20SymbolBytes.json
+        - name: ERC20NameBytes
+          file: ./abis/ERC20NameBytes.json
+      file: ./src/mappings/CurveYieldStrategy/handler.ts
+      eventHandlers:
+        - event: Deposit(indexed address,indexed address,uint256,uint256)
+          handler: handleDeposit
+        - event: Withdraw(indexed address,indexed address,indexed address,uint256,uint256)
+          handler: handleWithdraw
+        - event: Rebalance()
+          handler: handleRebalance
+  - kind: ethereum/contract
+    name: VaultPeriphery
+    network: arbitrum-one
+    source:
+      address: '0x4b928aFd7CA775C7f4ECdf2c00B7e608962AbbDc'
+      abi: VaultPeriphery
+      startBlock: 17185561
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      entities:
+        - VaultDepositWithdrawEntry
+        - Vault
+        - Owner
+        - ERC20Token
+      abis:
+        - name: VaultPeriphery
+          file: ./abis/VaultPeriphery.json
+        - name: CurveYieldStrategy
+          file: ./abis/CurveYieldStrategy.json
+        - name: ERC20
+          file: ./abis/ERC20.json
+        - name: ERC20SymbolBytes
+          file: ./abis/ERC20SymbolBytes.json
+        - name: ERC20NameBytes
+          file: ./abis/ERC20NameBytes.json
+      file: ./src/mappings/VaultPeriphery/handler.ts
+      eventHandlers:
+        - event: DepositPeriphery(indexed address,indexed address,uint256,uint256,uint256)
+          handler: handleDepositPeriphery
