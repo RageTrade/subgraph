@@ -96,6 +96,15 @@ export function handleBatchDeposit(event: BatchDeposit): void {
 
   let assetPrice = parsePrice10Pow30(assetPriceResult.value, BI_18, BI_6);
 
+  let assetsResult = dnGmxJuniorVaultContract.try_convertToAssets(
+    event.params.userShareAmount
+  );
+
+  if (assetsResult.reverted) {
+    log.error('custom_logs: getPriceX128 handleWithdraw reverted {}', ['']);
+    return;
+  }
+
   for (let i = 0; i < pendingDeposits.length; i++) {
     let entry = VaultDepositWithdrawEntry.load(pendingDeposits[i]);
     if (entry == null) {
@@ -113,7 +122,7 @@ export function handleBatchDeposit(event: BatchDeposit): void {
 
       entry.assetsTokenAmount = entry.tokenAmount.times(
         safeDiv(
-          BigIntToBigDecimal(event.params.userGlpAmount, BI_18),
+          BigIntToBigDecimal(assetsResult.value, BI_18),
           BigIntToBigDecimal(event.params.userUsdcAmount, BI_6)
         )
       );
@@ -126,8 +135,9 @@ export function handleBatchDeposit(event: BatchDeposit): void {
       entry.sharesTokenDollarValue = entry.tokenAmount;
 
       log.debug(
-        'custom_logs: dn_Gmx_handleBatchDeposit [ batchShares - {} ] [ batchAssets - {} ] [ batchUSDC - {} ] [ userUSDC - {} ] [ userShares - {} ] [ userAssets - {} ] [ assetPrice - {} ] [ sharePrice - {} ] [ userSharesDollarValue - {} ]',
+        'custom_logs: dn_Gmx_handleBatchDeposit [ owner - {} ][ batchShares - {} ] [ batchAssets - {} ] [ batchUSDC - {} ] [ userUSDC - {} ] [ userShares - {} ] [ userAssets - {} ] [ assetPrice - {} ] [ sharePrice - {} ] [ userSharesDollarValue - {} ]',
         [
+          entry.owner,
           BigIntToBigDecimal(event.params.userShareAmount, BI_18).toString(),
           BigIntToBigDecimal(event.params.userGlpAmount, BI_18).toString(),
           BigIntToBigDecimal(event.params.userUsdcAmount, BI_6).toString(),
