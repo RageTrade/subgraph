@@ -10,7 +10,7 @@ import {
 } from '../../utils/entry-price';
 import { getERC20Token } from '../../utils/getERC20Token';
 import { getVault } from '../../utils/getVault';
-import { getOwner } from '../clearinghouse/owner';
+import { getOwner } from '../../utils/getOwner';
 
 export function handleDeposit(event: Deposit): void {
   log.debug(

@@ -1,21 +1,20 @@
 import { log } from '@graphprotocol/graph-ts';
-import { ClearingHouseLens } from '../../../generated/RageTradeFactory/ClearingHouseLens';
-import { PoolInitialized } from '../../../generated/RageTradeFactory/RageTradeFactory';
+import { ClearingHouseLens } from '../../../../generated/RageTradeFactory/ClearingHouseLens';
+import { PoolInitialized } from '../../../../generated/RageTradeFactory/RageTradeFactory';
 import {
   Collection,
   Protocol,
   RageTradeFactory,
-  RageTradePool,
   Temp_UniswapV3_Pool,
   VPoolWrapper,
   VQuote,
   VToken,
-} from '../../../generated/schema';
-import { VPoolWrapperLogic } from '../../../generated/templates';
-import { generateId, truncate } from '../../utils';
-import { contracts } from '../../utils/addresses';
-import { ZERO_BD } from '../../utils/constants';
-import { fetchTokenDecimals, fetchTokenName, fetchTokenSymbol } from '../../utils/token';
+} from '../../../../generated/schema';
+import { VPoolWrapperLogic } from '../../../../generated/templates';
+import { generateId, truncate } from '../../../utils';
+import { contracts } from '../../../utils/addresses';
+import { ZERO_BD } from '../../../utils/constants';
+import { fetchTokenDecimals, fetchTokenName, fetchTokenSymbol } from '../../../utils/token';
 import { getRageTradePool } from './rageTradePool';
 
 export function handlePoolInitialized(event: PoolInitialized): void {

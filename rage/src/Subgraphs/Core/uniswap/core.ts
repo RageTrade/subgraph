@@ -6,22 +6,22 @@ import {
   UniswapV3Mint,
   UniswapV3Pool,
   UniswapV3Token,
-} from '../../../generated/schema';
+} from '../../../../generated/schema';
 import { BigInt, log } from '@graphprotocol/graph-ts';
 import {
   Burn as BurnEvent,
   Initialize,
   Mint as MintEvent,
-} from '../../../generated/templates/UniswapV3Pool/UniswapV3Pool';
-import { convertTokenToDecimal, loadTransaction } from '../../utils';
-import { FACTORY_ADDRESS, ONE_BI } from '../../utils/constants';
+} from '../../../../generated/templates/UniswapV3Pool/UniswapV3Pool';
+import { convertTokenToDecimal, loadTransaction } from '../../../utils';
+import { FACTORY_ADDRESS, ONE_BI } from '../../../utils/constants';
 import {
   updatePoolDayData,
   updatePoolHourData,
   updateTokenDayData,
   updateTokenHourData,
   updateUniswapDayData,
-} from '../../utils/intervalUpdates';
+} from '../../../utils/intervalUpdates';
 /* eslint-disable prefer-const */
 
 export function handleInitialize(event: Initialize): void {

@@ -1,7 +1,7 @@
 import { BigInt, log } from '@graphprotocol/graph-ts';
-import { TokenPosition } from '../../../generated/schema';
-import { generateId } from '../../utils';
-import { ZERO_BD, ZERO_BI } from '../../utils/constants';
+import { TokenPosition } from '../../../../generated/schema';
+import { generateId } from '../../../utils';
+import { ZERO_BD, ZERO_BI } from '../../../utils/constants';
 import { generateAccountId } from './account';
 
 export function getTokenPosition(accountId: BigInt, poolId: BigInt): TokenPosition {

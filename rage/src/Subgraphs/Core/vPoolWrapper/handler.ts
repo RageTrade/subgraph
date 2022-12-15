@@ -1,18 +1,18 @@
 import { Address, log, BigInt } from '@graphprotocol/graph-ts';
-import { RageTradePool, VPoolWrapper } from '../../../generated/schema';
+import { RageTradePool, VPoolWrapper } from '../../../../generated/schema';
 import {
   Burn,
   Mint,
   Swap,
-} from '../../../generated/templates/VPoolWrapperLogic/VPoolWrapperLogic';
+} from '../../../../generated/templates/VPoolWrapperLogic/VPoolWrapperLogic';
 import {
   getPriceANDTick,
   getRageTradePoolTvl,
   updateCandleData,
   getRageTradeVirtualPriceAccumulator,
 } from './utils';
-import { BigIntToBigDecimal, generateId } from '../../utils';
-import { BI_18, BI_6 } from '../../utils/constants';
+import { BigIntToBigDecimal, generateId } from '../../../utils';
+import { BI_18, BI_6 } from '../../../utils/constants';
 
 export function handleSwap(event: Swap): void {
   log.debug(

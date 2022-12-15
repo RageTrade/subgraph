@@ -1,8 +1,8 @@
-import { Account } from '../../../generated/schema';
+import { Account } from '../../generated/schema';
 import { Address, BigInt, log } from '@graphprotocol/graph-ts';
 
-import { getOwner } from './owner';
-import { ADDRESS_ZERO, ZERO_BD, ZERO_BI } from '../../utils/constants';
+import { getOwner } from './getOwner';
+import { ADDRESS_ZERO, ZERO_BD, ZERO_BI } from './constants';
 
 export function generateAccountId(accountNo: BigInt): string {
   return accountNo.toString();

@@ -10,14 +10,14 @@ import { VaultDepositWithdrawEntry, VaultRebalance } from '../../../generated/sc
 import { generateId, BigIntToBigDecimal, parsePriceX128, safeDiv } from '../../utils';
 import { contracts } from '../../utils/addresses';
 import { BI_18, BI_6, ONE_BI, ZERO_BD } from '../../utils/constants';
-import { getOwner } from '../clearinghouse/owner';
+import { getOwner } from '../../utils/getOwner';
 import { getERC20Token } from '../../utils/getERC20Token';
 import { getVault } from '../../utils/getVault';
 import {
   updateEntryPrices_deposit,
   updateEntryPrices_withdraw,
 } from '../../utils/entry-price';
-import { getAccountById } from '../clearinghouse/account';
+import { getAccountById } from '../../utils/getAccount';
 
 export function handleDeposit(event: Deposit): void {
   // do not handle if deposit is coming from periphery

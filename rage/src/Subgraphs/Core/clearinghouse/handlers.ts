@@ -8,16 +8,16 @@ import {
   TokenPositionLiquidated,
   ProfitUpdated,
   LiquidityPositionEarningsRealized,
-} from '../../../generated/ClearingHouse/ClearingHouse';
+} from '../../../../generated/ClearingHouse/ClearingHouse';
 import {
   FundingPaymentRealizedEntry,
   MarginChangeEntry,
   RageTradePool,
   TokenPositionChangeEntry,
   TokenPositionLiquidatedEntry,
-} from '../../../generated/schema';
+} from '../../../../generated/schema';
 import { generateAccountId, getAccount } from './account';
-import { getOwner } from './owner';
+import { getOwner } from '../../../utils/getOwner';
 import { getTokenPosition } from './token-position';
 import {
   abs,
@@ -29,10 +29,9 @@ import {
   parsePriceX128,
   parseSqrtPriceX96,
   safeDiv,
-} from '../../utils';
-import { UniswapV3Pool } from '../../../generated/templates/UniswapV3Pool/UniswapV3Pool';
+} from '../../../utils';
 import { absBigDecimal, getPriceANDTick } from '../vPoolWrapper/utils';
-import { BI_18, BI_6, ONE_BD, ONE_BI, ZERO_BD, ZERO_BI } from '../../utils/constants';
+import { BI_18, BI_6, ONE_BD, ONE_BI, ZERO_BD, ZERO_BI } from '../../../utils/constants';
 import { getCollateral } from './collateral';
 import { getRageTradePool, getRageTradePoolId } from '../ragetradeFactory/rageTradePool';
 import { getLiquidationPrice, updateAllLiquidationPrices } from './liquidationPrice';

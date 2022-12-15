@@ -7,7 +7,7 @@ import {
 import { BigIntToBigDecimal, generateId, parsePriceX128, safeDiv } from '../../utils';
 import { contracts } from '../../utils/addresses';
 import { getVault } from '../../utils/getVault';
-import { getOwner } from '../clearinghouse/owner';
+import { getOwner } from '../../utils/getOwner';
 import { getERC20Token } from '../../utils/getERC20Token';
 import { BI_18, BI_6, ONE_BI, ZERO_BD, ZERO_BI } from '../../utils/constants';
 import { GMXYieldStrategy } from '../../../generated/GMXYieldStrategy/GMXYieldStrategy';

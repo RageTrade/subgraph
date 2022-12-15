@@ -1,6 +1,6 @@
 import { Address } from '@graphprotocol/graph-ts';
-import { Owner } from '../../../generated/schema';
-import { ZERO_BI, ZERO_BD } from '../../utils/constants';
+import { Owner } from '../../generated/schema';
+import { ZERO_BI } from './constants';
 
 export function generateOwnerId(ownerAddress: Address): string {
   return ownerAddress.toHexString();

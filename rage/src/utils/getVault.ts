@@ -2,7 +2,7 @@ import { Address } from '@graphprotocol/graph-ts';
 import { getVaultNameEnum } from './enum';
 import { Vault } from '../../generated/schema';
 import { CurveYieldStrategy } from '../../generated/CurveYieldStrategy/CurveYieldStrategy';
-import { getAccount } from '../mappings/clearinghouse/account';
+import { getAccount } from './getAccount';
 import { ZERO_BD } from './constants';
 
 export function generateVaultId(vaultAddress: Address): string {

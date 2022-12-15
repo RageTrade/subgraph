@@ -1,17 +1,14 @@
 import { log } from '@graphprotocol/graph-ts';
+import { Rebalance } from '../../../generated/CurveYieldStrategy/CurveYieldStrategy';
+
 import {
   Deposit,
-  DnGmxJuniorVault,
-  Rebalanced,
-  RewardsHarvested,
   Withdraw,
-} from '../../../generated/DnGmxJuniorVault/DnGmxJuniorVault';
-import {
-  VaultDepositWithdrawEntry,
-  VaultRebalance,
-  VaultRewardsHarvestedEntry,
-} from '../../../generated/schema';
-import { BigIntToBigDecimal, generateId, parsePrice10Pow30, safeDiv } from '../../utils';
+  TokenWithdrawn,
+  GMXYieldStrategy,
+} from '../../../generated/GMXYieldStrategy/GMXYieldStrategy';
+import { VaultDepositWithdrawEntry, VaultRebalance } from '../../../generated/schema';
+import { BigIntToBigDecimal, generateId, parsePriceX128, safeDiv } from '../../utils';
 import { contracts } from '../../utils/addresses';
 import { BI_18, BI_6, ONE_BI, ZERO_BD } from '../../utils/constants';
 import {
@@ -20,7 +17,12 @@ import {
 } from '../../utils/entry-price';
 import { getERC20Token } from '../../utils/getERC20Token';
 import { getVault } from '../../utils/getVault';
-import { getOwner } from '../clearinghouse/owner';
+import { getAccountById } from '../../utils/getAccount';
+import { getOwner } from '../../utils/getOwner';
+
+// GMX Yield Strategy allows to
+// - deposit & withdraw sGLP
+// - only withdraw other tokens
 
 export function handleDeposit(event: Deposit): void {
   log.debug(
@@ -33,32 +35,29 @@ export function handleDeposit(event: Deposit): void {
     ]
   );
 
-  let vault = getVault(contracts.DnGmxJuniorVault);
+  let vault = getVault(contracts.GMXYieldStrategy);
   let owner = getOwner(event.params.owner);
   let token = getERC20Token(contracts.sGLP);
 
   let sharesInBigDecimal = BigIntToBigDecimal(event.params.shares, BI_18);
-  let assets = DnGmxJuniorVault.bind(contracts.DnGmxJuniorVault).convertToAssets(
-    event.params.shares
-  );
-  let assetsInBigDecimal = BigIntToBigDecimal(assets, BI_18); // asset is sGLP
+  let assetsInBigDecimal = BigIntToBigDecimal(event.params.assets, BI_18);
 
   let assetsPerShare = safeDiv(assetsInBigDecimal, sharesInBigDecimal);
 
-  let dnGmxJuniorVaultContract = DnGmxJuniorVault.bind(contracts.DnGmxJuniorVault);
-  let assetPriceResult = dnGmxJuniorVaultContract.try_getPrice(false);
+  let gmxYieldStrategyContract = GMXYieldStrategy.bind(contracts.GMXYieldStrategy);
+  let assetPriceResult = gmxYieldStrategyContract.try_getPriceX128();
 
   if (assetPriceResult.reverted) {
     log.error('custom_logs: getPriceX128 handleWithdraw reverted {}', ['']);
     return;
   }
+  let assetPrice = parsePriceX128(assetPriceResult.value, BI_18, BI_6);
 
-  let assetPrice = parsePrice10Pow30(assetPriceResult.value, BI_18, BI_6);
   let sharePrice = assetPrice.times(assetsPerShare);
 
   updateEntryPrices_deposit(
     event.params.owner,
-    contracts.DnGmxJuniorVault,
+    contracts.GMXYieldStrategy,
     assetsInBigDecimal,
     sharesInBigDecimal,
     assetPrice,
@@ -78,13 +77,10 @@ export function handleDeposit(event: Deposit): void {
 
   //...........................................................................//
 
-  if (
-    event.params.caller.toHexString() == contracts.DnGmxBatchingManager.toHexString() ||
-    event.params.caller.toHexString() == contracts.DnGmxDepositPeriphery.toHexString()
-  ) {
+  if (event.params.caller.toHexString() == contracts.GMXBatchingManager.toHexString()) {
     log.error(
-      'custom_logs: handleDeposit event came from DnGmxBatchingManager or DnGmxDepositPeriphery | caller - {}',
-      [event.params.caller.toHexString()]
+      'custom_logs: handleDeposit event came from GMXBatchingManager - {} | caller - {}',
+      [contracts.GMXBatchingManager.toHexString(), event.params.caller.toHexString()]
     );
     return;
   }
@@ -137,18 +133,18 @@ export function handleWithdraw(event: Withdraw): void {
     ]
   );
 
-  let vault = getVault(contracts.DnGmxJuniorVault);
+  let vault = getVault(contracts.GMXYieldStrategy);
   let owner = getOwner(event.params.owner);
   let token = getERC20Token(contracts.sGLP);
 
-  let assetsInBigDecimal = BigIntToBigDecimal(event.params.assets, BI_18); // asset is sGLP
+  let assetsInBigDecimal = BigIntToBigDecimal(event.params.assets, BI_18);
   let sharesInBigDecimal = BigIntToBigDecimal(event.params.shares, BI_18);
 
   //...........................................................................//
 
   updateEntryPrices_withdraw(
     event.params.owner,
-    contracts.DnGmxJuniorVault,
+    contracts.GMXYieldStrategy,
     assetsInBigDecimal,
     sharesInBigDecimal
   );
@@ -159,16 +155,6 @@ export function handleWithdraw(event: Withdraw): void {
   ]);
 
   //...........................................................................//
-
-  if (
-    event.params.caller.toHexString() == contracts.DnGmxWithdrawPeriphery.toHexString()
-  ) {
-    log.info(
-      'custom_logs: handleWithdraw event came from DnGmxWithdrawPeriphery - {} | caller - {}',
-      [contracts.DnGmxWithdrawPeriphery.toHexString(), event.params.caller.toHexString()]
-    );
-    return;
-  }
 
   let vaultDepositWithdrawEntryId = generateId([
     vault.id,
@@ -195,14 +181,14 @@ export function handleWithdraw(event: Withdraw): void {
 
   entry.sharesTokenAmount = sharesInBigDecimal;
 
-  let dnGmxJuniorVaultContract = DnGmxJuniorVault.bind(contracts.DnGmxJuniorVault);
-  let assetPriceResult = dnGmxJuniorVaultContract.try_getPrice(false); // 10 ** 30
+  let gmxYieldStrategyContract = GMXYieldStrategy.bind(contracts.GMXYieldStrategy);
+  let assetPriceResult = gmxYieldStrategyContract.try_getPriceX128();
 
   if (assetPriceResult.reverted) {
     log.error('custom_logs: getPriceX128 handleWithdraw reverted {}', ['']);
     return;
   }
-  let assetsPrice = parsePrice10Pow30(assetPriceResult.value, BI_18, BI_6);
+  let assetsPrice = parsePriceX128(assetPriceResult.value, BI_18, BI_6);
 
   entry.assetPrice = assetsPrice;
   entry.sharePrice = safeDiv(
@@ -219,8 +205,95 @@ export function handleWithdraw(event: Withdraw): void {
   entry.save();
 }
 
-export function handleRebalance(event: Rebalanced): void {
+export function handleTokenWithdrawn(event: TokenWithdrawn): void {
+  log.debug(
+    'custom_logs: handleTokenWithdrawn triggered [ token - {} ] [ shares - {} ] [ receiver - {} ]',
+    [
+      event.params.token.toHexString(),
+      event.params.shares.toHexString(),
+      event.params.receiver.toHexString(),
+    ]
+  );
+
+  let vault = getVault(contracts.GMXYieldStrategy);
+  let owner = getOwner(event.params.receiver);
+  let token = getERC20Token(contracts.sGLP);
+
+  let assetsInBigDecimal = BigIntToBigDecimal(event.params.sGLPQuantity, BI_18);
+  let sharesInBigDecimal = BigIntToBigDecimal(event.params.shares, BI_18);
+
+  //...........................................................................//
+
+  updateEntryPrices_withdraw(
+    event.params.owner,
+    contracts.GMXYieldStrategy,
+    assetsInBigDecimal,
+    sharesInBigDecimal
+  );
+
+  log.debug('custom_logs: handleWithdraw owner - {} sharesInBigDecimal - {}', [
+    event.params.owner.toHexString(),
+    sharesInBigDecimal.toString(),
+  ]);
+
+  //...........................................................................//
+
+  let vaultDepositWithdrawEntryId = generateId([
+    vault.id,
+    owner.id,
+    event.block.number.toHexString(),
+    event.logIndex.toHexString(),
+  ]);
+
+  let entry = new VaultDepositWithdrawEntry(vaultDepositWithdrawEntryId);
+
+  entry.timestamp = event.block.timestamp;
+  entry.transactionHash = event.transaction.hash;
+
+  entry.owner = owner.id;
+  entry.vault = vault.id;
+  entry.token = token.id;
+
+  entry.action = 'withdraw';
+
+  entry.assetsTokenAmount = assetsInBigDecimal;
+  entry.tokenAmount = entry.assetsTokenAmount;
+
+  entry.sharesTokenAmount = sharesInBigDecimal;
+
+  let gmxYieldStrategyContract = GMXYieldStrategy.bind(contracts.GMXYieldStrategy);
+  let assetPriceResult = gmxYieldStrategyContract.try_getPriceX128();
+
+  if (assetPriceResult.reverted) {
+    log.error('custom_logs: getPriceX128 handleTokenWithdrawn reverted {}', ['']);
+    return;
+  }
+  let assetsPrice = parsePriceX128(assetPriceResult.value, BI_18, BI_6);
+
+  entry.assetPrice = assetsPrice;
+  entry.sharePrice = safeDiv(
+    assetsPrice.times(entry.assetsTokenAmount),
+    entry.sharesTokenAmount
+  );
+
+  entry.sharesTokenDollarValue = entry.assetsTokenAmount.times(assetsPrice);
+
+  owner.vaultDepositWithdrawEntriesCount = owner.vaultDepositWithdrawEntriesCount.plus(
+    ONE_BI
+  );
+  owner.save();
+  entry.save();
+}
+
+export function handleRebalance(event: Rebalance): void {
   let vault = getVault(event.address);
+  let account = getAccountById(vault.rageAccount);
+  let earnings = account.totalLiquidityPositionEarningsRealized.minus(
+    vault.totalLiquidityPositionEarningsRealized
+  );
+  vault.totalLiquidityPositionEarningsRealized =
+    account.totalLiquidityPositionEarningsRealized;
+  vault.save();
 
   let vr = new VaultRebalance(
     generateId([
@@ -229,56 +302,14 @@ export function handleRebalance(event: Rebalanced): void {
       event.logIndex.toString(),
     ])
   );
-
   vr.timestamp = event.block.timestamp;
-  vr.liquidityPositionEarningsRealized = ZERO_BD;
+  vr.liquidityPositionEarningsRealized = earnings;
   vr.vault = vault.id;
   vr.vaultMarketValue = BigIntToBigDecimal(
     // TODO change to BaseVault
-    DnGmxJuniorVault.bind(event.address).getVaultMarketValue(),
+    GMXYieldStrategy.bind(event.address).getVaultMarketValue(),
     BI_6
   );
-  vr.partnerVaultMarketValue = BigIntToBigDecimal(
-    DnGmxJuniorVault.bind(contracts.DnGmxSeniorVault).getVaultMarketValue(),
-    BI_6
-  );
+  vr.partnerVaultMarketValue = ZERO_BD;
   vr.save();
-}
-
-export function handleRewardsHarvested(event: RewardsHarvested): void {
-  log.debug(
-    'custom_logs: handleRewardsHarvested triggered [ wethHarvested - {} ] [ esGmxStaked - {} ] [ juniorVaultWeth - {} ] [ seniorVaultWeth - {} ] [ juniorVaultGlp - {} ] [ seniorVaultAUsdc - {} ]',
-    [
-      event.params.wethHarvested.toString(),
-      event.params.esGmxStaked.toString(),
-      event.params.juniorVaultWeth.toString(),
-      event.params.seniorVaultWeth.toString(),
-      event.params.juniorVaultGlp.toString(),
-      event.params.seniorVaultAUsdc.toString(),
-    ]
-  );
-
-  let vault = getVault(event.address);
-
-  let entry = new VaultRewardsHarvestedEntry(
-    generateId([
-      vault.id,
-      event.transaction.hash.toHexString(),
-      event.logIndex.toString(),
-    ])
-  );
-
-  entry.vault = vault.id;
-
-  entry.timestamp = event.block.timestamp;
-  entry.blockNumber = event.block.number;
-
-  entry.wethHarvested = BigIntToBigDecimal(event.params.wethHarvested, BI_18);
-  entry.esGmxStaked = BigIntToBigDecimal(event.params.esGmxStaked, BI_18);
-  entry.juniorVaultWeth = BigIntToBigDecimal(event.params.juniorVaultWeth, BI_18);
-  entry.seniorVaultWeth = BigIntToBigDecimal(event.params.seniorVaultWeth, BI_18);
-  entry.juniorVaultGlp = BigIntToBigDecimal(event.params.juniorVaultGlp, BI_18);
-  entry.seniorVaultAUsdc = BigIntToBigDecimal(event.params.seniorVaultAUsdc, BI_6);
-
-  entry.save();
 }

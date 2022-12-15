@@ -4,12 +4,12 @@ import {
   RageTradePool,
   VQuote,
   VToken,
-} from '../../../generated/schema';
-import { ONE_BI, ZERO_BD, ZERO_BI } from '../../utils/constants';
+} from '../../../../generated/schema';
+import { ONE_BI, ZERO_BD, ZERO_BI } from '../../../utils/constants';
 import { Address, BigDecimal, BigInt, log } from '@graphprotocol/graph-ts';
-import { UniswapV3Pool } from '../../../generated/templates/UniswapV3Pool/UniswapV3Pool';
-import { parseSqrtPriceX96 } from '../../utils';
-import { fetchTokenBalance } from '../../utils/token';
+import { UniswapV3Pool } from '../../../../generated/templates/UniswapV3Pool/UniswapV3Pool';
+import { parseSqrtPriceX96 } from '../../../utils';
+import { fetchTokenBalance } from '../../../utils/token';
 
 export function getCandle(
   id: string,

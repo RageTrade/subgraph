@@ -1,6 +1,6 @@
 import { Address, BigDecimal } from '@graphprotocol/graph-ts';
 import { VaultAccount } from '../../generated/schema';
-import { generateOwnerId } from '../mappings/clearinghouse/owner';
+import { generateOwnerId } from './getOwner';
 import { generateId, safeDiv } from '../utils/index';
 import { ZERO_BD } from './constants';
 import { generateVaultId } from './getVault';

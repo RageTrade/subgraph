@@ -4,10 +4,10 @@ import {
   Protocol,
   RageTradePool,
   TokenPosition,
-} from '../../../generated/schema';
+} from '../../../../generated/schema';
 
-import { generateId, safeDiv } from '../../utils';
-import { ZERO_BD } from '../../utils/constants';
+import { generateId, safeDiv } from '../../../utils';
+import { ZERO_BD } from '../../../utils/constants';
 
 export function getLiquidationPrice(
   netPosition: BigDecimal, // TokenPosition

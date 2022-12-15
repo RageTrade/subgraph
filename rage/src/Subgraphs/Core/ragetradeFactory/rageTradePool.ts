@@ -1,6 +1,6 @@
 import { BigInt, log } from '@graphprotocol/graph-ts';
-import { RageTradePool } from '../../../generated/schema';
-import { ZERO_BD, ZERO_BI } from '../../utils/constants';
+import { RageTradePool } from '../../../../generated/schema';
+import { ZERO_BD, ZERO_BI } from '../../../utils/constants';
 
 export function getRageTradePoolId(poolId: BigInt): string {
   return poolId.toHexString();
