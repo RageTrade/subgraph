@@ -24,7 +24,8 @@ type Contracts = {
   DnGmxDepositPeriphery: string;
 };
 
-export async function updateAddressTs({
+export async function updateAddressTS(
+  {
   ClearingHouse,
   clearingHouseLens,
   RageTradeFactory,
@@ -44,7 +45,13 @@ export async function updateAddressTs({
   DnGmxWithdrawPeriphery,
   DnGmxDepositPeriphery,
 }: Contracts) {
-  const file = `import { Address } from '@graphprotocol/graph-ts'
+  const file = `
+/**
+ * This file is auto generated, do not modify.
+ * source - updateAddresses.ts
+ */ 
+
+import { Address } from '@graphprotocol/graph-ts'
 
 class Contracts {
   ClearingHouse: Address;
@@ -67,7 +74,7 @@ class Contracts {
   DnGmxDepositPeriphery: Address;
 }
 
-export let contracts: Contracts = { 
+export let contracts: Contracts = {
   ClearingHouse: Address.fromString("${ClearingHouse}"),
   clearingHouseLens: Address.fromString("${clearingHouseLens}"),
   RageTradeFactory: Address.fromString("${RageTradeFactory}"),
