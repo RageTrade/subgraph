@@ -16,11 +16,14 @@
     "update:sdk": "pnpm add @ragetrade/sdk@latest",
     "update:arbmain": "node update-subgraph.js arbmain && pnpm run format:fix",
     "update:arbtest": "node update-subgraph.js arbtest && pnpm run format:fix",
-    "update:arbgoerli": "node update-subgraph.js arbgoerli && pnpm run format:fix"
+    "update:arbgoerli": "node update-subgraph.js arbgoerli && pnpm run format:fix",
+    "update:core:arbgoerli": "esno scripts/update-core.ts arbgoerli",
+    "update:core:arbmain": "esno scripts/update-core.ts arbmain"
   },
   "devDependencies": {
     "@graphprotocol/graph-cli": "^0.35.0",
     "@graphprotocol/graph-ts": "^0.29.0",
+    "@types/fs-extra": "^9.0.13",
     "@typescript-eslint/eslint-plugin": "^2.0.0",
     "@typescript-eslint/parser": "^2.0.0",
     "eslint": "^6.2.2",
@@ -35,6 +38,7 @@
     "babel-polyfill": "^6.26.0",
     "babel-register": "^6.26.0",
     "consola": "^2.15.3",
+    "esno": "^0.16.3",
     "ethers": "^5.6.9",
     "hardhat": "^2.0.0",
     "truffle": "^5.0.4",
