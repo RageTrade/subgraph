@@ -8,7 +8,7 @@ dataSources:
     name: DnGmxSeniorVault
     network: arbitrum-one
     source:
-      address: '0xf9305009FbA7E381b3337b5fA157936d73c2CF36'
+      address: "0xf9305009FbA7E381b3337b5fA157936d73c2CF36"
       abi: DnGmxSeniorVault
       startBlock: 44505365
     mapping:
@@ -41,7 +41,7 @@ dataSources:
     name: DnGmxJuniorVault
     network: arbitrum-one
     source:
-      address: '0x8478AB5064EbAC770DdCE77E7D31D969205F041E'
+      address: "0x8478AB5064EbAC770DdCE77E7D31D969205F041E"
       abi: DnGmxJuniorVault
       startBlock: 44505365
     mapping:
@@ -78,7 +78,7 @@ dataSources:
     name: DnGmxBatchingManager
     network: arbitrum-one
     source:
-      address: '0x519Eb01fa6Ed3d72E96e40770a45b13531CEf63d'
+      address: "0x519Eb01fa6Ed3d72E96e40770a45b13531CEf63d"
       abi: DnGmxBatchingManager
       startBlock: 44505365
     mapping:
@@ -114,7 +114,7 @@ dataSources:
     name: DnGmxDepositPeriphery
     network: arbitrum-one
     source:
-      address: '0x7CA90dD6813256BD040a8e13BbceD857B1C0C90c'
+      address: "0x7CA90dD6813256BD040a8e13BbceD857B1C0C90c"
       abi: DnGmxDepositPeriphery
       startBlock: 44505365
     mapping:
@@ -148,7 +148,7 @@ dataSources:
     name: DnGmxWithdrawPeriphery
     network: arbitrum-one
     source:
-      address: '0xBA55D7f67Fa22DF5E92487d5b306DdB1aA543d10'
+      address: "0xBA55D7f67Fa22DF5E92487d5b306DdB1aA543d10"
       abi: DnGmxWithdrawPeriphery
       startBlock: 44505365
     mapping:

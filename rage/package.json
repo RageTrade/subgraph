@@ -10,15 +10,16 @@
     "deploy:arbgoerli": "source .env && pnpm run update:arbgoerli && pnpm graph deploy --product hosted-service $RAGE_ARBGOERLI_SUBGRAPH",
     "deploy:arbmain": "source .env && pnpm run update:arbmain && graph deploy --product hosted-service $RAGE_ARBMAIN_SUBGRAPH",
     "build": "graph build",
-    "deploy-local": "graph deploy rage/perpswap-contracts-subgraph --ipfs http://localhost:5001 --node http://127.0.0.1:8020",
     "format": "prettier --check '**/*'",
     "format:fix": "prettier --write '**/*'",
-    "update:sdk": "pnpm add @ragetrade/sdk@latest",
-    "update:arbmain": "node update-subgraph.js arbmain && pnpm run format:fix",
-    "update:arbtest": "node update-subgraph.js arbtest && pnpm run format:fix",
-    "update:arbgoerli": "node update-subgraph.js arbgoerli && pnpm run format:fix",
     "update:core:arbgoerli": "esno scripts/update-core.ts arbgoerli",
-    "update:core:arbmain": "esno scripts/update-core.ts arbmain"
+    "update:core:arbmain": "esno scripts/update-core.ts arbmain",
+    "update:tricrypto:arbgoerli": "esno scripts/update-tricrypto.ts arbgoerli",
+    "update:tricrypto:arbmain": "esno scripts/update-tricrypto.ts arbmain",
+    "update:gmx:arbgoerli": "esno scripts/update-gmx.ts arbgoerli",
+    "update:gmx:arbmain": "esno scripts/update-gmx.ts arbmain",
+    "update:dn-gmx:arbgoerli": "esno scripts/update-dn-gmx.ts arbgoerli",
+    "update:dn-gmx:arbmain": "esno scripts/update-dn-gmx.ts arbmain"
   },
   "devDependencies": {
     "@graphprotocol/graph-cli": "^0.35.0",
