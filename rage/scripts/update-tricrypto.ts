@@ -36,6 +36,8 @@ updateSubgraphYaml(configPath, networkInfo.subgraph, startBlock, [
 ]);
 
 updateAddressJSON(networkInfo.subgraph, {
+  CurveYieldStrategy: curveYieldStrategy.address,
+  VaultPeriphery: vaultPeriphery.address,
   CurveQuoter: quoter.address,
   CurveTriCryptoLpTokenAddress: crv3.address,
 });

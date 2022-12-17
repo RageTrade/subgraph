@@ -12,7 +12,9 @@
     "DnGmxWithdrawPeriphery": "0xBA55D7f67Fa22DF5E92487d5b306DdB1aA543d10",
     "DnGmxDepositPeriphery": "0x7CA90dD6813256BD040a8e13BbceD857B1C0C90c",
     "sGLP": "0x2F546AD4eDD93B956C8999Be404cdCAFde3E89AE",
-    "USDC": "0xff970a61a04b1ca14834a43f5de4533ebddb5cc8"
+    "USDC": "0xff970a61a04b1ca14834a43f5de4533ebddb5cc8",
+    "CurveYieldStrategy": "0x1d42783E7eeacae12EbC315D1D2D0E3C6230a068",
+    "VaultPeriphery": "0x4b928aFd7CA775C7f4ECdf2c00B7e608962AbbDc"
   },
   "arbitrum-goerli": {
     "ClearingHouse": "0x7047343e3eF25505263116212EE74430A2A12257",
@@ -30,6 +32,8 @@
     "DnGmxJuniorVault": "0x1A4E8e51F68cCceB273fFDE5Dc7f92c12d154276",
     "DnGmxBatchingManager": "0x09669a51953A6CaAdC0bDA3976b6e8b898Cd8291",
     "DnGmxWithdrawPeriphery": "0x40c7b7B3D27a24210c4BD3b19c992Cb7604387AC",
-    "DnGmxDepositPeriphery": "0xd22608d82a1328EF2C0fb03DF4a910E84A0FA0cf"
+    "DnGmxDepositPeriphery": "0xd22608d82a1328EF2C0fb03DF4a910E84A0FA0cf",
+    "CurveYieldStrategy": "0xddDcfF2D6CB373C2F1A115bAC6B1862b72b812f4",
+    "VaultPeriphery": "0x5d44c28E34343888923aCFAc34AF617461657f9B"
   }
 }
