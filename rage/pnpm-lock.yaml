@@ -14,6 +14,7 @@ importers:
       '@typescript-eslint/parser': ^2.0.0
       babel-polyfill: ^6.26.0
       babel-register: ^6.26.0
+      consola: ^2.15.3
       eslint: ^6.2.2
       eslint-config-prettier: ^6.1.0
       ethers: ^5.6.9
@@ -29,6 +30,7 @@ importers:
       '@ragetrade/sdk': 1.0.2_h4qtpcxkfvtpy6ldthi4lq2o6i
       babel-polyfill: 6.26.0
       babel-register: 6.26.0
+      consola: 2.15.3
       ethers: 5.7.1
       hardhat: 2.12.0_typescript@3.9.10
       truffle: 5.6.1
@@ -3053,6 +3055,10 @@ packages:
       semver: 7.3.8
     dev: false
     optional: true
+
+  /consola/2.15.3:
+    resolution: {integrity: sha512-9vAdYbHj6x2fLKC4+oPH0kFzY/orMZyG2Aj+kNylHxKGJ/Ed4dpNyAQYwJOdqO4zdM7XpVHmyejQDcQHrnuXbw==}
+    dev: false
 
   /constant-case/2.0.0:
     resolution: {integrity: sha512-eS0N9WwmjTqrOmR3o83F5vW8Z+9R1HnVz3xmzT2PMFug9ly+Au/fxRWlEBSb6LcZwspSsEn9Xs1uw9YgzAg1EQ==}

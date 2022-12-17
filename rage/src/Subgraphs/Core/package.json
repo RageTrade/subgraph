@@ -2,17 +2,10 @@
   "name": "perpswap-contracts-subgraph",
   "version": "0.1.0",
   "scripts": {
-    "auth:arbmain": "source .env && pnpm graph auth --product hosted-service <key>",
-    "auth:arbgoerli": "source .env && pnpm graph auth --product hosted-service <key>",
-    "deploy:arbgoerli": "source .env && pnpm run update:arbgoerli && pnpm graph deploy --product hosted-service $RAGE_ARBGOERLI_SUBGRAPH",
-    "deploy:arbmain": "source .env && pnpm run update:arbmain && graph deploy --product hosted-service $RAGE_ARBMAIN_SUBGRAPH",
     "build": "graph build",
-    "deploy-local": "graph deploy rage/perpswap-contracts-subgraph --ipfs http://localhost:5001 --node http://127.0.0.1:8020",
-    "format": "prettier --check '**/*'",
-    "format:fix": "prettier --write '**/*'",
-    "update:sdk": "pnpm add @ragetrade/sdk@latest",
+    "deploy:arbmain": "source .env && pnpm run update:arbmain && graph deploy --product hosted-service $RAGE_ARBMAIN_SUBGRAPH",
+    "deploy:arbgoerli": "source .env && pnpm run update:arbgoerli && pnpm graph deploy --product hosted-service $RAGE_ARBGOERLI_SUBGRAPH",
     "update:arbmain": "node update-subgraph.js arbmain && pnpm run format:fix",
-    "update:arbtest": "node update-subgraph.js arbtest && pnpm run format:fix",
     "update:arbgoerli": "node update-subgraph.js arbgoerli && pnpm run format:fix"
   }
 }

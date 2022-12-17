@@ -1,50 +1,10 @@
-// @ts-check
-const fs = require('fs-extra');
-const yaml = require('yaml');
-const sdk = require('@ragetrade/sdk');
-const { ethers } = require('ethers');
+import fs from 'fs-extra';
+import yaml from 'yaml';
+import sdk from '@ragetrade/sdk';
+import { ethers } from 'ethers';
+import { getNetworkInfo } from './getNetworkInfo';
 
-class MockProvider extends ethers.providers.Provider {
-  chainId;
-  constructor(chainId) {
-    super();
-    this.chainId = chainId;
-  }
-
-  async getNetwork() {
-    return { chainId: this.chainId };
-  }
-}
-
-let networkInfo;
-const networkInput = process.argv[2];
-switch (networkInput) {
-  case 'arbmain':
-    networkInfo = {
-      subgraph: 'arbitrum-one',
-      sdk: 'arbmain',
-      provider: new MockProvider(42161),
-    };
-    break;
-  case 'arbtest':
-    networkInfo = {
-      subgraph: 'arbitrum-rinkeby',
-      sdk: 'arbtest',
-      provider: new MockProvider(421611),
-    };
-    break;
-  case 'arbgoerli':
-    networkInfo = {
-      subgraph: 'arbitrum-goerli',
-      sdk: 'arbgoerli',
-      provider: new MockProvider(421613),
-    };
-    break;
-  default:
-    throw new Error(
-      `update-subgraph.js: network "${networkInput}" not supported. Please pass arbmain or arbtest.`
-    );
-}
+const networkInfo = getNetworkInfo(process.argv[2]);
 
 async function main() {
   const coreStartBlockNumber = sdk.core.getDeployments(networkInfo.sdk)
@@ -75,7 +35,6 @@ async function main() {
     insuranceFund,
     vPoolWrapperLogic,
   } = await sdk.core.getContracts(networkInfo.provider);
-  const { uniswapV3Factory } = await sdk.uniswap.getContracts(networkInfo.provider);
   const { curveYieldStrategy, vaultPeriphery } = await sdk.tricryptoVault.getContracts(
     networkInfo.provider
   );
@@ -96,6 +55,8 @@ async function main() {
     withdrawPeriphery,
     depositPeriphery: dnDmxDepositPeriphery,
   } = await sdk.deltaNeutralGmxVaults.getContracts(networkInfo.provider);
+  const { uniswapV3Factory } = await sdk.uniswap.getContracts(networkInfo.provider);
+
   const { crv3, quoter } = await sdk.curve.getContracts(networkInfo.provider);
   const { sGLP, usdc } = await sdk.tokens.getContracts(networkInfo.provider);
 
@@ -165,12 +126,12 @@ async function main() {
 
   // ------------------------------------------------------------------------------ //
 
-  // updateSubgraphYamlDataSources(
-  //   subgraphYaml,
-  //   'UniswapV3Factory',
-  //   uniswapV3Factory.address,
-  //   coreStartBlockNumber
-  // );
+  updateSubgraphYamlDataSources(
+    subgraphYaml,
+    'UniswapV3Factory',
+    uniswapV3Factory.address,
+    coreStartBlockNumber
+  );
   // updateSubgraphYamlTemplates(subgraphYaml, 'UniswapV3Pool');
   // updateSubgraphYamlTemplates(subgraphYaml, 'VPoolWrapperLogic');
 

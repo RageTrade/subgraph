@@ -24,6 +24,11 @@ export function updateEntryPrices_deposit(
 
   /**
    * Asset
+   * 
+   * (prevNumerator + assetAmount * assetPrice)
+   * -----------
+   * 
+   * 
    */
   entry.assetBalance = entry.assetBalance.plus(assetAmount);
   entry.assetEntryPrice_Numerator = entry.assetEntryPrice_Numerator.plus(
