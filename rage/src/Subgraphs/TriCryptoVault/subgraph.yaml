@@ -6,11 +6,11 @@ schema:
 dataSources:
   - kind: ethereum/contract
     name: CurveYieldStrategy
-    network: arbitrum-goerli
+    network: arbitrum-one
     source:
-      address: "0xddDcfF2D6CB373C2F1A115bAC6B1862b72b812f4"
+      address: "0x1d42783E7eeacae12EbC315D1D2D0E3C6230a068"
       abi: CurveYieldStrategy
-      startBlock: 620600
+      startBlock: 17185561
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6
@@ -41,11 +41,11 @@ dataSources:
           handler: handleRebalance
   - kind: ethereum/contract
     name: VaultPeriphery
-    network: arbitrum-goerli
+    network: arbitrum-one
     source:
-      address: "0x5d44c28E34343888923aCFAc34AF617461657f9B"
+      address: "0x4b928aFd7CA775C7f4ECdf2c00B7e608962AbbDc"
       abi: VaultPeriphery
-      startBlock: 620600
+      startBlock: 17185561
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6
