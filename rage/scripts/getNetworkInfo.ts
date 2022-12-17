@@ -1,15 +1,19 @@
 import { ethers } from 'ethers';
-import { SdkNetwork, SubgraphNetwork } from './types'
+import { SdkNetwork, SubgraphNetwork } from './types';
 
-class MockProvider extends ethers.providers.Provider {
-  chainId;
-  constructor(chainId) {
+class MockProvider extends ethers.providers.StaticJsonRpcProvider {
+  chainId: number;
+
+  constructor(chainId: number) {
     super();
     this.chainId = chainId;
   }
 
   async getNetwork() {
-    return { chainId: this.chainId };
+    return {
+      name: 'mock name',
+      chainId: this.chainId,
+    };
   }
 }
 
