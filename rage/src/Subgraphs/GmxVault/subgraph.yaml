@@ -2,7 +2,7 @@ specVersion: 0.0.6
 description: Rage Perpswap Contracts
 repository: https://github.com/rage-trade/perpswap-contracts
 schema:
-  file: ./schema.graphql
+  file: ../../schema.graphql
 dataSources:
   - kind: ethereum/contract
     name: GMXYieldStrategy
@@ -22,16 +22,16 @@ dataSources:
         - ERC20Token
       abis:
         - name: GMXYieldStrategy
-          file: ./abis/GMXYieldStrategy.json
+          file: ../../../abis/GMXYieldStrategy.json
         - name: ERC20
-          file: ./abis/ERC20.json
+          file: ../../../abis/ERC20.json
         - name: ERC20SymbolBytes
-          file: ./abis/ERC20SymbolBytes.json
+          file: ../../../abis/ERC20SymbolBytes.json
         - name: ERC20NameBytes
-          file: ./abis/ERC20NameBytes.json
+          file: ../../../abis/ERC20NameBytes.json
         - name: CurveYieldStrategy
-          file: ./abis/CurveYieldStrategy.json
-      file: ./src/mappings/gmx/gys-handler.ts
+          file: ../../../abis/CurveYieldStrategy.json
+      file: ./GmxYieldStrategy.ts
       eventHandlers:
         - event: Deposit(indexed address,indexed address,uint256,uint256)
           handler: handleDeposit
@@ -42,40 +42,7 @@ dataSources:
           handler: handleTokenWithdrawn
         - event: Rebalance()
           handler: handleRebalance
-  - kind: ethereum/contract
-    name: DnGmxWithdrawPeriphery
-    network: arbitrum-one
-    source:
-      address: '0xBA55D7f67Fa22DF5E92487d5b306DdB1aA543d10'
-      abi: DnGmxWithdrawPeriphery
-      startBlock: 44505365
-    mapping:
-      kind: ethereum/events
-      apiVersion: 0.0.6
-      language: wasm/assemblyscript
-      entities:
-        - VaultDepositWithdrawEntry
-        - Vault
-        - Owner
-        - ERC20Token
-      abis:
-        - name: DnGmxJuniorVault
-          file: ./abis/DnGmxJuniorVault.json
-        - name: DnGmxWithdrawPeriphery
-          file: ./abis/DnGmxWithdrawPeriphery.json
-        - name: CurveYieldStrategy
-          file: ./abis/CurveYieldStrategy.json
-        - name: ERC20
-          file: ./abis/ERC20.json
-        - name: ERC20SymbolBytes
-          file: ./abis/ERC20SymbolBytes.json
-        - name: ERC20NameBytes
-          file: ./abis/ERC20NameBytes.json
-      file: ./src/mappings/DnGMX/DnGmxWithdrawPeriphery.ts
-      eventHandlers:
-        - event: TokenRedeemed(indexed address,indexed
-            address,address,uint256,uint256,uint256)
-          handler: handleTokenWithdraw
+
   - kind: ethereum/contract
     name: GMXBatchingManager
     network: arbitrum-one
@@ -94,18 +61,18 @@ dataSources:
         - ERC20Token
       abis:
         - name: GMXYieldStrategy
-          file: ./abis/GMXYieldStrategy.json
+          file: ../../../abis/GMXYieldStrategy.json
         - name: GMXBatchingManager
-          file: ./abis/GMXBatchingManager.json
+          file: ../../../abis/GMXBatchingManager.json
         - name: ERC20
-          file: ./abis/ERC20.json
+          file: ../../../abis/ERC20.json
         - name: ERC20SymbolBytes
-          file: ./abis/ERC20SymbolBytes.json
+          file: ../../../abis/ERC20SymbolBytes.json
         - name: ERC20NameBytes
-          file: ./abis/ERC20NameBytes.json
+          file: ../../../abis/ERC20NameBytes.json
         - name: CurveYieldStrategy
-          file: ./abis/CurveYieldStrategy.json
-      file: ./src/mappings/gmx/gbm-handler.ts
+          file: ../../../abis/CurveYieldStrategy.json
+      file: ./GMXBatchingManager.ts
       eventHandlers:
         - event: DepositToken(indexed uint256,indexed address,indexed
             address,uint256,uint256)

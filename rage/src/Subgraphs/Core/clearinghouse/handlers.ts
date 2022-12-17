@@ -12,11 +12,10 @@ import {
 import {
   FundingPaymentRealizedEntry,
   MarginChangeEntry,
-  RageTradePool,
   TokenPositionChangeEntry,
   TokenPositionLiquidatedEntry,
 } from '../../../../generated/schema';
-import { generateAccountId, getAccount } from './account';
+import { generateAccountId, getAccount } from '../../../utils/getAccount';
 import { getOwner } from '../../../utils/getOwner';
 import { getTokenPosition } from './token-position';
 import {

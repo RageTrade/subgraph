@@ -2,44 +2,6 @@
   {
     "type": "event",
     "anonymous": false,
-    "name": "AdminParamsUpdated",
-    "inputs": [
-      {
-        "type": "address",
-        "name": "newKeeper",
-        "indexed": false
-      },
-      {
-        "type": "address",
-        "name": "dnGmxSeniorVault",
-        "indexed": false
-      },
-      {
-        "type": "uint256",
-        "name": "newDepositCap",
-        "indexed": false
-      },
-      {
-        "type": "address",
-        "name": "batchingManager",
-        "indexed": false
-      },
-      {
-        "type": "uint16",
-        "name": "withdrawFeeBps",
-        "indexed": false
-      }
-    ]
-  },
-  {
-    "type": "event",
-    "anonymous": false,
-    "name": "AllowancesGranted",
-    "inputs": []
-  },
-  {
-    "type": "event",
-    "anonymous": false,
     "name": "Approval",
     "inputs": [
       {
@@ -55,18 +17,6 @@
       {
         "type": "uint256",
         "name": "value",
-        "indexed": false
-      }
-    ]
-  },
-  {
-    "type": "event",
-    "anonymous": false,
-    "name": "BatchingManagerUpdated",
-    "inputs": [
-      {
-        "type": "address",
-        "name": "_batchingManager",
         "indexed": false
       }
     ]
@@ -101,89 +51,21 @@
   {
     "type": "event",
     "anonymous": false,
-    "name": "DepositCapUpdated",
-    "inputs": [
-      {
-        "type": "uint256",
-        "name": "_newDepositCap",
-        "indexed": false
-      }
-    ]
-  },
-  {
-    "type": "event",
-    "anonymous": false,
-    "name": "DnGmxSeniorVaultUpdated",
+    "name": "GmxParamsUpdated",
     "inputs": [
       {
         "type": "address",
-        "name": "_dnGmxSeniorVault",
-        "indexed": false
-      }
-    ]
-  },
-  {
-    "type": "event",
-    "anonymous": false,
-    "name": "FeeParamsUpdated",
-    "inputs": [
-      {
-        "type": "uint256",
-        "name": "feeBps",
-        "indexed": false
-      },
-      {
-        "type": "address",
-        "name": "_newFeeRecipient",
-        "indexed": false
-      }
-    ]
-  },
-  {
-    "type": "event",
-    "anonymous": false,
-    "name": "FeesWithdrawn",
-    "inputs": [
-      {
-        "type": "uint256",
-        "name": "feeAmount",
-        "indexed": false
-      }
-    ]
-  },
-  {
-    "type": "event",
-    "anonymous": false,
-    "name": "HedgeParamsUpdated",
-    "inputs": [
-      {
-        "type": "address",
-        "name": "vault",
-        "indexed": false
-      },
-      {
-        "type": "address",
-        "name": "swapRouter",
+        "name": "stakingManager",
         "indexed": false
       },
       {
         "type": "uint256",
-        "name": "targetHealthFactor",
+        "name": "usdcReedemSlippage",
         "indexed": false
       },
       {
-        "type": "address",
-        "name": "aaveRewardsController",
-        "indexed": false
-      },
-      {
-        "type": "address",
-        "name": "pool",
-        "indexed": false
-      },
-      {
-        "type": "address",
-        "name": "oracle",
+        "type": "uint240",
+        "name": "usdcConversionThreshold",
         "indexed": false
       }
     ]
@@ -196,18 +78,6 @@
       {
         "type": "uint8",
         "name": "version",
-        "indexed": false
-      }
-    ]
-  },
-  {
-    "type": "event",
-    "anonymous": false,
-    "name": "KeeperUpdated",
-    "inputs": [
-      {
-        "type": "address",
-        "name": "_newKeeper",
         "indexed": false
       }
     ]
@@ -232,86 +102,36 @@
   {
     "type": "event",
     "anonymous": false,
-    "name": "Paused",
+    "name": "TokenWithdrawn",
     "inputs": [
       {
         "type": "address",
-        "name": "account",
-        "indexed": false
-      }
-    ]
-  },
-  {
-    "type": "event",
-    "anonymous": false,
-    "name": "RebalanceParamsUpdated",
-    "inputs": [
+        "name": "caller",
+        "indexed": true
+      },
       {
-        "type": "uint32",
-        "name": "rebalanceTimeThreshold",
+        "type": "address",
+        "name": "owner",
+        "indexed": true
+      },
+      {
+        "type": "address",
+        "name": "receiver",
+        "indexed": true
+      },
+      {
+        "type": "address",
+        "name": "token",
         "indexed": false
       },
       {
-        "type": "uint16",
-        "name": "rebalanceDeltaThresholdBps",
+        "type": "uint256",
+        "name": "sGLPQuantity",
         "indexed": false
       },
       {
-        "type": "uint16",
-        "name": "rebalanceHfThresholdBps",
-        "indexed": false
-      }
-    ]
-  },
-  {
-    "type": "event",
-    "anonymous": false,
-    "name": "Rebalanced",
-    "inputs": []
-  },
-  {
-    "type": "event",
-    "anonymous": false,
-    "name": "ThresholdsUpdated",
-    "inputs": [
-      {
-        "type": "uint16",
-        "name": "slippageThresholdSwapBtcBps",
-        "indexed": false
-      },
-      {
-        "type": "uint16",
-        "name": "slippageThresholdSwapEthBps",
-        "indexed": false
-      },
-      {
-        "type": "uint16",
-        "name": "slippageThresholdGmxBps",
-        "indexed": false
-      },
-      {
-        "type": "uint128",
-        "name": "usdcConversionThreshold",
-        "indexed": false
-      },
-      {
-        "type": "uint128",
-        "name": "wethConversionThreshold",
-        "indexed": false
-      },
-      {
-        "type": "uint128",
-        "name": "hedgeUsdcAmountThreshold",
-        "indexed": false
-      },
-      {
-        "type": "uint128",
-        "name": "partialBtcHedgeUsdcAmountThreshold",
-        "indexed": false
-      },
-      {
-        "type": "uint128",
-        "name": "partialEthHedgeUsdcAmountThreshold",
+        "type": "uint256",
+        "name": "shares",
         "indexed": false
       }
     ]
@@ -334,18 +154,6 @@
       {
         "type": "uint256",
         "name": "value",
-        "indexed": false
-      }
-    ]
-  },
-  {
-    "type": "event",
-    "anonymous": false,
-    "name": "Unpaused",
-    "inputs": [
-      {
-        "type": "address",
-        "name": "account",
         "indexed": false
       }
     ]
@@ -383,14 +191,16 @@
     ]
   },
   {
-    "type": "event",
-    "anonymous": false,
-    "name": "WithdrawFeeUpdated",
-    "inputs": [
+    "type": "function",
+    "name": "MAX_BPS",
+    "constant": true,
+    "stateMutability": "view",
+    "payable": false,
+    "inputs": [],
+    "outputs": [
       {
-        "type": "uint256",
-        "name": "_withdrawFeeBps",
-        "indexed": false
+        "type": "uint16",
+        "name": ""
       }
     ]
   },
@@ -474,7 +284,63 @@
   },
   {
     "type": "function",
-    "name": "claimVestedGmx",
+    "name": "baseLiquidity",
+    "constant": true,
+    "stateMutability": "view",
+    "payable": false,
+    "inputs": [],
+    "outputs": [
+      {
+        "type": "uint128",
+        "name": ""
+      }
+    ]
+  },
+  {
+    "type": "function",
+    "name": "baseTickLower",
+    "constant": true,
+    "stateMutability": "view",
+    "payable": false,
+    "inputs": [],
+    "outputs": [
+      {
+        "type": "int24",
+        "name": ""
+      }
+    ]
+  },
+  {
+    "type": "function",
+    "name": "baseTickUpper",
+    "constant": true,
+    "stateMutability": "view",
+    "payable": false,
+    "inputs": [],
+    "outputs": [
+      {
+        "type": "int24",
+        "name": ""
+      }
+    ]
+  },
+  {
+    "type": "function",
+    "name": "closePositionSlippageSqrtToleranceBps",
+    "constant": true,
+    "stateMutability": "view",
+    "payable": false,
+    "inputs": [],
+    "outputs": [
+      {
+        "type": "uint16",
+        "name": ""
+      }
+    ]
+  },
+  {
+    "type": "function",
+    "name": "closeTokenPosition",
     "constant": false,
     "payable": false,
     "inputs": [],
@@ -592,93 +458,53 @@
   },
   {
     "type": "function",
-    "name": "dnUsdcDeposited",
+    "name": "ethPoolId",
     "constant": true,
     "stateMutability": "view",
     "payable": false,
     "inputs": [],
     "outputs": [
       {
-        "type": "int256",
+        "type": "uint32",
         "name": ""
       }
     ]
   },
   {
     "type": "function",
-    "name": "getAdminParams",
+    "name": "extsload",
     "constant": true,
     "stateMutability": "view",
     "payable": false,
-    "inputs": [],
+    "inputs": [
+      {
+        "type": "bytes32",
+        "name": "slot"
+      }
+    ],
     "outputs": [
       {
-        "type": "address",
-        "name": "keeper"
-      },
-      {
-        "type": "address",
-        "name": "dnGmxSeniorVault"
-      },
-      {
-        "type": "uint256",
-        "name": "depositCap"
-      },
-      {
-        "type": "address",
-        "name": "batchingManager"
-      },
-      {
-        "type": "uint16",
-        "name": "withdrawFeeBps"
-      },
-      {
-        "type": "uint24",
-        "name": "feeTierWethWbtcPool"
+        "type": "bytes32",
+        "name": "val"
       }
     ]
   },
   {
     "type": "function",
-    "name": "getCurrentBorrows",
+    "name": "extsload",
     "constant": true,
     "stateMutability": "view",
     "payable": false,
-    "inputs": [],
-    "outputs": [
+    "inputs": [
       {
-        "type": "uint256",
-        "name": "currentBtcBorrow"
-      },
-      {
-        "type": "uint256",
-        "name": "currentEthBorrow"
+        "type": "bytes32[]",
+        "name": "slots"
       }
-    ]
-  },
-  {
-    "type": "function",
-    "name": "getHedgeParams",
-    "constant": true,
-    "stateMutability": "view",
-    "payable": false,
-    "inputs": [],
+    ],
     "outputs": [
       {
-        "type": "address",
-        "name": "balancerVault"
-      },
-      {
-        "type": "address",
-        "name": "swapRouter"
-      },
-      {
-        "type": "uint256",
-        "name": "targetHealthFactor"
-      },
-      {
-        "type": "address",
-        "name": "aaveRewardsController"
+        "type": "bytes32[]",
+        "name": ""
       }
     ]
   },
@@ -703,48 +529,6 @@
   },
   {
     "type": "function",
-    "name": "getOptimalBorrows",
-    "constant": true,
-    "stateMutability": "view",
-    "payable": false,
-    "inputs": [
-      {
-        "type": "uint256",
-        "name": "glpDeposited"
-      }
-    ],
-    "outputs": [
-      {
-        "type": "uint256",
-        "name": "optimalBtcBorrow"
-      },
-      {
-        "type": "uint256",
-        "name": "optimalEthBorrow"
-      }
-    ]
-  },
-  {
-    "type": "function",
-    "name": "getPrice",
-    "constant": true,
-    "stateMutability": "view",
-    "payable": false,
-    "inputs": [
-      {
-        "type": "bool",
-        "name": "maximize"
-      }
-    ],
-    "outputs": [
-      {
-        "type": "uint256",
-        "name": ""
-      }
-    ]
-  },
-  {
-    "type": "function",
     "name": "getPriceX128",
     "constant": true,
     "stateMutability": "view",
@@ -753,85 +537,7 @@
     "outputs": [
       {
         "type": "uint256",
-        "name": ""
-      }
-    ]
-  },
-  {
-    "type": "function",
-    "name": "getRebalanceParams",
-    "constant": true,
-    "stateMutability": "view",
-    "payable": false,
-    "inputs": [],
-    "outputs": [
-      {
-        "type": "uint32",
-        "name": "rebalanceTimeThreshold"
-      },
-      {
-        "type": "uint16",
-        "name": "rebalanceDeltaThresholdBps"
-      },
-      {
-        "type": "uint16",
-        "name": "rebalanceHfThresholdBps"
-      }
-    ]
-  },
-  {
-    "type": "function",
-    "name": "getThresholds",
-    "constant": true,
-    "stateMutability": "view",
-    "payable": false,
-    "inputs": [],
-    "outputs": [
-      {
-        "type": "uint16",
-        "name": "slippageThresholdSwapBtcBps"
-      },
-      {
-        "type": "uint16",
-        "name": "slippageThresholdSwapEthBps"
-      },
-      {
-        "type": "uint16",
-        "name": "slippageThresholdGmxBps"
-      },
-      {
-        "type": "uint128",
-        "name": "usdcConversionThreshold"
-      },
-      {
-        "type": "uint128",
-        "name": "wethConversionThreshold"
-      },
-      {
-        "type": "uint128",
-        "name": "hedgeUsdcAmountThreshold"
-      },
-      {
-        "type": "uint128",
-        "name": "partialBtcHedgeUsdcAmountThreshold"
-      },
-      {
-        "type": "uint128",
-        "name": "partialEthHedgeUsdcAmountThreshold"
-      }
-    ]
-  },
-  {
-    "type": "function",
-    "name": "getUsdcBorrowed",
-    "constant": true,
-    "stateMutability": "view",
-    "payable": false,
-    "inputs": [],
-    "outputs": [
-      {
-        "type": "uint256",
-        "name": "usdcAmount"
+        "name": "priceX128"
       }
     ]
   },
@@ -852,14 +558,6 @@
   {
     "type": "function",
     "name": "grantAllowances",
-    "constant": false,
-    "payable": false,
-    "inputs": [],
-    "outputs": []
-  },
-  {
-    "type": "function",
-    "name": "harvestFees",
     "constant": false,
     "payable": false,
     "inputs": [],
@@ -894,57 +592,87 @@
     "payable": false,
     "inputs": [
       {
-        "type": "string",
-        "name": "_name"
-      },
-      {
-        "type": "string",
-        "name": "_symbol"
-      },
-      {
-        "type": "address",
-        "name": "_swapRouter"
-      },
-      {
-        "type": "address",
-        "name": "_rewardRouter"
-      },
-      {
-        "type": "address",
-        "name": "_mintBurnRewardRouter"
-      },
-      {
         "type": "tuple",
-        "name": "_tokens",
+        "name": "gmxYieldStrategyInitParams",
         "components": [
           {
-            "type": "address",
-            "name": "weth"
+            "type": "tuple",
+            "name": "eightyTwentyRangeStrategyVaultInitParams",
+            "components": [
+              {
+                "type": "tuple",
+                "name": "baseVaultInitParams",
+                "components": [
+                  {
+                    "type": "tuple",
+                    "name": "rageErc4626InitParams",
+                    "components": [
+                      {
+                        "type": "address",
+                        "name": "asset"
+                      },
+                      {
+                        "type": "string",
+                        "name": "name"
+                      },
+                      {
+                        "type": "string",
+                        "name": "symbol"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "uint32",
+                    "name": "ethPoolId"
+                  },
+                  {
+                    "type": "address",
+                    "name": "swapSimulator"
+                  },
+                  {
+                    "type": "address",
+                    "name": "rageClearingHouse"
+                  },
+                  {
+                    "type": "address",
+                    "name": "clearingHouseLens"
+                  },
+                  {
+                    "type": "address",
+                    "name": "rageCollateralToken"
+                  },
+                  {
+                    "type": "address",
+                    "name": "rageSettlementToken"
+                  }
+                ]
+              },
+              {
+                "type": "uint16",
+                "name": "closePositionSlippageSqrtToleranceBps"
+              },
+              {
+                "type": "uint16",
+                "name": "resetPositionThresholdBps"
+              },
+              {
+                "type": "uint64",
+                "name": "minNotionalPositionToCloseThreshold"
+              }
+            ]
           },
           {
             "type": "address",
-            "name": "wbtc"
-          },
-          {
-            "type": "address",
-            "name": "sGlp"
-          },
-          {
-            "type": "address",
-            "name": "usdc"
+            "name": "rewardRouter"
           }
         ]
-      },
-      {
-        "type": "address",
-        "name": "_poolAddressesProvider"
       }
     ],
     "outputs": []
   },
   {
     "type": "function",
-    "name": "isValidRebalance",
+    "name": "isReset",
     "constant": true,
     "stateMutability": "view",
     "payable": false,
@@ -952,6 +680,53 @@
     "outputs": [
       {
         "type": "bool",
+        "name": ""
+      }
+    ]
+  },
+  {
+    "type": "function",
+    "name": "isValidRebalance",
+    "constant": true,
+    "stateMutability": "view",
+    "payable": false,
+    "inputs": [
+      {
+        "type": "int256",
+        "name": "vaultMarketValue"
+      }
+    ],
+    "outputs": [
+      {
+        "type": "bool",
+        "name": "isValid"
+      }
+    ]
+  },
+  {
+    "type": "function",
+    "name": "keeper",
+    "constant": true,
+    "stateMutability": "view",
+    "payable": false,
+    "inputs": [],
+    "outputs": [
+      {
+        "type": "address",
+        "name": ""
+      }
+    ]
+  },
+  {
+    "type": "function",
+    "name": "lastRebalanceTS",
+    "constant": true,
+    "stateMutability": "view",
+    "payable": false,
+    "inputs": [],
+    "outputs": [
+      {
+        "type": "uint64",
         "name": ""
       }
     ]
@@ -984,7 +759,7 @@
     "inputs": [
       {
         "type": "address",
-        "name": "receiver"
+        "name": ""
       }
     ],
     "outputs": [
@@ -1028,6 +803,20 @@
     "outputs": [
       {
         "type": "uint256",
+        "name": ""
+      }
+    ]
+  },
+  {
+    "type": "function",
+    "name": "minNotionalPositionToCloseThreshold",
+    "constant": true,
+    "stateMutability": "view",
+    "payable": false,
+    "inputs": [],
+    "outputs": [
+      {
+        "type": "uint64",
         "name": ""
       }
     ]
@@ -1078,28 +867,6 @@
     "outputs": [
       {
         "type": "address",
-        "name": ""
-      }
-    ]
-  },
-  {
-    "type": "function",
-    "name": "pause",
-    "constant": false,
-    "payable": false,
-    "inputs": [],
-    "outputs": []
-  },
-  {
-    "type": "function",
-    "name": "paused",
-    "constant": true,
-    "stateMutability": "view",
-    "payable": false,
-    "inputs": [],
-    "outputs": [
-      {
-        "type": "bool",
         "name": ""
       }
     ]
@@ -1182,6 +949,48 @@
   },
   {
     "type": "function",
+    "name": "rageAccountNo",
+    "constant": true,
+    "stateMutability": "view",
+    "payable": false,
+    "inputs": [],
+    "outputs": [
+      {
+        "type": "uint256",
+        "name": ""
+      }
+    ]
+  },
+  {
+    "type": "function",
+    "name": "rageClearingHouse",
+    "constant": true,
+    "stateMutability": "view",
+    "payable": false,
+    "inputs": [],
+    "outputs": [
+      {
+        "type": "address",
+        "name": ""
+      }
+    ]
+  },
+  {
+    "type": "function",
+    "name": "rageVPool",
+    "constant": true,
+    "stateMutability": "view",
+    "payable": false,
+    "inputs": [],
+    "outputs": [
+      {
+        "type": "address",
+        "name": ""
+      }
+    ]
+  },
+  {
+    "type": "function",
     "name": "rebalance",
     "constant": false,
     "payable": false,
@@ -1190,28 +999,31 @@
   },
   {
     "type": "function",
-    "name": "receiveFlashLoan",
-    "constant": false,
+    "name": "rebalancePriceThresholdBps",
+    "constant": true,
+    "stateMutability": "view",
     "payable": false,
-    "inputs": [
+    "inputs": [],
+    "outputs": [
       {
-        "type": "address[]",
-        "name": "tokens"
-      },
-      {
-        "type": "uint256[]",
-        "name": "amounts"
-      },
-      {
-        "type": "uint256[]",
-        "name": "feeAmounts"
-      },
-      {
-        "type": "bytes",
-        "name": "userData"
+        "type": "uint16",
+        "name": ""
       }
-    ],
-    "outputs": []
+    ]
+  },
+  {
+    "type": "function",
+    "name": "rebalanceTimeThreshold",
+    "constant": true,
+    "stateMutability": "view",
+    "payable": false,
+    "inputs": [],
+    "outputs": [
+      {
+        "type": "uint32",
+        "name": ""
+      }
+    ]
   },
   {
     "type": "function",
@@ -1225,19 +1037,48 @@
       },
       {
         "type": "address",
-        "name": "receiver"
+        "name": "to"
       },
       {
         "type": "address",
-        "name": "owner"
+        "name": "from"
       }
     ],
     "outputs": [
       {
         "type": "uint256",
-        "name": "assets"
+        "name": "amount"
       }
     ]
+  },
+  {
+    "type": "function",
+    "name": "redeemToken",
+    "constant": false,
+    "payable": false,
+    "inputs": [
+      {
+        "type": "address",
+        "name": "token"
+      },
+      {
+        "type": "uint256",
+        "name": "shares"
+      },
+      {
+        "type": "uint256",
+        "name": "minTokenOut"
+      },
+      {
+        "type": "address",
+        "name": "from"
+      },
+      {
+        "type": "address",
+        "name": "receiver"
+      }
+    ],
+    "outputs": []
   },
   {
     "type": "function",
@@ -1249,161 +1090,38 @@
   },
   {
     "type": "function",
-    "name": "setAdminParams",
+    "name": "setEightTwentyParams",
     "constant": false,
     "payable": false,
     "inputs": [
       {
-        "type": "address",
-        "name": "newKeeper"
-      },
-      {
-        "type": "address",
-        "name": "dnGmxSeniorVault"
-      },
-      {
-        "type": "uint256",
-        "name": "newDepositCap"
-      },
-      {
-        "type": "address",
-        "name": "batchingManager"
+        "type": "uint16",
+        "name": "_closePositionSlippageSqrtToleranceBps"
       },
       {
         "type": "uint16",
-        "name": "withdrawFeeBps"
+        "name": "_resetPositionThresholdBps"
       },
       {
-        "type": "uint24",
-        "name": "feeTierWethWbtcPool"
+        "type": "uint64",
+        "name": "_minNotionalPositionToCloseThreshold"
       }
     ],
     "outputs": []
   },
   {
     "type": "function",
-    "name": "setFeeParams",
-    "constant": false,
-    "payable": false,
-    "inputs": [
-      {
-        "type": "uint16",
-        "name": "_feeBps"
-      },
-      {
-        "type": "address",
-        "name": "_feeRecipient"
-      }
-    ],
-    "outputs": []
-  },
-  {
-    "type": "function",
-    "name": "setGmxParams",
-    "constant": false,
-    "payable": false,
-    "inputs": [
-      {
-        "type": "address",
-        "name": "_glpManager"
-      }
-    ],
-    "outputs": []
-  },
-  {
-    "type": "function",
-    "name": "setHedgeParams",
-    "constant": false,
-    "payable": false,
-    "inputs": [
-      {
-        "type": "address",
-        "name": "vault"
-      },
-      {
-        "type": "address",
-        "name": "swapRouter"
-      },
-      {
-        "type": "uint256",
-        "name": "targetHealthFactor"
-      },
-      {
-        "type": "address",
-        "name": "aaveRewardsController"
-      }
-    ],
-    "outputs": []
-  },
-  {
-    "type": "function",
-    "name": "setRebalanceParams",
-    "constant": false,
-    "payable": false,
-    "inputs": [
-      {
-        "type": "uint32",
-        "name": "rebalanceTimeThreshold"
-      },
-      {
-        "type": "uint16",
-        "name": "rebalanceDeltaThresholdBps"
-      },
-      {
-        "type": "uint16",
-        "name": "rebalanceHfThresholdBps"
-      }
-    ],
-    "outputs": []
-  },
-  {
-    "type": "function",
-    "name": "setThresholds",
-    "constant": false,
-    "payable": false,
-    "inputs": [
-      {
-        "type": "uint16",
-        "name": "slippageThresholdSwapBtcBps"
-      },
-      {
-        "type": "uint16",
-        "name": "slippageThresholdSwapEthBps"
-      },
-      {
-        "type": "uint16",
-        "name": "slippageThresholdGmxBps"
-      },
-      {
-        "type": "uint128",
-        "name": "usdcConversionThreshold"
-      },
-      {
-        "type": "uint128",
-        "name": "wethConversionThreshold"
-      },
-      {
-        "type": "uint128",
-        "name": "hedgeUsdcAmountThreshold"
-      },
-      {
-        "type": "uint128",
-        "name": "partialBtcHedgeUsdcAmountThreshold"
-      },
-      {
-        "type": "uint128",
-        "name": "partialEthHedgeUsdcAmountThreshold"
-      }
-    ],
-    "outputs": []
-  },
-  {
-    "type": "function",
-    "name": "stopVestAndStakeEsGmx",
-    "constant": false,
+    "name": "swapSimulator",
+    "constant": true,
+    "stateMutability": "view",
     "payable": false,
     "inputs": [],
-    "outputs": []
+    "outputs": [
+      {
+        "type": "address",
+        "name": ""
+      }
+    ]
   },
   {
     "type": "function",
@@ -1510,19 +1228,77 @@
   },
   {
     "type": "function",
-    "name": "unpause",
+    "name": "updateBaseParams",
     "constant": false,
     "payable": false,
-    "inputs": [],
+    "inputs": [
+      {
+        "type": "uint256",
+        "name": "newDepositCap"
+      },
+      {
+        "type": "address",
+        "name": "newKeeperAddress"
+      },
+      {
+        "type": "uint32",
+        "name": "_rebalanceTimeThreshold"
+      },
+      {
+        "type": "uint16",
+        "name": "_rebalancePriceThresholdBps"
+      }
+    ],
     "outputs": []
   },
   {
     "type": "function",
-    "name": "unstakeAndVestEsGmx",
+    "name": "updateGMXParams",
     "constant": false,
     "payable": false,
-    "inputs": [],
+    "inputs": [
+      {
+        "type": "address",
+        "name": "_stakingManager"
+      },
+      {
+        "type": "uint16",
+        "name": "_usdcReedemSlippage"
+      },
+      {
+        "type": "uint240",
+        "name": "_usdcConversionThreshold"
+      }
+    ],
     "outputs": []
+  },
+  {
+    "type": "function",
+    "name": "usdcConversionThreshold",
+    "constant": true,
+    "stateMutability": "view",
+    "payable": false,
+    "inputs": [],
+    "outputs": [
+      {
+        "type": "uint240",
+        "name": ""
+      }
+    ]
+  },
+  {
+    "type": "function",
+    "name": "usdcReedemSlippage",
+    "constant": true,
+    "stateMutability": "view",
+    "payable": false,
+    "inputs": [],
+    "outputs": [
+      {
+        "type": "uint16",
+        "name": ""
+      }
+    ]
   },
   {
     "type": "function",
@@ -1532,15 +1308,15 @@
     "inputs": [
       {
         "type": "uint256",
-        "name": "assets"
+        "name": "amount"
       },
       {
         "type": "address",
-        "name": "receiver"
+        "name": "to"
       },
       {
         "type": "address",
-        "name": "owner"
+        "name": "from"
       }
     ],
     "outputs": [
@@ -1552,30 +1328,56 @@
   },
   {
     "type": "function",
-    "name": "withdrawFees",
+    "name": "withdrawToken",
     "constant": false,
     "payable": false,
-    "inputs": [],
+    "inputs": [
+      {
+        "type": "address",
+        "name": "token"
+      },
+      {
+        "type": "uint256",
+        "name": "_sGLP"
+      },
+      {
+        "type": "uint256",
+        "name": "minTokenOut"
+      },
+      {
+        "type": "address",
+        "name": "from"
+      },
+      {
+        "type": "address",
+        "name": "receiver"
+      }
+    ],
     "outputs": []
   },
   {
     "type": "event",
     "anonymous": false,
-    "name": "GlpSwapped",
+    "name": "BaseParamsUpdated",
     "inputs": [
       {
         "type": "uint256",
-        "name": "glpQuantity",
+        "name": "newDepositCap",
         "indexed": false
       },
       {
-        "type": "uint256",
-        "name": "usdcQuantity",
+        "type": "address",
+        "name": "newKeeperAddress",
         "indexed": false
       },
       {
-        "type": "bool",
-        "name": "fromGlpToUsdc",
+        "type": "uint32",
+        "name": "rebalanceTimeThreshold",
+        "indexed": false
+      },
+      {
+        "type": "uint16",
+        "name": "rebalancePriceThresholdBps",
         "indexed": false
       }
     ]
@@ -1583,36 +1385,11 @@
   {
     "type": "event",
     "anonymous": false,
-    "name": "RewardsHarvested",
+    "name": "CrvSwapFailedDueToSlippage",
     "inputs": [
       {
         "type": "uint256",
-        "name": "wethHarvested",
-        "indexed": false
-      },
-      {
-        "type": "uint256",
-        "name": "esGmxStaked",
-        "indexed": false
-      },
-      {
-        "type": "uint256",
-        "name": "juniorVaultWeth",
-        "indexed": false
-      },
-      {
-        "type": "uint256",
-        "name": "seniorVaultWeth",
-        "indexed": false
-      },
-      {
-        "type": "uint256",
-        "name": "juniorVaultGlp",
-        "indexed": false
-      },
-      {
-        "type": "uint256",
-        "name": "seniorVaultAUsdc",
+        "name": "crvSlippageTolerance",
         "indexed": false
       }
     ]
@@ -1620,28 +1397,132 @@
   {
     "type": "event",
     "anonymous": false,
-    "name": "TokenSwapped",
+    "name": "CurveParamsUpdated",
     "inputs": [
       {
-        "type": "address",
-        "name": "fromToken",
-        "indexed": true
-      },
-      {
-        "type": "address",
-        "name": "toToken",
-        "indexed": true
-      },
-      {
         "type": "uint256",
-        "name": "fromQuantity",
+        "name": "feeBps",
         "indexed": false
       },
       {
         "type": "uint256",
-        "name": "toQuantity",
+        "name": "stablecoinSlippage",
+        "indexed": false
+      },
+      {
+        "type": "uint256",
+        "name": "crvHarvestThreshold",
+        "indexed": false
+      },
+      {
+        "type": "uint256",
+        "name": "crvSlippageTolerance",
+        "indexed": false
+      },
+      {
+        "type": "address",
+        "name": "crvOracle",
+        "indexed": true
+      }
+    ]
+  },
+  {
+    "type": "event",
+    "anonymous": false,
+    "name": "EightyTwentyParamsUpdated",
+    "inputs": [
+      {
+        "type": "uint16",
+        "name": "closePositionSlippageSqrtToleranceBps",
+        "indexed": false
+      },
+      {
+        "type": "uint16",
+        "name": "resetPositionThresholdBps",
+        "indexed": false
+      },
+      {
+        "type": "uint64",
+        "name": "minNotionalPositionToCloseThreshold",
         "indexed": false
       }
     ]
+  },
+  {
+    "type": "event",
+    "anonymous": false,
+    "name": "FeesUpdated",
+    "inputs": [
+      {
+        "type": "uint256",
+        "name": "fee",
+        "indexed": false
+      }
+    ]
+  },
+  {
+    "type": "event",
+    "anonymous": false,
+    "name": "FeesWithdrawn",
+    "inputs": [
+      {
+        "type": "uint256",
+        "name": "total",
+        "indexed": false
+      }
+    ]
+  },
+  {
+    "type": "event",
+    "anonymous": false,
+    "name": "Harvested",
+    "inputs": [
+      {
+        "type": "uint256",
+        "name": "crvAmount",
+        "indexed": false
+      }
+    ]
+  },
+  {
+    "type": "event",
+    "anonymous": false,
+    "name": "Rebalance",
+    "inputs": []
+  },
+  {
+    "type": "event",
+    "anonymous": false,
+    "name": "Staked",
+    "inputs": [
+      {
+        "type": "uint256",
+        "name": "amount",
+        "indexed": false
+      },
+      {
+        "type": "address",
+        "name": "depositor",
+        "indexed": true
+      }
+    ]
+  },
+  {
+    "type": "event",
+    "anonymous": false,
+    "name": "StateInfo",
+    "inputs": [
+      {
+        "type": "uint256",
+        "name": "lpPrice",
+        "indexed": false
+      }
+    ]
+  },
+  {
+    "type": "event",
+    "anonymous": false,
+    "name": "TokenPositionClosed",
+    "inputs": []
   }
 ]

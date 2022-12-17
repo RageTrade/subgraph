@@ -1,14 +1,9 @@
 [
   {
-    "type": "constructor",
-    "payable": false,
-    "inputs": [
-      {
-        "type": "address",
-        "name": "_swapSimulator"
-      }
-    ],
-    "name": ""
+    "type": "event",
+    "anonymous": false,
+    "name": "AllowancesGranted",
+    "inputs": []
   },
   {
     "type": "event",
@@ -28,6 +23,23 @@
       {
         "type": "uint256",
         "name": "value",
+        "indexed": false
+      }
+    ]
+  },
+  {
+    "type": "event",
+    "anonymous": false,
+    "name": "BorrowCapUpdated",
+    "inputs": [
+      {
+        "type": "address",
+        "name": "vault",
+        "indexed": false
+      },
+      {
+        "type": "uint256",
+        "name": "newCap",
         "indexed": false
       }
     ]
@@ -62,11 +74,59 @@
   {
     "type": "event",
     "anonymous": false,
+    "name": "DepositCapUpdated",
+    "inputs": [
+      {
+        "type": "uint256",
+        "name": "_newDepositCap",
+        "indexed": false
+      }
+    ]
+  },
+  {
+    "type": "event",
+    "anonymous": false,
+    "name": "DnGmxJuniorVaultUpdated",
+    "inputs": [
+      {
+        "type": "address",
+        "name": "dnGmxJuniorVault",
+        "indexed": false
+      }
+    ]
+  },
+  {
+    "type": "event",
+    "anonymous": false,
     "name": "Initialized",
     "inputs": [
       {
         "type": "uint8",
         "name": "version",
+        "indexed": false
+      }
+    ]
+  },
+  {
+    "type": "event",
+    "anonymous": false,
+    "name": "LeveragePoolUpdated",
+    "inputs": [
+      {
+        "type": "address",
+        "name": "leveragePool",
+        "indexed": false
+      }
+    ]
+  },
+  {
+    "type": "event",
+    "anonymous": false,
+    "name": "MaxUtilizationBpsUpdated",
+    "inputs": [
+      {
+        "type": "uint256",
+        "name": "maxUtilizationBps",
         "indexed": false
       }
     ]
@@ -91,6 +151,18 @@
   {
     "type": "event",
     "anonymous": false,
+    "name": "Paused",
+    "inputs": [
+      {
+        "type": "address",
+        "name": "account",
+        "indexed": false
+      }
+    ]
+  },
+  {
+    "type": "event",
+    "anonymous": false,
     "name": "Transfer",
     "inputs": [
       {
@@ -106,6 +178,18 @@
       {
         "type": "uint256",
         "name": "value",
+        "indexed": false
+      }
+    ]
+  },
+  {
+    "type": "event",
+    "anonymous": false,
+    "name": "Unpaused",
+    "inputs": [
+      {
+        "type": "address",
+        "name": "account",
         "indexed": false
       }
     ]
@@ -139,34 +223,6 @@
         "type": "uint256",
         "name": "shares",
         "indexed": false
-      }
-    ]
-  },
-  {
-    "type": "function",
-    "name": "FEE",
-    "constant": true,
-    "stateMutability": "view",
-    "payable": false,
-    "inputs": [],
-    "outputs": [
-      {
-        "type": "uint256",
-        "name": ""
-      }
-    ]
-  },
-  {
-    "type": "function",
-    "name": "MAX_BPS",
-    "constant": true,
-    "stateMutability": "view",
-    "payable": false,
-    "inputs": [],
-    "outputs": [
-      {
-        "type": "uint256",
-        "name": ""
       }
     ]
   },
@@ -231,6 +287,25 @@
   },
   {
     "type": "function",
+    "name": "availableBorrow",
+    "constant": true,
+    "stateMutability": "view",
+    "payable": false,
+    "inputs": [
+      {
+        "type": "address",
+        "name": "borrower"
+      }
+    ],
+    "outputs": [
+      {
+        "type": "uint256",
+        "name": "availableAUsdc"
+      }
+    ]
+  },
+  {
+    "type": "function",
     "name": "balanceOf",
     "constant": true,
     "stateMutability": "view",
@@ -250,67 +325,35 @@
   },
   {
     "type": "function",
-    "name": "baseLiquidity",
-    "constant": true,
-    "stateMutability": "view",
-    "payable": false,
-    "inputs": [],
-    "outputs": [
-      {
-        "type": "uint128",
-        "name": ""
-      }
-    ]
-  },
-  {
-    "type": "function",
-    "name": "baseTickLower",
-    "constant": true,
-    "stateMutability": "view",
-    "payable": false,
-    "inputs": [],
-    "outputs": [
-      {
-        "type": "int24",
-        "name": ""
-      }
-    ]
-  },
-  {
-    "type": "function",
-    "name": "baseTickUpper",
-    "constant": true,
-    "stateMutability": "view",
-    "payable": false,
-    "inputs": [],
-    "outputs": [
-      {
-        "type": "int24",
-        "name": ""
-      }
-    ]
-  },
-  {
-    "type": "function",
-    "name": "closePositionSlippageSqrtToleranceBps",
-    "constant": true,
-    "stateMutability": "view",
-    "payable": false,
-    "inputs": [],
-    "outputs": [
-      {
-        "type": "uint16",
-        "name": ""
-      }
-    ]
-  },
-  {
-    "type": "function",
-    "name": "closeTokenPosition",
+    "name": "borrow",
     "constant": false,
     "payable": false,
-    "inputs": [],
+    "inputs": [
+      {
+        "type": "uint256",
+        "name": "amount"
+      }
+    ],
     "outputs": []
+  },
+  {
+    "type": "function",
+    "name": "borrowCaps",
+    "constant": true,
+    "stateMutability": "view",
+    "payable": false,
+    "inputs": [
+      {
+        "type": "address",
+        "name": ""
+      }
+    ],
+    "outputs": [
+      {
+        "type": "uint256",
+        "name": ""
+      }
+    ]
   },
   {
     "type": "function",
@@ -354,7 +397,7 @@
     "type": "function",
     "name": "decimals",
     "constant": true,
-    "stateMutability": "view",
+    "stateMutability": "pure",
     "payable": false,
     "inputs": [],
     "outputs": [
@@ -424,72 +467,55 @@
   },
   {
     "type": "function",
-    "name": "ethPoolId",
+    "name": "dnGmxJuniorVault",
     "constant": true,
     "stateMutability": "view",
     "payable": false,
     "inputs": [],
     "outputs": [
       {
-        "type": "uint32",
+        "type": "address",
         "name": ""
       }
     ]
   },
   {
     "type": "function",
-    "name": "extsload",
+    "name": "feeStrategy",
     "constant": true,
     "stateMutability": "view",
     "payable": false,
-    "inputs": [
-      {
-        "type": "bytes32",
-        "name": "slot"
-      }
-    ],
+    "inputs": [],
     "outputs": [
       {
-        "type": "bytes32",
-        "name": "val"
+        "type": "uint128",
+        "name": "optimalUtilizationRate"
+      },
+      {
+        "type": "uint128",
+        "name": "baseVariableBorrowRate"
+      },
+      {
+        "type": "uint128",
+        "name": "variableRateSlope1"
+      },
+      {
+        "type": "uint128",
+        "name": "variableRateSlope2"
       }
     ]
   },
   {
     "type": "function",
-    "name": "extsload",
+    "name": "getEthRewardsSplitRate",
     "constant": true,
     "stateMutability": "view",
     "payable": false,
-    "inputs": [
-      {
-        "type": "bytes32[]",
-        "name": "slots"
-      }
-    ],
-    "outputs": [
-      {
-        "type": "bytes32[]",
-        "name": ""
-      }
-    ]
-  },
-  {
-    "type": "function",
-    "name": "getMarketValue",
-    "constant": true,
-    "stateMutability": "view",
-    "payable": false,
-    "inputs": [
-      {
-        "type": "uint256",
-        "name": "amount"
-      }
-    ],
+    "inputs": [],
     "outputs": [
       {
         "type": "uint256",
-        "name": "marketValue"
+        "name": "feeSplitRate"
       }
     ]
   },
@@ -503,7 +529,7 @@
     "outputs": [
       {
         "type": "uint256",
-        "name": "priceX128"
+        "name": ""
       }
     ]
   },
@@ -516,8 +542,8 @@
     "inputs": [],
     "outputs": [
       {
-        "type": "int256",
-        "name": "vaultMarketValue"
+        "type": "uint256",
+        "name": ""
       }
     ]
   },
@@ -558,148 +584,27 @@
     "payable": false,
     "inputs": [
       {
-        "type": "tuple",
-        "name": "curveYieldStrategyInitParams",
-        "components": [
-          {
-            "type": "tuple",
-            "name": "eightyTwentyRangeStrategyVaultInitParams",
-            "components": [
-              {
-                "type": "tuple",
-                "name": "baseVaultInitParams",
-                "components": [
-                  {
-                    "type": "tuple",
-                    "name": "rageErc4626InitParams",
-                    "components": [
-                      {
-                        "type": "address",
-                        "name": "asset"
-                      },
-                      {
-                        "type": "string",
-                        "name": "name"
-                      },
-                      {
-                        "type": "string",
-                        "name": "symbol"
-                      }
-                    ]
-                  },
-                  {
-                    "type": "uint32",
-                    "name": "ethPoolId"
-                  },
-                  {
-                    "type": "address",
-                    "name": "swapSimulator"
-                  },
-                  {
-                    "type": "address",
-                    "name": "rageClearingHouse"
-                  },
-                  {
-                    "type": "address",
-                    "name": "clearingHouseLens"
-                  },
-                  {
-                    "type": "address",
-                    "name": "rageCollateralToken"
-                  },
-                  {
-                    "type": "address",
-                    "name": "rageSettlementToken"
-                  }
-                ]
-              },
-              {
-                "type": "uint16",
-                "name": "closePositionSlippageSqrtToleranceBps"
-              },
-              {
-                "type": "uint16",
-                "name": "resetPositionThresholdBps"
-              },
-              {
-                "type": "uint64",
-                "name": "minNotionalPositionToCloseThreshold"
-              }
-            ]
-          },
-          {
-            "type": "address",
-            "name": "usdt"
-          },
-          {
-            "type": "address",
-            "name": "usdc"
-          },
-          {
-            "type": "address",
-            "name": "weth"
-          },
-          {
-            "type": "address",
-            "name": "crvToken"
-          },
-          {
-            "type": "address",
-            "name": "gauge"
-          },
-          {
-            "type": "address",
-            "name": "uniV3Router"
-          },
-          {
-            "type": "address",
-            "name": "lpPriceHolder"
-          },
-          {
-            "type": "address",
-            "name": "tricryptoPool"
-          }
-        ]
+        "type": "address",
+        "name": "_usdc"
+      },
+      {
+        "type": "string",
+        "name": "_name"
+      },
+      {
+        "type": "string",
+        "name": "_symbol"
+      },
+      {
+        "type": "address",
+        "name": "_poolAddressesProvider"
       }
     ],
     "outputs": []
   },
   {
     "type": "function",
-    "name": "isReset",
-    "constant": true,
-    "stateMutability": "view",
-    "payable": false,
-    "inputs": [],
-    "outputs": [
-      {
-        "type": "bool",
-        "name": ""
-      }
-    ]
-  },
-  {
-    "type": "function",
-    "name": "isValidRebalance",
-    "constant": true,
-    "stateMutability": "view",
-    "payable": false,
-    "inputs": [
-      {
-        "type": "int256",
-        "name": "vaultMarketValue"
-      }
-    ],
-    "outputs": [
-      {
-        "type": "bool",
-        "name": "isValid"
-      }
-    ]
-  },
-  {
-    "type": "function",
-    "name": "keeper",
+    "name": "leveragePool",
     "constant": true,
     "stateMutability": "view",
     "payable": false,
@@ -707,20 +612,6 @@
     "outputs": [
       {
         "type": "address",
-        "name": ""
-      }
-    ]
-  },
-  {
-    "type": "function",
-    "name": "lastRebalanceTS",
-    "constant": true,
-    "stateMutability": "view",
-    "payable": false,
-    "inputs": [],
-    "outputs": [
-      {
-        "type": "uint64",
         "name": ""
       }
     ]
@@ -784,6 +675,20 @@
   },
   {
     "type": "function",
+    "name": "maxUtilizationBps",
+    "constant": true,
+    "stateMutability": "view",
+    "payable": false,
+    "inputs": [],
+    "outputs": [
+      {
+        "type": "uint256",
+        "name": ""
+      }
+    ]
+  },
+  {
+    "type": "function",
     "name": "maxWithdraw",
     "constant": true,
     "stateMutability": "view",
@@ -797,28 +702,6 @@
     "outputs": [
       {
         "type": "uint256",
-        "name": ""
-      }
-    ]
-  },
-  {
-    "type": "function",
-    "name": "migrate",
-    "constant": false,
-    "payable": false,
-    "inputs": [],
-    "outputs": []
-  },
-  {
-    "type": "function",
-    "name": "minNotionalPositionToCloseThreshold",
-    "constant": true,
-    "stateMutability": "view",
-    "payable": false,
-    "inputs": [],
-    "outputs": [
-      {
-        "type": "uint64",
         "name": ""
       }
     ]
@@ -869,6 +752,28 @@
     "outputs": [
       {
         "type": "address",
+        "name": ""
+      }
+    ]
+  },
+  {
+    "type": "function",
+    "name": "pause",
+    "constant": false,
+    "payable": false,
+    "inputs": [],
+    "outputs": []
+  },
+  {
+    "type": "function",
+    "name": "paused",
+    "constant": true,
+    "stateMutability": "view",
+    "payable": false,
+    "inputs": [],
+    "outputs": [
+      {
+        "type": "bool",
         "name": ""
       }
     ]
@@ -951,84 +856,6 @@
   },
   {
     "type": "function",
-    "name": "rageAccountNo",
-    "constant": true,
-    "stateMutability": "view",
-    "payable": false,
-    "inputs": [],
-    "outputs": [
-      {
-        "type": "uint256",
-        "name": ""
-      }
-    ]
-  },
-  {
-    "type": "function",
-    "name": "rageClearingHouse",
-    "constant": true,
-    "stateMutability": "view",
-    "payable": false,
-    "inputs": [],
-    "outputs": [
-      {
-        "type": "address",
-        "name": ""
-      }
-    ]
-  },
-  {
-    "type": "function",
-    "name": "rageVPool",
-    "constant": true,
-    "stateMutability": "view",
-    "payable": false,
-    "inputs": [],
-    "outputs": [
-      {
-        "type": "address",
-        "name": ""
-      }
-    ]
-  },
-  {
-    "type": "function",
-    "name": "rebalance",
-    "constant": false,
-    "payable": false,
-    "inputs": [],
-    "outputs": []
-  },
-  {
-    "type": "function",
-    "name": "rebalancePriceThresholdBps",
-    "constant": true,
-    "stateMutability": "view",
-    "payable": false,
-    "inputs": [],
-    "outputs": [
-      {
-        "type": "uint16",
-        "name": ""
-      }
-    ]
-  },
-  {
-    "type": "function",
-    "name": "rebalanceTimeThreshold",
-    "constant": true,
-    "stateMutability": "view",
-    "payable": false,
-    "inputs": [],
-    "outputs": [
-      {
-        "type": "uint32",
-        "name": ""
-      }
-    ]
-  },
-  {
-    "type": "function",
     "name": "redeem",
     "constant": false,
     "payable": false,
@@ -1039,17 +866,17 @@
       },
       {
         "type": "address",
-        "name": "to"
+        "name": "receiver"
       },
       {
         "type": "address",
-        "name": "from"
+        "name": "owner"
       }
     ],
     "outputs": [
       {
         "type": "uint256",
-        "name": "amount"
+        "name": "assets"
       }
     ]
   },
@@ -1063,38 +890,68 @@
   },
   {
     "type": "function",
-    "name": "setEightTwentyParams",
+    "name": "repay",
     "constant": false,
     "payable": false,
     "inputs": [
       {
-        "type": "uint16",
-        "name": "_closePositionSlippageSqrtToleranceBps"
-      },
-      {
-        "type": "uint16",
-        "name": "_resetPositionThresholdBps"
-      },
-      {
-        "type": "uint64",
-        "name": "_minNotionalPositionToCloseThreshold"
+        "type": "uint256",
+        "name": "amount"
       }
     ],
     "outputs": []
   },
   {
     "type": "function",
-    "name": "swapSimulator",
-    "constant": true,
-    "stateMutability": "view",
+    "name": "setDepositCap",
+    "constant": false,
     "payable": false,
-    "inputs": [],
-    "outputs": [
+    "inputs": [
+      {
+        "type": "uint256",
+        "name": "_newDepositCap"
+      }
+    ],
+    "outputs": []
+  },
+  {
+    "type": "function",
+    "name": "setDnGmxJuniorVault",
+    "constant": false,
+    "payable": false,
+    "inputs": [
       {
         "type": "address",
-        "name": ""
+        "name": "_dnGmxJuniorVault"
       }
-    ]
+    ],
+    "outputs": []
+  },
+  {
+    "type": "function",
+    "name": "setLeveragePool",
+    "constant": false,
+    "payable": false,
+    "inputs": [
+      {
+        "type": "address",
+        "name": "_leveragePool"
+      }
+    ],
+    "outputs": []
+  },
+  {
+    "type": "function",
+    "name": "setMaxUtilizationBps",
+    "constant": false,
+    "payable": false,
+    "inputs": [
+      {
+        "type": "uint256",
+        "name": "_maxUtilizationBps"
+      }
+    ],
+    "outputs": []
   },
   {
     "type": "function",
@@ -1120,7 +977,7 @@
     "outputs": [
       {
         "type": "uint256",
-        "name": ""
+        "name": "amount"
       }
     ]
   },
@@ -1135,6 +992,20 @@
       {
         "type": "uint256",
         "name": ""
+      }
+    ]
+  },
+  {
+    "type": "function",
+    "name": "totalUsdcBorrowed",
+    "constant": true,
+    "stateMutability": "view",
+    "payable": false,
+    "inputs": [],
+    "outputs": [
+      {
+        "type": "uint256",
+        "name": "usdcBorrowed"
       }
     ]
   },
@@ -1201,58 +1072,56 @@
   },
   {
     "type": "function",
-    "name": "updateBaseParams",
+    "name": "unpause",
+    "constant": false,
+    "payable": false,
+    "inputs": [],
+    "outputs": []
+  },
+  {
+    "type": "function",
+    "name": "updateBorrowCap",
     "constant": false,
     "payable": false,
     "inputs": [
       {
-        "type": "uint256",
-        "name": "newDepositCap"
-      },
-      {
         "type": "address",
-        "name": "newKeeperAddress"
+        "name": "borrowerAddress"
       },
       {
-        "type": "uint32",
-        "name": "_rebalanceTimeThreshold"
-      },
-      {
-        "type": "uint16",
-        "name": "_rebalancePriceThresholdBps"
+        "type": "uint256",
+        "name": "cap"
       }
     ],
     "outputs": []
   },
   {
     "type": "function",
-    "name": "updateCurveParams",
+    "name": "updateFeeStrategyParams",
     "constant": false,
     "payable": false,
     "inputs": [
       {
-        "type": "uint256",
-        "name": "_feeBps"
-      },
-      {
-        "type": "uint256",
-        "name": "_stablecoinSlippage"
-      },
-      {
-        "type": "uint256",
-        "name": "_crvHarvestThreshold"
-      },
-      {
-        "type": "uint256",
-        "name": "_crvSlippageTolerance"
-      },
-      {
-        "type": "address",
-        "name": "_gauge"
-      },
-      {
-        "type": "address",
-        "name": "_crvOracle"
+        "type": "tuple",
+        "name": "_feeStrategy",
+        "components": [
+          {
+            "type": "uint128",
+            "name": "optimalUtilizationRate"
+          },
+          {
+            "type": "uint128",
+            "name": "baseVariableBorrowRate"
+          },
+          {
+            "type": "uint128",
+            "name": "variableRateSlope1"
+          },
+          {
+            "type": "uint128",
+            "name": "variableRateSlope2"
+          }
+        ]
       }
     ],
     "outputs": []
@@ -1265,15 +1134,15 @@
     "inputs": [
       {
         "type": "uint256",
-        "name": "amount"
+        "name": "assets"
       },
       {
         "type": "address",
-        "name": "to"
+        "name": "receiver"
       },
       {
         "type": "address",
-        "name": "from"
+        "name": "owner"
       }
     ],
     "outputs": [
@@ -1282,193 +1151,5 @@
         "name": "shares"
       }
     ]
-  },
-  {
-    "type": "function",
-    "name": "withdrawFees",
-    "constant": false,
-    "payable": false,
-    "inputs": [
-      {
-        "type": "address",
-        "name": "feeRecipient"
-      }
-    ],
-    "outputs": []
-  },
-  {
-    "type": "event",
-    "anonymous": false,
-    "name": "BaseParamsUpdated",
-    "inputs": [
-      {
-        "type": "uint256",
-        "name": "newDepositCap",
-        "indexed": false
-      },
-      {
-        "type": "address",
-        "name": "newKeeperAddress",
-        "indexed": false
-      },
-      {
-        "type": "uint32",
-        "name": "rebalanceTimeThreshold",
-        "indexed": false
-      },
-      {
-        "type": "uint16",
-        "name": "rebalancePriceThresholdBps",
-        "indexed": false
-      }
-    ]
-  },
-  {
-    "type": "event",
-    "anonymous": false,
-    "name": "CrvSwapFailedDueToSlippage",
-    "inputs": [
-      {
-        "type": "uint256",
-        "name": "crvSlippageTolerance",
-        "indexed": false
-      }
-    ]
-  },
-  {
-    "type": "event",
-    "anonymous": false,
-    "name": "CurveParamsUpdated",
-    "inputs": [
-      {
-        "type": "uint256",
-        "name": "feeBps",
-        "indexed": false
-      },
-      {
-        "type": "uint256",
-        "name": "stablecoinSlippage",
-        "indexed": false
-      },
-      {
-        "type": "uint256",
-        "name": "crvHarvestThreshold",
-        "indexed": false
-      },
-      {
-        "type": "uint256",
-        "name": "crvSlippageTolerance",
-        "indexed": false
-      },
-      {
-        "type": "address",
-        "name": "gauge",
-        "indexed": true
-      },
-      {
-        "type": "address",
-        "name": "crvOracle",
-        "indexed": true
-      }
-    ]
-  },
-  {
-    "type": "event",
-    "anonymous": false,
-    "name": "EightyTwentyParamsUpdated",
-    "inputs": [
-      {
-        "type": "uint16",
-        "name": "closePositionSlippageSqrtToleranceBps",
-        "indexed": false
-      },
-      {
-        "type": "uint16",
-        "name": "resetPositionThresholdBps",
-        "indexed": false
-      },
-      {
-        "type": "uint64",
-        "name": "minNotionalPositionToCloseThreshold",
-        "indexed": false
-      }
-    ]
-  },
-  {
-    "type": "event",
-    "anonymous": false,
-    "name": "FeesUpdated",
-    "inputs": [
-      {
-        "type": "uint256",
-        "name": "fee",
-        "indexed": false
-      }
-    ]
-  },
-  {
-    "type": "event",
-    "anonymous": false,
-    "name": "FeesWithdrawn",
-    "inputs": [
-      {
-        "type": "uint256",
-        "name": "total",
-        "indexed": false
-      }
-    ]
-  },
-  {
-    "type": "event",
-    "anonymous": false,
-    "name": "Harvested",
-    "inputs": [
-      {
-        "type": "uint256",
-        "name": "crvAmount",
-        "indexed": false
-      }
-    ]
-  },
-  {
-    "type": "event",
-    "anonymous": false,
-    "name": "Rebalance",
-    "inputs": []
-  },
-  {
-    "type": "event",
-    "anonymous": false,
-    "name": "Staked",
-    "inputs": [
-      {
-        "type": "uint256",
-        "name": "amount",
-        "indexed": false
-      },
-      {
-        "type": "address",
-        "name": "depositor",
-        "indexed": true
-      }
-    ]
-  },
-  {
-    "type": "event",
-    "anonymous": false,
-    "name": "StateInfo",
-    "inputs": [
-      {
-        "type": "uint256",
-        "name": "lpPrice",
-        "indexed": false
-      }
-    ]
-  },
-  {
-    "type": "event",
-    "anonymous": false,
-    "name": "TokenPositionClosed",
-    "inputs": []
   }
 ]

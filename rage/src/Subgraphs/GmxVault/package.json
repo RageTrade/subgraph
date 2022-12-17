@@ -1,0 +1,45 @@
+{
+  "name": "perpswap-contracts-subgraph",
+  "version": "0.1.0",
+  "scripts": {
+    "auth:arbmain": "source .env && pnpm graph auth --product hosted-service <key>",
+    "auth:arbgoerli": "source .env && pnpm graph auth --product hosted-service <key>",
+    "deploy:arbgoerli": "source .env && pnpm run update:arbgoerli && pnpm graph deploy --product hosted-service $RAGE_ARBGOERLI_SUBGRAPH",
+    "deploy:arbmain": "source .env && pnpm run update:arbmain && graph deploy --product hosted-service $RAGE_ARBMAIN_SUBGRAPH",
+    "build": "graph build --help",
+    "deploy-local": "graph deploy rage/perpswap-contracts-subgraph --ipfs http://localhost:5001 --node http://127.0.0.1:8020",
+    "format": "prettier --check '**/*'",
+    "format:fix": "prettier --write '**/*'",
+    "update:sdk": "pnpm add @ragetrade/sdk@latest",
+    "update:arbmain": "node update-subgraph.js arbmain && pnpm run format:fix",
+    "update:arbtest": "node update-subgraph.js arbtest && pnpm run format:fix",
+    "update:arbgoerli": "node update-subgraph.js arbgoerli && pnpm run format:fix"
+  },
+  "devDependencies": {
+    "@graphprotocol/graph-cli": "^0.35.0",
+    "@graphprotocol/graph-ts": "^0.29.0",
+    "@typescript-eslint/eslint-plugin": "^2.0.0",
+    "@typescript-eslint/parser": "^2.0.0",
+    "eslint": "^6.2.2",
+    "eslint-config-prettier": "^6.1.0",
+    "fs-extra": "^10.0.1",
+    "prettier": "^1.18.2",
+    "typescript": "^3.5.2",
+    "yaml": "^1.10.2"
+  },
+  "dependencies": {
+    "@ragetrade/sdk": "1.0.2",
+    "babel-polyfill": "^6.26.0",
+    "babel-register": "^6.26.0",
+    "ethers": "^5.6.9",
+    "hardhat": "^2.0.0",
+    "truffle": "^5.0.4",
+    "truffle-contract": "^4.0.5",
+    "truffle-hdwallet-provider": "^1.0.4"
+  },
+  "pnpm": {
+    "overrides": {
+      "@uniswap/v3-periphery": "1.4.1"
+    }
+  }
+}

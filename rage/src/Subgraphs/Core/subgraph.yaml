@@ -2,7 +2,7 @@ specVersion: 0.0.6
 description: Rage Perpswap Contracts
 repository: https://github.com/rage-trade/perpswap-contracts
 schema:
-  file: ./schema.graphql
+  file: ../../schema.graphql
 dataSources:
   - kind: ethereum/contract
     name: ClearingHouse
@@ -26,12 +26,12 @@ dataSources:
         - Protocol
       abis:
         - name: ClearingHouse
-          file: ./abis/ClearingHouse.json
+          file: ../../../abis/ClearingHouse.json
         - name: VPoolWrapperLogic
-          file: ./abis/VPoolWrapperLogic.json
+          file: ../../../abis/VPoolWrapperLogic.json
         - name: UniswapV3Pool
-          file: ./abis/UniswapV3Pool.json
-      file: ./src/mappings/clearinghouse/handlers.ts
+          file: ../../../abis/UniswapV3Pool.json
+      file: ./clearinghouse/handlers.ts
       eventHandlers:
         - event: AccountCreated(indexed address,uint256)
           handler: handleAccountCreated
@@ -68,22 +68,22 @@ dataSources:
         - RageTradePool
       abis:
         - name: ClearingHouse
-          file: ./abis/ClearingHouse.json
+          file: ../../../abis/ClearingHouse.json
         - name: ClearingHouseLens
-          file: ./abis/ClearingHouseLens.json
+          file: ../../../abis/ClearingHouseLens.json
         - name: RageTradeFactory
-          file: ./abis/RageTradeFactory.json
+          file: ../../../abis/RageTradeFactory.json
         - name: VPoolWrapperLogic
-          file: ./abis/VPoolWrapperLogic.json
+          file: ../../../abis/VPoolWrapperLogic.json
         - name: UniswapV3Pool
-          file: ./abis/UniswapV3Pool.json
+          file: ../../../abis/UniswapV3Pool.json
         - name: ERC20
-          file: ./abis/ERC20.json
+          file: ../../../abis/ERC20.json
         - name: ERC20SymbolBytes
-          file: ./abis/ERC20SymbolBytes.json
+          file: ../../../abis/ERC20SymbolBytes.json
         - name: ERC20NameBytes
-          file: ./abis/ERC20NameBytes.json
-      file: ./src/mappings/ragetradeFactory/handler.ts
+          file: ../../../abis/ERC20NameBytes.json
+      file: ./ragetradeFactory/handler.ts
       eventHandlers:
         - event: PoolInitialized(address,address,address)
           handler: handlePoolInitialized
@@ -98,21 +98,21 @@ dataSources:
       kind: ethereum/events
       apiVersion: 0.0.6
       language: wasm/assemblyscript
-      file: ./src/mappings/uniswap/factory.ts
+      file: ./uniswap/factory.ts
       entities:
         - UniswapV3Pool
         - UniswapV3Token
       abis:
         - name: UniswapV3Factory
-          file: ./abis/UniswapV3Factory.json
+          file: ../../../abis/UniswapV3Factory.json
         - name: UniswapV3Pool
-          file: ./abis/UniswapV3Pool.json
+          file: ../../../abis/UniswapV3Pool.json
         - name: ERC20
-          file: ./abis/ERC20.json
+          file: ../../../abis/ERC20.json
         - name: ERC20SymbolBytes
-          file: ./abis/ERC20SymbolBytes.json
+          file: ../../../abis/ERC20SymbolBytes.json
         - name: ERC20NameBytes
-          file: ./abis/ERC20NameBytes.json
+          file: ../../../abis/ERC20NameBytes.json
       eventHandlers:
         - event: PoolCreated(indexed address,indexed address,indexed uint24,int24,address)
           handler: handlePoolCreated
@@ -126,15 +126,15 @@ templates:
       kind: ethereum/events
       apiVersion: 0.0.6
       language: wasm/assemblyscript
-      file: ./src/mappings/uniswap/core.ts
+      file: ./uniswap/core.ts
       entities:
         - UniswapV3Pool
         - UniswapV3Token
       abis:
         - name: UniswapV3Pool
-          file: ./abis/UniswapV3Pool.json
+          file: ../../../abis/UniswapV3Pool.json
         - name: UniswapV3Factory
-          file: ./abis/UniswapV3Factory.json
+          file: ../../../abis/UniswapV3Factory.json
       eventHandlers:
         - event: Initialize(uint160,int24)
           handler: handleInitialize
@@ -152,22 +152,22 @@ templates:
       kind: ethereum/events
       apiVersion: 0.0.6
       language: wasm/assemblyscript
-      file: ./src/mappings/vPoolWrapper/handler.ts
+      file: ./vPoolWrapper/handler.ts
       entities:
         - VPoolWrapper
       abis:
         - name: ClearingHouse
-          file: ./abis/ClearingHouse.json
+          file: ../../../abis/ClearingHouse.json
         - name: VPoolWrapperLogic
-          file: ./abis/VPoolWrapperLogic.json
+          file: ../../../abis/VPoolWrapperLogic.json
         - name: UniswapV3Pool
-          file: ./abis/UniswapV3Pool.json
+          file: ../../../abis/UniswapV3Pool.json
         - name: ERC20
-          file: ./abis/ERC20.json
+          file: ../../../abis/ERC20.json
         - name: ERC20SymbolBytes
-          file: ./abis/ERC20SymbolBytes.json
+          file: ../../../abis/ERC20SymbolBytes.json
         - name: ERC20NameBytes
-          file: ./abis/ERC20NameBytes.json
+          file: ../../../abis/ERC20NameBytes.json
       eventHandlers:
         - event: Swap((int256,int256,int256,uint256,uint256,uint160,uint160))
           handler: handleSwap

@@ -48,7 +48,7 @@
   {
     "type": "event",
     "anonymous": false,
-    "name": "TokenRedeemed",
+    "name": "TokenDeposited",
     "inputs": [
       {
         "type": "address",
@@ -77,45 +77,34 @@
       },
       {
         "type": "uint256",
-        "name": "tokensReceived",
+        "name": "tokensSpent",
         "indexed": false
       }
     ]
   },
   {
-    "type": "event",
-    "anonymous": false,
-    "name": "TokenWithdrawn",
+    "type": "function",
+    "name": "depositToken",
+    "constant": false,
+    "payable": false,
     "inputs": [
       {
         "type": "address",
-        "name": "from",
-        "indexed": true
+        "name": "token"
       },
       {
         "type": "address",
-        "name": "receiver",
-        "indexed": true
-      },
-      {
-        "type": "address",
-        "name": "token",
-        "indexed": false
+        "name": "receiver"
       },
       {
         "type": "uint256",
-        "name": "assets",
-        "indexed": false
-      },
+        "name": "tokenAmount"
+      }
+    ],
+    "outputs": [
       {
         "type": "uint256",
-        "name": "shares",
-        "indexed": false
-      },
-      {
-        "type": "uint256",
-        "name": "tokensReceived",
-        "indexed": false
+        "name": "sharesReceived"
       }
     ]
   },
@@ -130,32 +119,6 @@
       {
         "type": "address",
         "name": ""
-      }
-    ]
-  },
-  {
-    "type": "function",
-    "name": "redeemToken",
-    "constant": false,
-    "payable": false,
-    "inputs": [
-      {
-        "type": "address",
-        "name": "token"
-      },
-      {
-        "type": "address",
-        "name": "receiver"
-      },
-      {
-        "type": "uint256",
-        "name": "sharesAmount"
-      }
-    ],
-    "outputs": [
-      {
-        "type": "uint256",
-        "name": "amountOut"
       }
     ]
   },
@@ -180,6 +143,10 @@
       {
         "type": "address",
         "name": "_rewardRouter"
+      },
+      {
+        "type": "address",
+        "name": "_glpManager"
       }
     ],
     "outputs": []
@@ -223,31 +190,5 @@
       }
     ],
     "outputs": []
-  },
-  {
-    "type": "function",
-    "name": "withdrawToken",
-    "constant": false,
-    "payable": false,
-    "inputs": [
-      {
-        "type": "address",
-        "name": "token"
-      },
-      {
-        "type": "address",
-        "name": "receiver"
-      },
-      {
-        "type": "uint256",
-        "name": "sGlpAmount"
-      }
-    ],
-    "outputs": [
-      {
-        "type": "uint256",
-        "name": "amountOut"
-      }
-    ]
   }
 ]

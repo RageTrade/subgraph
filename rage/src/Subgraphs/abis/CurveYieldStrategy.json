@@ -1,5 +1,16 @@
 [
   {
+    "type": "constructor",
+    "payable": false,
+    "inputs": [
+      {
+        "type": "address",
+        "name": "_swapSimulator"
+      }
+    ],
+    "name": ""
+  },
+  {
     "type": "event",
     "anonymous": false,
     "name": "Approval",
@@ -51,28 +62,6 @@
   {
     "type": "event",
     "anonymous": false,
-    "name": "GmxParamsUpdated",
-    "inputs": [
-      {
-        "type": "address",
-        "name": "stakingManager",
-        "indexed": false
-      },
-      {
-        "type": "uint256",
-        "name": "usdcReedemSlippage",
-        "indexed": false
-      },
-      {
-        "type": "uint240",
-        "name": "usdcConversionThreshold",
-        "indexed": false
-      }
-    ]
-  },
-  {
-    "type": "event",
-    "anonymous": false,
     "name": "Initialized",
     "inputs": [
       {
@@ -96,43 +85,6 @@
         "type": "address",
         "name": "newOwner",
         "indexed": true
-      }
-    ]
-  },
-  {
-    "type": "event",
-    "anonymous": false,
-    "name": "TokenWithdrawn",
-    "inputs": [
-      {
-        "type": "address",
-        "name": "caller",
-        "indexed": true
-      },
-      {
-        "type": "address",
-        "name": "owner",
-        "indexed": true
-      },
-      {
-        "type": "address",
-        "name": "receiver",
-        "indexed": true
-      },
-      {
-        "type": "address",
-        "name": "token",
-        "indexed": false
-      },
-      {
-        "type": "uint256",
-        "name": "sGLPQuantity",
-        "indexed": false
-      },
-      {
-        "type": "uint256",
-        "name": "shares",
-        "indexed": false
       }
     ]
   },
@@ -192,6 +144,20 @@
   },
   {
     "type": "function",
+    "name": "FEE",
+    "constant": true,
+    "stateMutability": "view",
+    "payable": false,
+    "inputs": [],
+    "outputs": [
+      {
+        "type": "uint256",
+        "name": ""
+      }
+    ]
+  },
+  {
+    "type": "function",
     "name": "MAX_BPS",
     "constant": true,
     "stateMutability": "view",
@@ -199,7 +165,7 @@
     "inputs": [],
     "outputs": [
       {
-        "type": "uint16",
+        "type": "uint256",
         "name": ""
       }
     ]
@@ -517,7 +483,7 @@
     "inputs": [
       {
         "type": "uint256",
-        "name": "assetAmount"
+        "name": "amount"
       }
     ],
     "outputs": [
@@ -593,7 +559,7 @@
     "inputs": [
       {
         "type": "tuple",
-        "name": "gmxYieldStrategyInitParams",
+        "name": "curveYieldStrategyInitParams",
         "components": [
           {
             "type": "tuple",
@@ -663,7 +629,35 @@
           },
           {
             "type": "address",
-            "name": "rewardRouter"
+            "name": "usdt"
+          },
+          {
+            "type": "address",
+            "name": "usdc"
+          },
+          {
+            "type": "address",
+            "name": "weth"
+          },
+          {
+            "type": "address",
+            "name": "crvToken"
+          },
+          {
+            "type": "address",
+            "name": "gauge"
+          },
+          {
+            "type": "address",
+            "name": "uniV3Router"
+          },
+          {
+            "type": "address",
+            "name": "lpPriceHolder"
+          },
+          {
+            "type": "address",
+            "name": "tricryptoPool"
           }
         ]
       }
@@ -806,6 +800,14 @@
         "name": ""
       }
     ]
+  },
+  {
+    "type": "function",
+    "name": "migrate",
+    "constant": false,
+    "payable": false,
+    "inputs": [],
+    "outputs": []
   },
   {
     "type": "function",
@@ -1053,35 +1055,6 @@
   },
   {
     "type": "function",
-    "name": "redeemToken",
-    "constant": false,
-    "payable": false,
-    "inputs": [
-      {
-        "type": "address",
-        "name": "token"
-      },
-      {
-        "type": "uint256",
-        "name": "shares"
-      },
-      {
-        "type": "uint256",
-        "name": "minTokenOut"
-      },
-      {
-        "type": "address",
-        "name": "from"
-      },
-      {
-        "type": "address",
-        "name": "receiver"
-      }
-    ],
-    "outputs": []
-  },
-  {
-    "type": "function",
     "name": "renounceOwnership",
     "constant": false,
     "payable": false,
@@ -1253,52 +1226,36 @@
   },
   {
     "type": "function",
-    "name": "updateGMXParams",
+    "name": "updateCurveParams",
     "constant": false,
     "payable": false,
     "inputs": [
       {
+        "type": "uint256",
+        "name": "_feeBps"
+      },
+      {
+        "type": "uint256",
+        "name": "_stablecoinSlippage"
+      },
+      {
+        "type": "uint256",
+        "name": "_crvHarvestThreshold"
+      },
+      {
+        "type": "uint256",
+        "name": "_crvSlippageTolerance"
+      },
+      {
         "type": "address",
-        "name": "_stakingManager"
+        "name": "_gauge"
       },
       {
-        "type": "uint16",
-        "name": "_usdcReedemSlippage"
-      },
-      {
-        "type": "uint240",
-        "name": "_usdcConversionThreshold"
+        "type": "address",
+        "name": "_crvOracle"
       }
     ],
     "outputs": []
-  },
-  {
-    "type": "function",
-    "name": "usdcConversionThreshold",
-    "constant": true,
-    "stateMutability": "view",
-    "payable": false,
-    "inputs": [],
-    "outputs": [
-      {
-        "type": "uint240",
-        "name": ""
-      }
-    ]
-  },
-  {
-    "type": "function",
-    "name": "usdcReedemSlippage",
-    "constant": true,
-    "stateMutability": "view",
-    "payable": false,
-    "inputs": [],
-    "outputs": [
-      {
-        "type": "uint16",
-        "name": ""
-      }
-    ]
   },
   {
     "type": "function",
@@ -1328,29 +1285,13 @@
   },
   {
     "type": "function",
-    "name": "withdrawToken",
+    "name": "withdrawFees",
     "constant": false,
     "payable": false,
     "inputs": [
       {
         "type": "address",
-        "name": "token"
-      },
-      {
-        "type": "uint256",
-        "name": "_sGLP"
-      },
-      {
-        "type": "uint256",
-        "name": "minTokenOut"
-      },
-      {
-        "type": "address",
-        "name": "from"
-      },
-      {
-        "type": "address",
-        "name": "receiver"
+        "name": "feeRecipient"
       }
     ],
     "outputs": []
@@ -1418,6 +1359,11 @@
         "type": "uint256",
         "name": "crvSlippageTolerance",
         "indexed": false
+      },
+      {
+        "type": "address",
+        "name": "gauge",
+        "indexed": true
       },
       {
         "type": "address",

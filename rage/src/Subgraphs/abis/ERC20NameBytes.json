@@ -2,7 +2,7 @@
   {
     "constant": true,
     "inputs": [],
-    "name": "symbol",
+    "name": "name",
     "outputs": [
       {
         "internalType": "bytes32",

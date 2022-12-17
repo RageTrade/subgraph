@@ -2,7 +2,7 @@ specVersion: 0.0.6
 description: Rage Perpswap Contracts
 repository: https://github.com/rage-trade/perpswap-contracts
 schema:
-  file: ./schema.graphql
+  file: ../../schema.graphql
 dataSources:
   - kind: ethereum/contract
     name: CurveYieldStrategy
@@ -22,16 +22,16 @@ dataSources:
         - ERC20Token
       abis:
         - name: CurveQuoter
-          file: ./abis/CurveQuoter.json
+          file: ../../../abis/CurveQuoter.json
         - name: CurveYieldStrategy
-          file: ./abis/CurveYieldStrategy.json
+          file: ../../../abis/CurveYieldStrategy.json
         - name: ERC20
-          file: ./abis/ERC20.json
+          file: ../../../abis/ERC20.json
         - name: ERC20SymbolBytes
-          file: ./abis/ERC20SymbolBytes.json
+          file: ../../../abis/ERC20SymbolBytes.json
         - name: ERC20NameBytes
-          file: ./abis/ERC20NameBytes.json
-      file: ./src/mappings/CurveYieldStrategy/handler.ts
+          file: ../../../abis/ERC20NameBytes.json
+      file: ./CurveYieldStrategy.ts
       eventHandlers:
         - event: Deposit(indexed address,indexed address,uint256,uint256)
           handler: handleDeposit
@@ -57,16 +57,16 @@ dataSources:
         - ERC20Token
       abis:
         - name: VaultPeriphery
-          file: ./abis/VaultPeriphery.json
+          file: ../../../abis/VaultPeriphery.json
         - name: CurveYieldStrategy
-          file: ./abis/CurveYieldStrategy.json
+          file: ../../../abis/CurveYieldStrategy.json
         - name: ERC20
-          file: ./abis/ERC20.json
+          file: ../../../abis/ERC20.json
         - name: ERC20SymbolBytes
-          file: ./abis/ERC20SymbolBytes.json
+          file: ../../../abis/ERC20SymbolBytes.json
         - name: ERC20NameBytes
-          file: ./abis/ERC20NameBytes.json
-      file: ./src/mappings/VaultPeriphery/handler.ts
+          file: ../../../abis/ERC20NameBytes.json
+      file: ./VaultPeriphery.ts
       eventHandlers:
         - event: DepositPeriphery(indexed address,indexed address,uint256,uint256,uint256)
           handler: handleDepositPeriphery
