@@ -19,7 +19,15 @@
     "update:gmx:arbgoerli": "esno scripts/update-gmx.ts arbgoerli",
     "update:gmx:arbmain": "esno scripts/update-gmx.ts arbmain",
     "update:dn-gmx:arbgoerli": "esno scripts/update-dn-gmx.ts arbgoerli",
-    "update:dn-gmx:arbmain": "esno scripts/update-dn-gmx.ts arbmain"
+    "update:dn-gmx:arbmain": "esno scripts/update-dn-gmx.ts arbmain",
+    "deploy:core:arbgoerli": "source .env && pnpm run update:core:arbgoerli",
+    "deploy:core:arbmain": "source .env && pnpm run update:core:arbmain",
+    "deploy:tricrypto:arbgoerli": "source .env && pnpm run update:tricrypto:arbgoerli",
+    "deploy:tricrypto:arbmain": "source .env && pnpm run update:tricrypto:arbmain",
+    "deploy:gmx:arbgoerli": "source .env && pnpm run update:gmx:arbgoerli",
+    "deploy:gmx:arbmain": "source .env && pnpm run update:gmx:arbmain",
+    "deploy:dn-gmx:arbgoerli": "source .env && pnpm run update:dn-gmx:arbgoerli",
+    "deploy:dn-gmx:arbmain": "source .env && pnpm run update:dn-gmx:arbmain "
   },
   "devDependencies": {
     "@graphprotocol/graph-cli": "^0.35.0",

@@ -1,5 +1,5 @@
 {
-  "name": "tri-crypto-subgraph",
+  "name": "tricrypto",
   "version": "0.1.0",
   "scripts": {
     "auth:arbmain": "source .env && pnpm graph auth --product hosted-service <key>",

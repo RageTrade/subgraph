@@ -1,5 +1,5 @@
 {
-  "name": "perpswap-contracts-subgraph",
+  "name": "gmx",
   "version": "0.1.0",
   "scripts": {
     "auth:arbmain": "source .env && pnpm graph auth --product hosted-service <key>",
