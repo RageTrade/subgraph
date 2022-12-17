@@ -114,7 +114,7 @@ export let contracts: Contracts = {
 
   await fs.writeFile(tsFilePath, file);
 
-  consola.success('Updated address.ts');
+  consola.success('Updated addresses.ts');
 }
 
 export async function updateAddressJSON(
