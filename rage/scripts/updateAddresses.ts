@@ -1,6 +1,7 @@
 import fs from 'fs-extra';
 import consola from 'consola';
 import path from 'path';
+import { SubgraphNetwork } from './types';
 
 type Contracts = {
   ClearingHouse: string;
@@ -92,18 +93,21 @@ export let contracts: Contracts = {
   consola.success('Updated address.ts');
 }
 
-export async function updateAddressJSON(contracts: Partial<Contracts>) {
+export async function updateAddressJSON(
+  network: SubgraphNetwork,
+  contracts: Partial<Contracts>
+) {
   const basePath = process.cwd();
   const filePath = path.resolve(basePath, './src/addresses.json');
 
   const addresses = fs.readJSONSync(filePath, { encoding: 'utf-8' });
-
+  addresses[network] ??= {}
+  
   Object.entries(contracts).forEach(([key, address]) => {
-    addresses[key] = address;
+    addresses[network][key] = address;
   });
 
   await fs.writeJSON(filePath, addresses, { spaces: 2 });
 
   consola.success('Updated addresses.json');
-
 }

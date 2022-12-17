@@ -45,7 +45,7 @@ updateSubgraphYaml(
   ['UniswapV3Pool', 'VPoolWrapperLogic']
 );
 
-updateAddressJSON({
+updateAddressJSON(networkInfo.subgraph, {
   ClearingHouse: clearingHouse.address,
   clearingHouseLens: clearingHouseLens.address,
   RageTradeFactory: rageTradeFactory.address,
