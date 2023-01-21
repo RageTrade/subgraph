@@ -1,6 +1,10 @@
 import { log } from '@graphprotocol/graph-ts';
-import { Deposit, Withdraw } from '../../../generated/DnGmxSeniorVault/DnGmxSeniorVault';
-import { VaultDepositWithdrawEntry } from '../../../generated/schema';
+import {
+  Deposit,
+  Transfer,
+  Withdraw,
+} from '../../../generated/DnGmxSeniorVault/DnGmxSeniorVault';
+import { VaultDepositWithdrawEntry, VaultTransferEntry } from '../../../generated/schema';
 import { BigIntToBigDecimal, safeDiv, generateId } from '../../utils';
 import { contracts } from '../../utils/addresses';
 import { BI_6, ONE_BD, ONE_BI } from '../../utils/constants';
@@ -169,4 +173,59 @@ export function handleWithdraw(event: Withdraw): void {
   );
   owner.save();
   entry.save();
+}
+
+export function handleTransfer(event: Transfer): void {
+  log.debug(
+    'custom_logs: handleTransfer triggered [ from - {} ] [ to - {} ] [ value - {} ]',
+    [
+      event.params.from.toHexString(),
+      event.params.to.toHexString(),
+      event.params.value.toString(),
+    ]
+  );
+
+  let vault = getVault(contracts.DnGmxSeniorVault);
+  let fromOwner = getOwner(event.params.from);
+  let toOwner = getOwner(event.params.to);
+
+  let fromEntryId = generateId([
+    fromOwner.id,
+    vault.id,
+    event.block.number.toHexString(),
+    event.logIndex.toHexString(),
+  ]);
+
+  let toEntryId = generateId([
+    toOwner.id,
+    vault.id,
+    event.block.number.toHexString(),
+    event.logIndex.toHexString(),
+  ]);
+
+  let fromEntry = new VaultTransferEntry(fromEntryId);
+  let toEntry = new VaultTransferEntry(toEntryId);
+
+  fromEntry.timestamp = event.block.timestamp;
+  fromEntry.blockNumber = event.block.number;
+  fromEntry.transactionHash = event.transaction.hash;
+  fromEntry.vault = vault.id;
+
+  fromEntry.owner = fromOwner.id;
+  fromEntry.party = toOwner.id;
+  fromEntry.value = event.params.value;
+  fromEntry.action = 'send';
+
+  toEntry.timestamp = event.block.timestamp;
+  toEntry.blockNumber = event.block.number;
+  toEntry.transactionHash = event.transaction.hash;
+  toEntry.vault = vault.id;
+
+  toEntry.owner = toOwner.id;
+  toEntry.party = fromOwner.id;
+  toEntry.value = event.params.value;
+  toEntry.action = 'receive';
+
+  fromEntry.save();
+  toEntry.save();
 }
