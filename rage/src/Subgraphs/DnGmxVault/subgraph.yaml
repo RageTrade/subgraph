@@ -37,6 +37,8 @@ dataSources:
           handler: handleDeposit
         - event: Withdraw(indexed address,indexed address,indexed address,uint256,uint256)
           handler: handleWithdraw
+        - event: Transfer(indexed address,indexed address,uint256)
+          handler: handleTransfer
   - kind: ethereum/contract
     name: DnGmxJuniorVault
     network: arbitrum-one
@@ -74,6 +76,8 @@ dataSources:
           handler: handleRebalance
         - event: RewardsHarvested(uint256,uint256,uint256,uint256,uint256,uint256)
           handler: handleRewardsHarvested
+        - event: Transfer(indexed address,indexed address,uint256)
+          handler: handleTransfer
   - kind: ethereum/contract
     name: DnGmxBatchingManager
     network: arbitrum-one

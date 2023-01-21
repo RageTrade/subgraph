@@ -15,6 +15,34 @@ type Owner @entity {
   vaultDepositWithdrawEntries: [VaultDepositWithdrawEntry!]! @derivedFrom(field: "owner")
   "list of entry price entries"
   vaultAccounts: [VaultAccount!]! @derivedFrom(field: "owner")
+
+  vaultTransferEntries: [VaultTransferEntry!]! @derivedFrom(field: "owner")
+}
+
+enum VaultTransferAction {
+  send
+  receive
+}
+
+"""
+entity per owner per vault
+"""
+type VaultTransferEntry @entity {
+  id: ID!
+  timestamp: BigInt!
+  transactionHash: Bytes!
+  blockNumber: BigInt!
+
+  "vault for which transaction was recorded"
+  vault: Vault!
+  "the owner of the transfer entry"
+  owner: Owner!
+  "the other party involved in the transfer"
+  party: Owner!
+  "the transfer amount"
+  value: BigInt!
+  "send or receive"
+  action: VaultTransferAction!
 }
 
 """
@@ -168,7 +196,6 @@ type FundingPaymentRealizedEntry @entity {
   timestamp: BigInt!
   "price of the token pair at the time of the funding rate entry"
   price: BigDecimal!
-  "transaction hash of the event that triggered this funding payment realized entry"
   transactionHash: Bytes!
   "amount of base token in the funding rate, in settlementToken(USDC)"
   amount: BigDecimal!
@@ -253,7 +280,6 @@ type MarginChangeEntry @entity {
   id: ID!
   "block.timestamp of the transaction of the margin change entry"
   timestamp: BigInt!
-  "transaction.hash of the event that triggered this margin change entry"
   transactionHash: Bytes!
   "account for which the margin change occurred"
   account: Account!
@@ -273,7 +299,6 @@ type TokenPositionChangeEntry @entity {
   id: ID!
   "block.timestamp of the transaction of the token position change"
   timestamp: BigInt!
-  "transaction.hash of the event that triggered this token position change entry"
   transactionHash: Bytes!
   "long or short"
   side: Side!
@@ -309,7 +334,6 @@ type TokenPositionLiquidatedEntry @entity {
   id: ID!
   "block.timestamp of the transaction of the position liquidation event"
   timestamp: BigInt!
-  "transaction.hash of the event that triggered this token position liquidation event"
   transactionHash: Bytes!
   "account for which the token position liquidation occurred"
   account: Account!
@@ -612,7 +636,6 @@ type VaultDepositWithdrawEntry @entity {
   owner: Owner!
   "vault where the deposit/withdraw occurred"
   vault: Vault!
-  "transaction.hash of the event that triggered this token position liquidation event"
   transactionHash: Bytes!
   "token that was deposited/withdrawn"
   token: ERC20Token!

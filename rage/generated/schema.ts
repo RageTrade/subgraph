@@ -77,6 +77,119 @@ export class Owner extends Entity {
   set vaultAccounts(value: Array<string>) {
     this.set('vaultAccounts', Value.fromStringArray(value));
   }
+
+  get vaultTransferEntries(): Array<string> {
+    let value = this.get('vaultTransferEntries');
+    return value!.toStringArray();
+  }
+
+  set vaultTransferEntries(value: Array<string>) {
+    this.set('vaultTransferEntries', Value.fromStringArray(value));
+  }
+}
+
+export class VaultTransferEntry extends Entity {
+  constructor(id: string) {
+    super();
+    this.set('id', Value.fromString(id));
+  }
+
+  save(): void {
+    let id = this.get('id');
+    assert(id != null, 'Cannot save VaultTransferEntry entity without an ID');
+    if (id) {
+      assert(
+        id.kind == ValueKind.STRING,
+        `Entities of type VaultTransferEntry must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
+      );
+      store.set('VaultTransferEntry', id.toString(), this);
+    }
+  }
+
+  static load(id: string): VaultTransferEntry | null {
+    return changetype<VaultTransferEntry | null>(store.get('VaultTransferEntry', id));
+  }
+
+  get id(): string {
+    let value = this.get('id');
+    return value!.toString();
+  }
+
+  set id(value: string) {
+    this.set('id', Value.fromString(value));
+  }
+
+  get timestamp(): BigInt {
+    let value = this.get('timestamp');
+    return value!.toBigInt();
+  }
+
+  set timestamp(value: BigInt) {
+    this.set('timestamp', Value.fromBigInt(value));
+  }
+
+  get transactionHash(): Bytes {
+    let value = this.get('transactionHash');
+    return value!.toBytes();
+  }
+
+  set transactionHash(value: Bytes) {
+    this.set('transactionHash', Value.fromBytes(value));
+  }
+
+  get blockNumber(): BigInt {
+    let value = this.get('blockNumber');
+    return value!.toBigInt();
+  }
+
+  set blockNumber(value: BigInt) {
+    this.set('blockNumber', Value.fromBigInt(value));
+  }
+
+  get vault(): string {
+    let value = this.get('vault');
+    return value!.toString();
+  }
+
+  set vault(value: string) {
+    this.set('vault', Value.fromString(value));
+  }
+
+  get owner(): string {
+    let value = this.get('owner');
+    return value!.toString();
+  }
+
+  set owner(value: string) {
+    this.set('owner', Value.fromString(value));
+  }
+
+  get party(): string {
+    let value = this.get('party');
+    return value!.toString();
+  }
+
+  set party(value: string) {
+    this.set('party', Value.fromString(value));
+  }
+
+  get value(): BigInt {
+    let value = this.get('value');
+    return value!.toBigInt();
+  }
+
+  set value(value: BigInt) {
+    this.set('value', Value.fromBigInt(value));
+  }
+
+  get action(): string {
+    let value = this.get('action');
+    return value!.toString();
+  }
+
+  set action(value: string) {
+    this.set('action', Value.fromString(value));
+  }
 }
 
 export class VaultAccount extends Entity {
