@@ -4,16 +4,18 @@ import {
   DnGmxJuniorVault,
   Rebalanced,
   RewardsHarvested,
+  Transfer,
   Withdraw,
 } from '../../../generated/DnGmxJuniorVault/DnGmxJuniorVault';
 import {
   VaultDepositWithdrawEntry,
   VaultRebalance,
   VaultRewardsHarvestedEntry,
+  VaultTransferEntry,
 } from '../../../generated/schema';
 import { BigIntToBigDecimal, generateId, parsePrice10Pow30, safeDiv } from '../../utils';
 import { contracts } from '../../utils/addresses';
-import { BI_18, BI_6, ONE_BI, ZERO_BD } from '../../utils/constants';
+import { ADDRESS_ZERO, BI_18, BI_6, ONE_BI, ZERO_BD } from '../../utils/constants';
 import {
   updateEntryPrices_deposit,
   updateEntryPrices_withdraw,
@@ -281,4 +283,78 @@ export function handleRewardsHarvested(event: RewardsHarvested): void {
   entry.seniorVaultAUsdc = BigIntToBigDecimal(event.params.seniorVaultAUsdc, BI_6);
 
   entry.save();
+}
+
+export function handleTransfer(event: Transfer): void {
+  log.debug(
+    'custom_logs: handleTransfer triggered [ from - {} ] [ to - {} ] [ value - {} ]',
+    [
+      event.params.from.toHexString(),
+      event.params.to.toHexString(),
+      event.params.value.toString(),
+    ]
+  );
+
+  // - for transfer event, filter out from=zero address to=batching manager
+  if (
+    event.params.from.toHexString() == ADDRESS_ZERO &&
+    event.params.to.toHexString() == contracts.DnGmxBatchingManager.toHexString()
+  ) {
+    log.info(
+      'custom_logs: handleTransfer triggered [ from - 0x00 ] [ to - batching manager ]',
+      []
+    );
+
+    return;
+  }
+
+  // - for transfer event, filter out from=batching manager to=*
+  if (event.params.from.toHexString() == contracts.DnGmxBatchingManager.toHexString()) {
+    log.info('custom_logs: handleTransfer triggered [ from - batching manager  ]', []);
+    return;
+  }
+
+  let vault = getVault(contracts.DnGmxJuniorVault);
+  let fromOwner = getOwner(event.params.from);
+  let toOwner = getOwner(event.params.to);
+
+  let fromEntryId = generateId([
+    fromOwner.id,
+    vault.id,
+    event.block.number.toHexString(),
+    event.logIndex.toHexString(),
+  ]);
+
+  let toEntryId = generateId([
+    toOwner.id,
+    vault.id,
+    event.block.number.toHexString(),
+    event.logIndex.toHexString(),
+  ]);
+
+  let fromEntry = new VaultTransferEntry(fromEntryId);
+  let toEntry = new VaultTransferEntry(toEntryId);
+
+  fromEntry.timestamp = event.block.timestamp;
+  fromEntry.blockNumber = event.block.number;
+  fromEntry.transactionHash = event.transaction.hash;
+  fromEntry.vault = vault.id;
+
+  fromEntry.owner = fromOwner.id;
+  fromEntry.party = toOwner.id;
+  fromEntry.value = event.params.value;
+  fromEntry.action = 'send';
+
+  toEntry.timestamp = event.block.timestamp;
+  toEntry.blockNumber = event.block.number;
+  toEntry.transactionHash = event.transaction.hash;
+  toEntry.vault = vault.id;
+
+  toEntry.owner = toOwner.id;
+  toEntry.party = fromOwner.id;
+  toEntry.value = event.params.value;
+  toEntry.action = 'receive';
+
+  fromEntry.save();
+  toEntry.save();
 }
