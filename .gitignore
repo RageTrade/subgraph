@@ -4,3 +4,4 @@ deployments
 node_modules
 ganache_data
 .env
+generated
