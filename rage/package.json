@@ -43,7 +43,7 @@
     "yaml": "^1.10.2"
   },
   "dependencies": {
-    "@ragetrade/sdk": "1.0.2",
+    "@ragetrade/sdk": "1.1.0-alpha.2",
     "babel-polyfill": "^6.26.0",
     "babel-register": "^6.26.0",
     "consola": "^2.15.3",
