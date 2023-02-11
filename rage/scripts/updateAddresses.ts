@@ -25,6 +25,7 @@ type Contracts = {
   DnGmxBatchingManager: string;
   DnGmxWithdrawPeriphery: string;
   DnGmxDepositPeriphery: string;
+  DnGmxBatchingManagerGLP: string;
 };
 
 export async function updateAddressTS(
@@ -61,6 +62,7 @@ export async function updateAddressTS(
     DnGmxBatchingManager = ZERO,
     DnGmxWithdrawPeriphery = ZERO,
     DnGmxDepositPeriphery = ZERO,
+    DnGmxBatchingManagerGLP = ZERO
   } = addresses[network]
 
   const file = 
@@ -89,6 +91,7 @@ class Contracts {
   DnGmxBatchingManager: Address;
   DnGmxWithdrawPeriphery: Address;
   DnGmxDepositPeriphery: Address;
+  DnGmxBatchingManagerGLP: Address;
 }
 
 export let contracts: Contracts = {
@@ -110,6 +113,7 @@ export let contracts: Contracts = {
   DnGmxBatchingManager: Address.fromString("${DnGmxBatchingManager}"),
   DnGmxWithdrawPeriphery: Address.fromString("${DnGmxWithdrawPeriphery}"),
   DnGmxDepositPeriphery: Address.fromString("${DnGmxDepositPeriphery}"),
+  DnGmxBatchingManagerGLP: Address.fromString("${DnGmxBatchingManagerGLP}"),
  };`;
 
   await fs.writeFile(tsFilePath, file);

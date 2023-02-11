@@ -24,6 +24,7 @@ const {
   dnGmxBatchingManager,
   withdrawPeriphery,
   depositPeriphery,
+  dnGmxBatchingManagerGlp,
 } = sdk.deltaNeutralGmxVaults.getContractsSync(networkInfo.sdk);
 
 const { sGLP, usdc } = sdk.tokens.getContractsSync(networkInfo.sdk);
@@ -34,6 +35,7 @@ updateABIs([
   ['DnGmxBatchingManager', dnGmxBatchingManager],
   ['DnGmxWithdrawPeriphery', withdrawPeriphery],
   ['DnGmxDepositPeriphery', depositPeriphery],
+  ['DnGmxBatchingManagerGLP', dnGmxBatchingManagerGlp],
 ]);
 
 updateSubgraphYaml(configPath, networkInfo.subgraph, startBlock, [
@@ -42,6 +44,7 @@ updateSubgraphYaml(configPath, networkInfo.subgraph, startBlock, [
   ['DnGmxBatchingManager', dnGmxBatchingManager.address],
   ['DnGmxWithdrawPeriphery', withdrawPeriphery.address],
   ['DnGmxDepositPeriphery', depositPeriphery.address],
+  ['DnGmxBatchingManagerGLP', dnGmxBatchingManagerGlp.address],
 ]);
 
 updateAddressJSON(networkInfo.subgraph, {
@@ -50,6 +53,7 @@ updateAddressJSON(networkInfo.subgraph, {
   DnGmxBatchingManager: dnGmxBatchingManager.address,
   DnGmxWithdrawPeriphery: withdrawPeriphery.address,
   DnGmxDepositPeriphery: depositPeriphery.address,
+  DnGmxBatchingManagerGLP: dnGmxBatchingManagerGlp.address,
   sGLP: sGLP.address,
   USDC: usdc.address,
 });

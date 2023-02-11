@@ -14,7 +14,8 @@
     "sGLP": "0x2F546AD4eDD93B956C8999Be404cdCAFde3E89AE",
     "USDC": "0xff970a61a04b1ca14834a43f5de4533ebddb5cc8",
     "CurveYieldStrategy": "0x1d42783E7eeacae12EbC315D1D2D0E3C6230a068",
-    "VaultPeriphery": "0x4b928aFd7CA775C7f4ECdf2c00B7e608962AbbDc"
+    "VaultPeriphery": "0x4b928aFd7CA775C7f4ECdf2c00B7e608962AbbDc",
+    "DnGmxBatchingManagerGLP": "0x0000000000000000000000000000000000000000"
   },
   "arbitrum-goerli": {
     "ClearingHouse": "0x7047343e3eF25505263116212EE74430A2A12257",

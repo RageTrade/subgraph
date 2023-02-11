@@ -23,6 +23,7 @@ class Contracts {
   DnGmxBatchingManager: Address;
   DnGmxWithdrawPeriphery: Address;
   DnGmxDepositPeriphery: Address;
+  DnGmxBatchingManagerGLP: Address;
 }
 
 export let contracts: Contracts = {
@@ -44,4 +45,5 @@ export let contracts: Contracts = {
   DnGmxBatchingManager: Address.fromString("0x519Eb01fa6Ed3d72E96e40770a45b13531CEf63d"),
   DnGmxWithdrawPeriphery: Address.fromString("0xBA55D7f67Fa22DF5E92487d5b306DdB1aA543d10"),
   DnGmxDepositPeriphery: Address.fromString("0x7CA90dD6813256BD040a8e13BbceD857B1C0C90c"),
+  DnGmxBatchingManagerGLP: Address.fromString("0x0000000000000000000000000000000000000000"),
  };
