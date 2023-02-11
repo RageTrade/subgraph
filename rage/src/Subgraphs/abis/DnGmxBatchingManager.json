@@ -228,7 +228,7 @@
       },
       {
         "type": "uint256",
-        "name": "newGlpDepositPendingThreshold",
+        "name": "minUsdcConversionAmount",
         "indexed": false
       }
     ]
@@ -241,18 +241,6 @@
       {
         "type": "address",
         "name": "account",
-        "indexed": false
-      }
-    ]
-  },
-  {
-    "type": "event",
-    "anonymous": false,
-    "name": "VaultDeposit",
-    "inputs": [
-      {
-        "type": "uint256",
-        "name": "vaultGlpAmount",
         "indexed": false
       }
     ]
@@ -322,32 +310,6 @@
   },
   {
     "type": "function",
-    "name": "depositToken",
-    "constant": false,
-    "payable": false,
-    "inputs": [
-      {
-        "type": "address",
-        "name": "token"
-      },
-      {
-        "type": "uint256",
-        "name": "amount"
-      },
-      {
-        "type": "uint256",
-        "name": "minUSDG"
-      }
-    ],
-    "outputs": [
-      {
-        "type": "uint256",
-        "name": "glpStaked"
-      }
-    ]
-  },
-  {
-    "type": "function",
     "name": "depositUsdc",
     "constant": false,
     "payable": false,
@@ -393,38 +355,16 @@
   },
   {
     "type": "function",
-    "name": "executeBatchDeposit",
+    "name": "executeBatch",
     "constant": false,
     "payable": false,
     "inputs": [
       {
-        "type": "uint256",
-        "name": "depositAmount"
+        "type": "uint128",
+        "name": "usdcAmountToConvert"
       }
     ],
     "outputs": []
-  },
-  {
-    "type": "function",
-    "name": "executeBatchStake",
-    "constant": false,
-    "payable": false,
-    "inputs": [],
-    "outputs": []
-  },
-  {
-    "type": "function",
-    "name": "glpDepositPendingThreshold",
-    "constant": true,
-    "stateMutability": "view",
-    "payable": false,
-    "inputs": [],
-    "outputs": [
-      {
-        "type": "uint256",
-        "name": ""
-      }
-    ]
   },
   {
     "type": "function",
@@ -483,6 +423,20 @@
   },
   {
     "type": "function",
+    "name": "minUsdcConversionAmount",
+    "constant": true,
+    "stateMutability": "view",
+    "payable": false,
+    "inputs": [],
+    "outputs": [
+      {
+        "type": "uint256",
+        "name": ""
+      }
+    ]
+  },
+  {
+    "type": "function",
     "name": "owner",
     "constant": true,
     "stateMutability": "view",
@@ -520,6 +474,14 @@
   {
     "type": "function",
     "name": "renounceOwnership",
+    "constant": false,
+    "payable": false,
+    "inputs": [],
+    "outputs": []
+  },
+  {
+    "type": "function",
+    "name": "rescueFees",
     "constant": false,
     "payable": false,
     "inputs": [],
@@ -612,19 +574,6 @@
   },
   {
     "type": "function",
-    "name": "setBypass",
-    "constant": false,
-    "payable": false,
-    "inputs": [
-      {
-        "type": "address",
-        "name": "_bypass"
-      }
-    ],
-    "outputs": []
-  },
-  {
-    "type": "function",
     "name": "setDepositCap",
     "constant": false,
     "payable": false,
@@ -661,7 +610,7 @@
       },
       {
         "type": "uint256",
-        "name": "_glpDepositPendingThreshold"
+        "name": "_minUsdcConversionAmount"
       }
     ],
     "outputs": []

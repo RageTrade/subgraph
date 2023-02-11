@@ -98,6 +98,33 @@
   {
     "type": "event",
     "anonymous": false,
+    "name": "FeeStrategyUpdated",
+    "inputs": [
+      {
+        "type": "uint128",
+        "name": "optimalUtilizationRate",
+        "indexed": false
+      },
+      {
+        "type": "uint128",
+        "name": "baseVariableBorrowRate",
+        "indexed": false
+      },
+      {
+        "type": "uint128",
+        "name": "variableRateSlope1",
+        "indexed": false
+      },
+      {
+        "type": "uint128",
+        "name": "variableRateSlope2",
+        "indexed": false
+      }
+    ]
+  },
+  {
+    "type": "event",
+    "anonymous": false,
     "name": "Initialized",
     "inputs": [
       {
@@ -190,6 +217,28 @@
       {
         "type": "address",
         "name": "account",
+        "indexed": false
+      }
+    ]
+  },
+  {
+    "type": "event",
+    "anonymous": false,
+    "name": "VaultState",
+    "inputs": [
+      {
+        "type": "uint256",
+        "name": "eventType",
+        "indexed": true
+      },
+      {
+        "type": "uint256",
+        "name": "juniorVaultAusdc",
+        "indexed": false
+      },
+      {
+        "type": "uint256",
+        "name": "seniorVaultAusdc",
         "indexed": false
       }
     ]
@@ -345,13 +394,13 @@
     "inputs": [
       {
         "type": "address",
-        "name": ""
+        "name": "borrower"
       }
     ],
     "outputs": [
       {
         "type": "uint256",
-        "name": ""
+        "name": "cap"
       }
     ]
   },

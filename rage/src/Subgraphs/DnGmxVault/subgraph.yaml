@@ -118,7 +118,7 @@ dataSources:
     name: DnGmxBatchingManagerGLP
     network: arbitrum-one
     source:
-      address: '0x519Eb01fa6Ed3d72E96e40770a45b13531CEf63d'
+      address: '0x0000000000000000000000000000000000000000'
       abi: DnGmxBatchingManagerGLP
       startBlock: 44505365
     mapping:

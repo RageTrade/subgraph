@@ -62,18 +62,6 @@
   {
     "type": "event",
     "anonymous": false,
-    "name": "BatchingManagerUpdated",
-    "inputs": [
-      {
-        "type": "address",
-        "name": "_batchingManager",
-        "indexed": false
-      }
-    ]
-  },
-  {
-    "type": "event",
-    "anonymous": false,
     "name": "Deposit",
     "inputs": [
       {
@@ -125,6 +113,30 @@
   {
     "type": "event",
     "anonymous": false,
+    "name": "EsGmxStaked",
+    "inputs": [
+      {
+        "type": "uint256",
+        "name": "amount",
+        "indexed": false
+      }
+    ]
+  },
+  {
+    "type": "event",
+    "anonymous": false,
+    "name": "EsGmxVested",
+    "inputs": [
+      {
+        "type": "uint256",
+        "name": "amount",
+        "indexed": false
+      }
+    ]
+  },
+  {
+    "type": "event",
+    "anonymous": false,
     "name": "FeeParamsUpdated",
     "inputs": [
       {
@@ -147,6 +159,18 @@
       {
         "type": "uint256",
         "name": "feeAmount",
+        "indexed": false
+      }
+    ]
+  },
+  {
+    "type": "event",
+    "anonymous": false,
+    "name": "GmxClaimed",
+    "inputs": [
+      {
+        "type": "uint256",
+        "name": "amount",
         "indexed": false
       }
     ]
@@ -226,6 +250,23 @@
         "type": "address",
         "name": "newOwner",
         "indexed": true
+      }
+    ]
+  },
+  {
+    "type": "event",
+    "anonymous": false,
+    "name": "ParamsV1Updated",
+    "inputs": [
+      {
+        "type": "uint128",
+        "name": "rebalanceProfitUsdcAmountThreshold",
+        "indexed": false
+      },
+      {
+        "type": "address",
+        "name": "dnGmxTraderHedgeStrategy",
+        "indexed": false
       }
     ]
   },
@@ -312,6 +353,23 @@
       {
         "type": "uint128",
         "name": "partialEthHedgeUsdcAmountThreshold",
+        "indexed": false
+      }
+    ]
+  },
+  {
+    "type": "event",
+    "anonymous": false,
+    "name": "TraderOIHedgesUpdated",
+    "inputs": [
+      {
+        "type": "int256",
+        "name": "btcTraderOIHedge",
+        "indexed": false
+      },
+      {
+        "type": "int256",
+        "name": "ethTraderOIHedge",
         "indexed": false
       }
     ]
@@ -622,11 +680,7 @@
       },
       {
         "type": "uint256",
-        "name": "depositCap"
-      },
-      {
-        "type": "address",
-        "name": "batchingManager"
+        "name": "depositCap_"
       },
       {
         "type": "uint16",
@@ -1266,10 +1320,6 @@
         "name": "newDepositCap"
       },
       {
-        "type": "address",
-        "name": "batchingManager"
-      },
-      {
         "type": "uint16",
         "name": "withdrawFeeBps"
       },
@@ -1331,6 +1381,23 @@
       {
         "type": "address",
         "name": "aaveRewardsController"
+      }
+    ],
+    "outputs": []
+  },
+  {
+    "type": "function",
+    "name": "setParamsV1",
+    "constant": false,
+    "payable": false,
+    "inputs": [
+      {
+        "type": "uint128",
+        "name": "rebalanceProfitUsdcAmountThreshold"
+      },
+      {
+        "type": "address",
+        "name": "dnGmxTraderHedgeStrategy"
       }
     ],
     "outputs": []
@@ -1583,6 +1650,18 @@
   {
     "type": "event",
     "anonymous": false,
+    "name": "ProtocolFeeAccrued",
+    "inputs": [
+      {
+        "type": "uint256",
+        "name": "fees",
+        "indexed": false
+      }
+    ]
+  },
+  {
+    "type": "event",
+    "anonymous": false,
     "name": "RewardsHarvested",
     "inputs": [
       {
@@ -1640,6 +1719,63 @@
       {
         "type": "uint256",
         "name": "toQuantity",
+        "indexed": false
+      }
+    ]
+  },
+  {
+    "type": "event",
+    "anonymous": false,
+    "name": "VaultState",
+    "inputs": [
+      {
+        "type": "uint256",
+        "name": "eventType",
+        "indexed": true
+      },
+      {
+        "type": "uint256",
+        "name": "btcBorrows",
+        "indexed": false
+      },
+      {
+        "type": "uint256",
+        "name": "ethBorrows",
+        "indexed": false
+      },
+      {
+        "type": "uint256",
+        "name": "glpPrice",
+        "indexed": false
+      },
+      {
+        "type": "uint256",
+        "name": "glpBalance",
+        "indexed": false
+      },
+      {
+        "type": "uint256",
+        "name": "totalAssets",
+        "indexed": false
+      },
+      {
+        "type": "int256",
+        "name": "dnUsdcDeposited",
+        "indexed": false
+      },
+      {
+        "type": "uint256",
+        "name": "unhedgedGlpInUsdc",
+        "indexed": false
+      },
+      {
+        "type": "uint256",
+        "name": "juniorVaultAusdc",
+        "indexed": false
+      },
+      {
+        "type": "uint256",
+        "name": "seniorVaultAusdc",
         "indexed": false
       }
     ]
