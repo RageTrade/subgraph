@@ -295,15 +295,14 @@ export function handleTransfer(event: Transfer): void {
     ]
   );
 
-  // - for transfer event, filter out from=zero address to=batching manager
   if (
-    event.params.from.toHexString() == ADDRESS_ZERO &&
-    event.params.to.toHexString() == contracts.DnGmxBatchingManager.toHexString()
+    event.params.to.toHexString() == ADDRESS_ZERO ||
+    event.params.from.toHexString() == ADDRESS_ZERO
   ) {
-    log.info(
-      'custom_logs: handleTransfer triggered [ from - 0x00 ] [ to - batching manager ]',
-      []
-    );
+    log.info('custom_logs: handleTransfer triggered [ from - {} ] [ to - {} ]', [
+      event.params.to.toHexString(),
+      event.params.from.toHexString(),
+    ]);
 
     return;
   }

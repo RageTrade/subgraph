@@ -7,7 +7,7 @@ import {
 import { VaultDepositWithdrawEntry, VaultTransferEntry } from '../../../generated/schema';
 import { BigIntToBigDecimal, safeDiv, generateId } from '../../utils';
 import { contracts } from '../../utils/addresses';
-import { BI_6, ONE_BD, ONE_BI } from '../../utils/constants';
+import { ADDRESS_ZERO, BI_6, ONE_BD, ONE_BI } from '../../utils/constants';
 import {
   updateEntryPrices_deposit,
   updateEntryPrices_withdraw,
@@ -184,6 +184,18 @@ export function handleTransfer(event: Transfer): void {
       event.params.value.toString(),
     ]
   );
+
+  if (
+    event.params.to.toHexString() == ADDRESS_ZERO ||
+    event.params.from.toHexString() == ADDRESS_ZERO
+  ) {
+    log.info('custom_logs: handleTransfer triggered [ from - {} ] [ to - {} ]', [
+      event.params.to.toHexString(),
+      event.params.from.toHexString(),
+    ]);
+
+    return;
+  }
 
   let vault = getVault(contracts.DnGmxSeniorVault);
   let fromOwner = getOwner(event.params.from);
