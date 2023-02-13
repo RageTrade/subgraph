@@ -73,10 +73,9 @@ export function handleDepositToken(event: DepositToken): void {
 
 export function handleBatchDeposit(event: BatchDeposit): void {
   log.debug(
-    'custom_logs: handleBatchDeposit_DN_GMX_Vault triggered [ round - {} ] [ userUsdcAmount - {}] [ userGlpAmount - {} ] [ userShareAmount - {} ]',
+    'custom_logs: handleBatchDeposit triggered [ round - {} ] [ userGlpAmount - {} ] [ userShareAmount - {} ]',
     [
       event.params.round.toHexString(),
-      event.params.userUsdcAmount.toString(),
       event.params.userGlpAmount.toString(),
       event.params.userShareAmount.toString(),
     ]
@@ -109,21 +108,21 @@ export function handleBatchDeposit(event: BatchDeposit): void {
     let entry = VaultDepositWithdrawEntry.load(pendingDeposits[i]);
     if (entry == null) {
       log.warning(
-        'custom_logs: panic, entry is null in handleBatchDeposit_DN_GMX_Vault',
+        'custom_logs: panic, entry is null in handleBatchDeposit',
         []
       );
     } else {
       entry.sharesTokenAmount = entry.tokenAmount.times(
         safeDiv(
           BigIntToBigDecimal(event.params.userShareAmount, BI_18),
-          BigIntToBigDecimal(event.params.userUsdcAmount, BI_6)
+          BigIntToBigDecimal(event.params.userGlpAmount, BI_18)
         )
       );
 
       entry.assetsTokenAmount = entry.tokenAmount.times(
         safeDiv(
           BigIntToBigDecimal(assetsResult.value, BI_18),
-          BigIntToBigDecimal(event.params.userUsdcAmount, BI_6)
+          BigIntToBigDecimal(event.params.userGlpAmount, BI_18)
         )
       );
 
@@ -135,12 +134,11 @@ export function handleBatchDeposit(event: BatchDeposit): void {
       entry.sharesTokenDollarValue = entry.tokenAmount;
 
       log.debug(
-        'custom_logs: dn_Gmx_handleBatchDeposit [ owner - {} ][ batchShares - {} ] [ batchAssets - {} ] [ batchUSDC - {} ] [ userUSDC - {} ] [ userShares - {} ] [ userAssets - {} ] [ assetPrice - {} ] [ sharePrice - {} ] [ userSharesDollarValue - {} ]',
+        'custom_logs: handleBatchDeposit [ owner - {} ][ batchShares - {} ] [ batchAssets - {} ] [ userUSDC - {} ] [ userShares - {} ] [ userAssets - {} ] [ assetPrice - {} ] [ sharePrice - {} ] [ userSharesDollarValue - {} ]',
         [
           entry.owner,
           BigIntToBigDecimal(event.params.userShareAmount, BI_18).toString(),
           BigIntToBigDecimal(event.params.userGlpAmount, BI_18).toString(),
-          BigIntToBigDecimal(event.params.userUsdcAmount, BI_6).toString(),
           entry.tokenAmount.toString(),
           entry.sharesTokenAmount.toString(),
           entry.assetsTokenAmount.toString(),
@@ -165,12 +163,12 @@ export function handleBatchDeposit(event: BatchDeposit): void {
       let owner = Owner.load(entry.owner);
       if (owner == null) {
         log.warning(
-          'custom_logs: this should not happen, owner is null in handleBatchDeposit_DN_GMX_Vault',
+          'custom_logs: this should not happen, owner is null in handleBatchDeposit',
           []
         );
       } else {
         log.debug(
-          'custom_logs: handleBatchDeposit_DN_GMX_Vault owner - {} sharePrice - {} sharesInBigDecimal - {}',
+          'custom_logs: handleBatchDeposit owner - {} sharePrice - {} sharesInBigDecimal - {}',
           [owner.id, entry.sharePrice.toString(), entry.sharesTokenAmount.toString()]
         );
 
