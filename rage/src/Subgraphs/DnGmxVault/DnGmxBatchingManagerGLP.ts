@@ -107,10 +107,7 @@ export function handleBatchDeposit(event: BatchDeposit): void {
   for (let i = 0; i < pendingDeposits.length; i++) {
     let entry = VaultDepositWithdrawEntry.load(pendingDeposits[i]);
     if (entry == null) {
-      log.warning(
-        'custom_logs: panic, entry is null in handleBatchDeposit',
-        []
-      );
+      log.warning('custom_logs: panic, entry is null in handleBatchDeposit', []);
     } else {
       entry.sharesTokenAmount = entry.tokenAmount.times(
         safeDiv(
@@ -131,7 +128,7 @@ export function handleBatchDeposit(event: BatchDeposit): void {
         safeDiv(entry.assetsTokenAmount, entry.sharesTokenAmount)
       );
 
-      entry.sharesTokenDollarValue = entry.tokenAmount;
+      entry.sharesTokenDollarValue = entry.sharesTokenAmount.times(entry.sharePrice);
 
       log.debug(
         'custom_logs: handleBatchDeposit [ owner - {} ][ batchShares - {} ] [ batchAssets - {} ] [ userUSDC - {} ] [ userShares - {} ] [ userAssets - {} ] [ assetPrice - {} ] [ sharePrice - {} ] [ userSharesDollarValue - {} ]',
