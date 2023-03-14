@@ -8,9 +8,9 @@ dataSources:
     name: DnGmxSeniorVault
     network: arbitrum-one
     source:
-      address: '0xf9305009FbA7E381b3337b5fA157936d73c2CF36'
+      address: "0xC57adF9F249e687d180D3a24aDac636Fe881D5c8"
       abi: DnGmxSeniorVault
-      startBlock: 44505365
+      startBlock: 61434812
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6
@@ -43,9 +43,9 @@ dataSources:
     name: DnGmxJuniorVault
     network: arbitrum-one
     source:
-      address: '0x8478AB5064EbAC770DdCE77E7D31D969205F041E'
+      address: "0x6ac9Ad2ea9a21B55C00Dacda4DE68F16a49847Ff"
       abi: DnGmxJuniorVault
-      startBlock: 44505365
+      startBlock: 61434812
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6
@@ -82,9 +82,9 @@ dataSources:
     name: DnGmxBatchingManager
     network: arbitrum-one
     source:
-      address: '0x519Eb01fa6Ed3d72E96e40770a45b13531CEf63d'
+      address: "0x8c3929C0DeEf08Ac04A6E1d5020b1a748fea0a25"
       abi: DnGmxBatchingManager
-      startBlock: 44505365
+      startBlock: 61434812
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6
@@ -118,9 +118,9 @@ dataSources:
     name: DnGmxBatchingManagerGLP
     network: arbitrum-one
     source:
-      address: '0x0000000000000000000000000000000000000000'
+      address: "0xEf2D4f243E9E8417c432B6c2224e43E993cc555C"
       abi: DnGmxBatchingManagerGLP
-      startBlock: 44505365
+      startBlock: 61434812
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6
@@ -154,9 +154,9 @@ dataSources:
     name: DnGmxDepositPeriphery
     network: arbitrum-one
     source:
-      address: '0x7CA90dD6813256BD040a8e13BbceD857B1C0C90c'
+      address: "0x1273989A4aA4713B5e0fa8cFdB65DF93B7745034"
       abi: DnGmxDepositPeriphery
-      startBlock: 44505365
+      startBlock: 61434812
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6
@@ -188,9 +188,9 @@ dataSources:
     name: DnGmxWithdrawPeriphery
     network: arbitrum-one
     source:
-      address: '0xBA55D7f67Fa22DF5E92487d5b306DdB1aA543d10'
+      address: "0xd6cceE65F0e35516a09dA3E915E9a9D4e1A2A074"
       abi: DnGmxWithdrawPeriphery
-      startBlock: 44505365
+      startBlock: 61434812
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6
