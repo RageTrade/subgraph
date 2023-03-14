@@ -163,6 +163,23 @@
   {
     "type": "event",
     "anonymous": false,
+    "name": "ParamsV1Updated",
+    "inputs": [
+      {
+        "type": "address",
+        "name": "rewardsHarvestingRouter",
+        "indexed": true
+      },
+      {
+        "type": "address",
+        "name": "weth",
+        "indexed": false
+      }
+    ]
+  },
+  {
+    "type": "event",
+    "anonymous": false,
     "name": "PartialBatchDeposit",
     "inputs": [
       {
@@ -212,6 +229,18 @@
       {
         "type": "uint256",
         "name": "claimAmount",
+        "indexed": false
+      }
+    ]
+  },
+  {
+    "type": "event",
+    "anonymous": false,
+    "name": "TargetAssetCapUpdated",
+    "inputs": [
+      {
+        "type": "uint256",
+        "name": "newTargeAssetCap",
         "indexed": false
       }
     ]
@@ -587,6 +616,32 @@
   },
   {
     "type": "function",
+    "name": "setGlp",
+    "constant": false,
+    "payable": false,
+    "inputs": [
+      {
+        "type": "address",
+        "name": "_glp"
+      }
+    ],
+    "outputs": []
+  },
+  {
+    "type": "function",
+    "name": "setGlpBatchingManager",
+    "constant": false,
+    "payable": false,
+    "inputs": [
+      {
+        "type": "address",
+        "name": "_glpBatchingManager"
+      }
+    ],
+    "outputs": []
+  },
+  {
+    "type": "function",
     "name": "setKeeper",
     "constant": false,
     "payable": false,
@@ -594,6 +649,36 @@
       {
         "type": "address",
         "name": "_keeper"
+      }
+    ],
+    "outputs": []
+  },
+  {
+    "type": "function",
+    "name": "setParamsV1",
+    "constant": false,
+    "payable": false,
+    "inputs": [
+      {
+        "type": "address",
+        "name": "_weth"
+      },
+      {
+        "type": "address",
+        "name": "_rewardsHarvestingRouter"
+      }
+    ],
+    "outputs": []
+  },
+  {
+    "type": "function",
+    "name": "setTargetAssetCap",
+    "constant": false,
+    "payable": false,
+    "inputs": [
+      {
+        "type": "uint256",
+        "name": "_targetAssetCap"
       }
     ],
     "outputs": []
@@ -618,6 +703,20 @@
   {
     "type": "function",
     "name": "slippageThresholdGmxBps",
+    "constant": true,
+    "stateMutability": "view",
+    "payable": false,
+    "inputs": [],
+    "outputs": [
+      {
+        "type": "uint256",
+        "name": ""
+      }
+    ]
+  },
+  {
+    "type": "function",
+    "name": "targetAssetCap",
     "constant": true,
     "stateMutability": "view",
     "payable": false,

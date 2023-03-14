@@ -765,6 +765,10 @@
       {
         "type": "uint256",
         "name": "glpDeposited"
+      },
+      {
+        "type": "bool",
+        "name": "withUpdatedPoolAmounts"
       }
     ],
     "outputs": [
@@ -1244,6 +1248,14 @@
   },
   {
     "type": "function",
+    "name": "rebalanceProfit",
+    "constant": false,
+    "payable": false,
+    "inputs": [],
+    "outputs": []
+  },
+  {
+    "type": "function",
     "name": "receiveFlashLoan",
     "constant": false,
     "payable": false,
@@ -1326,6 +1338,19 @@
       {
         "type": "uint24",
         "name": "feeTierWethWbtcPool"
+      }
+    ],
+    "outputs": []
+  },
+  {
+    "type": "function",
+    "name": "setDirectConversion",
+    "constant": false,
+    "payable": false,
+    "inputs": [
+      {
+        "type": "bool",
+        "name": "_useDirectConversion"
       }
     ],
     "outputs": []
@@ -1741,6 +1766,26 @@
       {
         "type": "uint256",
         "name": "ethBorrows",
+        "indexed": false
+      },
+      {
+        "type": "uint256",
+        "name": "btcPoolAmount",
+        "indexed": false
+      },
+      {
+        "type": "uint256",
+        "name": "ethPoolAmount",
+        "indexed": false
+      },
+      {
+        "type": "int256",
+        "name": "btcTraderOIHedge",
+        "indexed": false
+      },
+      {
+        "type": "int256",
+        "name": "ethTraderOIHedge",
         "indexed": false
       },
       {

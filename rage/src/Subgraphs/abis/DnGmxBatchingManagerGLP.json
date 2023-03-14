@@ -197,6 +197,18 @@
   {
     "type": "event",
     "anonymous": false,
+    "name": "TargetAssetCapUpdated",
+    "inputs": [
+      {
+        "type": "uint256",
+        "name": "newTargeAssetCap",
+        "indexed": false
+      }
+    ]
+  },
+  {
+    "type": "event",
+    "anonymous": false,
     "name": "ThresholdsUpdated",
     "inputs": [
       {
@@ -552,6 +564,19 @@
   },
   {
     "type": "function",
+    "name": "setTargetAssetCap",
+    "constant": false,
+    "payable": false,
+    "inputs": [
+      {
+        "type": "uint256",
+        "name": "_targetAssetCap"
+      }
+    ],
+    "outputs": []
+  },
+  {
+    "type": "function",
     "name": "setThresholds",
     "constant": false,
     "payable": false,
@@ -562,6 +587,33 @@
       }
     ],
     "outputs": []
+  },
+  {
+    "type": "function",
+    "name": "setUsdcBatchingManager",
+    "constant": false,
+    "payable": false,
+    "inputs": [
+      {
+        "type": "address",
+        "name": "_usdcBatchingManager"
+      }
+    ],
+    "outputs": []
+  },
+  {
+    "type": "function",
+    "name": "targetAssetCap",
+    "constant": true,
+    "stateMutability": "view",
+    "payable": false,
+    "inputs": [],
+    "outputs": [
+      {
+        "type": "uint256",
+        "name": ""
+      }
+    ]
   },
   {
     "type": "function",
