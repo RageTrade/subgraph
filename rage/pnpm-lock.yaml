@@ -9,7 +9,7 @@ importers:
     specifiers:
       '@graphprotocol/graph-cli': ^0.35.0
       '@graphprotocol/graph-ts': ^0.29.0
-      '@ragetrade/sdk': 1.1.0-alpha.2
+      '@ragetrade/sdk': 1.0.0-parallel-arbmain.14
       '@types/fs-extra': ^9.0.13
       '@typescript-eslint/eslint-plugin': ^2.0.0
       '@typescript-eslint/parser': ^2.0.0
@@ -29,7 +29,7 @@ importers:
       typescript: ^3.5.2
       yaml: ^1.10.2
     dependencies:
-      '@ragetrade/sdk': 1.1.0-alpha.2_h4qtpcxkfvtpy6ldthi4lq2o6i
+      '@ragetrade/sdk': 1.0.0-parallel-arbmain.14_h4qtpcxkfvtpy6ldthi4lq2o6i
       babel-polyfill: 6.26.0
       babel-register: 6.26.0
       consola: 2.15.3
@@ -1062,8 +1062,8 @@ packages:
     dev: false
     optional: true
 
-  /@ragetrade/sdk/1.1.0-alpha.2_h4qtpcxkfvtpy6ldthi4lq2o6i:
-    resolution: {integrity: sha512-f1vzV7TLJkd1yqIlGayscmISkSHBKlWlexGGe+KAYuM75OtR+hGfqjiQcVtTAtWRbGa8u5tuVRDKruqR95k3nw==}
+  /@ragetrade/sdk/1.0.0-parallel-arbmain.14_h4qtpcxkfvtpy6ldthi4lq2o6i:
+    resolution: {integrity: sha512-eUKOBIZpMb8SSRH3nh9XbZQ2Wm5x2Q8NJrLsasgNOiXbQEmJcpSx5Nrz035KoR+WXUcrBNcLpCupjYSTnivqHg==}
     engines: {node: '>=10'}
     hasBin: true
     peerDependencies:
@@ -2291,7 +2291,7 @@ packages:
   /axios/0.21.4_debug@4.3.1:
     resolution: {integrity: sha512-ut5vewkiu8jjGBdqpM44XxjuCjq9LAKeHVmoVfHVzy8eHgxxq8SbAVQNovDA8mVi05kP0Ea/n/UzcSHcTJQfNg==}
     dependencies:
-      follow-redirects: 1.15.2_debug@4.3.4
+      follow-redirects: 1.15.2_debug@4.3.1
     transitivePeerDependencies:
       - debug
     dev: true
@@ -4614,6 +4614,18 @@ packages:
     resolution: {integrity: sha512-r5wGx7YeOwNWNlCA0wQ86zKyDLMQr+/RB8xy74M4hTphfmjlijTSSXGuH8rnvKZnfT9i+75zmd8jcKdMR4O6jA==}
     dev: true
 
+  /follow-redirects/1.15.2_debug@4.3.1:
+    resolution: {integrity: sha512-VQLG33o04KaQ8uYi2tVNbdrWp1QWxNNea+nmIB4EVM28v0hmP17z7aG1+wAkNzVq4KeXTq3221ye5qTJP91JwA==}
+    engines: {node: '>=4.0'}
+    peerDependencies:
+      debug: '*'
+    peerDependenciesMeta:
+      debug:
+        optional: true
+    dependencies:
+      debug: 4.3.1
+    dev: true
+
   /follow-redirects/1.15.2_debug@4.3.4:
     resolution: {integrity: sha512-VQLG33o04KaQ8uYi2tVNbdrWp1QWxNNea+nmIB4EVM28v0hmP17z7aG1+wAkNzVq4KeXTq3221ye5qTJP91JwA==}
     engines: {node: '>=4.0'}
@@ -4624,6 +4636,7 @@ packages:
         optional: true
     dependencies:
       debug: 4.3.4
+    dev: false
 
   /for-each/0.3.3:
     resolution: {integrity: sha512-jqYfLp7mo9vIyQf8ykW2v7A+2N4QjeCeI5+Dz9XraiO1ign81wjiH7Fb9vSOWvQfNtmSa4H2RoQTrrXivdUZmw==}
