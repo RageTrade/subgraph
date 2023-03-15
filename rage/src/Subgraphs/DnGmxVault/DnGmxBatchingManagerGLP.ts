@@ -128,7 +128,7 @@ export function handleBatchDeposit(event: BatchDeposit): void {
         safeDiv(entry.assetsTokenAmount, entry.sharesTokenAmount)
       );
 
-      entry.sharesTokenDollarValue = entry.tokenAmount.times(entry.sharePrice);
+      entry.sharesTokenDollarValue = entry.sharesTokenAmount.times(entry.sharePrice);
 
       log.debug(
         'custom_logs: handleBatchDeposit [ owner - {} ][ batchShares - {} ] [ batchAssets - {} ] [ userUSDC - {} ] [ userShares - {} ] [ userAssets - {} ] [ assetPrice - {} ] [ sharePrice - {} ] [ userSharesDollarValue - {} ]',
