@@ -39,8 +39,12 @@ export function handleDeposit(event: Deposit): void {
   let owner = getOwner(event.params.owner);
   let token = getERC20Token(contracts.sGLP);
 
+  let assets = DnGmxJuniorVault.bind(contracts.DnGmxJuniorVault).convertToAssets(
+    event.params.shares
+  );
   let sharesInBigDecimal = BigIntToBigDecimal(event.params.shares, BI_18);
-  let assetsInBigDecimal = BigIntToBigDecimal(event.params.assets, BI_18); // asset is sGLP
+  let assetsInBigDecimal = BigIntToBigDecimal(assets, BI_18); // asset is sGLP
+
 
   let assetsPerShare = safeDiv(assetsInBigDecimal, sharesInBigDecimal);
 
