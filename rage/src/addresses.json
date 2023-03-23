@@ -6,16 +6,16 @@
     "VPoolWrapper": "0xd8dab97F71E2F91D82E658F848be6A49ddeb9CC5",
     "CurveQuoter": "0x2C2FC48c3404a70F2d33290d5820Edf49CBf74a5",
     "CurveTriCryptoLpTokenAddress": "0x8e0B8c8BB9db49a46697F3a5Bb8A308e744821D2",
-    "DnGmxSeniorVault": "0xC57adF9F249e687d180D3a24aDac636Fe881D5c8",
-    "DnGmxJuniorVault": "0x6ac9Ad2ea9a21B55C00Dacda4DE68F16a49847Ff",
-    "DnGmxBatchingManager": "0x8c3929C0DeEf08Ac04A6E1d5020b1a748fea0a25",
-    "DnGmxWithdrawPeriphery": "0xd6cceE65F0e35516a09dA3E915E9a9D4e1A2A074",
-    "DnGmxDepositPeriphery": "0x1273989A4aA4713B5e0fa8cFdB65DF93B7745034",
+    "DnGmxSeniorVault": "0xf9305009FbA7E381b3337b5fA157936d73c2CF36",
+    "DnGmxJuniorVault": "0x8478AB5064EbAC770DdCE77E7D31D969205F041E",
+    "DnGmxBatchingManager": "0x519Eb01fa6Ed3d72E96e40770a45b13531CEf63d",
+    "DnGmxWithdrawPeriphery": "0xBA55D7f67Fa22DF5E92487d5b306DdB1aA543d10",
+    "DnGmxDepositPeriphery": "0x7CA90dD6813256BD040a8e13BbceD857B1C0C90c",
     "sGLP": "0x2F546AD4eDD93B956C8999Be404cdCAFde3E89AE",
     "USDC": "0xff970a61a04b1ca14834a43f5de4533ebddb5cc8",
     "CurveYieldStrategy": "0x1d42783E7eeacae12EbC315D1D2D0E3C6230a068",
     "VaultPeriphery": "0x4b928aFd7CA775C7f4ECdf2c00B7e608962AbbDc",
-    "DnGmxBatchingManagerGLP": "0xEf2D4f243E9E8417c432B6c2224e43E993cc555C"
+    "DnGmxBatchingManagerGLP": "0x7BCc456Ea89716913D4f6139a09b5eb051b3749E"
   },
   "arbitrum-goerli": {
     "ClearingHouse": "0x7047343e3eF25505263116212EE74430A2A12257",
