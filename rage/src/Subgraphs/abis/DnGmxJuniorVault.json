@@ -62,6 +62,23 @@
   {
     "type": "event",
     "anonymous": false,
+    "name": "AssetSlippage",
+    "inputs": [
+      {
+        "type": "address",
+        "name": "user",
+        "indexed": true
+      },
+      {
+        "type": "uint256",
+        "name": "slippage",
+        "indexed": false
+      }
+    ]
+  },
+  {
+    "type": "event",
+    "anonymous": false,
     "name": "Deposit",
     "inputs": [
       {
@@ -1350,7 +1367,11 @@
     "inputs": [
       {
         "type": "bool",
-        "name": "_useDirectConversion"
+        "name": "_useDirectConversionBurn"
+      },
+      {
+        "type": "bool",
+        "name": "_useDirectConversionMint"
       }
     ],
     "outputs": []

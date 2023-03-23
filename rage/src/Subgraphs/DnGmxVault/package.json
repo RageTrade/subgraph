@@ -6,7 +6,7 @@
     "auth:arbmain": "pnpm graph auth --product hosted-service <key>",
     "auth:arbgoerli": "source .env && pnpm graph auth --product hosted-service <key>",
     "deploy:arbgoerli": "source .env && pnpm run update:arbgoerli && pnpm graph deploy --product hosted-service $RAGE_ARBGOERLI_SUBGRAPH",
-    "deploy:arbmain": "graph deploy --product hosted-service fr0ntenddev/dn-gmx-mainnet-parallel",
+    "deploy:arbmain": "graph deploy --product hosted-service fr0ntenddev/rage-trade-dn-vault-mainnet",
     "build": "graph build",
     "deploy-local": "graph deploy rage/perpswap-contracts-subgraph --ipfs http://localhost:5001 --node http://127.0.0.1:8020",
     "format": "prettier --check '**/*'",
