@@ -9,7 +9,7 @@ importers:
     specifiers:
       '@graphprotocol/graph-cli': ^0.35.0
       '@graphprotocol/graph-ts': ^0.29.0
-      '@ragetrade/sdk': 1.0.0-parallel-arbmain.14
+      '@ragetrade/sdk': 2.0.1
       '@types/fs-extra': ^9.0.13
       '@typescript-eslint/eslint-plugin': ^2.0.0
       '@typescript-eslint/parser': ^2.0.0
@@ -29,7 +29,7 @@ importers:
       typescript: ^3.5.2
       yaml: ^1.10.2
     dependencies:
-      '@ragetrade/sdk': 1.0.0-parallel-arbmain.14_h4qtpcxkfvtpy6ldthi4lq2o6i
+      '@ragetrade/sdk': 2.0.1_h4qtpcxkfvtpy6ldthi4lq2o6i
       babel-polyfill: 6.26.0
       babel-register: 6.26.0
       consola: 2.15.3
@@ -1062,8 +1062,8 @@ packages:
     dev: false
     optional: true
 
-  /@ragetrade/sdk/1.0.0-parallel-arbmain.14_h4qtpcxkfvtpy6ldthi4lq2o6i:
-    resolution: {integrity: sha512-eUKOBIZpMb8SSRH3nh9XbZQ2Wm5x2Q8NJrLsasgNOiXbQEmJcpSx5Nrz035KoR+WXUcrBNcLpCupjYSTnivqHg==}
+  /@ragetrade/sdk/2.0.1_h4qtpcxkfvtpy6ldthi4lq2o6i:
+    resolution: {integrity: sha512-Xoyg4JvNcsaHt+eK0M657wOx+Oq3cZC+eTJ6p9EYUuv5d/V+q7ocLdiwr0WImqtBQZNaqecHM2Rp5tzCcnShrg==}
     engines: {node: '>=10'}
     hasBin: true
     peerDependencies:
